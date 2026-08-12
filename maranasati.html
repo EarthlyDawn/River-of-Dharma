@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maraṇasati — The Nine Contemplations of the Charnel Ground | The River of Dharma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#e7dcc4; --paper-2:#f1e8d6; --paper-3:#faf4e7;
+  --silk:#c7b190; --rule:#cbb994; --rule-soft:#d9cbad;
+  --ink:#2d2720; --ink-2:#4a4033; --ink-soft:#7a6c52; --ink-faint:#9b8d72;
+  --vermillion:#ab4229; --vermillion-deep:#87301c;
+  --gold:#a4823a; --gold-soft:#c2a768;
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'EB Garamond', Georgia, 'Times New Roman', serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+::selection{background:var(--vermillion);color:var(--paper-3)}
+img{max-width:100%;display:block}
+
+/* ---------- header ---------- */
+header{padding:52px 5vw 44px;border-bottom:1px solid var(--rule);
+  background:radial-gradient(1100px 420px at 50% -240px, rgba(171,66,41,.09), transparent 70%),var(--paper)}
+.eyebrow{font-size:12.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--vermillion);margin-bottom:18px}
+.eyebrow a{color:var(--vermillion);text-decoration:none;border-bottom:1px solid rgba(171,66,41,.35);transition:color .2s,border-color .2s}
+.eyebrow a:hover{color:var(--vermillion-deep);border-bottom-color:var(--vermillion-deep)}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(40px,5.6vw,74px);line-height:1.04;color:var(--ink);max-width:20ch}
+h1 em{font-style:italic;color:var(--vermillion)}
+.termline{margin-top:16px;font-size:16px;color:var(--ink-soft);font-style:italic}
+.termline b{font-style:normal;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-right:6px}
+.termline span{white-space:nowrap;margin-right:22px;display:inline-block}
+.lede{margin-top:26px;max-width:64ch;font-size:19px;color:var(--ink-2)}
+
+/* ---------- generic prose ---------- */
+.wrap{max-width:1280px;margin:0 auto;padding:0 5vw}
+.essay{padding:60px 0 10px;max-width:70ch}
+.essay h2{font-family:var(--display);font-weight:600;font-size:33px;color:var(--ink);margin:0 0 16px}
+.essay h3{font-family:var(--display);font-weight:600;font-size:24px;color:var(--ink);margin:34px 0 10px}
+.essay p{margin-bottom:16px}
+.essay p:last-child{margin-bottom:0}
+.essay i,.prose i{font-style:italic}
+.kick{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--vermillion);margin-bottom:12px}
+.q{margin:26px 0;padding:6px 0 6px 22px;border-left:3px solid var(--gold);
+  font-family:var(--display);font-size:21px;line-height:1.42;color:var(--ink-2);max-width:60ch}
+.q .src{display:block;margin-top:9px;font-family:var(--body);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.caution{margin:30px 0;padding:20px 24px;background:var(--paper-2);border:1px solid var(--rule-soft);border-left:3px solid var(--vermillion)}
+.caution h3{margin-top:0;font-size:20px}
+.caution p:last-child{margin-bottom:0}
+
+/* ---------- the sequence ---------- */
+.sequence{border-top:1px solid var(--rule);background:var(--paper-2);margin-top:54px}
+.seq-head{max-width:1480px;margin:0 auto;padding:44px 4vw 0}
+.seq-head .kick{margin-bottom:8px}
+.seq-head .kick i{font-style:italic;letter-spacing:.06em;text-transform:none;font-size:15px}
+.seq-head h2{font-family:var(--display);font-weight:600;font-size:33px;color:var(--ink)}
+.seq-inner{max-width:1480px;margin:0 auto;padding:38px 4vw 54px;
+  display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:0 40px;align-items:start}
+.viewer{position:sticky;top:24px}
+.plates{position:relative;aspect-ratio:1376/768;background:var(--silk);
+  border:1px solid var(--rule);box-shadow:0 18px 50px rgba(45,39,32,.20);overflow:hidden}
+.plates img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1500ms cubic-bezier(.4,0,.2,1)}
+.plates img.on{opacity:1}
+.plates.instant img{transition:none}
+
+/* rail */
+.rail{margin-top:20px;display:flex;align-items:center;gap:16px}
+.ticks{flex:1 1 auto;display:flex;align-items:center;gap:0;position:relative}
+.ticks::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--rule)}
+.tick{position:relative;flex:1 1 0;background:none;border:0;cursor:pointer;padding:14px 0 0;
+  font-family:var(--body);font-size:11px;letter-spacing:.14em;color:var(--ink-faint);
+  display:flex;flex-direction:column;align-items:center;gap:7px;transition:color .2s}
+.tick .dot{width:9px;height:9px;border:1px solid var(--rule);background:var(--paper-2);
+  transform:rotate(45deg);transition:background .3s,border-color .3s,transform .3s}
+.tick:hover{color:var(--ink-2)}
+.tick:hover .dot{border-color:var(--vermillion)}
+.tick.past .dot{background:var(--gold-soft);border-color:var(--gold)}
+.tick.cur{color:var(--vermillion)}
+.tick.cur .dot{background:var(--vermillion);border-color:var(--vermillion);transform:rotate(45deg) scale(1.5)}
+.stepbtn{flex:0 0 auto;background:none;border:1px solid var(--rule);color:var(--ink-2);
+  width:40px;height:40px;font-size:17px;line-height:1;cursor:pointer;transition:all .2s}
+.stepbtn:hover:not(:disabled){background:var(--vermillion);color:var(--paper-3);border-color:var(--vermillion)}
+.stepbtn:disabled{opacity:.3;cursor:default}
+
+/* panel */
+.panel{background:var(--paper-3);border:1px solid var(--rule-soft);border-top:4px solid var(--vermillion);
+  padding:30px 32px 34px;min-height:520px}
+.panel .num{font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--vermillion);margin-bottom:10px}
+.panel h2{font-family:var(--display);font-weight:600;font-size:34px;line-height:1.12;color:var(--ink);margin-bottom:6px}
+.panel .jp{font-family:var(--display);font-size:21px;color:var(--ink-soft);margin-bottom:16px}
+.panel .jp b{font-weight:500;color:var(--ink-2);margin-right:9px}
+.panel .jp i{font-style:italic;font-size:18px}
+.panel .jp .beyond{font-size:17.5px;font-style:italic;color:var(--ink-faint)}
+.prose p{margin-bottom:14px;font-size:17px}
+.prose p:last-child{margin-bottom:0}
+
+/* the sutta passage, whole: setting, contemplation, and the turn back onto
+   oneself — one unit, as it stands in the text, closing each stage */
+.passage{margin-top:30px;padding:20px 22px 22px;background:var(--paper-2);
+  border:1px solid var(--rule-soft);border-left:3px solid var(--gold)}
+.passage .lbl{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:12px}
+.passage p{font-family:var(--display);font-size:19.5px;line-height:1.46;color:var(--ink-2);margin:0}
+.passage p b{font-weight:600;color:var(--vermillion-deep)}
+.passage .none{font-family:var(--body);font-size:15.5px;font-style:italic;color:var(--ink-faint);margin:0}
+.fade{transition:opacity .28s}
+.fade.out{opacity:0}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule);padding:54px 5vw 72px;background:var(--paper)}
+footer .cols{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;max-width:1200px;margin:0 auto}
+footer h3{font-weight:600;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+footer p{color:var(--ink-soft);font-size:15.5px;max-width:62ch;margin-bottom:12px}
+footer ul{list-style:none}
+footer li{margin-bottom:8px;font-size:15.5px;color:var(--ink-soft)}
+footer a{color:var(--vermillion);text-decoration:none;border-bottom:1px solid rgba(171,66,41,.3)}
+footer a:hover{color:var(--vermillion-deep)}
+footer i{font-style:italic}
+.credit{margin-top:26px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+.credit a{color:var(--ink-soft);border:0}
+
+@media (max-width:1080px){
+  /* block, not a one-column grid: in a single-column grid the viewer would be its
+     own row and sticky would have no room to travel, so the plate would scroll away
+     from the text describing it. As block siblings it stays pinned. */
+  .seq-inner{display:block;padding-top:0}
+  .viewer{position:sticky;top:0;z-index:5;background:var(--paper-2);
+    padding:14px 0 14px;margin-bottom:26px;
+    box-shadow:0 14px 18px -14px rgba(45,39,32,.35)}
+  /* pinned above the text, the plate must not swallow the viewport, or the
+     panel crawls through a slot. Cap it by width, since the ratio is fixed. */
+  .plates{max-width:min(100%, 79vh);margin-left:auto;margin-right:auto}
+  .panel{min-height:0}
+  footer .cols{grid-template-columns:1fr;gap:34px}
+}
+@media (max-width:640px){
+  body{font-size:16.5px}
+  .panel{padding:24px 20px 28px}
+  .tick{font-size:0}
+  .tick .dot{width:8px;height:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .plates img{transition-duration:1ms}
+  .fade{transition-duration:1ms}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow"><a href="index.html" title="Back to The River of Dharma">&#8592;&nbsp; The River of Dharma</a> &nbsp;&middot;&nbsp; Study Room</div>
+  <h1>Maraṇasati<br><em>the nine contemplations of the charnel ground</em></h1>
+  <div class="termline">
+    <span><b>Pāli</b><i>maraṇasati · navasivathika</i></span>
+    <span><b>Skt</b><i>maraṇasmṛti</i></span>
+    <span><b>Jpn</b><i>九相図 kusōzu</i></span>
+  </div>
+  <p class="lede">The Buddha’s most drastic contemplative instruction: go to the place where corpses are left, look at one, and then look back at yourself. This page follows the nine contemplations as the Satipaṭṭhāna Sutta lists them, beside a Japanese handscroll that painted its own nine — a woman’s body from the hour of her death to the scattering of her bones. The last two contemplations the scroll never reached.</p>
+</header>
+
+<main>
+<div class="wrap">
+
+  <section class="essay">
+    <div class="kick">What the practice is</div>
+    <h2>The last of the body contemplations</h2>
+    <p>The charnel-ground contemplations are not a separate meditation. They are the last movement of the first foundation of mindfulness — <i>kāyānupassanā</i>, contemplation of the body — in the Satipaṭṭhāna Sutta (MN 10, and identically in DN 22). The reader arrives at them having already worked through mindfulness of breathing, of the four postures, of clear comprehension in every activity, of the thirty-one parts of the body, and of the body as four elements. The corpse is where that sequence ends.</p>
+    <p>The instruction is oddly worded. The monk is told to practise <i>seyyathāpi passeyya</i> — “as though he were to see” — a body thrown aside in a charnel ground. He is not necessarily standing in front of a corpse. He is asked to see one; the sutta is describing an act of imagination disciplined by knowledge of what actually happens to bodies. Nine times the description is given, and nine times it ends the same way, with the sentence that is the whole practice:</p>
+    <div class="q">This body too is of the same nature; it will become like this; it is not exempt from this.
+      <span class="src">Satipaṭṭhāna Sutta · MN 10</span></div>
+
+    <h3>What it is for</h3>
+    <p>Two different purposes run through the tradition under two different names, and they are worth keeping apart. <i>Asubha-bhāvanā</i>, the cultivation of the unattractive, is a targeted antidote: in the Visuddhimagga’s scheme of temperaments, Buddhaghosa prescribes it specifically for the person of lustful disposition, as loving-kindness is prescribed for the hateful and analysis for the deluded. It is a medicine calibrated to one disease. <i>Maraṇasati</i>, mindfulness of death, is broader and is about time rather than desire. In AN 6.19 the Buddha asks a group of monks how often they recollect death; one says he hopes to live a day and a night, another a single day, another the length of a single meal — and the Buddha calls them all negligent. Only the monk who practises for as long as it takes to breathe out and breathe in, and who then reflects that death may come in that interval, is said to dwell diligently.</p>
+    <p>Neither purpose is morbidity. The Pāli word for what the practice is supposed to produce is <i>saṃvega</i> — the shock that turns a person toward practice, closer to urgency than to gloom. The Girimānanda Sutta (AN 10.60) lists the perception of the unattractive among ten perceptions taught to a sick monk to restore him, which tells you something about how the early tradition understood the effect.</p>
+
+    <div class="caution">
+      <h3>The tradition’s own warning</h3>
+      <p>The canon records this practice going badly wrong. In SN 54.9 the Buddha teaches the meditation on the unattractive to a group of monks at Vesālī and then goes into seclusion for a fortnight. When he returns the saṅgha has thinned dramatically: numbers of monks, revolted by their own bodies, had taken their lives or asked others to end them. The Buddha assembles those remaining and teaches mindfulness of breathing instead, calling it “peaceful and sublime,” a dwelling that settles unwholesome states the moment they arise.</p>
+      <p>Revulsion is not the goal — it is a side effect that has to be metabolised into dispassion (<i>virāga</i>) or the practice has failed. The corpse is meant to loosen a grip, not to install a hatred of the body; a body one hates is a body one is still entangled with. Everything on this page should be read with that correction attached.</p>
+    </div>
+
+    <h3>The Japanese nine</h3>
+    <p>The paintings beside the text belong to a genre called <i>kusōzu</i> (九相図), “pictures of the nine aspects,” which flourished in Japan from roughly the thirteenth century to the nineteenth. Its list of nine does not come from the Pāli suttas but from Chinese sources — the <i>Mahāprajñāpāramitā-śāstra</i> and the Tiantai contemplation manuals — which reached Japan through Tendai and Shingon. The two lists overlap without matching, and this page shows both rather than forcing them together.</p>
+    <p>The subject of a <i>kusōzu</i> is nearly always a beautiful woman, often a noblewoman or a courtesan, and in some sets she is identified with Ono no Komachi, the ninth-century poet whose beauty was proverbial. This is not incidental. The genre works by first making the viewer want, and museums have on occasion catalogued surviving scrolls alongside erotic art for exactly that reason.</p>
+  </section>
+
+</div>
+
+<section class="sequence" id="sequence">
+  <div class="seq-head">
+    <div class="kick">Pāli <i>sīvathika</i> — the place where the dead are put</div>
+    <h2>The Charnel Ground</h2>
+  </div>
+  <div class="seq-inner">
+    <div class="viewer">
+      <div class="plates" id="plates"></div>
+      <div class="rail">
+        <button class="stepbtn" id="prev" aria-label="Previous stage">&#8592;</button>
+        <div class="ticks" id="ticks" role="tablist" aria-label="Nine stages"></div>
+        <button class="stepbtn" id="next" aria-label="Next stage">&#8594;</button>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="fade" id="panelbody">
+        <div class="num" id="pnum"></div>
+        <h2 id="ptitle"></h2>
+        <div class="jp" id="pjp"></div>
+        <div class="prose" id="pprose"></div>
+        <div id="ppassage"></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="essay" id="after">
+    <div class="kick">After the eleventh stage</div>
+    <h2>Coming back</h2>
+    <p>The charnel ground is not where the sutta leaves you. Its contemplations occupy about a page, and then the discourse moves on — to feelings, to mind, to phenomena. The corpse was one of the ways it gets a person to stop leaning on the body, and once that is done the instruction is to keep going.</p>
+    <p>The tradition is emphatic that this is a section and not a residence. Buddhaghosa treats the ten foulnesses as objects for a particular temperament and a particular stretch of work, to be set down afterwards; the Vesālī episode records what happens when they are taken for a whole outlook instead. And the instruction after each contemplation is never <i>be disgusted</i>. It is to see that your own body is of the same nature — and then, at the end, to dwell independent, not clinging to anything in the world.</p>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="cols">
+    <div>
+      <h3>About this page</h3>
+      <p>A study supplement to <i>The River of Dharma</i>. The nine charnel-ground contemplations are given as they appear in the Satipaṭṭhāna Sutta (MN 10) and the Mahāsatipaṭṭhāna Sutta (DN 22); the sutta passages here are rendered closely from the Pāli rather than quoted from a single translation. Supporting material draws on AN 6.19 and AN 6.20 on mindfulness of death, AN 10.60 (Girimānanda), SN 54.9 on the Vesālī episode, and Buddhaghosa’s <i>Visuddhimagga</i>, chapters VI (foulness as a meditation subject) and VIII (mindfulness of death). The Japanese list of nine aspects follows the standard <i>kusōzu</i> program.</p>
+      <p><b>On the images.</b> Plates two to nine are details from a Japanese <i>kusōzu</i> handscroll, ink and colour on silk; the artist and holding collection are not confirmed, and the attribution is left open here rather than guessed at. They were cropped at different framings and have been registered to a common frame for this page, with the margins that exposed filled in generatively. In those eight plates the body, and every stage of the decomposition, is the original painting. <b>The first plate is generated in full.</b> The last two frames are blank silk.</p>
+    </div>
+    <div>
+      <h3>Primary readings</h3>
+      <ul>
+        <li><a href="https://www.accesstoinsight.org/tipitaka/mn/mn.010.than.html" target="_blank" rel="noopener">MN 10 &mdash; Satipaṭṭhāna Sutta</a></li>
+        <li><a href="https://www.accesstoinsight.org/tipitaka/dn/dn.22.0.than.html" target="_blank" rel="noopener">DN 22 &mdash; Mahāsatipaṭṭhāna Sutta</a></li>
+        <li><a href="https://www.dhammatalks.org/suttas/AN/AN6_19.html" target="_blank" rel="noopener">AN 6:19 &mdash; Maraṇassati Sutta</a></li>
+        <li><a href="https://www.accesstoinsight.org/tipitaka/an/an10/an10.060.than.html" target="_blank" rel="noopener">AN 10:60 &mdash; Girimānanda Sutta</a></li>
+        <li><a href="https://www.accesstoinsight.org/tipitaka/sn/sn54/sn54.009.than.html" target="_blank" rel="noopener">SN 54:9 &mdash; Vesālī Sutta</a></li>
+        <li>Buddhaghosa, <i>Visuddhimagga</i> VI &amp; VIII (tr. Ñāṇamoli)</li>
+        <li>Anālayo, <i>Satipaṭṭhāna: The Direct Path to Realization</i></li>
+        <li>Gail Chin, “The Gender of Buddhist Truth: The Female Corpse in a Group of Japanese Paintings,” <i>Japanese Journal of Religious Studies</i> 25 (1998)</li>
+      </ul>
+      <div class="credit">Project by Dragoș Bădiță · <a href="mailto:dragos.valleyofmirrors@gmail.com">dragos.valleyofmirrors@gmail.com</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= the nine stages ================= */
+
+const LEAD = 'Again, monks, as though he were to see a body thrown aside in a charnel ground:';
+const TURN = 'a monk compares this very body with it:';
+
+const STAGES = [
+{
+  n:'Stage one', title:'The Newly Dead',
+  jp:'新死相', romaji:'shinshisō', gloss:'newly dead',
+  prose:[
+    'She is still herself: the robe arranged, the sash tied, the hair let down and combed out across the ground. There is nothing here anyone would look away from, and that is what the panel is for. The sequence needs a face before it can take one away.',
+    'This stage stands outside the sutta, which opens at a body already one, two, or three days dead. It can afford to: it assumes a monk who walked to the charnel ground from a village where people were alive. This panel supplies what the list takes for granted.',
+    'The hair is the thing to watch. In the plates that follow it is drawn strand by strand, and it stays that way through six of them, long after the face has gone.'
+  ],
+  note:'No contemplation corresponds to this plate. The sutta’s charnel-ground list opens at a body already one, two, or three days dead — and so it opens without the refrain, which has nothing yet to turn back on.'
+},
+{
+  n:'Stage two', title:'Distension',
+  jp:'肪脹相', romaji:'bōchōsō', gloss:'the bloated',
+  pali:'uddhumātaka',
+  prose:[
+    'The robe is gone and the body has begun to inflate. This is the first of the sutta’s three opening adjectives and the first of the Visuddhimagga’s ten kinds of foulness: <i>uddhumātaka</i>, the bloated, which Buddhaghosa recommends particularly to a person attached to the <i>shape</i> of a body. Swelling destroys shape before it destroys anything else. A waist, a jaw, an ankle — the outline that made this body identifiable to someone — goes first, and goes without any wound being inflicted.',
+    'The white cloth beneath her is the same cloth from the first plate. The painter keeps one clean thing in every scene, and it is always the cloth; it will still be there, still white, when the dogs arrive.'
+  ],
+  cont:['one, two, or three days dead, <b>bloated</b>, livid, festering']
+},
+{
+  n:'Stage three', title:'Exudation of Blood',
+  jp:'血塗相', romaji:'ketsuzusō', gloss:'smeared with blood',
+  pali:'vinīlaka',
+  prose:[
+    'The body darkens to brown and purple, patched with red where blood has settled and broken through. The Pāli is <i>vinīlaka</i>, usually rendered “livid” or “discoloured” — literally the blue-black one. In the Visuddhimagga this is the object for someone attached to the body’s <i>colour</i>: complexion, which in courtly Japan was among the most cultivated of beauties and the one most heavily worked at with powder.',
+    'This is where the plates begin to be hard to look at, and it is worth registering that the difficulty arrives at discoloration rather than at anything structural. Nothing has come apart yet. The body is intact, whole, all its parts in place.'
+  ],
+  cont:['one, two, or three days dead, bloated, <b>livid</b>, festering']
+},
+{
+  n:'Stage four', title:'Putrefaction',
+  jp:'膿爛相', romaji:'nōransō', gloss:'festering and suppurating',
+  pali:'vipubbaka',
+  prose:[
+    'The skin breaks and the body begins to open. <i>Vipubbaka</i>, the festering, is prescribed by Buddhaghosa for one attached to the body’s <i>smell</i> — to the perfumes and the incensed sleeves that a Heian court took as seriously as a face.',
+    'Notice what the two traditions have done with the same material. The sutta packs bloated, livid, and festering into a single contemplation, three words in one clause. The Japanese list gives each of the three its own painting and its own name. Where the Pāli compresses, the scroll expands — and that is precisely the difference between a text you recite from memory while walking and an image you sit down in front of.'
+  ],
+  cont:['one, two, or three days dead, bloated, livid, <b>festering</b>']
+},
+{
+  n:'Stage five', title:'Blue-Black Discoloration',
+  jp:'青瘀相', romaji:'shōosō', gloss:'the blue-black, mottled',
+  prose:[
+    'The body has gone grey-green and begun to sink. Flesh is separating from the frame beneath it and the limbs have started to read as armature rather than as arms and legs. The face is still there — the painter has not once, in five plates, let us lose the face.',
+    'This stage has no clean Pāli counterpart, and rather than force one, it is more useful to notice why the two lists diverge here. The sutta is organised by what is <i>done</i> to the body: it lies there, then animals eat it, then it is bones. The Japanese list is organised by what the body <i>looks like</i>: swollen, bloodied, suppurating, discoloured. One is a narrative and the other is a series of appearances.'
+  ],
+  note:'No contemplation corresponds to this plate. The Pāli list moves from the festering body directly to the scavengers; the Japanese list slows down here and adds a stage the sutta does not have.'
+},
+{
+  n:'Stage six', title:'Devoured',
+  jp:'噉食相', romaji:'tanjikisō', gloss:'eaten',
+  prose:[
+    'No animal appears in this plate. The body has simply collapsed onto its own bones: the belly is gone, the thighs are wasted to their tendons, the ribs are legible through what remains. Whatever ate this was never visible.',
+    'The sutta names its scavengers in a rising list of large and dramatic animals and then adds, almost as an afterthought at the end of the clause, <i>vividhehi pāṇakajātehi</i> — various kinds of small creatures, worms. The afterthought is what did the work here. The large animals arrive in the next plate; in this one it was only the worms.',
+    'The hair is still perfectly drawn.'
+  ],
+  cont:['being devoured by crows, hawks, vultures, herons, dogs, tigers, leopards and jackals, and by <b>various kinds of worms</b>']
+},
+{
+  n:'Stage seven', title:'Dismembered and Scattered',
+  jp:'散乱相', romaji:'sanransō', gloss:'torn apart, scattered',
+  prose:[
+    'The animals arrive, and the painting changes register completely. For six plates the composition was one quiet horizontal body on an empty ground. Here there are eight animals, a hard diagonal, and the first real red in the scroll.',
+    'Look at how the attention has been redistributed. The dogs are individuated with obvious care — one yellow, one white, one brindled, one crouched, one snarling, each given a distinct posture and a distinct face. The body has become a field of pink and vermillion in which not one limb is readable.',
+    'This is the sutta’s second contemplation, almost item for item — the crows are there, the dogs are there. It is also the plate most people cannot look at.'
+  ],
+  cont:['being devoured by <b>crows, hawks, vultures, herons, dogs, tigers, leopards and jackals</b>, and by various kinds of worms']
+},
+{
+  n:'Stage eight', title:'The Linked Bones',
+  jp:'骨連相', romaji:'kotsurensō', gloss:'the bones still joined',
+  pali:'aṭṭhikasaṅkhalikā · nhāru-sambandha',
+  prose:[
+    'The skeleton is bare but has not come apart. It is still held together by sinews — <i>nhāru-sambandha</i>, a phrase the sutta repeats three times in three consecutive contemplations, as though checking that the reader has understood that the bones are still assembled.',
+    'That repetition is the most interesting thing in the whole list. Three of the nine contemplations are spent here, at the stage where the body is most obviously no longer a person but still, unmistakably, holds the shape of one. The sutta does not linger over the most disgusting stage; it lingers over the most <i>recognisable</i> one.',
+    'A hawk carries off a length of gut. A dog waits at the edge. The black mass at the left of the plate is still her hair.'
+  ],
+  contLead:'Three contemplations answer to this one plate. In the sutta the refrain follows each of them in turn.',
+  cont:[
+    'a skeleton <b>with flesh and blood</b>, held together by sinews',
+    'a skeleton <b>smeared with blood, without flesh</b>, held together by sinews',
+    'a skeleton <b>without flesh or blood</b>, still held together by sinews'
+  ]
+},
+{
+  n:'Stage nine', title:'Scattered Bones',
+  jp:'骨散相', romaji:'kossansō', gloss:'the bones dispersed',
+  prose:[
+    'The sinews have gone and the skeleton has come apart. The sutta’s inventory at this stage is deliberately tedious, and the tedium is the instruction: read at speed it is a list of parts with no owner. There is no arrangement of these items that reconstitutes anybody.',
+    'The painting empties to match. After eight crowded plates, most of this one is bare silk. The skull has rolled clear of everything else.',
+    'And here the plates gathered here end — two contemplations short of where the sutta ends.'
+  ],
+  cont:[
+    'bones disconnected, scattered in every direction — here a hand bone, there a foot bone, here a shin, there a thigh, here a hip, there a rib, here the spine, there a shoulder, here the neck, there the jaw, here a tooth, there the skull',
+    'bones bleached white, the colour of shells'
+  ]
+},
+{
+  n:'Stage ten', title:'The Heap of Bones',
+  jp:null, romaji:null, gloss:null,
+  pali:'aṭṭhikāni puñjakitāni terovassikāni',
+  beyond:'No plate here. The frame holds the bare silk the paintings were made on.',
+  prose:[
+    'The eighth contemplation moves the clock forward by a year. The bones are no longer lying where they fell but heaped together — gathered by rain, by animals, by someone tidying the ground.',
+    '<i>Terovassikāni</i>, “more than a year old,” is the only date given anywhere in this passage. Everything before it happened at the speed of a body, over days and weeks. This happens at the speed of weather.'
+  ],
+  cont:['bones <b>heaped together</b>, more than a year old']
+},
+{
+  n:'Stage eleven', title:'Crumbled to Dust',
+  jp:null, romaji:null, gloss:null,
+  pali:'aṭṭhikāni pūtīni cuṇṇakajātāni',
+  beyond:'The last contemplation.',
+  prose:[
+    'The bones themselves rot and go to powder.',
+    'Some <i>kusōzu</i> sets close with a scene of a different kind: a grave mound with grass growing over it, or a stone marker in a field — the stage called <i>kofunsō</i>, the old tomb. That is an ending you can look at.',
+    'And then the section simply closes, exactly as every other section of the Satipaṭṭhāna Sutta closes: contemplating the body internally and externally, observing its arising and its passing, mindful only to the extent needed for knowledge — and <i>independent, not clinging to anything in the world</i>.'
+  ],
+  cont:['bones rotted away, <b>crumbled to dust</b>']
+}
+];
+
+/* ================= wiring ================= */
+const platesEl = document.getElementById('plates');
+const ticksEl  = document.getElementById('ticks');
+const panelEl  = document.getElementById('panelbody');
+const seqEl    = document.getElementById('sequence');
+const prevBtn  = document.getElementById('prev');
+const nextBtn  = document.getElementById('next');
+let cur = 0, swapTimer = null;
+
+/* build the plate stack — later plates sit above earlier ones, so a plate
+   fading in always has an opaque plate beneath it and never the page. */
+STAGES.forEach((s,i)=>{
+  const img = document.createElement('img');
+  img.src = 'Maranasati/Final/'+(i+1)+'.jpeg';
+  img.alt = 'Stage '+(i+1)+' — '+s.title;
+  img.decoding = 'async';
+  /* no lazy attribute: a plate that has not loaded yet cannot cross-fade,
+     it pops. DOM order makes the browser fetch plate one first anyway. */
+  platesEl.appendChild(img);
+});
+const plateImgs = [...platesEl.querySelectorAll('img')];
+
+STAGES.forEach((s,i)=>{
+  const b = document.createElement('button');
+  b.className = 'tick';
+  b.setAttribute('role','tab');
+  b.innerHTML = '<span class="dot"></span><span>'+(i+1)+'</span>';
+  b.setAttribute('aria-label','Stage '+(i+1)+' — '+s.title);
+  b.addEventListener('click',()=>go(i));
+  ticksEl.appendChild(b);
+});
+const tickEls = [...ticksEl.querySelectorAll('.tick')];
+
+const REFRAIN = '“This body too is of the same nature; it will become like this; it is not exempt from this.”';
+
+function render(i){
+  const s = STAGES[i];
+  document.getElementById('pnum').textContent = s.n;
+  document.getElementById('ptitle').textContent = s.title;
+
+  /* stages ten and eleven have no plate and no Japanese name — the scroll
+     has run out, so the label says that instead */
+  let jp = s.jp
+    ? '<b>'+s.jp+'</b><i>'+s.romaji+'</i> — '+s.gloss
+    : '<span class="beyond">'+s.beyond+'</span>';
+  if(s.pali) jp += '<br><i style="font-size:16px">Pāli: '+s.pali+'</i>';
+  document.getElementById('pjp').innerHTML = jp;
+
+  document.getElementById('pprose').innerHTML = s.prose.map(p=>'<p>'+p+'</p>').join('');
+
+  /* the contemplation as one continuous sentence, the way it stands in the
+     text: setting, body, and the turn back onto oneself — never broken apart */
+  let pass;
+  if(s.cont){
+    pass = '<div class="lbl">Satipaṭṭhāna Sutta · MN 10</div>';
+    if(s.contLead) pass += '<p class="none" style="margin-bottom:12px">'+s.contLead+'</p>';
+    pass += '<p class="quote">' + LEAD + ' ' + s.cont.join('; or ') +
+            ' — ' + TURN + ' ' + REFRAIN + '</p>';
+  } else {
+    pass = '<div class="lbl">No passage</div><p class="none">'+s.note+'</p>';
+  }
+  document.getElementById('ppassage').innerHTML = pass;
+  document.getElementById('ppassage').className = 'passage';
+}
+
+function go(i, instant){
+  i = Math.max(0, Math.min(STAGES.length-1, i));
+  cur = i;
+  if(instant) platesEl.classList.add('instant');
+  plateImgs.forEach((img,k)=>img.classList.toggle('on', k<=i));
+  if(instant) requestAnimationFrame(()=>platesEl.classList.remove('instant'));
+
+  tickEls.forEach((t,k)=>{
+    t.classList.toggle('cur', k===i);
+    t.classList.toggle('past', k<i);
+    t.setAttribute('aria-selected', k===i ? 'true' : 'false');
+  });
+  prevBtn.disabled = (i===0);
+  nextBtn.disabled = (i===STAGES.length-1);
+
+  /* one pending swap at a time: a stale timeout must never render an old stage
+     or strip .out from a fade that a later click just started */
+  clearTimeout(swapTimer);
+  panelEl.classList.add('out');
+  swapTimer = setTimeout(()=>{ render(cur); panelEl.classList.remove('out'); }, 280);
+
+  if(history.replaceState) history.replaceState(null,'','#stage-'+(i+1));
+}
+
+prevBtn.addEventListener('click',()=>go(cur-1));
+nextBtn.addEventListener('click',()=>go(cur+1));
+
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,textarea')) return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); go(cur+1); }
+  if(e.key==='ArrowLeft' ||e.key==='ArrowUp'  ){ e.preventDefault(); go(cur-1); }
+});
+
+/* open at stage one, or at the stage named in the hash */
+function stageFromHash(){
+  const m = /^#stage-(\d{1,2})$/.exec(location.hash);
+  if(!m) return null;
+  const n = parseInt(m[1],10) - 1;
+  return (n>=0 && n<STAGES.length) ? n : null;
+}
+(function(){
+  const start = stageFromHash();
+  render(start ?? 0);
+  go(start ?? 0, true);
+  if(start !== null) seqEl.scrollIntoView({behavior:'smooth', block:'start'});
+})();
+
+/* a fragment can also arrive after load — pasted into the bar, or applied by a
+   host that navigates to the bare URL first. replaceState does not fire this. */
+addEventListener('hashchange',()=>{
+  const t = stageFromHash();
+  if(t !== null && t !== cur){ go(t); seqEl.scrollIntoView({behavior:'smooth', block:'start'}); }
+});
+</script>
+</body>
+</html>
