@@ -1,0 +1,1480 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comutatorul</title>
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style>
+
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ============================================================
+   TEMA CURSULUI · „Riso”: tipar risograf, hârtie granulată,
+   cerneluri suprapuse ușor nealiniate, forzaț marmorat propriu
+   fiecărei lecții (seed = numărul lecției).
+   Un singur registru vizual, pictat explicit.
+   Blocul acesta este identic în toate paginile cursului.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --paper:#EEE8D5;
+  --paper-2:#F7F3E6;
+  --ink:#22252D;
+  --muted:#686A62;
+  --rule:#CFC8B4;      /* linii de grilă în desene */
+  --cobalt:#2F4BC4;
+  --orange:#EE5A2F;
+  --olive:#6B7A38;
+  --lemon:#E9C93B;
+  --rose:#DDA6B0;
+
+  /* gramatica de culoare: aceleași roluri în toate lecțiile */
+  --c-live:#2F4BC4;  --c-live-bg:#C9D1F1;   /* încă posibil, valoare 1, curent */
+  --c-dead:#BDB9AA;  --c-dead-bg:#E2DECF;   /* exclus, valoare 0, inert */
+  --c-found:#EE5A2F; --c-found-bg:#F9D3C2;  /* găsit, rezultat, valoare învățată */
+  --c-know:#5F6D2E;  --c-know-bg:#E1E4C3;   /* întrebare, tăietură, pereche aleasă */
+  --c-ok:#5F6D2E;    --c-ok-bg:#E1E4C3;     /* verificare trecută */
+  --c-bad:#B5232B;   --c-bad-bg:#F3C9C6;    /* eroare, bit răsturnat */
+
+  /* culorile figurilor de învățare (lecțiile 12–21) și numele vechi folosite de desene */
+  --surface:#F7F3E6; --surface-2:#EEE8D5; --bg:#EEE8D5; --accent-soft:#E1E4C3;
+  --c-data:#2F4BC4;   /* măsurători, exemple, clasa 1 */
+  --c-out:#EE5A2F;    /* dreapta potrivită, rezultatul */
+  --c-error:#B5232B;  /* greșeala */
+  --c-alt:#6B7A38;    /* a doua clasă, a doua metodă */
+  --c-param:#B58A12;  /* poziția butoanelor, parametrii */
+  --c-test:#7A4E9C;   /* setul de test */
+  --land-lo:#F7F3E6; --land-hi:#2F4BC4; --land-line:#22252D;
+
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;position:relative;
+}
+/* granulația tiparului */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.14 0 0 0 0 0.18 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity:.45;
+}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+
+p{margin:0}
+a{color:var(--cobalt);text-decoration-thickness:2px;text-underline-offset:.15em}
+a:hover{color:var(--orange)}
+dfn{font-style:normal;font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--lemon) 62%)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+
+/* ---------- coala: cap de tipar ---------- */
+.runhead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem 1.4rem;flex-wrap:wrap;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  padding:1rem 0 .8rem;border-bottom:2px solid var(--ink);
+}
+.runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
+.runhead a:hover{color:var(--orange);border-color:var(--orange)}
+.snd{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:2px solid var(--ink);color:var(--ink);
+  padding:.28rem .7rem .28rem .6rem;border-radius:0;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.snd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);transition:background .2s}
+.snd[aria-pressed="false"]::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.snd:hover{background:var(--lemon)}
+
+/* forzațul marmorat, închis în chenar */
+.plate{border:2px solid var(--ink);border-top:none;display:flex;flex-direction:column}
+.marble{
+  height:clamp(150px,26vw,250px);background:var(--cobalt);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  position:relative;
+}
+.marble::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 6px var(--paper-2),inset 0 0 0 8px var(--ink)}
+
+.masthead{display:flex;flex-direction:column;gap:1.1rem;padding-top:2.2rem}
+h1{font-size:clamp(3rem,2rem + 5vw,5.4rem);letter-spacing:-.015em;line-height:.95}
+h1 i{color:var(--cobalt)}
+.lede{font-size:clamp(1.12rem,1rem + .6vw,1.35rem);line-height:1.45;max-width:36em;color:var(--ink);text-wrap:pretty}
+.terms{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:64ch;line-height:1.9}
+.terms b{font-weight:400;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:.05rem .4rem;white-space:nowrap}
+
+/* ---------- pagina de titlu: marmorarea în jurul titlului, cuprinsul ---------- */
+.cover .marble{height:clamp(300px,46vw,460px);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,5vw,3rem)}
+.cover .card{
+  position:relative;z-index:1;background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--cobalt);padding:clamp(1.1rem,3vw,2rem) clamp(1.3rem,4vw,2.6rem);
+  max-width:34rem;text-align:center;display:flex;flex-direction:column;gap:.7rem;
+}
+.cover .card h1{font-size:clamp(2.6rem,1.6rem + 5.5vw,5rem)}
+.cover .card .sub{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cover .card .sub b{color:var(--orange);font-weight:700}
+.cover .intro{display:flex;flex-direction:column;gap:1rem;padding-top:2.2rem}
+.cover .intro p{max-width:64ch;text-wrap:pretty}
+h2.bare::before{content:none}
+.toc{display:flex;flex-direction:column;gap:1.6rem;margin-top:2.6rem}
+.parts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.parts > li{display:grid;gap:.6rem 2rem}
+@media (min-width:760px){.parts > li{grid-template-columns:14rem 1fr}}
+.parts h3{font-size:1.65rem;line-height:1.1;display:flex;flex-direction:column;gap:.25rem}
+.parts h3 .pn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.lessons{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lessons li{border-bottom:1.5px solid var(--ink)}
+.lessons a,.lessons .row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.5rem .4rem;color:var(--ink);text-decoration:none}
+.lessons a:hover{background:var(--lemon);color:var(--ink)}
+.lessons .no{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--cobalt)}
+.lessons .t{font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.lessons .st{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lessons li.off .t{color:var(--muted)}
+.lessons li.off .no{color:var(--muted)}
+
+/* ---------- secțiuni ---------- */
+.sections{display:flex;flex-direction:column;gap:3.4rem;margin-top:3.2rem}
+section{position:relative;display:flex;flex-direction:column;gap:1.05rem;counter-increment:sec}
+section p,.claims li{max-width:64ch;text-wrap:pretty}
+h2{
+  font-size:clamp(1.9rem,1.5rem + 1.6vw,2.6rem);padding-top:.9rem;border-top:2px solid var(--ink);
+  display:flex;align-items:center;gap:.8rem;
+}
+h2::before{content:counter(sec,decimal-leading-zero) " /";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--orange);flex:none;align-self:flex-start;margin-top:.9rem}
+.orn{flex:none;width:2.2rem;height:2.2rem;display:inline-block;order:3;margin-left:auto}
+.orn svg{width:100%;height:100%;display:block;overflow:visible}
+.o-fill{fill:var(--rose)} .o-fill2{fill:var(--orange)}
+.o-line{fill:none;stroke:var(--ink);stroke-width:2.2}
+.o-dot{fill:var(--cobalt)} .o-half{fill:var(--cobalt)}
+.o-cut{stroke:var(--olive);stroke-width:3;fill:none}
+.o-grid circle,.o-grid rect{fill:var(--cobalt)}
+.o-bar{fill:var(--cobalt)} .o-bar2{fill:var(--orange)} .o-bad{fill:var(--c-bad)}
+.o-wave{fill:none;stroke:var(--cobalt);stroke-width:3}
+@media (min-width:1140px){
+  .orn{position:absolute;right:-5.6rem;top:1rem;width:3.8rem;height:3.8rem;margin:0}
+}
+.note{font-size:.92rem;color:var(--muted);padding-left:1rem;border-left:3px solid var(--olive)}
+.first{font-size:1.06em}
+.claims{list-style:none;padding:0;margin:.2rem 0 0;display:flex;flex-direction:column;gap:.9rem}
+.claims li{position:relative;padding-left:1.8rem}
+.claims li::before{content:"";position:absolute;left:0;top:.45em;width:.75rem;height:.75rem;border-radius:50%;background:var(--orange);box-shadow:3px -2px 0 var(--cobalt);mix-blend-mode:multiply}
+.claims b{font-weight:600}
+
+/* ---------- figuri ---------- */
+.fig{
+  margin:1rem 8px 1.4rem 0;padding:0;
+  background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:7px 7px 0 var(--cobalt);
+  display:flex;flex-direction:column;
+}
+.fig-head{
+  padding:.7rem 1rem .1rem;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+}
+.pl::before{content:"Fig. " attr(data-a) " / ";color:var(--orange);font-weight:700}
+.stage{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.85rem}
+.cap{
+  border-top:2px solid var(--ink);padding:.6rem 1rem;
+  font-size:.9rem;color:var(--muted);min-height:2.9rem;
+}
+.cap b{color:var(--ink);font-weight:600}
+.cap .bad{color:var(--c-bad)} .cap .ok{color:var(--c-ok)}
+.cap .on{color:var(--cobalt)} .cap .off{color:var(--muted)}
+.ctrl{border-top:2px solid var(--ink);padding:.65rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;background:var(--paper)}
+button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);
+  padding:.42rem .8rem;border-radius:0;cursor:pointer;
+}
+button:hover:not(:disabled){background:var(--lemon)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--ink);color:var(--paper-2)}
+button.primary:hover:not(:disabled){background:var(--cobalt);border-color:var(--cobalt)}
+button.on{background:var(--cobalt);color:var(--paper-2)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rng input[type=range]{width:clamp(100px,26vw,180px);accent-color:var(--orange)}
+.val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink);font-size:.8rem;text-transform:none;letter-spacing:0}
+.count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:700}
+.lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* rând de cutii / posibilități */
+.row{display:flex;gap:3px;align-items:stretch;position:relative}
+.row.wrap{flex-wrap:wrap}
+.cell{
+  flex:1 1 0;min-width:0;aspect-ratio:3/4;
+  border:1.5px solid var(--c-live);background:var(--c-live-bg);border-radius:0;
+  transition:background .3s,border-color .3s,opacity .3s,transform .3s;
+}
+.row.wrap .cell{flex:none;width:14px;height:19px;border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.dead{border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.found,.row.wrap .cell.pick{border-color:var(--ink);background:var(--c-found);opacity:1}
+.cell.found{transform:translateY(-3px)}
+.cell.asked{box-shadow:inset 0 0 0 2px var(--c-know)}
+@media (prefers-reduced-motion:reduce){.cell,.cut,.bars .b,.meter .fill,.bit{transition:none}}
+.cut{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--c-know);transition:left .26s;pointer-events:none}
+.rowwrap{position:relative;padding:6px 0}
+
+.log{display:flex;flex-wrap:wrap;gap:.32rem;align-items:center;min-height:1.8rem}
+.log .q{font-family:var(--f-mono);font-size:.7rem;border:1.5px solid var(--c-know);color:var(--c-know);background:var(--c-know-bg);padding:.08rem .45rem}
+.log .q.code{border-style:dashed;background:transparent;color:var(--ink);letter-spacing:.14em}
+.log .empty{font-size:.88rem;color:var(--muted)}
+
+.race{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:.6rem}
+@media (min-width:640px){.race{grid-template-columns:1fr 1fr}}
+.lane{background:var(--paper-2);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lane h3{font-size:1.35rem}
+.lane .sub2{font-size:.86rem;color:var(--muted);font-family:var(--f-mono)}
+
+/* tabele */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tblwrap{overflow-x:auto}
+.tblwrap.tall{max-height:290px;overflow-y:auto}
+.tbl th,.tbl td{text-align:left;padding:.4rem .75rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+.tbl th{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400;position:sticky;top:0;background:var(--paper-2)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.code{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);letter-spacing:.08em}
+.tbl td.sym{font-family:var(--f-mono);font-weight:700}
+.tbl tr.on td{background:var(--c-found-bg)}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* tabele de adevăr */
+.tt{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;width:100%;max-width:360px}
+.tt th,.tt td{border:1.5px solid var(--ink);padding:.2rem .45rem;text-align:center}
+.tt th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.tt tr.now td{background:var(--c-know-bg);color:var(--c-know)}
+.tt td.out{font-weight:700}
+.tt td.one{color:var(--orange);font-weight:700}
+.ttwrap{display:flex;justify-content:center}
+
+/* constructorul de funcții logice */
+.build{border-collapse:collapse;font-family:var(--f-mono);font-size:.8rem;width:100%;max-width:420px}
+.build th,.build td{border:1.5px solid var(--ink);padding:.25rem .5rem;text-align:center}
+.build th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.build td.pick{cursor:pointer;user-select:none}
+.build td.pick.one{background:var(--c-found);color:var(--ink);font-weight:700}
+.build td.pick:hover{background:var(--lemon)}
+.expr{font-family:var(--f-mono);font-size:.8rem;line-height:1.75;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;overflow-x:auto}
+.expr .op{color:var(--cobalt);font-weight:700}
+.expr .neg{color:var(--c-bad)}
+.two{display:grid;gap:.8rem}
+@media (min-width:600px){.two{grid-template-columns:auto 1fr;align-items:start}}
+
+/* coloane de adunare (lecția 6) */
+.cols{overflow-x:auto}
+.agrid{display:inline-grid;gap:3px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.agrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.acell{width:30px;height:30px;font-family:var(--f-mono);font-size:.9rem;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;letter-spacing:0;text-transform:none}
+.acell.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.acell.tap{cursor:pointer}
+.acell.tap:hover{background:var(--lemon);color:var(--ink)}
+.acell.sum{border-color:var(--ink);background:var(--paper-2)}
+.acell.sum.one{background:var(--c-found);color:var(--ink)}
+.acell.car{width:30px;height:20px;font-size:.7rem;border-style:dashed}
+.acell.car.one{border-color:var(--c-know);background:var(--c-know-bg);color:var(--c-know)}
+.acell.pend{opacity:.35}
+.acell.here{box-shadow:3px 3px 0 var(--c-know)}
+.acell.ghost{border-style:dashed;opacity:.75}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.readout b{color:var(--ink);font-weight:700}
+.readout .warn{color:var(--paper-2);background:var(--c-bad);padding:0 .4rem}
+
+/* adrese binare */
+.addr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}
+.addr div{border:1.5px solid var(--ink);padding:.4rem .2rem;background:var(--paper-2);text-align:center;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.addr div b{color:var(--ink);font-weight:700;font-size:.8rem;letter-spacing:.1em}
+.addr div.hit{background:var(--c-found);color:var(--ink);box-shadow:3px 3px 0 var(--cobalt)}
+.addr div.hit b{color:var(--ink)}
+
+/* bare de probabilitate */
+.bars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.bars .b{flex:1 1 0;background:var(--c-live);border:1.5px solid var(--ink);position:relative;transition:height .2s;min-height:2px;box-shadow:3px -2px 0 var(--orange)}
+.barlabels{display:flex;gap:5px}
+.barlabels span{flex:1 1 0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+
+/* măsurători cu bară */
+.meters{display:flex;flex-direction:column;gap:.5rem}
+.meter{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:.6rem;align-items:center;font-size:.83rem}
+.meter .nm{color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+.meter .track{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:16px;overflow:hidden}
+.meter .fill{height:100%;transition:width .3s}
+.meter .amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.74rem;white-space:nowrap}
+.fill.fix{background:var(--c-dead)}
+.fill.huf{background:var(--c-live)}
+.fill.ent{background:var(--c-found)}
+
+/* noduri în construcția unui cod */
+.nodes{display:flex;flex-wrap:wrap;gap:4px;min-height:3.4rem;align-content:flex-start}
+.node{border:1.5px solid var(--ink);background:var(--paper-2);padding:.12rem .4rem;font-family:var(--f-mono);font-size:.74rem;display:flex;gap:.35rem;align-items:baseline;transition:background .2s,border-color .2s}
+.node .w{color:var(--muted);font-size:.66rem}
+.node.pair{background:var(--c-know-bg);color:var(--c-know)}
+.node.pair .w{color:var(--c-know)}
+.node.new{background:var(--c-found);color:var(--ink)}
+.node.new .w{color:var(--ink)}
+
+textarea{width:100%;min-height:6.5rem;resize:vertical;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem}
+
+/* fluxul de biți și mesaje */
+.stream{display:flex;flex-wrap:wrap;gap:2px}
+.stream i{width:9px;height:14px;display:block;background:var(--c-dead-bg);border:1px solid var(--c-dead);font-style:normal}
+.stream i.one{background:var(--c-live-bg);border-color:var(--c-live)}
+.stream i.flip{background:var(--c-bad);border-color:var(--c-bad)}
+.msg{font-family:var(--f-mono);font-size:.9rem;line-height:1.7;word-break:break-word;background:var(--paper-2);border:1.5px solid var(--ink);padding:.5rem .6rem}
+.msg u{text-decoration:none;color:var(--paper-2);background:var(--c-bad)}
+.pair{display:flex;flex-direction:column;gap:.3rem}
+
+/* biți pe care se poate apăsa */
+.bitrow{display:flex;flex-wrap:wrap;gap:5px}
+.bit{width:36px;height:42px;cursor:pointer;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);font-family:var(--f-mono);font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:0;transition:background .15s,border-color .15s;letter-spacing:0;text-transform:none}
+.bit:hover:not(:disabled){background:var(--lemon)}
+.bit.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.bit.par{border-style:dashed}
+.bit.err{border-color:var(--ink);background:var(--c-bad);color:var(--paper-2)}
+.bit small{font-size:.55rem;letter-spacing:.04em;opacity:.8;line-height:1}
+
+/* verificări */
+.checks{display:flex;flex-direction:column;gap:.3rem}
+.check{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.check .tag{color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
+.check .res{padding:0 .35rem}
+.check .res.ok{color:var(--c-ok);background:var(--c-ok-bg)}
+.check .res.no{color:var(--paper-2);background:var(--c-bad)}
+
+/* cuvinte de trei biți */
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px}
+.words div{border:1.5px solid var(--ink);padding:.35rem .2rem;text-align:center;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);background:var(--paper-2)}
+.words div span{display:block;font-size:.6rem;opacity:.85}
+.words div.cw{background:var(--c-found);color:var(--ink);font-weight:700}
+.words div.near0{color:var(--cobalt)}
+.words div.here{box-shadow:4px 4px 0 var(--c-know)}
+
+/* pânze, panouri, legende */
+canvas{display:block;width:100%;aspect-ratio:16/6}
+canvas.cv-wave{aspect-ratio:16/6}
+canvas.cv-circ{aspect-ratio:16/8}
+canvas.cv-img{aspect-ratio:16/10;border:1.5px solid var(--ink)}
+.panels{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+@media (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper-2);display:flex;flex-direction:column;gap:.45rem;padding:.75rem .8rem .9rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{width:18px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+
+/* registre și instrucțiuni pe biți (lecțiile 7–8) */
+.regwrap{overflow-x:auto}
+.reg{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.reg .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.reg .bit,.bits .bit{width:32px;height:32px;font-size:.88rem}
+.bit.mem{border-color:var(--ink);background:var(--paper-2)}
+.bit.mem.one{background:var(--c-found);color:var(--ink)}
+.bit.diff{box-shadow:3px 3px 0 var(--c-know)}
+.bits{display:flex;gap:6px;flex-wrap:wrap}
+.bitgrp{display:flex;flex-direction:column;gap:3px;align-items:center}
+.bitgrp .gl{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bitgrp .row{display:flex;gap:3px}
+.grp-op .bit.one{background:var(--c-know);border-color:var(--ink)}
+.grp-a .bit.one{background:var(--c-found);color:var(--ink);border-color:var(--ink)}
+.asm{font-family:var(--f-mono);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .7rem}
+
+/* mașina (lecția 8) */
+.machine{display:grid;gap:.8rem}
+@media (min-width:640px){.machine{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.prog{border:1.5px solid var(--ink);overflow:hidden}
+.prow{display:grid;grid-template-columns:2.1rem 3.1rem 1fr;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem;padding:.18rem .45rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.prow:last-child{border-bottom:none}
+.prow .ad{opacity:.7}
+.prow .nm{font-variant-numeric:tabular-nums;color:var(--ink)}
+.prow .tx{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow.at{background:var(--c-know-bg)}
+.prow.at .ad,.prow.at .nm,.prow.at .tx{color:var(--c-know)}
+.regs{display:flex;flex-direction:column;gap:.35rem}
+.regrow{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.8rem}
+.regrow .rn{color:var(--muted);width:1.8rem}
+.regrow .rv{border:1.5px solid var(--ink);background:var(--paper);padding:.1rem .5rem;min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.regrow .rb{color:var(--muted);font-size:.7rem}
+.regrow.hit .rv{background:var(--c-found);color:var(--ink)}
+.small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.outbox{font-family:var(--f-mono);font-size:.85rem;border:1.5px solid var(--ink);background:var(--paper);padding:.35rem .55rem;min-height:2rem;color:var(--orange);font-weight:700}
+.phases{display:flex;gap:.3rem;flex-wrap:wrap}
+.ph{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.12rem .45rem;color:var(--muted)}
+.ph.at{background:var(--c-know);color:var(--paper-2)}
+
+/* banda de memorie, asamblorul, scara (lecția 9) */
+.strip{overflow-x:auto}
+.sgrid{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.sgrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.sc{min-width:74px;height:30px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--paper-2);color:var(--ink);padding:0 .25rem;white-space:nowrap}
+.sc.num{background:var(--c-live-bg);font-variant-numeric:tabular-nums}
+.sc.ins{background:var(--c-know-bg)}
+.sc.let{background:var(--c-found-bg);font-size:.95rem}
+.asmwrap{display:grid;gap:.7rem}
+@media (min-width:640px){.asmwrap{grid-template-columns:1fr minmax(0,15rem)}}
+.asmwrap textarea{min-height:11rem;font-family:var(--f-mono);font-size:.84rem;line-height:1.7}
+.bytes{border:1.5px solid var(--ink);overflow:hidden;align-self:start}
+.brow{display:grid;grid-template-columns:1.7rem 2.8rem 1fr;gap:.4rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .4rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.brow:last-child{border-bottom:none}
+.brow .bn{color:var(--ink);font-variant-numeric:tabular-nums}
+.brow .bb{font-size:.66rem}
+.brow.err{background:var(--c-bad);color:var(--paper-2)}
+.regline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.regline b{color:var(--ink);font-weight:700}
+.ladder{display:flex;flex-direction:column-reverse;gap:3px}
+.rung{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;border:1.5px solid var(--ink);border-left:6px solid var(--c-dead);padding:.45rem .7rem;cursor:pointer;background:var(--paper-2);font-size:.92rem}
+.rung:hover{background:var(--lemon)}
+.rung .lv{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rung.open{border-left-color:var(--orange);background:var(--c-know-bg)}
+.rung .nm{font-weight:600}
+.rung .ex{grid-column:1/-1;font-size:.86rem;color:var(--muted);margin-top:.2rem}
+
+/* bare de sortat, tabel numeric (lecția 10) */
+.sbars{display:flex;align-items:flex-end;gap:3px;height:150px}
+.sbars .b{flex:1 1 0;min-width:0;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);transition:height .12s,background .12s,border-color .12s;position:relative}
+@media (prefers-reduced-motion:reduce){.sbars .b{transition:none}}
+.sbars .b.done{border-color:var(--ink);background:var(--c-found)}
+.sbars .b.at{border-color:var(--ink);background:var(--c-live)}
+.sbars .b.scan{border-color:var(--ink);background:var(--lemon)}
+.sbars .b.min{border-color:var(--ink);background:var(--c-bad)}
+.counts{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--ink);font-weight:700}
+.tbl.numeric th,.tbl.numeric td{text-align:right}
+.tbl.numeric td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.sel{color:var(--c-bad)}
+.tbl td.mer{color:var(--orange)}
+.tbl tr.est td{color:var(--muted);font-style:italic}
+
+/* planșa de desen, galeria, schimbarea de plan (lecția 11) */
+.pad{display:grid;gap:.8rem}
+@media (min-width:600px){.pad{grid-template-columns:auto 1fr;align-items:start}}
+canvas#draw{width:190px;height:190px;aspect-ratio:1;display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--ink);background:var(--paper);image-rendering:pixelated}
+.feats{display:flex;flex-direction:column;gap:.3rem}
+.feat{display:grid;grid-template-columns:1fr auto;gap:.6rem;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);align-items:baseline}
+.feat b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.feat.pass b{color:var(--c-ok)}
+.feat.fail b{color:var(--c-bad)}
+.verdict{font-family:var(--f-mono);font-size:.9rem;padding:.4rem .6rem;border:1.5px solid var(--ink);background:var(--paper)}
+.verdict.yes{background:var(--c-found);color:var(--ink)}
+.verdict.no{background:var(--c-bad);color:var(--paper-2)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}
+.ex{border:1.5px solid var(--ink);padding:2px;background:var(--paper);position:relative}
+.ex canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+.ex.wrong{background:var(--c-bad-bg);box-shadow:3px 3px 0 var(--c-bad)}
+.ex .tag{position:absolute;top:2px;left:4px;font-family:var(--f-mono);font-size:.6rem;color:var(--muted)}
+.ex.wrong .tag{color:var(--c-bad);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.74rem}
+.fbox{border:1.5px solid var(--ink);padding:.25rem .6rem;background:var(--paper-2);color:var(--ink)}
+.fbox.in{background:var(--c-live-bg)}
+.fbox.out{background:var(--c-found)}
+.fbox.mid{background:var(--c-know-bg)}
+.farr{color:var(--muted)}
+.flab{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+
+/* pânze și panouri pentru figurile de învățare (lecțiile 12–21) */
+canvas.cv-sq{aspect-ratio:1/1} canvas.cv-wide{aspect-ratio:16/7} canvas.cv-short{aspect-ratio:16/5}
+canvas.cv-fit{aspect-ratio:16/10} canvas.cv-u{aspect-ratio:16/8} canvas.cv-neuron{aspect-ratio:16/9}
+canvas.cv-net{aspect-ratio:16/9} canvas.cv-chain{aspect-ratio:16/5}
+canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
+.panels.two{grid-template-columns:1fr 1fr} .panels.one{grid-template-columns:1fr}
+@media (max-width:639px){.panels.two{grid-template-columns:1fr}}
+.panels.three{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:620px){.panels.three{grid-template-columns:1fr 1fr}}
+.readout .big{color:var(--c-error);font-size:.95rem}
+.readout .tr{color:var(--c-data)} .readout .te{color:var(--c-test)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;border:none}
+.ph.fw.at{background:var(--cobalt);color:var(--paper-2)} .ph.bw.at{background:var(--c-bad);color:var(--paper-2)}
+.tbl.grid{width:auto;font-family:var(--f-mono);font-size:.78rem}
+.tbl.grid th,.tbl.grid td{border:1.5px solid var(--ink);text-align:center;padding:.16rem .5rem;white-space:nowrap}
+.tbl.grid th{position:static;font-size:.6rem}
+.tbl td.name{text-align:left;color:var(--muted);font-family:var(--f-body);font-size:.88rem}
+.tbl td.ok{color:var(--c-ok);font-weight:700} .tbl td.bad{color:var(--c-bad)}
+.tbl td.best{color:var(--orange);font-weight:700}
+.tbl td.w{text-align:left;color:var(--muted)} .tbl td.same{color:var(--c-bad)} .tbl td.near{color:var(--orange);font-weight:700}
+.tbl td.one{color:var(--orange);font-weight:700}
+.tblwrap.center{display:flex;justify-content:center}
+
+/* convoluție (lecția 18) */
+.imgrow{display:grid;gap:.7rem;align-items:start}
+@media (min-width:640px){.imgrow{grid-template-columns:1fr auto 1fr}}
+.imgbox{display:flex;flex-direction:column;gap:.3rem}
+.imgbox canvas{border:1.5px solid var(--ink);aspect-ratio:1/1;width:100%;image-rendering:pixelated}
+.kern{display:flex;flex-direction:column;gap:.35rem;align-items:center;justify-content:center;min-width:9rem}
+.kgrid{display:grid;grid-template-columns:repeat(3,2.5rem);gap:3px}
+.kgrid input{width:100%;height:2.1rem;text-align:center;font-family:var(--f-mono);font-size:.82rem;border:1.5px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);-moz-appearance:textfield}
+.kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
+.three{display:grid;gap:.7rem}
+@media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
+
+/* vectori (lecția 19) */
+select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
+.enc{display:flex;flex-direction:column;gap:.35rem}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc .tbl th{position:static;font-size:.58rem}
+.neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
+.neigh b{color:var(--orange)}
+
+/* tokeni (lecția 20) */
+.toks{display:flex;flex-wrap:wrap;gap:3px;line-height:1.9}
+.tok{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:.05rem .35rem;background:var(--paper-2);white-space:pre}
+.tok.c0{background:var(--c-live-bg)} .tok.c1{background:var(--c-found-bg)} .tok.c2{background:var(--c-know-bg)} .tok.c3{background:#F1DDA8}
+.tok.whole{font-weight:700}
+.merges{display:flex;flex-direction:column;gap:2px;max-height:15rem;overflow-y:auto;border:1.5px solid var(--ink)}
+.mrow{display:grid;grid-template-columns:2.2rem 1fr 3.4rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .5rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.mrow:last-child{border-bottom:none}
+.mrow .pair{color:var(--ink)} .mrow .pair em{font-style:normal;color:var(--orange);font-weight:700}
+.mrow.new{background:var(--cobalt);color:var(--paper-2)} .mrow.new .pair,.mrow.new .pair em{color:var(--paper-2)}
+textarea.short{min-height:5rem}
+
+/* cuvântul următor (lecția 21) */
+input[type=text]{width:100%;font-family:var(--f-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.45rem .6rem}
+.pbars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr 3.2rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.bar .w{text-align:right;color:var(--ink)}
+.bar .t{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:15px;overflow:hidden}
+.bar .f{height:100%;background:var(--c-live);transition:width .18s}
+.bar.top .f{background:var(--orange)}
+.bar .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.bar .f{transition:none}}
+.gen{font-family:var(--f-body);font-size:.98rem;line-height:1.75;background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:5rem}
+.gen .seed{color:var(--muted)} .gen .new{color:var(--cobalt)} .gen .copied{background:var(--lemon);color:var(--ink);padding:0 2px}
+
+/* ---------- picior de tipar: navigație între lecții ---------- */
+footer{margin-top:3.8rem;border-top:2px solid var(--ink);padding-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.lnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lnav .nav{
+  display:flex;flex-direction:column;gap:.15rem;text-decoration:none;color:var(--ink);
+  border:2px solid var(--ink);background:var(--paper-2);padding:.7rem .9rem;min-height:4.4rem;
+  transition:box-shadow .15s,transform .15s;
+}
+.lnav a.nav:hover{background:var(--lemon);box-shadow:5px 5px 0 var(--cobalt);transform:translate(-2px,-2px);color:var(--ink)}
+.lnav .nav.next{text-align:right;align-items:flex-end}
+.lnav .nav .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.lnav .nav .t{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.lnav .nav.off{opacity:.45;border-style:dashed}
+.lnav .nav.off .k{color:var(--muted)}
+@media (max-width:520px){.lnav{grid-template-columns:1fr}.lnav .nav.next{text-align:left;align-items:flex-start}}
+.runfoot{display:flex;justify-content:space-between;gap:.5rem 1.4rem;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;border-top:2px solid var(--ink);padding-top:.7rem}
+.colophon{font-size:.86rem;color:var(--muted)}
+
+/* ===== lectiile 22-31 ===== */
+.sep{color:var(--rule)}
+canvas.cv-att{aspect-ratio:16/7}
+canvas.cv-blk{aspect-ratio:16/8}
+canvas.cv-sin{aspect-ratio:16/6}
+canvas.cv-plot{aspect-ratio:16/9}
+canvas.cv-cal{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+@media (max-width:560px){canvas.cv-blk{aspect-ratio:5/4} canvas.cv-sin{aspect-ratio:5/4} canvas.cv-plot{aspect-ratio:4/5}}
+.tbl tr.pending td{opacity:.35}
+.tbl td.warn{color:var(--c-param);font-weight:700}
+.tbl td.dim{opacity:.55}
+.tbl tfoot td{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border-bottom:none;padding-top:.5rem;white-space:normal}
+.tbl.wrapname td.name{white-space:normal;min-width:14rem}
+/* grila subiect x verb (22) */
+.grid{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.gh{color:var(--muted);font-size:.62rem;letter-spacing:.06em;padding:.1rem .3rem;text-align:center}
+.gl{color:var(--muted);font-size:.62rem;padding:.1rem .4rem;text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.gc{border:1.5px solid var(--ink);text-align:center;padding:.25rem .1rem;background:var(--paper-2);cursor:pointer;user-select:none}
+.gc.seen{background:var(--c-live-bg)}
+.gc.held{background:var(--c-bad);color:var(--paper-2);font-weight:700}
+.gc:hover{box-shadow:2px 2px 0 var(--orange)}
+.vs{display:grid;gap:.6rem}
+@media (min-width:560px){.vs{grid-template-columns:1fr 1fr}}
+.vsbox{border:1.5px solid var(--ink);background:var(--paper-2);padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.vsbox .lbl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vsbox .big{font-family:var(--f-mono);font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.vsbox.zero .big{color:var(--c-bad)} .vsbox.some .big{color:var(--cobalt)}
+.vsbox .sub{font-size:.8rem;color:var(--muted)}
+.bar.held .w{color:var(--c-bad);font-weight:700} .bar.held .f{background:var(--c-bad)}
+/* pasii atentiei (24) */
+.steps{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.steps .lb{color:var(--muted);font-size:.62rem;letter-spacing:.06em;text-align:right;padding-right:.5rem;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.steps .cl{border:1.5px solid var(--ink);text-align:center;padding:.2rem .1rem;background:var(--paper-2);font-variant-numeric:tabular-nums}
+.steps .cl.hi{background:var(--orange);color:var(--paper-2);font-weight:700}
+.steps .cl.sym{font-size:.9rem}
+/* fasia de pozitii (26) */
+.striprow{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;padding-bottom:1.2rem}
+.ptok{font-family:var(--f-mono);font-size:1.05rem;width:2.3rem;height:2.3rem;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:var(--paper-2);position:relative}
+.ptok.q{background:var(--orange);color:var(--paper-2);font-weight:700}
+.ptok .ix{position:absolute;bottom:-1.1rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+/* legenda liniilor (27, 30) */
+.key{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.key .sw{width:16px;height:3px;display:inline-block}
+/* bare cu temperatura (28) */
+.tbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.8rem}
+.tbars .ch{text-align:right;color:var(--ink);white-space:pre}
+.tbars .bw{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.95rem;overflow:hidden}
+.tbars .bf{height:100%;background:var(--c-live);transition:width .12s linear}
+.tbars .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.4rem;text-align:right}
+.ctxline{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);word-break:break-word}
+.ctxline b{color:var(--ink);font-weight:700;background:var(--lemon);padding:0 .15rem}
+.gen.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:8.5rem}
+/* cartonase (29, 31) */
+.qline{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);word-break:break-word}
+@media (min-width:600px){.two.cards{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.45rem}
+.card .lb{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .tx{font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:6.6rem}
+.card .qq{font-family:var(--f-mono);font-size:.82rem;word-break:break-word}
+.card .qq .blind{color:var(--muted);opacity:.38}
+.card .qq .seen{background:var(--lemon);color:var(--ink);font-weight:700}
+.card .qq+.tx{border-top:1.5px solid var(--ink);padding-top:.4rem;min-height:5.4rem}
+.card.win{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.card.lose{opacity:.6}
+.card .sc{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.wbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.wbars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbars .tr{position:relative;height:.85rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.wbars .tr i{position:absolute;top:0;bottom:0;display:block}
+.wbars .tr i.pos{background:var(--cobalt)} .wbars .tr i.neg{background:var(--c-param)}
+.wbars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+/* banda de context (30) */
+.band{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;max-height:11rem;overflow:hidden;word-break:break-word}
+.band .out{color:var(--muted);opacity:.35;text-decoration:line-through}
+.band .in{color:var(--ink)}
+.band .now{background:var(--lemon);color:var(--ink);font-weight:700}
+
+/* ===== lectiile 32-36 ===== */
+.key .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl tr.over td{background:var(--accent-soft)}
+canvas.cv-sqm{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+canvas.cv-loss{aspect-ratio:16/6}
+canvas.cv-noise{aspect-ratio:1/1;max-width:340px;margin:0 auto;image-rendering:auto;border:1.5px solid var(--ink)}
+.nstrip,.set{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:600px){.nstrip,.set{grid-template-columns:repeat(3,1fr)}}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dpair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:420px;margin:0 auto}
+.nstrip figure,.set figure,.trio figure,.dpair figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.nstrip canvas,.set canvas,.trio canvas,.dpair canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2)}
+.set canvas,.dpair canvas{image-rendering:pixelated}
+.nstrip figcaption,.set figcaption,.trio figcaption,.dpair figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.trio figcaption b{color:var(--orange)}
+.set figure.hit canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.wbar{display:grid;grid-template-columns:auto 1fr auto;gap:2px .5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem}
+.wbar .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbar .tr{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.8rem;overflow:hidden}
+.wbar .tr i{display:block;height:100%;background:var(--cobalt)}
+.wbar .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+
+/* ===== lectiile 37-45 ===== */
+.tbl tr.hi td{background:var(--accent-soft)}
+.tbl td.win{color:var(--c-ok);font-weight:700;background:var(--accent-soft)}
+.tbl tr.sep td{border-top:2px solid var(--ink)}
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;max-width:520px;margin:0 auto}
+@media (max-width:520px){.trip{grid-template-columns:1fr}}
+.trip figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.trip canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2);image-rendering:pixelated}
+.trip figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.zgrid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:2.4rem;align-content:center}
+.zgrid i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.trio .nm{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-align:center}
+.trio button{width:100%}
+.trio figcaption b{color:var(--ink)}
+@media (max-width:620px){.trio.stack{grid-template-columns:1fr}}
+.igal{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:560px){.igal{grid-template-columns:repeat(3,1fr)}}
+.igal figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.igal canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);image-rendering:pixelated}
+.igal figcaption{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);text-align:center}
+.igal figure.good canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.igal figure.bad canvas{border-color:var(--c-bad);opacity:.7}
+.key .sq{width:9px;height:9px;display:inline-block}
+.key.swatches i{display:inline-block;width:.7rem;height:.7rem;margin-right:.35rem;vertical-align:-1px;border:1px solid var(--ink)}
+.tape{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:11rem;display:flex;flex-direction:column;gap:.3rem}
+.tape .ln{display:flex;gap:.5rem}
+.tape .who{flex:none;width:5.2rem;color:var(--muted);text-align:right}
+.tape .tx{word-break:break-word}
+.tape .model .tx{color:var(--cobalt)}
+.tape .tool .tx{color:var(--c-param)}
+.tape .user .tx{color:var(--ink)}
+.tape .done .tx{color:var(--orange);font-weight:700}
+.frags{display:flex;flex-direction:column;gap:.3rem}
+.frag{display:flex;gap:.5rem;font-family:var(--f-mono);font-size:.74rem;line-height:1.5;border:1.5px solid var(--ink);background:var(--paper-2);padding:.35rem .5rem}
+.frag .rk{flex:none;width:1.6rem;color:var(--muted);text-align:right}
+.frag .sc{flex:none;width:3rem;color:var(--muted);text-align:right}
+.frag .tx{flex:1 1 auto}
+.frag.hit{border-color:var(--orange);background:var(--accent-soft);box-shadow:3px 3px 0 var(--orange)}
+.frag.hit .tx{color:var(--ink);font-weight:700}
+.ctx{font-family:var(--f-mono);font-size:.74rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.55rem .65rem;white-space:pre-wrap;word-break:break-word;max-height:11rem;overflow:auto}
+.ctx b{color:var(--cobalt)}
+.ibars{display:grid;grid-template-columns:auto 1fr auto;gap:4px .6rem;align-items:center;font-family:var(--f-mono);font-size:.78rem}
+.ibars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.ibars .tr{position:relative;height:1.1rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.ibars .tr i{position:absolute;top:0;bottom:0;display:block;border-left:2px solid var(--cobalt);border-right:2px solid var(--cobalt)}
+.ibars .tr i::before{content:'';position:absolute;top:45%;left:0;right:0;height:2px;background:var(--cobalt)}
+.ibars .tr i.b{border-color:var(--c-param)}
+.ibars .tr i.b::before{background:var(--c-param)}
+.ibars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:5.6rem;text-align:right}
+canvas.cv-wide.boxed{aspect-ratio:2.6/1;border:1.5px solid var(--ink)}
+canvas.cv-main{aspect-ratio:16/10;border:1.5px solid var(--ink);background:var(--paper-2)}
+canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
+.jump{display:flex;flex-wrap:wrap;gap:.28rem}
+.jump button{font-size:.62rem;padding:.18rem .42rem;color:var(--muted)}
+.jump button.on{color:var(--paper-2);background:var(--orange);border-color:var(--ink)}
+.rng.wide{flex:1 1 14rem}
+.rng.wide input[type=range]{flex:1 1 8rem;width:auto;min-width:0}
+</style>
+
+<article class="page">
+
+<header>
+  <div class="runhead">
+    <div class="l"><span>L.05</span><span>Partea 2 / Calculatorul</span></div>
+    <div class="r"><a href="index.html">Cuprins</a><button id="sndBtn" class="snd" aria-pressed="true"><span>sunet pornit</span></button></div>
+  </div>
+  <div class="plate" aria-hidden="true"><div class="marble" id="marble" data-seed="5"></div></div>
+
+  <div class="masthead">
+    <h1><i>Comutatorul</i></h1>
+    <p class="lede">Un bit are nevoie de un obiect care stă în două stări. Cel mai simplu asemenea obiect oprește sau lasă să treacă un curent electric. Din câteva bucăți de acest fel, legate în serie sau în paralel, ies toate operațiile logice, iar dintr-un comutator comandat electric iese posibilitatea de a le înlănțui fără sfârșit.</p>
+    <p class="terms">Termeni: <b>comutator</b> <b>în serie</b> <b>în paralel</b> <b>poartă logică</b> <b>tabel de adevăr</b> <b>tranzistor</b> <b>poartă · canal</b> <b>rezistență</b> <b>ȘI-NU</b></p>
+  </div>
+</header>
+
+<main class="sections">
+
+<section id="s1">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 40 H22 M42 40 H58 M58 40 V54 H6 V40" class="o-line"/><path d="M22 40 L40 26" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="40" r="3" class="o-dot"/><circle cx="42" cy="40" r="3" class="o-dot"/><circle cx="32" cy="54" r="6" class="o-fill"/></svg></span>Curent, tensiune, comutator</h2>
+
+  <p class="first">Prima lecție a lăsat o întrebare deschisă: informația se măsoară în biți, dar ce anume, în lumea fizică, poate ține un bit? Răspunsul e orice obiect care stă în două stări deosebite și care poate fi trecut dintr-una în alta. O monedă cu două fețe, un bec, o ușă. Calculatoarele au ales curentul electric, și merită să vedem de ce.</p>
+
+  <p>Un curent electric este o mișcare ordonată de sarcini electrice printr-un material care le lasă să treacă. Două mărimi îl descriu: <dfn>tensiunea</dfn>, cât de tare sunt împinse sarcinile, și <dfn>intensitatea</dfn>, câte trec într-o secundă. Într-o țeavă cu apă, tensiunea ar fi presiunea, iar intensitatea, debitul.</p>
+
+  <p>Un <dfn>comutator</dfn> este o întrerupere a drumului care se poate închide și deschide. Închis, lasă curentul să treacă; deschis, îl oprește. Are exact două stări și nimic între ele, deci ține exact un bit. De aici înainte, o convenție care va rămâne valabilă tot cursul: comutator închis înseamnă 1, comutator deschis înseamnă 0.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un comutator, o baterie, o lampă; apasă pe comutator</figcaption>
+    <div class="stage"><canvas id="cv1" class="cv-circ"></canvas></div>
+    <div class="cap" id="cap1"></div>
+    <div class="ctrl"><button id="b1">Comutatorul</button></div>
+  </figure>
+</section>
+
+<section id="s2">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 H58 M6 44 H58" class="o-line"/><path d="M18 20 L28 12 M38 20 L48 12" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><path d="M18 44 L28 36" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><path d="M38 44 H48" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><g class="o-grid"><circle cx="18" cy="20" r="2.5"/><circle cx="28" cy="20" r="2.5"/><circle cx="38" cy="20" r="2.5"/><circle cx="48" cy="20" r="2.5"/></g></svg></span>Serie și paralel</h2>
+
+  <p>Cu un singur comutator nu se calculează nimic; cu două, deja da. Două comutatoare puse unul după altul pe același drum sunt legate <dfn>în serie</dfn>: curentul trece numai dacă amândouă sunt închise, fiindcă oricare dintre ele rupe singur drumul. Puse pe două drumuri care pornesc din același loc și se întâlnesc din nou, sunt legate <dfn>în paralel</dfn>: curentul trece dacă cel puțin unul e închis, fiindcă îi ajunge un singur drum.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceleași două comutatoare, legate în două feluri</figcaption>
+    <div class="panels">
+      <div class="panel">
+        <span class="lbl">în serie</span>
+        <canvas id="cv2" class="cv-circ"></canvas>
+        <div class="ttwrap"><table class="tt" id="tt2"></table></div>
+      </div>
+      <div class="panel">
+        <span class="lbl">în paralel</span>
+        <canvas id="cv3" class="cv-circ"></canvas>
+        <div class="ttwrap"><table class="tt" id="tt3"></table></div>
+      </div>
+    </div>
+    <div class="cap" id="cap2"></div>
+    <div class="ctrl">
+      <button id="bA">comutatorul a</button>
+      <button id="bB">comutatorul b</button>
+    </div>
+  </figure>
+
+  <p>Cele două legături se comportă ca două operații logice, și aceasta e observația care leagă electricitatea de gândire. Seria dă 1 numai când a și b sunt amândouă 1, adică <dfn>ȘI</dfn>. Paralelul dă 1 când măcar unul dintre ele e 1, adică <dfn>SAU</dfn>. Nimeni n-a „programat” comutatoarele să facă logică; logica e felul în care se compun drumurile.</p>
+</section>
+
+<section id="s3">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="8" y="8" width="10" height="10"/><rect x="22" y="8" width="10" height="10"/><rect x="8" y="22" width="10" height="10"/><rect x="22" y="36" width="10" height="10"/><rect x="8" y="50" width="10" height="10"/><rect x="22" y="50" width="10" height="10"/></g><rect x="44" y="8" width="10" height="10" fill="#BDB9AA"/><rect x="44" y="22" width="10" height="10" fill="#BDB9AA"/><rect x="44" y="36" width="10" height="10" class="o-bar2"/><rect x="44" y="50" width="10" height="10" class="o-bar2"/><path d="M38 6 V62" class="o-line"/></svg></span>Poarta logică și tabelul de adevăr</h2>
+
+  <p>Un circuit a cărui ieșire depinde numai de starea intrărilor, nu și de trecut, se numește <dfn>poartă logică</dfn>. Comportarea lui se scrie complet într-un <dfn>tabel de adevăr</dfn>: câte un rând pentru fiecare combinație de intrări și ieșirea corespunzătoare.</p>
+
+  <p>Tabelul e descrierea completă, și asta merită subliniat: două porți cu același tabel sunt de nedeosebit din afară, oricât de diferit ar fi făcute înăuntru. Cu două intrări sunt patru rânduri, deci patru ieșiri de ales, deci șaisprezece porți cu două intrări cu putință, nici una mai mult. Printre ele ȘI, SAU și cea care spune mereu 1.</p>
+
+  <p>Mai lipsește o operație, cea mai simplă dintre toate. <dfn>NU</dfn> are o singură intrare și întoarce valoarea: dă 1 când intrarea e 0 și 0 când intrarea e 1. Din comutatoare apăsate cu degetul nu iese, fiindcă un comutator lasă să treacă atunci când e apăsat, nu invers. Ca s-o obținem avem nevoie de altceva.</p>
+</section>
+
+<section id="s4">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6 V22 M32 42 V58 M20 32 H6" class="o-line"/><path d="M20 22 V42" class="o-line"/><path d="M32 22 V42" fill="none" stroke="#EE5A2F" stroke-width="4" stroke-linecap="round"/><path d="M22 32 H30" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="48" cy="32" r="8" class="o-fill"/></svg></span>Tranzistorul</h2>
+
+  <p>Un comutator apăsat cu degetul nu poate fi apăsat de un alt comutator. Cât timp comanda vine de la o mână, un circuit face un singur pas: cineva apasă, ceva se aprinde, și povestea se termină. Ca să calculeze mai mult de un pas, comanda trebuie să fie de aceeași natură cu rezultatul: electrică. Ne trebuie un comutator pe care să-l închidă și să-l deschidă un curent.</p>
+
+  <p>Un <dfn>tranzistor</dfn> este exact acest lucru: un comutator comandat de tensiune. Are trei capete. Două dintre ele, numite <dfn>sursă</dfn> și <dfn>drenă</dfn>, sunt capetele drumului: între ele curentul poate trece sau nu, ca între cele două contacte ale unui comutator obișnuit. Al treilea capăt, <dfn>poarta</dfn>, e clapa care hotărăște. Ea nu atinge drumul; e despărțită de el printr-un strat izolator subțire. Când poarta e pusă la tensiune, adică la 1, câmpul ei electric adună sarcini în materialul de dedesubt și îl face conductor: se formează un <dfn>canal</dfn>, iar drumul se închide. Când poarta e la 0, canalul dispare și drumul se deschide. Nimic nu se mișcă mecanic; e un robinet întors nu de o mână, ci de presiunea apei dintr-o altă țeavă.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Tranzistorul singur: poarta închide sau deschide drumul; apasă pe intrare</figcaption>
+    <div class="stage"><canvas id="cv3t" class="cv-circ"></canvas></div>
+    <div class="cap" id="cap3t"></div>
+    <div class="ctrl"><button id="b3t">intrarea (poarta)</button></div>
+  </figure>
+
+  <p>Circuitul de mai sus e același cu primul din lecție: o baterie, un drum, o lampă. Singura deosebire e cine închide drumul: nu degetul, ci tensiunea de pe poartă. Iar tensiunea aceea poate veni de la ieșirea unui alt circuit. Aici se face saltul: ieșirea unei porți poate acum comanda intrarea alteia. Compunerea devine posibilă, iar tot restul acestei părți a cursului e compunere: din tranzistoare porți, din porți sumatoare, din sumatoare și memorie un procesor. Un tranzistor comută de miliarde de ori pe secundă și e atât de mic încât într-un procesor de azi încap zeci de miliarde.</p>
+
+  <p>Cu tranzistorul, poarta NU iese dintr-o idee simplă: două „mâini” trag de ieșire în direcții opuse, una slab și una tare, iar ieșirea ascultă de cea care trage mai tare. Mâna slabă e o <dfn>rezistență</dfn>, legată între ieșire și tensiunea de alimentare, adică 1: ea trage ieșirea mereu spre 1, dar lasă curentul să treacă doar cu greutate. Mâna tare e tranzistorul, legat între ieșire și masă, adică 0: când conduce, leagă ieșirea de masă aproape direct și o trage la 0, mai tare decât o poate ține rezistența sus.</p>
+
+  <p>Merită urmărite cele două cazuri în figura de mai jos. Intrarea 0: poarta e la 0, tranzistorul nu conduce, nimic nu trage ieșirea în jos; rezistența o ține la 1, iar curentul curge prin ea spre lampă, care se aprinde. Intrarea 1: tranzistorul conduce, ieșirea e legată de masă și cade la 0; curentul curge prin rezistență și prin tranzistor, ocolind lampa, care se stinge. Ieșirea e mereu opusul intrării, adică exact tabelul lui NU.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Poarta NU: rezistența trage ieșirea în sus, tranzistorul o trage în jos</figcaption>
+    <div class="stage"><canvas id="cv4" class="cv-circ"></canvas></div>
+    <div class="cap" id="cap4"></div>
+    <div class="ctrl"><button id="b4">intrarea</button></div>
+  </figure>
+
+  <p class="note">Procesoarele de azi nu folosesc rezistența, ci o pereche de tranzistoare care se completează: unul trage în sus exact când celălalt nu trage în jos. Circuitul consumă atunci curent aproape numai în clipa comutării, ceea ce face posibile miliardele de tranzistoare de pe o pastilă.</p>
+</section>
+
+<section id="s5">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 16 H20 M6 32 H20 M6 48 H20 M36 24 H44 M36 40 H44 M56 32 H62" class="o-line"/><path d="M20 10 H28 A8 8 0 0 1 28 26 H20 Z M20 34 H28 A8 8 0 0 1 28 50 H20 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M44 22 Q52 32 44 42 Q56 40 60 32 Q56 24 44 22 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Orice funcție, din trei porți</h2>
+
+  <p>Cu ȘI, SAU și NU se poate construi orice tabel de adevăr, iar construcția e mecanică; asta înseamnă că orice comportare descrisă complet printr-un tabel poate fi turnată în siliciu. Pentru fiecare rând a cărui ieșire e 1 se scrie o combinație prin ȘI care e adevărată numai pe acel rând: fiecare intrare intră așa cum e dacă rândul o cere 1, și negată dacă rândul o cere 0. Combinațiile astfel scrise se leagă între ele prin SAU.</p>
+
+  <p>Rezultatul e adevărat exact pe rândurile alese și fals pe toate celelalte, fiindcă fiecare termen se aprinde pe un singur rând.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="V" data-a="5"></span>Alege ieșirile; circuitul se scrie singur</figcaption>
+    <div class="stage">
+      <div class="two">
+        <table class="build" id="bt"></table>
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+          <span class="lbl">expresia</span>
+          <div class="expr" id="expr"></div>
+        </div>
+      </div>
+    </div>
+    <div class="cap" id="cap5"></div>
+    <div class="ctrl">
+      <button data-preset="maj">majoritate</button>
+      <button data-preset="par">paritate</button>
+      <button data-preset="and">toate trei</button>
+      <button data-preset="zero">niciuna</button>
+    </div>
+  </figure>
+
+  <p>Construcția nu dă cel mai mic circuit cu putință, ci doar unul care merge. Găsirea celui mai mic circuit pentru un tabel dat e o problemă grea în sine, iar programele care proiectează pastile de siliciu se ocupă tocmai cu asta.</p>
+
+  <p>Trei feluri de porți sunt, de altfel, mai multe decât e nevoie. Poarta <dfn>ȘI-NU</dfn>, un ȘI urmat de un NU, ajunge singură: legată cu ambele intrări împreună dă NU, două la rând dau ȘI, iar cu intrările negate dinainte dă SAU. Fabricile fac de aceea, cu precădere, un singur fel de poartă. Un tabel de adevăr spune ce trebuie să facă un circuit, construcția de mai sus îl produce din porți, porțile sunt făcute din tranzistoare, iar tranzistoarele sunt comutatoare. Nimic din drumul acesta nu mai are goluri; rămâne de ales ce tabele merită construite, și lecția următoare începe cu adunarea.</p>
+</section>
+
+</main>
+
+<footer>
+  <nav class="lnav" aria-label="Lecțiile vecine">
+    <a class="nav prev" href="lectia-04.html"><span class="k">Anterioara</span><span class="t">Eșantionare și cuantizare</span></a>
+    <a class="nav next" href="lectia-06.html"><span class="k">Urmează</span><span class="t">Sumatorul</span></a>
+  </nav>
+  <p class="colophon">Circuitele, tabelele și expresia se calculează în pagină.</p>
+  <div class="runfoot"><span>L.05 / Comutatorul</span><span>Partea 2 / Calculatorul</span></div>
+</footer>
+
+</article>
+
+<script>
+"use strict";
+/* ============================================================
+   COD COMUN TUTUROR LECȚIILOR: clichete, butonul de sunet,
+   forzațul marmorat (seed = numărul lecției), ajutoare numerice.
+   ============================================================ */
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* clichete, sintetizate în pagină */
+const sfx=(function(){
+  let ctx,on=true,last=0;
+  function ac(){
+    if(ctx===undefined){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      ctx=AC?new AC():null;
+    }
+    if(ctx&&ctx.state==='suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f0,f1,dur,vol,type){
+    const c=ac(); if(!c||!on) return;
+    const t=c.currentTime;
+    const o=c.createOscillator(), g=c.createGain(), lp=c.createBiquadFilter();
+    o.type=type||'triangle';
+    o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3400,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp); lp.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  return {
+    tick:function(){ tone(1500,760,0.045,0.055); },
+    step:function(){ tone(980,560,0.05,0.04); },
+    merge:function(k){ tone(700+k*22,480+k*14,0.055,0.045); },
+    bad:function(){ tone(320,190,0.13,0.05,'sawtooth'); },
+    found:function(){ tone(740,740,0.10,0.05,'sine'); setTimeout(function(){ tone(1110,1110,0.17,0.045,'sine'); },95); },
+    soft:function(){ tone(430,300,0.07,0.04); },
+    nudge:function(){ const n=Date.now(); if(n-last<40) return; last=n; tone(2100,1600,0.02,0.022); },
+    clack:function(){ tone(1700,520,0.04,0.06); },
+    clunk:function(){ tone(900,340,0.05,0.05); },
+    lamp:function(){ tone(880,880,0.09,0.04,'sine'); setTimeout(function(){ tone(1320,1320,0.14,0.035,'sine'); },80); },
+    col:function(k){ tone(760+k*70,520+k*50,0.05,0.045); },
+    carry:function(){ tone(1900,1200,0.035,0.04); },
+    done:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    over:function(){ tone(300,180,0.16,0.05,'sawtooth'); },
+    edge:function(){ tone(1250,900,0.03,0.03); },
+    latch:function(){ tone(900,620,0.05,0.05); },
+    fetch:function(){ tone(1150,900,0.035,0.035); },
+    dec:function(){ tone(1400,1100,0.035,0.033); },
+    exec:function(){ tone(820,600,0.05,0.045); },
+    jump:function(){ tone(1500,2100,0.06,0.04); },
+    out:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    halt:function(){ tone(420,240,0.16,0.05); },
+    stepk:function(k){ tone(760+(k||0)*40,520,0.04,0.04); },
+    cmp:function(h){ const n=Date.now(); if(n-last<24) return; last=n; tone(1400+h*7,1100,0.022,0.03); },
+    swap:function(){ tone(880,560,0.05,0.05); },
+    yes:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    no:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    search:function(){ tone(600,1600,0.18,0.04,'sine'); },
+    good:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    snap:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    arrive:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    thud:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    blow:function(){ tone(300,140,0.22,0.055,'sawtooth'); },
+    flat:function(){ tone(420,420,0.16,0.045,'sine'); },
+    fw:function(k){ tone(900+(k||0)*90,700,0.04,0.04); },
+    bw:function(k){ tone(1500-(k||0)*120,900,0.045,0.042); },
+    word:function(k){ tone(900+(((k||0)*67)%500),700,0.026,0.026); },
+    toggle:function(){ on=!on; if(on) tone(880,880,0.06,0.045,'sine'); return on; }
+  };
+})();
+(function(){
+  const b=document.getElementById('sndBtn'); if(!b) return;
+  b.addEventListener('click',function(){
+    const on=sfx.toggle();
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('span').textContent=on?'sunet pornit':'sunet oprit';
+  });
+})();
+
+/* numerele se scriu cu virgulă zecimală; acordul cu numeralul: 1 bit, 5 biți, 20 de biți */
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+const log2=x=>Math.log(x)/Math.LN2;
+function unit(n,sing,plur){
+  if(n===1) return sing;
+  const l=Math.abs(Math.round(n))%100;
+  return (l===0||l>=20)?('de '+plur):plur;
+}
+const bits=n=>n+' '+unit(n,'bit','biți');
+
+/* forzațul marmorat: vopsea plutind pe baie, pieptănată de zgomot;
+   totul e hotărât de numărul lecției, deci fiecare lecție are hârtia ei */
+(function(){
+  const host=document.getElementById('marble'); if(!host) return;
+  const SEED=+host.dataset.seed||1;
+  let s=(SEED*7919+104729)>>>0;
+  const rnd=()=>{ s=(s*1103515245+12345)>>>0; return (s>>>8)/16777216; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const inks=['#2F4BC4','#EE5A2F','#6B7A38','#E9C93B','#DDA6B0'];
+  const cream='#F7F3E6', dark='#22252D';
+  const dom=pick(inks);                       /* cerneala dominantă a lecției */
+  const W=1600,H=500;
+  let g='';
+  /* fâșii orizontale, de lățimi neregulate; cele subțiri devin vene */
+  let y=-160;
+  while(y<H+160){
+    const thin=rnd()<0.45;
+    const h=thin?2+rnd()*4:12+rnd()*34;
+    const fill=thin?(rnd()<0.6?cream:dark):(rnd()<0.3?dom:pick(inks.concat([cream,cream])));
+    g+='<rect x="-300" y="'+y.toFixed(1)+'" width="2200" height="'+h.toFixed(1)+'" fill="'+fill+'"/>';
+    y+=h+(thin?3+rnd()*8:rnd()*10);
+  }
+  /* stropi: picături de vopsea, unele cu ochi deschis */
+  for(let i=0;i<190;i++){
+    const big=rnd()<0.16;
+    const rx=big?22+rnd()*40:3+rnd()*14, ry=big?11+rnd()*22:2+rnd()*8;
+    const light=rnd()<0.5;
+    const fill=light?cream:pick(inks.concat([dark]));
+    const stroke=(!light&&rnd()<0.7)?' stroke="'+cream+'" stroke-width="'+(1.5+rnd()*2.2).toFixed(1)+'"':'';
+    g+='<ellipse cx="'+(rnd()*W).toFixed(1)+'" cy="'+(-30+rnd()*(H+60)).toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+fill+'"'+stroke+'/>';
+  }
+  const bf1=(0.0022+rnd()*0.0018).toFixed(4)+' '+(0.006+rnd()*0.005).toFixed(4);
+  const sc1=(130+rnd()*90).toFixed(0);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<filter id="m" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">'+
+    '<feTurbulence type="fractalNoise" baseFrequency="'+bf1+'" numOctaves="3" seed="'+(SEED*11)+'" result="t1"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="t1" scale="'+sc1+'" xChannelSelector="R" yChannelSelector="G" result="d1"/>'+
+    '<feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="3" seed="'+(SEED*11+5)+'" result="t2"/>'+
+    '<feDisplacementMap in="d1" in2="t2" scale="42" xChannelSelector="G" yChannelSelector="R"/>'+
+    '</filter>'+
+    '<rect width="'+W+'" height="'+H+'" fill="'+dom+'"/>'+
+    '<g filter="url(#m)"><rect x="-300" y="-200" width="2200" height="'+(H+400)+'" fill="'+dom+'"/>'+g+'</g></svg>';
+  host.style.backgroundColor=dom;
+  try{
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas'); c.width=W; c.height=H;
+      c.getContext('2d').drawImage(img,0,0,W,H);
+      let url; try{ url=c.toDataURL('image/png'); }catch(e){ return; }
+      host.style.backgroundImage='url("'+url+'")';
+    };
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }catch(e){}
+})();
+</script>
+
+<script>
+"use strict";
+(function(){
+
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function unit0(n,sing,plur){
+  n=Math.abs(Math.round(n));
+  if(n===1) return sing;
+  if(n===0) return plur;
+  return unit(n,sing,plur);
+}
+
+/* ---------- pânze ---------- */
+const CVS=[];
+function mkCv(id,draw){
+  const cv=document.getElementById(id), ctx=cv.getContext('2d');
+  const st={cv:cv,ctx:ctx,w:0,h:0,dpr:1,hits:[]};
+  st.render=function(){
+    const r=cv.getBoundingClientRect();
+    if(r.width>=1){
+      const w=Math.round(r.width), h=Math.round(r.height);
+      if(w!==st.w||h!==st.h){
+        st.dpr=Math.min(window.devicePixelRatio||1,2);
+        st.w=w; st.h=h; cv.width=Math.round(w*st.dpr); cv.height=Math.round(h*st.dpr);
+        ctx.setTransform(st.dpr,0,0,st.dpr,0,0);
+      }
+    }
+    if(st.w<60||st.h<40) return;
+    ctx.clearRect(0,0,st.w,st.h);
+    ctx.fillStyle=col('--paper-2'); ctx.fillRect(0,0,st.w,st.h);
+    st.hits=[];
+    draw(st);
+  };
+  new ResizeObserver(st.render).observe(cv);
+  cv.style.cursor='pointer';
+  cv.addEventListener('click',function(e){
+    const r=cv.getBoundingClientRect();
+    const nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
+    for(const h of st.hits){
+      if(Math.abs(nx-h.x)<h.rx && Math.abs(ny-h.y)<h.ry){ h.fn(); return; }
+    }
+  });
+  CVS.push(st);
+  return st;
+}
+function renderAll(){ for(const c of CVS) c.render(); }
+window.addEventListener('load',renderAll);
+
+/* ---------- desen de circuit ---------- */
+const TAU=Math.PI*2;
+const MONO='"Space Mono", monospace';
+function P(st,p){ return [p[0]*st.w, p[1]*st.h]; }
+function wire(st,pts,live){
+  const ctx=st.ctx;
+  ctx.strokeStyle=live?col('--c-live'):col('--c-dead');
+  ctx.lineWidth=live?2.6:2;
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.beginPath();
+  pts.forEach(function(p,i){ const q=P(st,p); if(i===0) ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); });
+  ctx.stroke();
+}
+function clearBox(st,x,y,rx,ry){
+  st.ctx.fillStyle=col('--paper-2');
+  st.ctx.fillRect((x-rx)*st.w,(y-ry)*st.h,2*rx*st.w,2*ry*st.h);
+}
+function dots(st,pts,phase,live){
+  if(!live) return;
+  const ctx=st.ctx;
+  const abs=pts.map(p=>P(st,p));
+  const seg=[]; let total=0;
+  for(let i=1;i<abs.length;i++){
+    const d=Math.hypot(abs[i][0]-abs[i-1][0],abs[i][1]-abs[i-1][1]);
+    seg.push(d); total+=d;
+  }
+  if(total<1) return;
+  const step=26;
+  ctx.fillStyle=col('--orange');
+  for(let off=phase%step; off<total; off+=step){
+    let d=off,i=0;
+    while(i<seg.length && d>seg[i]){ d-=seg[i]; i++; }
+    if(i>=seg.length) break;
+    const t=seg[i]?d/seg[i]:0;
+    const x=abs[i][0]+(abs[i+1][0]-abs[i][0])*t;
+    const y=abs[i][1]+(abs[i+1][1]-abs[i][1])*t;
+    ctx.beginPath(); ctx.arc(x,y,2.6,0,TAU); ctx.fill();
+  }
+}
+function battery(st,x,y){
+  const ctx=st.ctx, q=P(st,[x,y]);
+  clearBox(st,x,y,0.035,0.075);
+  ctx.strokeStyle=col('--ink'); ctx.lineWidth=2.4;
+  ctx.beginPath();
+  ctx.moveTo(q[0]-11,q[1]-7); ctx.lineTo(q[0]+11,q[1]-7);
+  ctx.moveTo(q[0]-5,q[1]+7);  ctx.lineTo(q[0]+5,q[1]+7);
+  ctx.stroke();
+  ctx.fillStyle=col('--muted');
+  ctx.font='9px '+MONO; ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText('BATERIE', q[0]-15, q[1]);
+}
+function switchSym(st,x,y,closed,label){
+  const ctx=st.ctx, q=P(st,[x,y]);
+  const L=16;
+  clearBox(st,x,y,0.055,0.10);
+  ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.strokeStyle=closed?col('--orange'):col('--c-dead');
+  ctx.beginPath();
+  ctx.moveTo(q[0]-L,q[1]);
+  if(closed) ctx.lineTo(q[0]+L,q[1]); else ctx.lineTo(q[0]+L-4,q[1]-13);
+  ctx.stroke();
+  ctx.fillStyle=col('--ink');
+  ctx.beginPath(); ctx.arc(q[0]-L,q[1],3,0,TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(q[0]+L,q[1],3,0,TAU); ctx.fill();
+  if(label){
+    ctx.fillStyle=closed?col('--orange'):col('--muted');
+    ctx.font='700 11px '+MONO;
+    ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(label+' = '+(closed?1:0), q[0], q[1]-22);
+  }
+  st.hits.push({x:x,y:y,rx:0.07,ry:0.16,fn:null});
+  return st.hits[st.hits.length-1];
+}
+function lamp(st,x,y,on,label){
+  const ctx=st.ctx, q=P(st,[x,y]);
+  clearBox(st,x,y,0.04,0.10);
+  const r=13;
+  ctx.beginPath(); ctx.arc(q[0],q[1],r,0,TAU);
+  ctx.fillStyle=on?col('--lemon'):col('--paper');
+  ctx.fill();
+  ctx.strokeStyle=on?col('--ink'):col('--c-dead'); ctx.lineWidth=2; ctx.stroke();
+  if(on){
+    ctx.strokeStyle=col('--orange'); ctx.lineWidth=2;
+    for(let i=0;i<8;i++){
+      const a=i/8*TAU;
+      ctx.beginPath();
+      ctx.moveTo(q[0]+Math.cos(a)*(r+4),q[1]+Math.sin(a)*(r+4));
+      ctx.lineTo(q[0]+Math.cos(a)*(r+9),q[1]+Math.sin(a)*(r+9));
+      ctx.stroke();
+    }
+  }
+  if(label){
+    ctx.fillStyle=on?col('--ink'):col('--muted');
+    ctx.font='700 11px '+MONO;
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText(label+' = '+(on?1:0), q[0], q[1]+r+12);
+  }
+}
+function txt(st,s,x,y,c,align,baseline){
+  const ctx=st.ctx, q=P(st,[x,y]);
+  ctx.fillStyle=c||col('--muted');
+  ctx.font='9px '+MONO;
+  ctx.textAlign=align||'left'; ctx.textBaseline=baseline||'middle';
+  ctx.fillText(s,q[0],q[1]);
+}
+
+/* ---------- animația: punctele se mișcă numai cât timp un circuit chiar conduce ---------- */
+let phase=0, anyLive=false;
+function updateLive(){
+  anyLive = S1.on || S2.a || S2.b || S3.on || true;
+}
+
+/* tranzistorul: drena sus, sursa jos, canalul între ele, poarta în stânga */
+function mosfet(st,x,y,on,gateLive){
+  const ctx=st.ctx, q=P(st,[x,y]);
+  const H=22;                      /* jumătate din înălțimea canalului, în pixeli */
+  clearBox(st,x,y,0.075,0.17);
+  /* firele spre drenă și sursă */
+  ctx.strokeStyle=on?col('--c-live'):col('--c-dead'); ctx.lineWidth=2.6; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(q[0],q[1]-H-16); ctx.lineTo(q[0],q[1]-H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(q[0],q[1]+H); ctx.lineTo(q[0],q[1]+H+16); ctx.stroke();
+  /* corpul: un dreptunghi de material */
+  ctx.fillStyle=col('--paper'); ctx.strokeStyle=col('--ink'); ctx.lineWidth=1.5;
+  ctx.fillRect(q[0]-9,q[1]-H,18,2*H); ctx.strokeRect(q[0]-9,q[1]-H,18,2*H);
+  /* canalul: plin când conduce, rupt când nu */
+  if(on){
+    ctx.strokeStyle=col('--orange'); ctx.lineWidth=6;
+    ctx.beginPath(); ctx.moveTo(q[0],q[1]-H+2); ctx.lineTo(q[0],q[1]+H-2); ctx.stroke();
+  } else {
+    ctx.strokeStyle=col('--c-dead'); ctx.lineWidth=6;
+    ctx.beginPath(); ctx.moveTo(q[0],q[1]-H+2); ctx.lineTo(q[0],q[1]-6); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(q[0],q[1]+6); ctx.lineTo(q[0],q[1]+H-2); ctx.stroke();
+  }
+  /* poarta: o placă în stânga, despărțită de corp printr-un gol (izolatorul) */
+  ctx.strokeStyle=gateLive?col('--c-live'):col('--c-dead'); ctx.lineWidth=4;
+  ctx.beginPath(); ctx.moveTo(q[0]-16,q[1]-14); ctx.lineTo(q[0]-16,q[1]+14); ctx.stroke();
+  ctx.lineWidth=2.6;
+  ctx.beginPath(); ctx.moveTo(q[0]-16,q[1]); ctx.lineTo(q[0]-34,q[1]); ctx.stroke();
+  /* etichete */
+  ctx.fillStyle=col('--muted'); ctx.font='8px '+MONO; ctx.textBaseline='middle';
+  ctx.textAlign='left';
+  ctx.fillText('DRENĂ',q[0]+14,q[1]-H+4);
+  ctx.fillText('SURSĂ',q[0]+14,q[1]+H-4);
+  ctx.fillText(on?'CANAL':'FĂRĂ CANAL',q[0]+14,q[1]);
+  ctx.textAlign='right';
+  ctx.fillText('POARTĂ',q[0]-20,q[1]-20);
+}
+
+/* ---------- 3. tranzistorul singur ---------- */
+const S3={on:false};
+(function(){
+  const cap=document.getElementById('cap3t'), btn=document.getElementById('b3t');
+  /* bateria în dreapta, tranzistorul la mijloc, lampa pe firul de jos */
+  const LOOP=[[0.88,0.80],[0.88,0.22],[0.56,0.22],[0.56,0.32]];
+  const LOOP2=[[0.56,0.68],[0.56,0.80],[0.88,0.80]];
+  const GATE=[[0.16,0.50],[0.50,0.50]];
+  const st=mkCv('cv3t',function(st){
+    const on=S3.on;
+    wire(st,LOOP,on); wire(st,LOOP2,on);
+    if(on){ dots(st,LOOP,phase,true); dots(st,LOOP2,phase,true); }
+    wire(st,GATE,on);
+    battery(st,0.88,0.51);
+    lamp(st,0.72,0.80,on,'LAMPA');
+    mosfet(st,0.56,0.50,on,on);
+    switchSym(st,0.22,0.50,on,'INTRARE').fn=toggle;
+    txt(st,'1',0.10,0.50,col('--muted'),'right');
+  });
+  function upd(){
+    btn.className=S3.on?'on':'';
+    cap.innerHTML=S3.on
+      ? 'Poarta la <b>1</b>: câmpul ei formează canalul, drumul dintre drenă și sursă se închide, curentul curge și lampa arde. Nimic nu s-a mișcat; s-a schimbat doar materialul.'
+      : 'Poarta la <b>0</b>: nu există canal, drumul dintre drenă și sursă e rupt, lampa e stinsă. Tranzistorul se poartă ca un comutator deschis.';
+    updateLive();
+    st.render();
+  }
+  function toggle(){ S3.on=!S3.on; if(S3.on) sfx.lamp(); else sfx.clunk(); upd(); }
+  btn.addEventListener('click',toggle);
+  S3.upd=upd;
+})();
+function loop(){
+  if(anyLive&&!REDUCE){ phase+=1.1; renderAll(); }
+  requestAnimationFrame(loop);
+}
+
+/* ---------- 1. circuit simplu ---------- */
+const S1={on:false};
+(function(){
+  const cap=document.getElementById('cap1'), btn=document.getElementById('b1');
+  const LOOP=[[0.12,0.80],[0.12,0.26],[0.88,0.26],[0.88,0.80],[0.12,0.80]];
+  const st=mkCv('cv1',function(st){
+    wire(st,LOOP,S1.on);
+    dots(st,LOOP,phase,S1.on);
+    battery(st,0.12,0.53);
+    lamp(st,0.88,0.53,S1.on,'LAMPA');
+    const h=switchSym(st,0.42,0.26,S1.on,'COMUTATOR');
+    h.fn=toggle;
+  });
+  function upd(){
+    btn.className=S1.on?'on':'';
+    cap.innerHTML=S1.on
+      ? 'Comutator închis: drumul e întreg, curentul curge, lampa arde. Bitul are valoarea <b class="on">1</b>.'
+      : 'Comutator deschis: drumul e rupt, nimic nu curge, lampa e stinsă. Bitul are valoarea <b class="off">0</b>.';
+    updateLive();
+    st.render();
+  }
+  function toggle(){
+    S1.on=!S1.on;
+    if(S1.on) sfx.lamp(); else sfx.clunk();
+    upd();
+  }
+  btn.addEventListener('click',toggle);
+  S1.upd=upd;
+})();
+
+/* ---------- 2. serie și paralel ---------- */
+const S2={a:false,b:false};
+(function(){
+  const cap=document.getElementById('cap2');
+  const bA=document.getElementById('bA'), bB=document.getElementById('bB');
+
+  const SER=[[0.10,0.82],[0.10,0.30],[0.90,0.30],[0.90,0.82],[0.10,0.82]];
+  const stS=mkCv('cv2',function(st){
+    const live=S2.a&&S2.b;
+    wire(st,SER,live); dots(st,SER,phase,live);
+    battery(st,0.10,0.56);
+    lamp(st,0.90,0.56,live,'IEȘIRE');
+    switchSym(st,0.34,0.30,S2.a,'a').fn=function(){ tog('a'); };
+    switchSym(st,0.62,0.30,S2.b,'b').fn=function(){ tog('b'); };
+  });
+
+  const LEFT=[[0.10,0.88],[0.10,0.46],[0.34,0.46]];
+  const BRA=[[0.34,0.46],[0.34,0.24],[0.66,0.24],[0.66,0.46]];
+  const BRB=[[0.34,0.46],[0.34,0.68],[0.66,0.68],[0.66,0.46]];
+  const RIGHT=[[0.66,0.46],[0.90,0.46],[0.90,0.88],[0.10,0.88]];
+  const stP=mkCv('cv3',function(st){
+    const live=S2.a||S2.b;
+    wire(st,LEFT,live); wire(st,RIGHT,live);
+    wire(st,BRA,S2.a); wire(st,BRB,S2.b);
+    if(live){
+      dots(st,LEFT,phase,true); dots(st,RIGHT,phase,true);
+      if(S2.a) dots(st,BRA,phase,true);
+      if(S2.b) dots(st,BRB,phase,true);
+    }
+    battery(st,0.10,0.66);
+    lamp(st,0.90,0.66,live,'IEȘIRE');
+    switchSym(st,0.50,0.24,S2.a,'a').fn=function(){ tog('a'); };
+    switchSym(st,0.50,0.68,S2.b,'b').fn=function(){ tog('b'); };
+  });
+
+  function table(id,fn){
+    const rows=[[0,0],[0,1],[1,0],[1,1]];
+    document.getElementById(id).innerHTML=
+      '<thead><tr><th>a</th><th>b</th><th>ieșire</th></tr></thead><tbody>'+
+      rows.map(function(r){
+        const o=fn(r[0],r[1]);
+        const now=(r[0]===(S2.a?1:0)&&r[1]===(S2.b?1:0));
+        return '<tr class="'+(now?'now':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td>'+
+               '<td class="out '+(o?'one':'')+'">'+o+'</td></tr>';
+      }).join('')+'</tbody>';
+  }
+  function tog(k){
+    S2[k]=!S2[k];
+    upd();
+    if(S2.a&&S2.b) sfx.lamp(); else sfx.clack();
+  }
+  function upd(){
+    bA.className=S2.a?'on':''; bB.className=S2.b?'on':'';
+    table('tt2',(a,b)=>a&&b?1:0);
+    table('tt3',(a,b)=>a||b?1:0);
+    const ser=S2.a&&S2.b, par=S2.a||S2.b;
+    cap.innerHTML='a = <b>'+(S2.a?1:0)+'</b>, b = <b>'+(S2.b?1:0)+'</b>. În serie ieșirea este <b class="'+(ser?'on':'off')+'">'+(ser?1:0)+
+      '</b>, în paralel <b class="'+(par?'on':'off')+'">'+(par?1:0)+'</b>.';
+    updateLive();
+    stS.render(); stP.render();
+  }
+  bA.addEventListener('click',function(){ tog('a'); });
+  bB.addEventListener('click',function(){ tog('b'); });
+  S2.upd=upd;
+})();
+
+/* ---------- 4. poarta NU ---------- */
+const S4={inp:false};
+(function(){
+  const cap=document.getElementById('cap4'), btn=document.getElementById('b4');
+  const RAIL_T=[[0.18,0.10],[0.82,0.10]];
+  const RAIL_B=[[0.18,0.90],[0.82,0.90]];
+  const UP=[[0.55,0.10],[0.55,0.20]];                 /* alimentare → rezistență */
+  const RES_OUT=[[0.55,0.34],[0.55,0.44]];            /* rezistență → nodul de ieșire */
+  const DOWN=[[0.55,0.44],[0.55,0.90]];               /* nod → tranzistor → masă */
+  const OUT=[[0.55,0.44],[0.84,0.44],[0.84,0.62]];    /* nod → lampă */
+  const OUT2=[[0.84,0.76],[0.84,0.90]];               /* lampă → masă */
+  const IN=[[0.12,0.66],[0.48,0.66]];
+
+  const st=mkCv('cv4',function(st){
+    const conduct=S4.inp;           /* tranzistorul conduce când intrarea e 1 */
+    const out=!S4.inp;              /* ieșirea e opusul intrării */
+    wire(st,RAIL_T,true); wire(st,RAIL_B,true);
+    wire(st,UP,true); wire(st,RES_OUT,true);
+    wire(st,DOWN,conduct);
+    wire(st,OUT,out); wire(st,OUT2,out);
+    wire(st,IN,S4.inp);
+    /* curentul: prin tranzistor când conduce, prin lampă când nu */
+    dots(st,UP,phase,true); dots(st,RES_OUT,phase,true);
+    if(conduct) dots(st,DOWN,phase,true);
+    else { dots(st,OUT,phase,true); dots(st,OUT2,phase,true); }
+
+    /* rezistența */
+    const q=P(st,[0.55,0.27]);
+    clearBox(st,0.55,0.27,0.03,0.08);
+    st.ctx.fillStyle=col('--paper'); st.ctx.strokeStyle=col('--ink'); st.ctx.lineWidth=2;
+    st.ctx.fillRect(q[0]-8,q[1]-14,16,28); st.ctx.strokeRect(q[0]-8,q[1]-14,16,28);
+    txt(st,'REZISTENȚĂ · TRAGE SPRE 1',0.51,0.27,col('--muted'),'right');
+
+    /* nodul de ieșire */
+    const n=P(st,[0.55,0.44]);
+    st.ctx.fillStyle=out?col('--c-live'):col('--c-dead');
+    st.ctx.beginPath(); st.ctx.arc(n[0],n[1],4,0,TAU); st.ctx.fill();
+
+    mosfet(st,0.55,0.66,conduct,S4.inp);
+    txt(st,'TRAGE SPRE 0',0.63,0.80,col('--muted'),'left');
+    txt(st,'ALIMENTARE = 1',0.18,0.05,col('--muted'),'left');
+    txt(st,'MASĂ = 0',0.18,0.95,col('--muted'),'left');
+    lamp(st,0.84,0.69,out,'IEȘIRE');
+    switchSym(st,0.20,0.66,S4.inp,'INTRARE').fn=toggle;
+    txt(st,'1',0.08,0.66,col('--muted'),'right');
+  });
+  function upd(){
+    btn.className=S4.inp?'on':'';
+    cap.innerHTML=S4.inp
+      ? 'Intrarea <b>1</b>: tranzistorul conduce și leagă nodul de ieșire la masă. Curentul curge prin rezistență și prin tranzistor, ocolind lampa. Ieșirea este <b class="off">0</b>.'
+      : 'Intrarea <b>0</b>: tranzistorul nu conduce, nimic nu trage nodul în jos. Rezistența îl ține sus, curentul curge prin lampă spre masă. Ieșirea este <b class="on">1</b>.';
+    updateLive();
+    st.render();
+  }
+  function toggle(){ S4.inp=!S4.inp; sfx.clack(); upd(); }
+  btn.addEventListener('click',toggle);
+  S4.upd=upd;
+})();
+
+/* ---------- 4. orice funcție ---------- */
+(function(){
+  const tbl=document.getElementById('bt'), expr=document.getElementById('expr'), cap=document.getElementById('cap5');
+  let out=[0,0,0,1,0,1,1,1];   /* majoritate */
+  const rows=[];
+  for(let i=0;i<8;i++) rows.push([(i>>2)&1,(i>>1)&1,i&1]);
+
+  function draw(){
+    tbl.innerHTML='<thead><tr><th>a</th><th>b</th><th>c</th><th>ieșire</th></tr></thead><tbody>'+
+      rows.map(function(r,i){
+        return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td>'+
+               '<td class="pick '+(out[i]?'one':'')+'" data-i="'+i+'">'+out[i]+'</td></tr>';
+      }).join('')+'</tbody>';
+    tbl.querySelectorAll('td.pick').forEach(function(td){
+      td.addEventListener('click',function(){
+        const i=+td.dataset.i;
+        out[i]=out[i]?0:1;
+        sfx.tick(); draw();
+      });
+    });
+
+    const names=['a','b','c'];
+    const terms=[];
+    rows.forEach(function(r,i){
+      if(!out[i]) return;
+      terms.push(r.map(function(v,k){
+        return v?names[k]:'<span class="neg">NU '+names[k]+'</span>';
+      }).join(' <span class="op">ȘI</span> '));
+    });
+    const ones=out.reduce((a,b)=>a+b,0);
+    if(ones===0) expr.innerHTML='<span class="neg">0</span>: ieșirea este mereu falsă, deci nu e nevoie de niciun circuit.';
+    else if(ones===8) expr.innerHTML='<span class="op">1</span>: ieșirea este mereu adevărată, deci ajunge o legătură la alimentare.';
+    else expr.innerHTML=terms.map(t=>'( '+t+' )').join('<br><span class="op">SAU</span> ');
+
+    const nots=[0,1,2].filter(k=>rows.some((r,i)=>out[i]&&r[k]===0)).length;
+    const ands=ones*2, ors=Math.max(0,ones-1);
+    cap.innerHTML= (ones===0||ones===8)
+      ? 'Tabelul este constant, deci circuitul se reduce la un fir.'
+      : '<b>'+ones+'</b> '+unit0(ones,'rând','rânduri')+' cu ieșirea 1, deci <b>'+ones+'</b> '+unit0(ones,'termen','termeni')+
+        (ones>1?' legați prin SAU':'')+'. Cu porți de câte două intrări: <b>'+nots+'</b> '+unit0(nots,'poartă','porți')+
+        ' NU, <b>'+ands+'</b> '+unit0(ands,'poartă','porți')+' ȘI, <b>'+ors+'</b> '+unit0(ors,'poartă','porți')+' SAU.';
+  }
+  document.querySelectorAll('[data-preset]').forEach(function(b){
+    b.addEventListener('click',function(){
+      const p=b.dataset.preset;
+      out=rows.map(function(r){
+        const s=r[0]+r[1]+r[2];
+        if(p==='maj') return s>=2?1:0;
+        if(p==='par') return s%2;
+        if(p==='and') return s===3?1:0;
+        return 0;
+      });
+      sfx.clunk(); draw();
+    });
+  });
+  draw();
+})();
+
+S1.upd(); S2.upd(); S3.upd(); S4.upd();
+requestAnimationFrame(loop);
+
+})();
+</script>
+
+</body>
+</html>

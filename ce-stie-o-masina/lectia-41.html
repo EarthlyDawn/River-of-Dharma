@@ -1,0 +1,1296 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Căutare înainte de răspuns</title>
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style>
+
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ============================================================
+   TEMA CURSULUI · „Riso”: tipar risograf, hârtie granulată,
+   cerneluri suprapuse ușor nealiniate, forzaț marmorat propriu
+   fiecărei lecții (seed = numărul lecției).
+   Un singur registru vizual, pictat explicit.
+   Blocul acesta este identic în toate paginile cursului.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --paper:#EEE8D5;
+  --paper-2:#F7F3E6;
+  --ink:#22252D;
+  --muted:#686A62;
+  --rule:#CFC8B4;      /* linii de grilă în desene */
+  --cobalt:#2F4BC4;
+  --orange:#EE5A2F;
+  --olive:#6B7A38;
+  --lemon:#E9C93B;
+  --rose:#DDA6B0;
+
+  /* gramatica de culoare: aceleași roluri în toate lecțiile */
+  --c-live:#2F4BC4;  --c-live-bg:#C9D1F1;   /* încă posibil, valoare 1, curent */
+  --c-dead:#BDB9AA;  --c-dead-bg:#E2DECF;   /* exclus, valoare 0, inert */
+  --c-found:#EE5A2F; --c-found-bg:#F9D3C2;  /* găsit, rezultat, valoare învățată */
+  --c-know:#5F6D2E;  --c-know-bg:#E1E4C3;   /* întrebare, tăietură, pereche aleasă */
+  --c-ok:#5F6D2E;    --c-ok-bg:#E1E4C3;     /* verificare trecută */
+  --c-bad:#B5232B;   --c-bad-bg:#F3C9C6;    /* eroare, bit răsturnat */
+
+  /* culorile figurilor de învățare (lecțiile 12–21) și numele vechi folosite de desene */
+  --surface:#F7F3E6; --surface-2:#EEE8D5; --bg:#EEE8D5; --accent-soft:#E1E4C3;
+  --c-data:#2F4BC4;   /* măsurători, exemple, clasa 1 */
+  --c-out:#EE5A2F;    /* dreapta potrivită, rezultatul */
+  --c-error:#B5232B;  /* greșeala */
+  --c-alt:#6B7A38;    /* a doua clasă, a doua metodă */
+  --c-param:#B58A12;  /* poziția butoanelor, parametrii */
+  --c-test:#7A4E9C;   /* setul de test */
+  --land-lo:#F7F3E6; --land-hi:#2F4BC4; --land-line:#22252D;
+
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;position:relative;
+}
+/* granulația tiparului */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.14 0 0 0 0 0.18 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity:.45;
+}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+
+p{margin:0}
+a{color:var(--cobalt);text-decoration-thickness:2px;text-underline-offset:.15em}
+a:hover{color:var(--orange)}
+dfn{font-style:normal;font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--lemon) 62%)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+
+/* ---------- coala: cap de tipar ---------- */
+.runhead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem 1.4rem;flex-wrap:wrap;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  padding:1rem 0 .8rem;border-bottom:2px solid var(--ink);
+}
+.runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
+.runhead a:hover{color:var(--orange);border-color:var(--orange)}
+.snd{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:2px solid var(--ink);color:var(--ink);
+  padding:.28rem .7rem .28rem .6rem;border-radius:0;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.snd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);transition:background .2s}
+.snd[aria-pressed="false"]::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.snd:hover{background:var(--lemon)}
+
+/* forzațul marmorat, închis în chenar */
+.plate{border:2px solid var(--ink);border-top:none;display:flex;flex-direction:column}
+.marble{
+  height:clamp(150px,26vw,250px);background:var(--cobalt);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  position:relative;
+}
+.marble::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 6px var(--paper-2),inset 0 0 0 8px var(--ink)}
+
+.masthead{display:flex;flex-direction:column;gap:1.1rem;padding-top:2.2rem}
+h1{font-size:clamp(3rem,2rem + 5vw,5.4rem);letter-spacing:-.015em;line-height:.95}
+h1 i{color:var(--cobalt)}
+.lede{font-size:clamp(1.12rem,1rem + .6vw,1.35rem);line-height:1.45;max-width:36em;color:var(--ink);text-wrap:pretty}
+.terms{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:64ch;line-height:1.9}
+.terms b{font-weight:400;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:.05rem .4rem;white-space:nowrap}
+
+/* ---------- pagina de titlu: marmorarea în jurul titlului, cuprinsul ---------- */
+.cover .marble{height:clamp(300px,46vw,460px);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,5vw,3rem)}
+.cover .card{
+  position:relative;z-index:1;background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--cobalt);padding:clamp(1.1rem,3vw,2rem) clamp(1.3rem,4vw,2.6rem);
+  max-width:34rem;text-align:center;display:flex;flex-direction:column;gap:.7rem;
+}
+.cover .card h1{font-size:clamp(2.6rem,1.6rem + 5.5vw,5rem)}
+.cover .card .sub{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cover .card .sub b{color:var(--orange);font-weight:700}
+.cover .intro{display:flex;flex-direction:column;gap:1rem;padding-top:2.2rem}
+.cover .intro p{max-width:64ch;text-wrap:pretty}
+h2.bare::before{content:none}
+.toc{display:flex;flex-direction:column;gap:1.6rem;margin-top:2.6rem}
+.parts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.parts > li{display:grid;gap:.6rem 2rem}
+@media (min-width:760px){.parts > li{grid-template-columns:14rem 1fr}}
+.parts h3{font-size:1.65rem;line-height:1.1;display:flex;flex-direction:column;gap:.25rem}
+.parts h3 .pn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.lessons{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lessons li{border-bottom:1.5px solid var(--ink)}
+.lessons a,.lessons .row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.5rem .4rem;color:var(--ink);text-decoration:none}
+.lessons a:hover{background:var(--lemon);color:var(--ink)}
+.lessons .no{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--cobalt)}
+.lessons .t{font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.lessons .st{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lessons li.off .t{color:var(--muted)}
+.lessons li.off .no{color:var(--muted)}
+
+/* ---------- secțiuni ---------- */
+.sections{display:flex;flex-direction:column;gap:3.4rem;margin-top:3.2rem}
+section{position:relative;display:flex;flex-direction:column;gap:1.05rem;counter-increment:sec}
+section p,.claims li{max-width:64ch;text-wrap:pretty}
+h2{
+  font-size:clamp(1.9rem,1.5rem + 1.6vw,2.6rem);padding-top:.9rem;border-top:2px solid var(--ink);
+  display:flex;align-items:center;gap:.8rem;
+}
+h2::before{content:counter(sec,decimal-leading-zero) " /";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--orange);flex:none;align-self:flex-start;margin-top:.9rem}
+.orn{flex:none;width:2.2rem;height:2.2rem;display:inline-block;order:3;margin-left:auto}
+.orn svg{width:100%;height:100%;display:block;overflow:visible}
+.o-fill{fill:var(--rose)} .o-fill2{fill:var(--orange)}
+.o-line{fill:none;stroke:var(--ink);stroke-width:2.2}
+.o-dot{fill:var(--cobalt)} .o-half{fill:var(--cobalt)}
+.o-cut{stroke:var(--olive);stroke-width:3;fill:none}
+.o-grid circle,.o-grid rect{fill:var(--cobalt)}
+.o-bar{fill:var(--cobalt)} .o-bar2{fill:var(--orange)} .o-bad{fill:var(--c-bad)}
+.o-wave{fill:none;stroke:var(--cobalt);stroke-width:3}
+@media (min-width:1140px){
+  .orn{position:absolute;right:-5.6rem;top:1rem;width:3.8rem;height:3.8rem;margin:0}
+}
+.note{font-size:.92rem;color:var(--muted);padding-left:1rem;border-left:3px solid var(--olive)}
+.first{font-size:1.06em}
+.claims{list-style:none;padding:0;margin:.2rem 0 0;display:flex;flex-direction:column;gap:.9rem}
+.claims li{position:relative;padding-left:1.8rem}
+.claims li::before{content:"";position:absolute;left:0;top:.45em;width:.75rem;height:.75rem;border-radius:50%;background:var(--orange);box-shadow:3px -2px 0 var(--cobalt);mix-blend-mode:multiply}
+.claims b{font-weight:600}
+
+/* ---------- figuri ---------- */
+.fig{
+  margin:1rem 8px 1.4rem 0;padding:0;
+  background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:7px 7px 0 var(--cobalt);
+  display:flex;flex-direction:column;
+}
+.fig-head{
+  padding:.7rem 1rem .1rem;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+}
+.pl::before{content:"Fig. " attr(data-a) " / ";color:var(--orange);font-weight:700}
+.stage{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.85rem}
+.cap{
+  border-top:2px solid var(--ink);padding:.6rem 1rem;
+  font-size:.9rem;color:var(--muted);min-height:2.9rem;
+}
+.cap b{color:var(--ink);font-weight:600}
+.cap .bad{color:var(--c-bad)} .cap .ok{color:var(--c-ok)}
+.cap .on{color:var(--cobalt)} .cap .off{color:var(--muted)}
+.ctrl{border-top:2px solid var(--ink);padding:.65rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;background:var(--paper)}
+button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);
+  padding:.42rem .8rem;border-radius:0;cursor:pointer;
+}
+button:hover:not(:disabled){background:var(--lemon)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--ink);color:var(--paper-2)}
+button.primary:hover:not(:disabled){background:var(--cobalt);border-color:var(--cobalt)}
+button.on{background:var(--cobalt);color:var(--paper-2)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rng input[type=range]{width:clamp(100px,26vw,180px);accent-color:var(--orange)}
+.val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink);font-size:.8rem;text-transform:none;letter-spacing:0}
+.count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:700}
+.lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* rând de cutii / posibilități */
+.row{display:flex;gap:3px;align-items:stretch;position:relative}
+.row.wrap{flex-wrap:wrap}
+.cell{
+  flex:1 1 0;min-width:0;aspect-ratio:3/4;
+  border:1.5px solid var(--c-live);background:var(--c-live-bg);border-radius:0;
+  transition:background .3s,border-color .3s,opacity .3s,transform .3s;
+}
+.row.wrap .cell{flex:none;width:14px;height:19px;border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.dead{border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.found,.row.wrap .cell.pick{border-color:var(--ink);background:var(--c-found);opacity:1}
+.cell.found{transform:translateY(-3px)}
+.cell.asked{box-shadow:inset 0 0 0 2px var(--c-know)}
+@media (prefers-reduced-motion:reduce){.cell,.cut,.bars .b,.meter .fill,.bit{transition:none}}
+.cut{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--c-know);transition:left .26s;pointer-events:none}
+.rowwrap{position:relative;padding:6px 0}
+
+.log{display:flex;flex-wrap:wrap;gap:.32rem;align-items:center;min-height:1.8rem}
+.log .q{font-family:var(--f-mono);font-size:.7rem;border:1.5px solid var(--c-know);color:var(--c-know);background:var(--c-know-bg);padding:.08rem .45rem}
+.log .q.code{border-style:dashed;background:transparent;color:var(--ink);letter-spacing:.14em}
+.log .empty{font-size:.88rem;color:var(--muted)}
+
+.race{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:.6rem}
+@media (min-width:640px){.race{grid-template-columns:1fr 1fr}}
+.lane{background:var(--paper-2);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lane h3{font-size:1.35rem}
+.lane .sub2{font-size:.86rem;color:var(--muted);font-family:var(--f-mono)}
+
+/* tabele */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tblwrap{overflow-x:auto}
+.tblwrap.tall{max-height:290px;overflow-y:auto}
+.tbl th,.tbl td{text-align:left;padding:.4rem .75rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+.tbl th{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400;position:sticky;top:0;background:var(--paper-2)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.code{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);letter-spacing:.08em}
+.tbl td.sym{font-family:var(--f-mono);font-weight:700}
+.tbl tr.on td{background:var(--c-found-bg)}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* tabele de adevăr */
+.tt{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;width:100%;max-width:360px}
+.tt th,.tt td{border:1.5px solid var(--ink);padding:.2rem .45rem;text-align:center}
+.tt th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.tt tr.now td{background:var(--c-know-bg);color:var(--c-know)}
+.tt td.out{font-weight:700}
+.tt td.one{color:var(--orange);font-weight:700}
+.ttwrap{display:flex;justify-content:center}
+
+/* constructorul de funcții logice */
+.build{border-collapse:collapse;font-family:var(--f-mono);font-size:.8rem;width:100%;max-width:420px}
+.build th,.build td{border:1.5px solid var(--ink);padding:.25rem .5rem;text-align:center}
+.build th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.build td.pick{cursor:pointer;user-select:none}
+.build td.pick.one{background:var(--c-found);color:var(--ink);font-weight:700}
+.build td.pick:hover{background:var(--lemon)}
+.expr{font-family:var(--f-mono);font-size:.8rem;line-height:1.75;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;overflow-x:auto}
+.expr .op{color:var(--cobalt);font-weight:700}
+.expr .neg{color:var(--c-bad)}
+.two{display:grid;gap:.8rem}
+@media (min-width:600px){.two{grid-template-columns:auto 1fr;align-items:start}}
+
+/* coloane de adunare (lecția 6) */
+.cols{overflow-x:auto}
+.agrid{display:inline-grid;gap:3px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.agrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.acell{width:30px;height:30px;font-family:var(--f-mono);font-size:.9rem;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;letter-spacing:0;text-transform:none}
+.acell.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.acell.tap{cursor:pointer}
+.acell.tap:hover{background:var(--lemon);color:var(--ink)}
+.acell.sum{border-color:var(--ink);background:var(--paper-2)}
+.acell.sum.one{background:var(--c-found);color:var(--ink)}
+.acell.car{width:30px;height:20px;font-size:.7rem;border-style:dashed}
+.acell.car.one{border-color:var(--c-know);background:var(--c-know-bg);color:var(--c-know)}
+.acell.pend{opacity:.35}
+.acell.here{box-shadow:3px 3px 0 var(--c-know)}
+.acell.ghost{border-style:dashed;opacity:.75}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.readout b{color:var(--ink);font-weight:700}
+.readout .warn{color:var(--paper-2);background:var(--c-bad);padding:0 .4rem}
+
+/* adrese binare */
+.addr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}
+.addr div{border:1.5px solid var(--ink);padding:.4rem .2rem;background:var(--paper-2);text-align:center;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.addr div b{color:var(--ink);font-weight:700;font-size:.8rem;letter-spacing:.1em}
+.addr div.hit{background:var(--c-found);color:var(--ink);box-shadow:3px 3px 0 var(--cobalt)}
+.addr div.hit b{color:var(--ink)}
+
+/* bare de probabilitate */
+.bars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.bars .b{flex:1 1 0;background:var(--c-live);border:1.5px solid var(--ink);position:relative;transition:height .2s;min-height:2px;box-shadow:3px -2px 0 var(--orange)}
+.barlabels{display:flex;gap:5px}
+.barlabels span{flex:1 1 0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+
+/* măsurători cu bară */
+.meters{display:flex;flex-direction:column;gap:.5rem}
+.meter{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:.6rem;align-items:center;font-size:.83rem}
+.meter .nm{color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+.meter .track{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:16px;overflow:hidden}
+.meter .fill{height:100%;transition:width .3s}
+.meter .amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.74rem;white-space:nowrap}
+.fill.fix{background:var(--c-dead)}
+.fill.huf{background:var(--c-live)}
+.fill.ent{background:var(--c-found)}
+
+/* noduri în construcția unui cod */
+.nodes{display:flex;flex-wrap:wrap;gap:4px;min-height:3.4rem;align-content:flex-start}
+.node{border:1.5px solid var(--ink);background:var(--paper-2);padding:.12rem .4rem;font-family:var(--f-mono);font-size:.74rem;display:flex;gap:.35rem;align-items:baseline;transition:background .2s,border-color .2s}
+.node .w{color:var(--muted);font-size:.66rem}
+.node.pair{background:var(--c-know-bg);color:var(--c-know)}
+.node.pair .w{color:var(--c-know)}
+.node.new{background:var(--c-found);color:var(--ink)}
+.node.new .w{color:var(--ink)}
+
+textarea{width:100%;min-height:6.5rem;resize:vertical;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem}
+
+/* fluxul de biți și mesaje */
+.stream{display:flex;flex-wrap:wrap;gap:2px}
+.stream i{width:9px;height:14px;display:block;background:var(--c-dead-bg);border:1px solid var(--c-dead);font-style:normal}
+.stream i.one{background:var(--c-live-bg);border-color:var(--c-live)}
+.stream i.flip{background:var(--c-bad);border-color:var(--c-bad)}
+.msg{font-family:var(--f-mono);font-size:.9rem;line-height:1.7;word-break:break-word;background:var(--paper-2);border:1.5px solid var(--ink);padding:.5rem .6rem}
+.msg u{text-decoration:none;color:var(--paper-2);background:var(--c-bad)}
+.pair{display:flex;flex-direction:column;gap:.3rem}
+
+/* biți pe care se poate apăsa */
+.bitrow{display:flex;flex-wrap:wrap;gap:5px}
+.bit{width:36px;height:42px;cursor:pointer;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);font-family:var(--f-mono);font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:0;transition:background .15s,border-color .15s;letter-spacing:0;text-transform:none}
+.bit:hover:not(:disabled){background:var(--lemon)}
+.bit.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.bit.par{border-style:dashed}
+.bit.err{border-color:var(--ink);background:var(--c-bad);color:var(--paper-2)}
+.bit small{font-size:.55rem;letter-spacing:.04em;opacity:.8;line-height:1}
+
+/* verificări */
+.checks{display:flex;flex-direction:column;gap:.3rem}
+.check{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.check .tag{color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
+.check .res{padding:0 .35rem}
+.check .res.ok{color:var(--c-ok);background:var(--c-ok-bg)}
+.check .res.no{color:var(--paper-2);background:var(--c-bad)}
+
+/* cuvinte de trei biți */
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px}
+.words div{border:1.5px solid var(--ink);padding:.35rem .2rem;text-align:center;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);background:var(--paper-2)}
+.words div span{display:block;font-size:.6rem;opacity:.85}
+.words div.cw{background:var(--c-found);color:var(--ink);font-weight:700}
+.words div.near0{color:var(--cobalt)}
+.words div.here{box-shadow:4px 4px 0 var(--c-know)}
+
+/* pânze, panouri, legende */
+canvas{display:block;width:100%;aspect-ratio:16/6}
+canvas.cv-wave{aspect-ratio:16/6}
+canvas.cv-circ{aspect-ratio:16/8}
+canvas.cv-img{aspect-ratio:16/10;border:1.5px solid var(--ink)}
+.panels{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+@media (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper-2);display:flex;flex-direction:column;gap:.45rem;padding:.75rem .8rem .9rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{width:18px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+
+/* registre și instrucțiuni pe biți (lecțiile 7–8) */
+.regwrap{overflow-x:auto}
+.reg{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.reg .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.reg .bit,.bits .bit{width:32px;height:32px;font-size:.88rem}
+.bit.mem{border-color:var(--ink);background:var(--paper-2)}
+.bit.mem.one{background:var(--c-found);color:var(--ink)}
+.bit.diff{box-shadow:3px 3px 0 var(--c-know)}
+.bits{display:flex;gap:6px;flex-wrap:wrap}
+.bitgrp{display:flex;flex-direction:column;gap:3px;align-items:center}
+.bitgrp .gl{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bitgrp .row{display:flex;gap:3px}
+.grp-op .bit.one{background:var(--c-know);border-color:var(--ink)}
+.grp-a .bit.one{background:var(--c-found);color:var(--ink);border-color:var(--ink)}
+.asm{font-family:var(--f-mono);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .7rem}
+
+/* mașina (lecția 8) */
+.machine{display:grid;gap:.8rem}
+@media (min-width:640px){.machine{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.prog{border:1.5px solid var(--ink);overflow:hidden}
+.prow{display:grid;grid-template-columns:2.1rem 3.1rem 1fr;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem;padding:.18rem .45rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.prow:last-child{border-bottom:none}
+.prow .ad{opacity:.7}
+.prow .nm{font-variant-numeric:tabular-nums;color:var(--ink)}
+.prow .tx{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow.at{background:var(--c-know-bg)}
+.prow.at .ad,.prow.at .nm,.prow.at .tx{color:var(--c-know)}
+.regs{display:flex;flex-direction:column;gap:.35rem}
+.regrow{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.8rem}
+.regrow .rn{color:var(--muted);width:1.8rem}
+.regrow .rv{border:1.5px solid var(--ink);background:var(--paper);padding:.1rem .5rem;min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.regrow .rb{color:var(--muted);font-size:.7rem}
+.regrow.hit .rv{background:var(--c-found);color:var(--ink)}
+.small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.outbox{font-family:var(--f-mono);font-size:.85rem;border:1.5px solid var(--ink);background:var(--paper);padding:.35rem .55rem;min-height:2rem;color:var(--orange);font-weight:700}
+.phases{display:flex;gap:.3rem;flex-wrap:wrap}
+.ph{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.12rem .45rem;color:var(--muted)}
+.ph.at{background:var(--c-know);color:var(--paper-2)}
+
+/* banda de memorie, asamblorul, scara (lecția 9) */
+.strip{overflow-x:auto}
+.sgrid{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.sgrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.sc{min-width:74px;height:30px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--paper-2);color:var(--ink);padding:0 .25rem;white-space:nowrap}
+.sc.num{background:var(--c-live-bg);font-variant-numeric:tabular-nums}
+.sc.ins{background:var(--c-know-bg)}
+.sc.let{background:var(--c-found-bg);font-size:.95rem}
+.asmwrap{display:grid;gap:.7rem}
+@media (min-width:640px){.asmwrap{grid-template-columns:1fr minmax(0,15rem)}}
+.asmwrap textarea{min-height:11rem;font-family:var(--f-mono);font-size:.84rem;line-height:1.7}
+.bytes{border:1.5px solid var(--ink);overflow:hidden;align-self:start}
+.brow{display:grid;grid-template-columns:1.7rem 2.8rem 1fr;gap:.4rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .4rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.brow:last-child{border-bottom:none}
+.brow .bn{color:var(--ink);font-variant-numeric:tabular-nums}
+.brow .bb{font-size:.66rem}
+.brow.err{background:var(--c-bad);color:var(--paper-2)}
+.regline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.regline b{color:var(--ink);font-weight:700}
+.ladder{display:flex;flex-direction:column-reverse;gap:3px}
+.rung{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;border:1.5px solid var(--ink);border-left:6px solid var(--c-dead);padding:.45rem .7rem;cursor:pointer;background:var(--paper-2);font-size:.92rem}
+.rung:hover{background:var(--lemon)}
+.rung .lv{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rung.open{border-left-color:var(--orange);background:var(--c-know-bg)}
+.rung .nm{font-weight:600}
+.rung .ex{grid-column:1/-1;font-size:.86rem;color:var(--muted);margin-top:.2rem}
+
+/* bare de sortat, tabel numeric (lecția 10) */
+.sbars{display:flex;align-items:flex-end;gap:3px;height:150px}
+.sbars .b{flex:1 1 0;min-width:0;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);transition:height .12s,background .12s,border-color .12s;position:relative}
+@media (prefers-reduced-motion:reduce){.sbars .b{transition:none}}
+.sbars .b.done{border-color:var(--ink);background:var(--c-found)}
+.sbars .b.at{border-color:var(--ink);background:var(--c-live)}
+.sbars .b.scan{border-color:var(--ink);background:var(--lemon)}
+.sbars .b.min{border-color:var(--ink);background:var(--c-bad)}
+.counts{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--ink);font-weight:700}
+.tbl.numeric th,.tbl.numeric td{text-align:right}
+.tbl.numeric td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.sel{color:var(--c-bad)}
+.tbl td.mer{color:var(--orange)}
+.tbl tr.est td{color:var(--muted);font-style:italic}
+
+/* planșa de desen, galeria, schimbarea de plan (lecția 11) */
+.pad{display:grid;gap:.8rem}
+@media (min-width:600px){.pad{grid-template-columns:auto 1fr;align-items:start}}
+canvas#draw{width:190px;height:190px;aspect-ratio:1;display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--ink);background:var(--paper);image-rendering:pixelated}
+.feats{display:flex;flex-direction:column;gap:.3rem}
+.feat{display:grid;grid-template-columns:1fr auto;gap:.6rem;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);align-items:baseline}
+.feat b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.feat.pass b{color:var(--c-ok)}
+.feat.fail b{color:var(--c-bad)}
+.verdict{font-family:var(--f-mono);font-size:.9rem;padding:.4rem .6rem;border:1.5px solid var(--ink);background:var(--paper)}
+.verdict.yes{background:var(--c-found);color:var(--ink)}
+.verdict.no{background:var(--c-bad);color:var(--paper-2)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}
+.ex{border:1.5px solid var(--ink);padding:2px;background:var(--paper);position:relative}
+.ex canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+.ex.wrong{background:var(--c-bad-bg);box-shadow:3px 3px 0 var(--c-bad)}
+.ex .tag{position:absolute;top:2px;left:4px;font-family:var(--f-mono);font-size:.6rem;color:var(--muted)}
+.ex.wrong .tag{color:var(--c-bad);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.74rem}
+.fbox{border:1.5px solid var(--ink);padding:.25rem .6rem;background:var(--paper-2);color:var(--ink)}
+.fbox.in{background:var(--c-live-bg)}
+.fbox.out{background:var(--c-found)}
+.fbox.mid{background:var(--c-know-bg)}
+.farr{color:var(--muted)}
+.flab{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+
+/* pânze și panouri pentru figurile de învățare (lecțiile 12–21) */
+canvas.cv-sq{aspect-ratio:1/1} canvas.cv-wide{aspect-ratio:16/7} canvas.cv-short{aspect-ratio:16/5}
+canvas.cv-fit{aspect-ratio:16/10} canvas.cv-u{aspect-ratio:16/8} canvas.cv-neuron{aspect-ratio:16/9}
+canvas.cv-net{aspect-ratio:16/9} canvas.cv-chain{aspect-ratio:16/5}
+canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
+.panels.two{grid-template-columns:1fr 1fr} .panels.one{grid-template-columns:1fr}
+@media (max-width:639px){.panels.two{grid-template-columns:1fr}}
+.panels.three{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:620px){.panels.three{grid-template-columns:1fr 1fr}}
+.readout .big{color:var(--c-error);font-size:.95rem}
+.readout .tr{color:var(--c-data)} .readout .te{color:var(--c-test)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;border:none}
+.ph.fw.at{background:var(--cobalt);color:var(--paper-2)} .ph.bw.at{background:var(--c-bad);color:var(--paper-2)}
+.tbl.grid{width:auto;font-family:var(--f-mono);font-size:.78rem}
+.tbl.grid th,.tbl.grid td{border:1.5px solid var(--ink);text-align:center;padding:.16rem .5rem;white-space:nowrap}
+.tbl.grid th{position:static;font-size:.6rem}
+.tbl td.name{text-align:left;color:var(--muted);font-family:var(--f-body);font-size:.88rem}
+.tbl td.ok{color:var(--c-ok);font-weight:700} .tbl td.bad{color:var(--c-bad)}
+.tbl td.best{color:var(--orange);font-weight:700}
+.tbl td.w{text-align:left;color:var(--muted)} .tbl td.same{color:var(--c-bad)} .tbl td.near{color:var(--orange);font-weight:700}
+.tbl td.one{color:var(--orange);font-weight:700}
+.tblwrap.center{display:flex;justify-content:center}
+
+/* convoluție (lecția 18) */
+.imgrow{display:grid;gap:.7rem;align-items:start}
+@media (min-width:640px){.imgrow{grid-template-columns:1fr auto 1fr}}
+.imgbox{display:flex;flex-direction:column;gap:.3rem}
+.imgbox canvas{border:1.5px solid var(--ink);aspect-ratio:1/1;width:100%;image-rendering:pixelated}
+.kern{display:flex;flex-direction:column;gap:.35rem;align-items:center;justify-content:center;min-width:9rem}
+.kgrid{display:grid;grid-template-columns:repeat(3,2.5rem);gap:3px}
+.kgrid input{width:100%;height:2.1rem;text-align:center;font-family:var(--f-mono);font-size:.82rem;border:1.5px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);-moz-appearance:textfield}
+.kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
+.three{display:grid;gap:.7rem}
+@media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
+
+/* vectori (lecția 19) */
+select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
+.enc{display:flex;flex-direction:column;gap:.35rem}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc .tbl th{position:static;font-size:.58rem}
+.neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
+.neigh b{color:var(--orange)}
+
+/* tokeni (lecția 20) */
+.toks{display:flex;flex-wrap:wrap;gap:3px;line-height:1.9}
+.tok{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:.05rem .35rem;background:var(--paper-2);white-space:pre}
+.tok.c0{background:var(--c-live-bg)} .tok.c1{background:var(--c-found-bg)} .tok.c2{background:var(--c-know-bg)} .tok.c3{background:#F1DDA8}
+.tok.whole{font-weight:700}
+.merges{display:flex;flex-direction:column;gap:2px;max-height:15rem;overflow-y:auto;border:1.5px solid var(--ink)}
+.mrow{display:grid;grid-template-columns:2.2rem 1fr 3.4rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .5rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.mrow:last-child{border-bottom:none}
+.mrow .pair{color:var(--ink)} .mrow .pair em{font-style:normal;color:var(--orange);font-weight:700}
+.mrow.new{background:var(--cobalt);color:var(--paper-2)} .mrow.new .pair,.mrow.new .pair em{color:var(--paper-2)}
+textarea.short{min-height:5rem}
+
+/* cuvântul următor (lecția 21) */
+input[type=text]{width:100%;font-family:var(--f-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.45rem .6rem}
+.pbars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr 3.2rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.bar .w{text-align:right;color:var(--ink)}
+.bar .t{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:15px;overflow:hidden}
+.bar .f{height:100%;background:var(--c-live);transition:width .18s}
+.bar.top .f{background:var(--orange)}
+.bar .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.bar .f{transition:none}}
+.gen{font-family:var(--f-body);font-size:.98rem;line-height:1.75;background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:5rem}
+.gen .seed{color:var(--muted)} .gen .new{color:var(--cobalt)} .gen .copied{background:var(--lemon);color:var(--ink);padding:0 2px}
+
+/* ---------- picior de tipar: navigație între lecții ---------- */
+footer{margin-top:3.8rem;border-top:2px solid var(--ink);padding-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.lnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lnav .nav{
+  display:flex;flex-direction:column;gap:.15rem;text-decoration:none;color:var(--ink);
+  border:2px solid var(--ink);background:var(--paper-2);padding:.7rem .9rem;min-height:4.4rem;
+  transition:box-shadow .15s,transform .15s;
+}
+.lnav a.nav:hover{background:var(--lemon);box-shadow:5px 5px 0 var(--cobalt);transform:translate(-2px,-2px);color:var(--ink)}
+.lnav .nav.next{text-align:right;align-items:flex-end}
+.lnav .nav .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.lnav .nav .t{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.lnav .nav.off{opacity:.45;border-style:dashed}
+.lnav .nav.off .k{color:var(--muted)}
+@media (max-width:520px){.lnav{grid-template-columns:1fr}.lnav .nav.next{text-align:left;align-items:flex-start}}
+.runfoot{display:flex;justify-content:space-between;gap:.5rem 1.4rem;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;border-top:2px solid var(--ink);padding-top:.7rem}
+.colophon{font-size:.86rem;color:var(--muted)}
+
+/* ===== lectiile 22-31 ===== */
+.sep{color:var(--rule)}
+canvas.cv-att{aspect-ratio:16/7}
+canvas.cv-blk{aspect-ratio:16/8}
+canvas.cv-sin{aspect-ratio:16/6}
+canvas.cv-plot{aspect-ratio:16/9}
+canvas.cv-cal{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+@media (max-width:560px){canvas.cv-blk{aspect-ratio:5/4} canvas.cv-sin{aspect-ratio:5/4} canvas.cv-plot{aspect-ratio:4/5}}
+.tbl tr.pending td{opacity:.35}
+.tbl td.warn{color:var(--c-param);font-weight:700}
+.tbl td.dim{opacity:.55}
+.tbl tfoot td{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border-bottom:none;padding-top:.5rem;white-space:normal}
+.tbl.wrapname td.name{white-space:normal;min-width:14rem}
+/* grila subiect x verb (22) */
+.grid{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.gh{color:var(--muted);font-size:.62rem;letter-spacing:.06em;padding:.1rem .3rem;text-align:center}
+.gl{color:var(--muted);font-size:.62rem;padding:.1rem .4rem;text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.gc{border:1.5px solid var(--ink);text-align:center;padding:.25rem .1rem;background:var(--paper-2);cursor:pointer;user-select:none}
+.gc.seen{background:var(--c-live-bg)}
+.gc.held{background:var(--c-bad);color:var(--paper-2);font-weight:700}
+.gc:hover{box-shadow:2px 2px 0 var(--orange)}
+.vs{display:grid;gap:.6rem}
+@media (min-width:560px){.vs{grid-template-columns:1fr 1fr}}
+.vsbox{border:1.5px solid var(--ink);background:var(--paper-2);padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.vsbox .lbl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vsbox .big{font-family:var(--f-mono);font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.vsbox.zero .big{color:var(--c-bad)} .vsbox.some .big{color:var(--cobalt)}
+.vsbox .sub{font-size:.8rem;color:var(--muted)}
+.bar.held .w{color:var(--c-bad);font-weight:700} .bar.held .f{background:var(--c-bad)}
+/* pasii atentiei (24) */
+.steps{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.steps .lb{color:var(--muted);font-size:.62rem;letter-spacing:.06em;text-align:right;padding-right:.5rem;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.steps .cl{border:1.5px solid var(--ink);text-align:center;padding:.2rem .1rem;background:var(--paper-2);font-variant-numeric:tabular-nums}
+.steps .cl.hi{background:var(--orange);color:var(--paper-2);font-weight:700}
+.steps .cl.sym{font-size:.9rem}
+/* fasia de pozitii (26) */
+.striprow{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;padding-bottom:1.2rem}
+.ptok{font-family:var(--f-mono);font-size:1.05rem;width:2.3rem;height:2.3rem;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:var(--paper-2);position:relative}
+.ptok.q{background:var(--orange);color:var(--paper-2);font-weight:700}
+.ptok .ix{position:absolute;bottom:-1.1rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+/* legenda liniilor (27, 30) */
+.key{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.key .sw{width:16px;height:3px;display:inline-block}
+/* bare cu temperatura (28) */
+.tbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.8rem}
+.tbars .ch{text-align:right;color:var(--ink);white-space:pre}
+.tbars .bw{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.95rem;overflow:hidden}
+.tbars .bf{height:100%;background:var(--c-live);transition:width .12s linear}
+.tbars .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.4rem;text-align:right}
+.ctxline{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);word-break:break-word}
+.ctxline b{color:var(--ink);font-weight:700;background:var(--lemon);padding:0 .15rem}
+.gen.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:8.5rem}
+/* cartonase (29, 31) */
+.qline{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);word-break:break-word}
+@media (min-width:600px){.two.cards{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.45rem}
+.card .lb{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .tx{font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:6.6rem}
+.card .qq{font-family:var(--f-mono);font-size:.82rem;word-break:break-word}
+.card .qq .blind{color:var(--muted);opacity:.38}
+.card .qq .seen{background:var(--lemon);color:var(--ink);font-weight:700}
+.card .qq+.tx{border-top:1.5px solid var(--ink);padding-top:.4rem;min-height:5.4rem}
+.card.win{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.card.lose{opacity:.6}
+.card .sc{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.wbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.wbars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbars .tr{position:relative;height:.85rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.wbars .tr i{position:absolute;top:0;bottom:0;display:block}
+.wbars .tr i.pos{background:var(--cobalt)} .wbars .tr i.neg{background:var(--c-param)}
+.wbars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+/* banda de context (30) */
+.band{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;max-height:11rem;overflow:hidden;word-break:break-word}
+.band .out{color:var(--muted);opacity:.35;text-decoration:line-through}
+.band .in{color:var(--ink)}
+.band .now{background:var(--lemon);color:var(--ink);font-weight:700}
+
+/* ===== lectiile 32-36 ===== */
+.key .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl tr.over td{background:var(--accent-soft)}
+canvas.cv-sqm{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+canvas.cv-loss{aspect-ratio:16/6}
+canvas.cv-noise{aspect-ratio:1/1;max-width:340px;margin:0 auto;image-rendering:auto;border:1.5px solid var(--ink)}
+.nstrip,.set{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:600px){.nstrip,.set{grid-template-columns:repeat(3,1fr)}}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dpair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:420px;margin:0 auto}
+.nstrip figure,.set figure,.trio figure,.dpair figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.nstrip canvas,.set canvas,.trio canvas,.dpair canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2)}
+.set canvas,.dpair canvas{image-rendering:pixelated}
+.nstrip figcaption,.set figcaption,.trio figcaption,.dpair figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.trio figcaption b{color:var(--orange)}
+.set figure.hit canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.wbar{display:grid;grid-template-columns:auto 1fr auto;gap:2px .5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem}
+.wbar .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbar .tr{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.8rem;overflow:hidden}
+.wbar .tr i{display:block;height:100%;background:var(--cobalt)}
+.wbar .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+
+/* ===== lectiile 37-45 ===== */
+.tbl tr.hi td{background:var(--accent-soft)}
+.tbl td.win{color:var(--c-ok);font-weight:700;background:var(--accent-soft)}
+.tbl tr.sep td{border-top:2px solid var(--ink)}
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;max-width:520px;margin:0 auto}
+@media (max-width:520px){.trip{grid-template-columns:1fr}}
+.trip figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.trip canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2);image-rendering:pixelated}
+.trip figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.zgrid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:2.4rem;align-content:center}
+.zgrid i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.trio .nm{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-align:center}
+.trio button{width:100%}
+.trio figcaption b{color:var(--ink)}
+@media (max-width:620px){.trio.stack{grid-template-columns:1fr}}
+.igal{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:560px){.igal{grid-template-columns:repeat(3,1fr)}}
+.igal figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.igal canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);image-rendering:pixelated}
+.igal figcaption{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);text-align:center}
+.igal figure.good canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.igal figure.bad canvas{border-color:var(--c-bad);opacity:.7}
+.key .sq{width:9px;height:9px;display:inline-block}
+.key.swatches i{display:inline-block;width:.7rem;height:.7rem;margin-right:.35rem;vertical-align:-1px;border:1px solid var(--ink)}
+.tape{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:11rem;display:flex;flex-direction:column;gap:.3rem}
+.tape .ln{display:flex;gap:.5rem}
+.tape .who{flex:none;width:5.2rem;color:var(--muted);text-align:right}
+.tape .tx{word-break:break-word}
+.tape .model .tx{color:var(--cobalt)}
+.tape .tool .tx{color:var(--c-param)}
+.tape .user .tx{color:var(--ink)}
+.tape .done .tx{color:var(--orange);font-weight:700}
+.frags{display:flex;flex-direction:column;gap:.3rem}
+.frag{display:flex;gap:.5rem;font-family:var(--f-mono);font-size:.74rem;line-height:1.5;border:1.5px solid var(--ink);background:var(--paper-2);padding:.35rem .5rem}
+.frag .rk{flex:none;width:1.6rem;color:var(--muted);text-align:right}
+.frag .sc{flex:none;width:3rem;color:var(--muted);text-align:right}
+.frag .tx{flex:1 1 auto}
+.frag.hit{border-color:var(--orange);background:var(--accent-soft);box-shadow:3px 3px 0 var(--orange)}
+.frag.hit .tx{color:var(--ink);font-weight:700}
+.ctx{font-family:var(--f-mono);font-size:.74rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.55rem .65rem;white-space:pre-wrap;word-break:break-word;max-height:11rem;overflow:auto}
+.ctx b{color:var(--cobalt)}
+.ibars{display:grid;grid-template-columns:auto 1fr auto;gap:4px .6rem;align-items:center;font-family:var(--f-mono);font-size:.78rem}
+.ibars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.ibars .tr{position:relative;height:1.1rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.ibars .tr i{position:absolute;top:0;bottom:0;display:block;border-left:2px solid var(--cobalt);border-right:2px solid var(--cobalt)}
+.ibars .tr i::before{content:'';position:absolute;top:45%;left:0;right:0;height:2px;background:var(--cobalt)}
+.ibars .tr i.b{border-color:var(--c-param)}
+.ibars .tr i.b::before{background:var(--c-param)}
+.ibars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:5.6rem;text-align:right}
+canvas.cv-wide.boxed{aspect-ratio:2.6/1;border:1.5px solid var(--ink)}
+canvas.cv-main{aspect-ratio:16/10;border:1.5px solid var(--ink);background:var(--paper-2)}
+canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
+.jump{display:flex;flex-wrap:wrap;gap:.28rem}
+.jump button{font-size:.62rem;padding:.18rem .42rem;color:var(--muted)}
+.jump button.on{color:var(--paper-2);background:var(--orange);border-color:var(--ink)}
+.rng.wide{flex:1 1 14rem}
+.rng.wide input[type=range]{flex:1 1 8rem;width:auto;min-width:0}
+</style>
+
+<article class="page">
+
+<header>
+  <div class="runhead">
+    <div class="l"><span>L.41</span><span>Partea 7 / Sistemele de azi</span></div>
+    <div class="r"><a href="index.html">Cuprins</a><button id="sndBtn" class="snd" aria-pressed="true"><span>sunet pornit</span></button></div>
+  </div>
+  <div class="plate" aria-hidden="true"><div class="marble" id="marble" data-seed="41"></div></div>
+
+  <div class="masthead">
+    <h1>Căutare <i>înainte</i> de răspuns</h1>
+    <p class="lede">Cea mai folosită unealtă nu socotește nimic. Ea caută printre texte, culege câteva fragmente și le lipește în față, iar modelul răspunde citind ce i s-a pus acolo. Cunoașterea se mută din ponderi în context, cu tot ce câștigă și cu tot ce nu se schimbă prin asta.</p>
+    <p class="terms">Termeni: <b>regăsire</b> <b>bază vectorială</b> <b>potrivire după cuvinte</b> <b>fragmentul potrivit</b></p>
+  </div>
+</header>
+<main class="sections">
+
+<section id="s1">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="10" width="24" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><rect x="34" y="10" width="24" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 18 H26 M10 24 H22 M10 30 H26 M38 18 H54 M38 24 H50 M38 30 H54 M38 36 H48" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M38 30 H54" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>De ce se caută întâi</h2>
+
+  <p class="first">Un model știe ce a apucat să vadă la antrenare, în forma în care a rămas în ponderi. Nu știe ce s-a întâmplat de atunci, n-are cum să citeze exact, și nu poate spune de unde a luat ceva.</p>
+
+  <p>Toate trei se rezolvă mutând cunoașterea din ponderi în context. Textul de care e nevoie se caută într-o colecție, se taie o bucată potrivită și se pune în fața întrebării. Metoda se numește <dfn>regăsire</dfn>, iar de acolo încolo totul e citit de model ca text obișnuit.</p>
+
+  <p>Un examen cu manualul deschis. Nu ajută dacă nu găsești pagina, iar dacă găsești pagina greșită, răspunsul iese greșit cu aceeași siguranță.</p>
+</section>
+
+<section id="s2">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 L40 20" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M10 52 L50 34" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M22 40 A14 14 0 0 1 26 45" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Cum se măsoară apropierea</h2>
+
+  <p>Colecția din pagină are treizeci și șase de fragmente, fiecare o afirmație despre ceva din curs. Întrebarea trebuie să scoată fragmentul care o lămurește.</p>
+
+  <p>Sunt două feluri de a socoti cât de bine se potrivesc. Primul numără cuvintele comune, dând mai multă greutate celor rare, fiindcă acelea deosebesc mai bine. Al doilea așază fiecare cuvânt într-un spațiu, ca în lecția despre reprezentarea vectorială, adună vectorii cuvintelor dintr-un text și compară direcțiile; o colecție ținută astfel se numește <dfn>bază vectorială</dfn>.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ce scoate căutarea</figcaption>
+    <div class="stage">
+      <div class="frags" id="frags"></div>
+      <div class="readout" id="fRead"></div>
+    </div>
+    <div class="cap" id="capF"></div>
+    <div class="ctrl">
+      <select id="qSel"></select>
+      <span class="sep">|</span>
+      <button id="mKw" class="on">după cuvinte</button>
+      <button id="mVe">după vectori</button>
+    </div>
+  </figure>
+
+  <p>Fragmentul potrivit e arătat cu ramă portocalie, oriunde ar cădea. Numărul din dreapta e potrivirea socotită, între zero și unu.</p>
+</section>
+
+<section id="s3">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="21" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="34" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="47" width="48" height="10" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Contextul care se dă modelului</h2>
+
+  <p>Ce urmează după căutare n-are nimic deosebit. Fragmentele alese se lipesc, în ordine, înaintea întrebării, iar tot ce iese se dă modelului ca un singur text.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Textul lipit, gata de dat</figcaption>
+    <div class="stage">
+      <div class="ctx" id="ctx"></div>
+      <div class="readout" id="cRead"></div>
+    </div>
+    <div class="cap" id="capC"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="cK">fragmente lipite</label><input id="cK" type="range" min="1" max="8" step="1" value="3"><span class="val" id="cKv">3</span></div>
+    </div>
+  </figure>
+</section>
+
+<section id="s4">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H30 M8 24 H26" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M34 16 H56 M34 24 H50" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 40 H26 M8 48 H30" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M34 40 H52 M34 48 H56" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Când se schimbă cuvintele întrebării</h2>
+
+  <p>Măsurătoarea care hotărăște dacă un asemenea sistem merge nu e cât de frumos se lipește textul, ci cât de des ajunge fragmentul potrivit în ce s-a lipit.</p>
+
+  <p>Tabelul o face de două ori. Întâi cu întrebările scrise așa cum au fost, apoi cu aceleași întrebări puse în alte cuvinte, ocolind termenul căutat.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Cât de des se găsește fragmentul potrivit</figcaption>
+    <div class="stage">
+      <div class="tblwrap"><table class="tbl numeric" id="tblR"></table></div>
+      <canvas id="cvPlot" class="cv-plot"></canvas>
+      <div class="key" id="pKey"></div>
+      <div class="readout" id="rRead"></div>
+    </div>
+    <div class="cap" id="capR"></div>
+  </figure>
+
+  <p>Pe formularea de acasă, numărarea cuvintelor comune scoate fragmentul potrivit pe primul loc de fiecare dată. Puse în alte cuvinte, aceleași întrebări le dau peste cap pe amândouă metodele.</p>
+
+  <p>Aceasta e deosebirea dintre ce se vede în pagină și un sistem adevărat. Acolo, vectorii nu ies din potrivirea cuvintelor pe douăsprezece mii de semne, ci dintr-un model antrenat anume pentru căutare, pe sute de milioane de perechi de întrebări și texte. Mecanismul e același; ce se schimbă e de unde vine apropierea.</p>
+</section>
+
+<section id="s5">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 22 H50 M14 30 H42" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M14 40 H46" fill="none" stroke="#B5232B" stroke-width="2.5"/><text x="50" y="44" font-family="monospace" font-size="9" fill="#B5232B">?</text></svg></span>Ce rezolvă și ce nu</h2>
+
+  <p>Regăsirea aduce în context text pe care modelul nu-l avea. Ea face cu putință citarea, îngăduie ca sursa să fie arătată și mută răspunsul de la ce a rămas în ponderi la ce scrie în documente.</p>
+
+  <p>Ea nu schimbă însă nimic din ce s-a spus în lecția despre confabulare. Modelul citește fragmentele lipite ca pe orice alt text și n-are cum să deosebească un fragment potrivit de unul nimerit alături. Dacă în context ajunge ceva care sună a răspuns fără să fie, răspunsul iese la fel de hotărât. Manualul deschis nu vindecă cititorul care crede tot ce citește.</p>
+
+  <p>De aici vine și de ce numărul de fragmente lipite nu se mărește la nesfârșit. Fiecare fragment în plus crește șansa ca cel bun să fie acolo, dar și cantitatea de text nepotrivit printre care modelul trebuie să aleagă, pe lângă costul din lecția despre fereastra de context.</p>
+
+  <p>Până acum au fost adăugate bucăți în jurul modelului. Lecția următoare se uită înăuntru, la ce se poate tăia din el fără ca răspunsurile să se schimbe.</p>
+</section>
+
+</main>
+
+<footer>
+  <nav class="lnav" aria-label="Lecțiile vecine">
+    <a class="nav prev" href="lectia-40.html"><span class="k">Anterioara</span><span class="t">Unelte și bucla agentului</span></a>
+    <a class="nav next" href="lectia-42.html"><span class="k">Urmează</span><span class="t">Cât costă un răspuns</span></a>
+  </nav>
+  <p class="colophon">Colecția, cele două feluri de căutare și măsurătorile se socotesc în pagină.</p>
+  <div class="runfoot"><span>L.41 / Căutare înainte de răspuns</span><span>Partea 7 / Sistemele de azi</span></div>
+</footer>
+
+</article>
+
+<script>
+"use strict";
+/* ============================================================
+   COD COMUN TUTUROR LECȚIILOR: clichete, butonul de sunet,
+   forzațul marmorat (seed = numărul lecției), ajutoare numerice.
+   ============================================================ */
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* clichete, sintetizate în pagină */
+const sfx=(function(){
+  let ctx,on=true,last=0;
+  function ac(){
+    if(ctx===undefined){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      ctx=AC?new AC():null;
+    }
+    if(ctx&&ctx.state==='suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f0,f1,dur,vol,type){
+    const c=ac(); if(!c||!on) return;
+    const t=c.currentTime;
+    const o=c.createOscillator(), g=c.createGain(), lp=c.createBiquadFilter();
+    o.type=type||'triangle';
+    o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3400,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp); lp.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  return {
+    tick:function(){ tone(1500,760,0.045,0.055); },
+    step:function(){ tone(980,560,0.05,0.04); },
+    merge:function(k){ tone(700+k*22,480+k*14,0.055,0.045); },
+    bad:function(){ tone(320,190,0.13,0.05,'sawtooth'); },
+    found:function(){ tone(740,740,0.10,0.05,'sine'); setTimeout(function(){ tone(1110,1110,0.17,0.045,'sine'); },95); },
+    soft:function(){ tone(430,300,0.07,0.04); },
+    nudge:function(){ const n=Date.now(); if(n-last<40) return; last=n; tone(2100,1600,0.02,0.022); },
+    clack:function(){ tone(1700,520,0.04,0.06); },
+    clunk:function(){ tone(900,340,0.05,0.05); },
+    lamp:function(){ tone(880,880,0.09,0.04,'sine'); setTimeout(function(){ tone(1320,1320,0.14,0.035,'sine'); },80); },
+    col:function(k){ tone(760+k*70,520+k*50,0.05,0.045); },
+    carry:function(){ tone(1900,1200,0.035,0.04); },
+    done:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    over:function(){ tone(300,180,0.16,0.05,'sawtooth'); },
+    edge:function(){ tone(1250,900,0.03,0.03); },
+    latch:function(){ tone(900,620,0.05,0.05); },
+    fetch:function(){ tone(1150,900,0.035,0.035); },
+    dec:function(){ tone(1400,1100,0.035,0.033); },
+    exec:function(){ tone(820,600,0.05,0.045); },
+    jump:function(){ tone(1500,2100,0.06,0.04); },
+    out:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    halt:function(){ tone(420,240,0.16,0.05); },
+    stepk:function(k){ tone(760+(k||0)*40,520,0.04,0.04); },
+    cmp:function(h){ const n=Date.now(); if(n-last<24) return; last=n; tone(1400+h*7,1100,0.022,0.03); },
+    swap:function(){ tone(880,560,0.05,0.05); },
+    yes:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    no:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    search:function(){ tone(600,1600,0.18,0.04,'sine'); },
+    good:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    snap:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    arrive:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    thud:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    blow:function(){ tone(300,140,0.22,0.055,'sawtooth'); },
+    flat:function(){ tone(420,420,0.16,0.045,'sine'); },
+    fw:function(k){ tone(900+(k||0)*90,700,0.04,0.04); },
+    bw:function(k){ tone(1500-(k||0)*120,900,0.045,0.042); },
+    word:function(k){ tone(900+(((k||0)*67)%500),700,0.026,0.026); },
+    toggle:function(){ on=!on; if(on) tone(880,880,0.06,0.045,'sine'); return on; }
+  };
+})();
+(function(){
+  const b=document.getElementById('sndBtn'); if(!b) return;
+  b.addEventListener('click',function(){
+    const on=sfx.toggle();
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('span').textContent=on?'sunet pornit':'sunet oprit';
+  });
+})();
+
+/* numerele se scriu cu virgulă zecimală; acordul cu numeralul: 1 bit, 5 biți, 20 de biți */
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+const log2=x=>Math.log(x)/Math.LN2;
+function unit(n,sing,plur){
+  if(n===1) return sing;
+  const l=Math.abs(Math.round(n))%100;
+  return (l===0||l>=20)?('de '+plur):plur;
+}
+const bits=n=>n+' '+unit(n,'bit','biți');
+
+/* forzațul marmorat: vopsea plutind pe baie, pieptănată de zgomot;
+   totul e hotărât de numărul lecției, deci fiecare lecție are hârtia ei */
+(function(){
+  const host=document.getElementById('marble'); if(!host) return;
+  const SEED=+host.dataset.seed||1;
+  let s=(SEED*7919+104729)>>>0;
+  const rnd=()=>{ s=(s*1103515245+12345)>>>0; return (s>>>8)/16777216; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const inks=['#2F4BC4','#EE5A2F','#6B7A38','#E9C93B','#DDA6B0'];
+  const cream='#F7F3E6', dark='#22252D';
+  const dom=pick(inks);                       /* cerneala dominantă a lecției */
+  const W=1600,H=500;
+  let g='';
+  /* fâșii orizontale, de lățimi neregulate; cele subțiri devin vene */
+  let y=-160;
+  while(y<H+160){
+    const thin=rnd()<0.45;
+    const h=thin?2+rnd()*4:12+rnd()*34;
+    const fill=thin?(rnd()<0.6?cream:dark):(rnd()<0.3?dom:pick(inks.concat([cream,cream])));
+    g+='<rect x="-300" y="'+y.toFixed(1)+'" width="2200" height="'+h.toFixed(1)+'" fill="'+fill+'"/>';
+    y+=h+(thin?3+rnd()*8:rnd()*10);
+  }
+  /* stropi: picături de vopsea, unele cu ochi deschis */
+  for(let i=0;i<190;i++){
+    const big=rnd()<0.16;
+    const rx=big?22+rnd()*40:3+rnd()*14, ry=big?11+rnd()*22:2+rnd()*8;
+    const light=rnd()<0.5;
+    const fill=light?cream:pick(inks.concat([dark]));
+    const stroke=(!light&&rnd()<0.7)?' stroke="'+cream+'" stroke-width="'+(1.5+rnd()*2.2).toFixed(1)+'"':'';
+    g+='<ellipse cx="'+(rnd()*W).toFixed(1)+'" cy="'+(-30+rnd()*(H+60)).toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+fill+'"'+stroke+'/>';
+  }
+  const bf1=(0.0022+rnd()*0.0018).toFixed(4)+' '+(0.006+rnd()*0.005).toFixed(4);
+  const sc1=(130+rnd()*90).toFixed(0);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<filter id="m" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">'+
+    '<feTurbulence type="fractalNoise" baseFrequency="'+bf1+'" numOctaves="3" seed="'+(SEED*11)+'" result="t1"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="t1" scale="'+sc1+'" xChannelSelector="R" yChannelSelector="G" result="d1"/>'+
+    '<feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="3" seed="'+(SEED*11+5)+'" result="t2"/>'+
+    '<feDisplacementMap in="d1" in2="t2" scale="42" xChannelSelector="G" yChannelSelector="R"/>'+
+    '</filter>'+
+    '<rect width="'+W+'" height="'+H+'" fill="'+dom+'"/>'+
+    '<g filter="url(#m)"><rect x="-300" y="-200" width="2200" height="'+(H+400)+'" fill="'+dom+'"/>'+g+'</g></svg>';
+  host.style.backgroundColor=dom;
+  try{
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas'); c.width=W; c.height=H;
+      c.getContext('2d').drawImage(img,0,0,W,H);
+      let url; try{ url=c.toDataURL('image/png'); }catch(e){ return; }
+      host.style.backgroundImage='url("'+url+'")';
+    };
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }catch(e){}
+})();
+</script>
+
+<script>
+"use strict";
+(function(){
+
+
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+function unit(n,sing,plur){ n=Math.abs(Math.round(n));
+  if(n===1) return sing; if(n===0) return plur;
+  const l=n%100; return (l===0||l>=20)?('de '+plur):plur; }
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function rgba(n,a){const c=hex2rgb(col(n));return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ================= colecția ================= */
+const BASE="Informația nu este conținutul unui mesaj, ci măsura în care mesajul înlătură nesiguranța. Un bit este răspunsul la o întrebare cu două deznodăminte la fel de probabile. Dacă lista are șaisprezece nume, patru întrebări bine puse ajung, fiindcă fiecare întrebare înjumătățește lista rămasă. Numărul de înjumătățiri necesare este logaritmul în baza doi al lungimii listei.\n\nCând probabilitățile nu sunt egale, mesajele care se întâmplă des merită nume scurte, iar cele rare pot primi nume lungi. Entropia este lungimea medie cea mai mică pe care o poate atinge o codificare. Litera e apare de zeci de ori mai des decât litera q, iar un cod care ține seama de asta scurtează textul.\n\nUn semnal continuu se măsoară la răstimpuri egale, iar valorile măsurate se rotunjesc la trepte. Dacă măsurătorile sunt prea rare, o mișcare rapidă se preface într-una lentă și nimic nu o mai poate deosebi. Pragul de sub care nu se poate coborî este dublul celei mai înalte frecvențe din semnal.\n\nUn comutator lasă sau nu lasă curentul să treacă. Două comutatoare puse unul după altul lasă curentul numai dacă amândouă sunt închise. Puse alături, lasă curentul dacă măcar unul este închis. De aici ies porțile logice, iar din porți ies sumatorul, bistabilul și registrul.\n\nUn procesor citește o instrucțiune, o desface în semnale de comandă și o execută, apoi trece la următoarea. Programul stă în aceeași memorie ca datele, deci un program poate scrie alt program. Un algoritm este o descriere finită a unui șir de pași care se încheie.\n\nÎnvățarea din exemple înseamnă că nimeni nu scrie regula. Se alege o familie de reguli, se măsoară cât de prost merge fiecare pe exemplele avute și se caută cea mai bună. Măsura aceasta se numește funcție de cost, iar căutarea coboară panta ei cu pași mici.\n\nDacă modelul are prea multă libertate față de câte exemple i s-au dat, el învață și zgomotul, nu numai regula. Pe exemplele văzute merge din ce în ce mai bine, iar pe cele nevăzute din ce în ce mai rău. De aceea o parte din date se pune deoparte și nu se atinge până la sfârșit.\n\nUn neuron adună intrările cu ponderi, adaugă o deplasare și trece rezultatul printr-o funcție care îl strânge între zero și unu. Un singur neuron desparte planul cu o dreaptă. Două straturi despart orice, dacă stratul din mijloc este destul de larg.\n\nVina de la ieșire se împarte înapoi, strat cu strat, după cât a contribuit fiecare pondere. Regula lanțului spune cum se înmulțesc pantele de-a lungul unui drum. Un filtru mic plimbat peste imagine găsește același tipar oriunde s-ar afla el.\n\nCuvintele se pot așeza în spațiu astfel încât cele care apar în vecinătăți asemănătoare să ajungă aproape unele de altele. Un text se taie în bucăți mai mici decât cuvintele, ca să încapă și cuvintele nemaivăzute. Un model de limbaj dă, pentru fiecare bucată de text, o distribuție peste bucata următoare.\n\nO rețea recurentă poartă un rezumat de la un pas la altul, iar rezumatul se umple. Atenția lasă fiecare poziție să se uite direct la toate celelalte și să ia de la fiecare atât cât are nevoie. Fiecare poziție pune la vedere o cheie și ține un conținut, iar întrebarea caută cheia potrivită.\n\nBlocul așază atenția și o rețea mică una după alta, fiecare cu ocolirea ei, iar banda pe care scriu straturile nu se șterge niciodată. Blocurile se stivuiesc de câteva zeci de ori. Fără ocolire panta se stinge cu adâncimea, iar fără normalizare mărimile o iau razna.\n\nÎn socoteala atenției nu intră nicăieri locul unui cuvânt, deci ordinea trebuie adăugată anume. Fiecare poziție primește un marcaj care depinde numai de locul ei. Marcajul sinusoidal are proprietatea că asemănarea dintre două marcaje depinde numai de distanța dintre poziții.\n\nEroarea se desface în entropia sursei, în ce nu poate cuprinde forma modelului și în ce nu s-a putut estima din prea puține date. Datele înlătură partea a treia, parametrii pe a doua, iar prima rămâne acolo oricât s-ar crește. Mărimea potrivită a modelului crește odată cu cantitatea de text.\n\nO întrebare bună împarte lumea în două jumătăți la fel de grele. O întrebare proastă lasă aproape totul de o parte și aproape nimic de cealaltă, iar răspunsul ei nu spune mai nimic. Cel care caută un nume într-o carte de telefon deschisă la mijloc face, fără să știe, cea mai bună întrebare cu putință.\n\nUn canal cu zgomot strică din când în când câte un bit. Dacă mesajul se trimite gol, nimeni nu poate ști care bit s-a stricat. Dacă i se adaugă câteva verificări bine alese, primitorul află nu numai că s-a stricat ceva, ci și unde anume, și poate îndrepta singur greșeala.\n\nDistanța dintre două cuvinte de cod este numărul de locuri în care ele se deosebesc. Dacă toate cuvintele de cod stau la depărtare de cel puțin trei unele de altele, atunci o singură greșeală duce mesajul mai aproape de cuvântul de plecare decât de oricare altul, deci el poate fi găsit înapoi.\n\nOchiul nu vede punctele, ci imaginea. Urechea nu aude treptele, ci sunetul. Pe amândouă se poate miza atunci când se hotărăște câtă precizie merită păstrată și câtă poate fi aruncată fără ca nimeni să bage de seamă.\n\nO poartă care lasă curentul numai când amândouă intrările sunt pornite se cheamă poartă și. Una care lasă curentul când măcar una este pornită se cheamă poartă sau. Una care întoarce pe dos ce primește se cheamă poartă nu. Din trei feluri de porți se poate face orice socoteală.\n\nAdunarea a două cifre binare dă o cifră și un rest. Restul se duce mai departe, la coloana următoare, exact ca la adunarea pe hârtie. Legând mai multe astfel de socoteli una după alta, se adună numere de orice lungime.\n\nUn bistabil ține minte o singură cifră până când cineva îi cere să o schimbe. O ceată de bistabile ținute la un loc formează un registru. Un ceas bate rar și egal, iar la fiecare bătaie toate registrele se schimbă deodată, în același ritm.\n\nInstrucțiunile sunt tot numere. Un număr poate fi citit ca dată sau ca poruncă, după locul unde se află și după momentul în care este privit. De aici vine puterea și tot de aici vin greșelile care se strecoară cel mai greu.\n\nO căutare care taie lista în două la fiecare pas ajunge la răspuns după atâția pași câte înjumătățiri sunt necesare. O căutare care ia numerele la rând are nevoie, în cazul cel mai rău, de tot atâția pași câte numere sunt. Deosebirea nu se vede pe liste scurte și devine uriașă pe liste lungi.\n\nDouă feluri de a așeza în ordine: unul caută la fiecare pas cel mai mic număr rămas, celălalt împarte lista în două, așază fiecare jumătate și le împletește. Primul cere un număr de pași care crește cu pătratul lungimii. Al doilea crește mult mai încet.\n\nRegula pe care o caută învățarea nu este scrisă nicăieri. Ea trebuie să iasă din exemple, iar exemplele sunt puține și pline de zgomot. De aceea contează la fel de mult ce familie de reguli se pune la dispoziție și cât de mare este libertatea dinăuntrul ei.\n\nCostul pătratic pedepsește greșelile mari mai tare decât cele mici, fiindcă ridică la pătrat. Costul liniar le pedepsește la fel. Alegerea dintre ele schimbă ce anume se consideră un răspuns bun, nu numai cât de repede se ajunge la el.\n\nPasul de învățare hotărăște cât de mult se mișcă la fiecare corectură. Prea mic, drumul durează prea mult. Prea mare, socoteala sare peste vale și urcă pe partea cealaltă. Între cele două se află o fâșie îngustă în care lucrurile merg.\n\nDacă mărimile intrărilor sunt foarte diferite între ele, vâlceaua costului se lungește într-o parte, iar coborârea o ia în zigzag. Aducerea tuturor intrărilor la aceeași scară îndreaptă vâlceaua și scurtează drumul.\n\nUn model care a învățat pe de rost exemplele nu a învățat nimic despre lume. Singurul fel de a afla dacă a învățat cu adevărat este să i se arate ceva ce nu a văzut niciodată și să se măsoare acolo.\n\nStraturile de la început ale unei rețele care privește imagini găsesc muchii și pete. Cele de la mijloc găsesc colțuri, cercuri și dungi. Cele de sus găsesc lucruri întregi. Nimeni nu le-a împărțit sarcinile; împărțirea a ieșit din antrenare.\n\nUn cuvânt se cunoaște după tovarășii lui. Dacă două cuvinte apar mereu în aceleași vecinătăți, ele ajung să aibă vectori apropiați, chiar dacă nu seamănă deloc la scriere. Apropierea se măsoară prin unghiul dintre vectori, nu prin depărtarea dintre capetele lor.\n\nBucățile în care se taie textul nu sunt cuvinte. Cele des întâlnite rămân întregi, cele rare se sparg în părți mai mici, iar la capătul de jos rămân literele, ca nimic să nu fie cu neputință de scris. Așa încape orice text, în orice limbă, într-un vocabular de mărime fixă.\n\nPerplexitatea este numărul mediu de urmări între care modelul mai șovăie. Un model care șovăie între două urmări are perplexitatea doi. Unul care știe sigur ce vine are perplexitatea unu. Ea se măsoară numai pe text nemaivăzut, fiindcă pe textul învățat orice model pare deștept.\n\nUn rezumat de mărime fixă care trebuie să poarte tot ce s-a citit până acum se umple și începe să piardă. Cu cât drumul dintre locul unde se află informația și locul unde este nevoie de ea este mai lung, cu atât mai puțin ajunge la capăt.\n\nFirele atenției se îngroașă acolo unde răspunsul se potrivește cu întrebarea. Depărtarea nu intră în socoteală: o poziție de la începutul textului este la fel de aproape ca vecina, fiindcă amândouă sunt la un singur produs scalar distanță.\n\nMai multe capete privesc deodată același text, fiecare cu lista lui în cap. Unul urmărește acordul, altul la ce se referă un pronume, altul care este verbul principal. Nimeni nu le-a împărțit treaba între ele.\n\nCostul atenției crește cu pătratul lungimii, fiindcă fiecare poziție se uită la toate celelalte. Dublarea contextului împătrește munca. De aceea ferestrele lungi au fost multă vreme scumpe.\n\nCărțile scoase din raft și puse pe masă sunt toate acolo și se vede ce scrie pe fiecare, dar până nu le numerotezi nu mai știi ce urmează după ce.\n\nAcele unui ceas se rotesc cu viteze foarte diferite. Cel iute deosebește clipele apropiate, cel domol deosebește începutul de sfârșit. Împreună spun, fără să se încurce, în ce loc al zilei ne aflăm.\n\nUn buget de calcul se poate cheltui pe un model mare hrănit puțin sau pe unul mic hrănit mult. Alegerea nu este liberă: la fiecare cantitate de text există o mărime care iese cel mai bine, iar ea crește odată cu textul.\n\nCe rămâne după ce datele și parametrii și-au făcut treaba este imprevizibilitatea însăși a limbii. Sub ea nu se coboară, fiindcă acolo nu mai este nimic de aflat.\n\nCât de departe se poate întinde o legătură dintre două cuvinte? Cât text trebuie văzut până când o regulă iese la iveală? Câți parametri sunt de ajuns? Întrebările acestea nu au un răspuns care să se scrie o dată pentru totdeauna, fiindcă el se mută odată cu mărimea la care se lucrează.\n\nCe se întâmplă dacă maneta este dusă până la capăt? Ce rămâne dacă se scoate o piesă? Sunt întrebările din care se învață cel mai mult, fiindcă ele arată la ce folosea piesa scoasă. Cine nu le pune rămâne cu o listă de rețete și fără nicio idee despre ce ține fiecare.\n\nMerită oare păstrată toată precizia? Este nevoie de tot contextul? Se poate face mai ieftin? Aceste trei întrebări se pun la fiecare pas al construcției, iar răspunsurile lor se schimbă de la un an la altul, pe măsură ce mașinile se schimbă și ele.\n".replace(/\s+/g,' ').trim();
+const LINES="Ce este un bit? Un bit este răspunsul la o întrebare cu două deznodăminte la fel de probabile.\nCe este entropia? Entropia este lungimea medie cea mai mică pe care o poate atinge o codificare.\nCe face o poartă și? O poartă și lasă curentul numai când amândouă intrările sunt pornite.\nCe face o poartă sau? O poartă sau lasă curentul când măcar una dintre intrări este pornită.\nCe este un bistabil? Un bistabil ține minte o singură cifră până când cineva îi cere să o schimbe.\nCe este un registru? Un registru este o ceată de bistabile ținute la un loc.\nCe este un algoritm? Un algoritm este o descriere finită a unui șir de pași care se încheie.\nCe este o funcție de cost? O funcție de cost este măsura care spune cât de prost merge o regulă pe exemplele avute.\nCe este pasul de învățare? Pasul de învățare hotărăște cât de mult se mișcă ponderile la fiecare corectură.\nCe este supraînvățarea? Supraînvățarea este atunci când un model învață și zgomotul, nu numai regula.\nCe este un neuron? Un neuron adună intrările cu ponderi, adaugă o deplasare și trece rezultatul printr-o funcție.\nCe face un strat ascuns? Un strat ascuns lasă rețeaua să despartă și ceea ce o dreaptă singură nu poate desparte.\nCe este propagarea înapoi? Propagarea înapoi împarte vina de la ieșire înapoi, strat cu strat, după cât a contribuit fiecare pondere.\nCe este un filtru? Un filtru este un tipar mic plimbat peste imagine, care găsește același lucru oriunde s-ar afla el.\nCe este un vector de cuvânt? Un vector de cuvânt este locul dat unui cuvânt astfel încât cuvintele cu vecinătăți asemănătoare să ajungă aproape.\nCe este tokenizarea? Tokenizarea este tăierea textului în bucăți mai mici decât cuvintele, ca nimic să nu rămână de nescris.\nCe este perplexitatea? Perplexitatea este numărul mediu de urmări între care modelul mai șovăie.\nCe este atenția? Atenția lasă fiecare poziție să se uite direct la toate celelalte și să ia de la fiecare atât cât are nevoie.\nCe este o cheie? O cheie este eticheta pe care o poziție o pune la vedere, ca să poată fi găsită de o întrebare.\nCe este un cap de atenție? Un cap de atenție este una dintre privirile care lucrează deodată pe același text, fiecare cu lista ei.\nCe este fluxul rezidual? Fluxul rezidual este banda purtată de la intrare la ieșire, la care fiecare parte adaugă ceva.\nCe face normalizarea? Normalizarea aduce la aceeași mărime ceea ce vede fiecare parte, la orice adâncime.\nCe este un marcaj de poziție? Un marcaj de poziție este vectorul care depinde numai de locul unui cuvânt și se adună la vectorul lui.\nCe este preantrenarea? Preantrenarea este etapa lungă în care modelul învață să prezică bucata următoare dintr-un text oarecare.\nCe este o lege de scalare? O lege de scalare spune cum coboară pierderea când cresc împreună datele, parametrii și calculul.\nCe este temperatura? Temperatura este maneta care adâncește sau șterge diferențele dintre probabilități înainte de extragere.\nCe este eșantionarea nucleu? Eșantionarea nucleu păstrează cele mai probabile urmări până la un prag și le taie pe celelalte.\nCe este alegerea lacomă? Alegerea lacomă ia de fiecare dată urmarea cea mai probabilă și intră mai devreme sau mai târziu într-o buclă.\nCe este un canal cu zgomot? Un canal cu zgomot este o legătură care strică din când în când câte un bit din mesaj.\nCe este distanța dintre cuvinte de cod? Distanța dintre două cuvinte de cod este numărul de locuri în care ele se deosebesc.\nCe este eșantionarea unui semnal? Eșantionarea unui semnal este măsurarea lui la răstimpuri egale.\nCe este cuantizarea? Cuantizarea este rotunjirea valorilor măsurate la trepte.\nCe face un procesor? Un procesor citește o instrucțiune, o desface în semnale de comandă și o execută, apoi trece la următoarea.\nCe este un program stocat? Un program stocat este un program care stă în aceeași memorie ca datele, deci poate fi citit și scris ca ele.\nCe este o conexiune de ocolire? O conexiune de ocolire duce intrarea neatinsă până la ieșirea unei părți, ca panta să ajungă la fund.\nCe este golul de capacitate? Golul de capacitate este ce pierde un model din pricina formei lui, chiar cu date nesfârșite.\n".split('\n').map(s=>s.trim()).filter(Boolean);
+const QS=LINES.map(L=>L.slice(0,L.indexOf('? ')+1));
+const AS=LINES.map(L=>L.slice(L.indexOf('? ')+2));
+const PARA=[
+  ['Ce este un bit?','Cât aduce o alegere între două variante deopotrivă de așteptate?'],
+  ['Ce este entropia?','Sub ce prag nu se mai poate scurta scrisul, oricât s-ar strădui cineva?'],
+  ['Ce este un bistabil?','Ce piesă păstrează o valoare până i se cere altceva?'],
+  ['Ce este un algoritm?','Ce înseamnă o rețetă care se termină sigur?'],
+  ['Ce este supraînvățarea?','De ce merge din ce în ce mai prost pe lucruri nevăzute?'],
+  ['Ce este atenția?','Cum ajunge o poziție să folosească ce se află departe de ea?'],
+  ['Ce este perplexitatea?','Cum se arată în cifre cât de nedumerit rămâne un model?'],
+  ['Ce este temperatura?','Ce manetă hotărăște cât de îndrăzneață iese alegerea?'],
+  ['Ce este tokenizarea?','Cum se face ca orice scriere să încapă într-un vocabular mărginit?'],
+  ['Ce este fluxul rezidual?','Pe ce scrie fiecare strat fără să șteargă ce era înainte?'],
+  ['Ce face normalizarea?','Cum se ține la aceeași scară ce ajunge la fiecare parte?'],
+  ['Ce este preantrenarea?','Ce se face cu textul înainte de orice specializare?']
+];
+const norm=s=>s.toLowerCase().replace(/[^a-zăâîșț ]/g,' ').split(/\s+/).filter(w=>w.length>2);
+
+/* ================= potrivirea după cuvinte ================= */
+const DOCS=AS.map(norm), ND=DOCS.length;
+const DF={};
+DOCS.forEach(function(d){ new Set(d).forEach(function(w){ DF[w]=(DF[w]||0)+1; }); });
+const idf=w=>Math.log((ND+1)/((DF[w]||0)+1))+1;
+function tfidf(ws){
+  const tf={}; ws.forEach(function(w){ tf[w]=(tf[w]||0)+1; });
+  const v={}; let n=0;
+  for(const w in tf){ const x=(1+Math.log(tf[w]))*idf(w); v[w]=x; n+=x*x; }
+  n=Math.sqrt(n)||1;
+  for(const w in v) v[w]/=n;
+  return v;
+}
+const DV=DOCS.map(tfidf);
+function kwScore(q){
+  const qv=tfidf(norm(q));
+  return DV.map(function(dv,i){ let s=0; for(const w in qv) if(dv[w]) s+=qv[w]*dv[w]; return {i:i,s:s}; });
+}
+
+/* ================= vectori din vecinătăți ================= */
+const TXT=(BASE+' '+LINES.join(' ')).toLowerCase().replace(/[^a-zăâîșț ]/g,' ');
+const TOK=TXT.split(/\s+/).filter(w=>w.length>2);
+const CNT={}; TOK.forEach(function(w){ CNT[w]=(CNT[w]||0)+1; });
+const VOC=Object.keys(CNT).filter(w=>CNT[w]>=2).sort();
+const IX={}; VOC.forEach(function(w,i){ IX[w]=i; });
+const NW=VOC.length, WIN=4, K=24;
+const WVEC=[];
+(function(){
+  const CO=new Float64Array(NW*NW);
+  for(let i=0;i<TOK.length;i++){
+    const a=IX[TOK[i]]; if(a===undefined) continue;
+    for(let j=Math.max(0,i-WIN);j<=Math.min(TOK.length-1,i+WIN);j++){
+      if(j===i) continue;
+      const b=IX[TOK[j]]; if(b===undefined) continue;
+      CO[a*NW+b]+=1;
+    }
+  }
+  const ROW=new Float64Array(NW); let TOT=0;
+  for(let a=0;a<NW;a++){ let s=0; for(let b=0;b<NW;b++) s+=CO[a*NW+b]; ROW[a]=s; TOT+=s; }
+  const M=new Float64Array(NW*NW);
+  for(let a=0;a<NW;a++) for(let b=0;b<NW;b++){
+    const c=CO[a*NW+b]; if(c===0) continue;
+    const v=Math.log((c/TOT)/((ROW[a]/TOT)*(ROW[b]/TOT)));
+    M[a*NW+b]=v>0?v:0;
+  }
+  const r=mulberry32(3), COMP=[];
+  const W=[]; for(let a=0;a<NW;a++) W.push(M.slice(a*NW,(a+1)*NW));
+  for(let k=0;k<K;k++){
+    let u=new Float64Array(NW); for(let i=0;i<NW;i++) u[i]=r()*2-1;
+    for(let it=0;it<25;it++){
+      const w=new Float64Array(NW);
+      for(const row of W){ let d=0; for(let i=0;i<NW;i++) d+=row[i]*u[i];
+        for(let i=0;i<NW;i++) w[i]+=d*row[i]; }
+      let n=0; for(let i=0;i<NW;i++) n+=w[i]*w[i]; n=Math.sqrt(n)||1;
+      for(let i=0;i<NW;i++) u[i]=w[i]/n;
+    }
+    COMP.push(u);
+    for(const row of W){ let d=0; for(let i=0;i<NW;i++) d+=row[i]*u[i];
+      for(let i=0;i<NW;i++) row[i]-=d*u[i]; }
+  }
+  for(let a=0;a<NW;a++){
+    const v=new Float64Array(K), row=M.slice(a*NW,(a+1)*NW);
+    for(let k=0;k<K;k++){ let d=0; const u=COMP[k];
+      for(let i=0;i<NW;i++) d+=row[i]*u[i]; v[k]=d; }
+    WVEC.push(v);
+  }
+})();
+function embed(ws){
+  const v=new Float64Array(K);
+  for(const w of ws){ const a=IX[w]; if(a===undefined) continue;
+    const wt=idf(w);
+    for(let k=0;k<K;k++) v[k]+=wt*WVEC[a][k]; }
+  let n=0; for(let k=0;k<K;k++) n+=v[k]*v[k]; n=Math.sqrt(n)||1;
+  for(let k=0;k<K;k++) v[k]/=n;
+  return v;
+}
+const DE=DOCS.map(embed);
+function vecScore(q){
+  const qv=embed(norm(q));
+  return DE.map(function(dv,i){ let s=0; for(let k=0;k<K;k++) s+=qv[k]*dv[k]; return {i:i,s:s}; });
+}
+const scoreOf=(q,m)=>m===0?kwScore(q):vecScore(q);
+function ranked(q,m){ return scoreOf(q,m).slice().sort((a,b)=>b.s-a.s); }
+function rankOf(q,m,gold){ return ranked(q,m).findIndex(x=>x.i===gold)+1; }
+
+/* lista de întrebări: originale plus reformulate */
+const ITEMS=[];
+QS.forEach(function(q,i){ ITEMS.push({q:q, gold:i, para:false}); });
+PARA.forEach(function(p){
+  const i=QS.findIndex(q=>q.trim()===p[0].trim());
+  if(i>=0) ITEMS.push({q:p[1], gold:i, para:true});
+});
+
+/* ================= 1. ce scoate căutarea ================= */
+let CUR=0, MODE=0;
+(function(){
+  const frags=document.getElementById('frags'), read=document.getElementById('fRead'),
+        cap=document.getElementById('capF'), sel=document.getElementById('qSel');
+  const bK=document.getElementById('mKw'), bV=document.getElementById('mVe');
+  ITEMS.forEach(function(it,i){
+    const o=document.createElement('option'); o.value=String(i);
+    o.textContent=(it.para?'⟳ ':'')+it.q;
+    sel.appendChild(o);
+  });
+  function paint(){
+    const it=ITEMS[CUR], R=ranked(it.q,MODE);
+    frags.innerHTML='';
+    for(let i=0;i<5;i++){
+      const d=document.createElement('div');
+      d.className='frag'+(R[i].i===it.gold?' hit':'');
+      const rk=document.createElement('div'); rk.className='rk'; rk.textContent=(i+1)+'.';
+      const tx=document.createElement('div'); tx.className='tx'; tx.textContent=AS[R[i].i];
+      const sc=document.createElement('div'); sc.className='sc'; sc.textContent=nf(R[i].s,2);
+      d.appendChild(rk); d.appendChild(tx); d.appendChild(sc); frags.appendChild(d);
+    }
+    const rk=rankOf(it.q,MODE,it.gold);
+    read.innerHTML='';
+    [['fragmente în colecție',String(ND)],
+     ['felul căutării',MODE===0?'cuvinte':'vectori'],
+     ['rangul fragmentului potrivit',String(rk)],
+     ['întrebarea',it.para?'pusă în alte cuvinte':'ca la început']
+    ].forEach(function(x){ const s=document.createElement('span');
+      s.innerHTML=x[0]+' <b>'+x[1]+'</b>'; read.appendChild(s); });
+    cap.innerHTML = rk===1
+      ? 'Fragmentul potrivit iese <b class="on">pe primul loc</b>. Din '+ND+' de fragmente, căutarea l-a scos exact pe cel care lămurește întrebarea.'
+      : (rk<=5
+        ? 'Fragmentul potrivit iese pe locul <b>'+rk+'</b> — este printre cele arătate, dar nu primul.'
+        : 'Fragmentul potrivit nu apare printre primele cinci; el se află abia pe locul <b class="off">'+rk+
+          '</b> din '+ND+'. Ce s-ar lipi în context nu ar cuprinde răspunsul.');
+    if(window.__ctxPaint) window.__ctxPaint();
+    sfx.nudge();
+  }
+  sel.addEventListener('change',function(){ CUR=+sel.value; paint(); });
+  bK.addEventListener('click',function(){ MODE=0; bK.classList.add('on'); bV.classList.remove('on'); sfx.step(1); paint(); });
+  bV.addEventListener('click',function(){ MODE=1; bV.classList.add('on'); bK.classList.remove('on'); sfx.step(2); paint(); });
+  window.__fragPaint=paint;
+  paint();
+})();
+
+/* ================= 2. contextul lipit ================= */
+(function(){
+  const ctx=document.getElementById('ctx'), read=document.getElementById('cRead'), cap=document.getElementById('capC');
+  const cK=document.getElementById('cK'), cKv=document.getElementById('cKv');
+  function paint(){
+    const k=+cK.value; cKv.textContent=String(k);
+    const it=ITEMS[CUR], R=ranked(it.q,MODE);
+    let s='Folosește textele de mai jos ca să răspunzi.\n\n';
+    for(let i=0;i<k;i++) s+='['+(i+1)+'] '+AS[R[i].i]+'\n';
+    s+='\nÎntrebare: '+it.q+'\nRăspuns:';
+    ctx.textContent=s;
+    let has=false; for(let i=0;i<k;i++) if(R[i].i===it.gold) has=true;
+    read.innerHTML='';
+    [['fragmente lipite',String(k)],
+     ['semne în context',String(s.length)],
+     ['fragmentul potrivit este printre ele',has?'da':'nu']
+    ].forEach(function(x){ const s2=document.createElement('span');
+      s2.innerHTML=x[0]+' <b>'+x[1]+'</b>'; read.appendChild(s2); });
+    cap.innerHTML = has
+      ? 'Cu <b>'+k+'</b> '+unit(k,'fragment lipit','fragmente lipite')+', răspunsul se află <b class="on">în context</b>. Modelul nu are de făcut decât să îl citească.'
+      : 'Cu <b>'+k+'</b> '+unit(k,'fragment lipit','fragmente lipite')+', răspunsul <b class="off">nu se află în context</b>. Orice ar scrie modelul de aici încolo nu are de unde să fie întemeiat.';
+  }
+  cK.addEventListener('input',function(){ sfx.nudge(); paint(); });
+  window.__ctxPaint=paint;
+  paint();
+})();
+
+/* ================= 3. măsurătoarea ================= */
+const KS=[1,2,3,5,8,12,20];
+(function(){
+  const tbl=document.getElementById('tblR'), read=document.getElementById('rRead'),
+        cap=document.getElementById('capR'), key=document.getElementById('pKey');
+  const cv=document.getElementById('cvPlot'), ctx=cv.getContext('2d');
+  const ORIG=ITEMS.filter(i=>!i.para), REW=ITEMS.filter(i=>i.para);
+  function recall(set,m,k){
+    let ok=0;
+    for(const it of set) if(rankOf(it.q,m,it.gold)<=k) ok++;
+    return ok/set.length;
+  }
+  function meanRank(set,m){
+    let s=0; for(const it of set) s+=rankOf(it.q,m,it.gold);
+    return s/set.length;
+  }
+  const CURVES=[
+    {nm:'ca la început · cuvinte', set:ORIG, m:0, c:'--c-data'},
+    {nm:'ca la început · vectori', set:ORIG, m:1, c:'--c-out'},
+    {nm:'reformulate · cuvinte',   set:REW,  m:0, c:'--c-error'},
+    {nm:'reformulate · vectori',   set:REW,  m:1, c:'--c-param'}
+  ];
+  CURVES.forEach(function(C){ C.pts=KS.map(k=>recall(C.set,C.m,k)); C.mr=meanRank(C.set,C.m); });
+  function draw(){
+    const r=cv.getBoundingClientRect();
+    if(r.width>=1){ const w=Math.round(r.width),h=Math.round(r.height);
+      if(cv.__w!==w||cv.__h!==h){ const dpr=Math.min(devicePixelRatio||1,2);
+        cv.__w=w; cv.__h=h; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0); } }
+    const w=cv.__w||300, h=cv.__h||200;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle=col('--surface'); ctx.fillRect(0,0,w,h);
+    const padL=44,padR=12,padT=18,padB=32;
+    const gw=w-padL-padR, gh=h-padT-padB;
+    const X0=Math.log10(1), X1=Math.log10(20);
+    const px=v=>padL+(Math.log10(v)-X0)/(X1-X0)*gw, py=v=>padT+(1-v)*gh;
+    ctx.font='400 10px '+col('--f-mono').replace(/"/g,'');
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    KS.forEach(function(k){ const x=px(k);
+      ctx.strokeStyle=rgba('--rule',0.9); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+gh); ctx.stroke();
+      ctx.fillStyle=col('--muted'); ctx.fillText(String(k),x,padT+gh+5); });
+    ctx.textAlign='right'; ctx.textBaseline='middle';
+    [0,0.25,0.5,0.75,1].forEach(function(v){ const y=py(v);
+      ctx.strokeStyle=rgba('--rule',0.7); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+gw,y); ctx.stroke();
+      ctx.fillStyle=col('--muted'); ctx.fillText(nf(v*100,0)+'%',padL-6,y); });
+    ctx.strokeStyle=col('--rule'); ctx.strokeRect(padL-0.5,padT-0.5,gw+1,gh+1);
+    CURVES.forEach(function(C){
+      ctx.strokeStyle=col(C.c); ctx.lineWidth=2;
+      if(C.m===1){ ctx.setLineDash([5,4]); } else ctx.setLineDash([]);
+      ctx.beginPath();
+      KS.forEach(function(k,i){ const x=px(k),y=py(C.pts[i]);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+      ctx.stroke(); ctx.setLineDash([]);
+      KS.forEach(function(k,i){ ctx.fillStyle=col(C.c);
+        ctx.beginPath(); ctx.arc(px(k),py(C.pts[i]),2.6,0,Math.PI*2); ctx.fill(); });
+    });
+    ctx.fillStyle=col('--muted'); ctx.textAlign='left'; ctx.textBaseline='top';
+    ctx.fillText('FRAGMENTE LIPITE',padL,padT+gh+18);
+    ctx.fillText('GĂSIT',padL-38,4);
+  }
+  let h='<thead><tr><th class="name">Întrebări</th><th>Fel</th><th>Pe primul loc</th><th>În primele trei</th><th>Rang mediu</th></tr></thead><tbody>';
+  CURVES.forEach(function(C){
+    h+='<tr><td class="name">'+C.nm.split(' · ')[0]+'</td><td class="name">'+C.nm.split(' · ')[1]+'</td>'+
+       '<td class="'+(C.pts[0]>0.8?'ok':(C.pts[0]<0.4?'bad':''))+'">'+nf(C.pts[0]*100,0)+'%</td>'+
+       '<td>'+nf(C.pts[2]*100,0)+'%</td><td>'+nf(C.mr,1)+'</td></tr>';
+  });
+  h+='</tbody>'; tbl.innerHTML=h;
+  key.innerHTML='';
+  CURVES.forEach(function(C){ const i=document.createElement('i');
+    i.innerHTML='<span class="sw" style="background:'+col(C.c)+'"></span>'+C.nm; key.appendChild(i); });
+  read.innerHTML='';
+  [['întrebări ca la început',String(ORIG.length)],['reformulate',String(REW.length)],
+   ['fragmente în colecție',String(ND)]
+  ].forEach(function(x){ const s=document.createElement('span');
+    s.innerHTML=x[0]+' <b>'+x[1]+'</b>'; read.appendChild(s); });
+  const a=CURVES[0], b=CURVES[2], c=CURVES[3];
+  cap.innerHTML='Cu întrebările scrise ca la început, numărarea cuvintelor scoate fragmentul potrivit pe primul loc în <b class="on">'+
+    nf(a.pts[0]*100,0)+'%</b> din cazuri. Puse în alte cuvinte, aceleași întrebări o coboară la <b class="off">'+
+    nf(b.pts[0]*100,0)+'%</b>, iar rangul mediu urcă de la <b>'+nf(a.mr,1)+'</b> la <b>'+nf(b.mr,1)+
+    '</b>. Vectorii nu salvează situația: <b>'+nf(c.pts[0]*100,0)+'%</b> pe primul loc, cu rangul mediu <b>'+nf(c.mr,1)+'</b>.';
+  window.__plotDraw=draw;
+  draw();
+  if(window.ResizeObserver) new ResizeObserver(draw).observe(cv);
+})();
+
+/* ================= tema ================= */
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+if(mq.addEventListener) mq.addEventListener('change',function(){ if(window.__plotDraw) window.__plotDraw(); });
+new MutationObserver(function(){ if(window.__plotDraw) window.__plotDraw(); })
+  .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ce știe o mașină</title>
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+  .other{display:flex;justify-content:center;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+    border-top:2px solid var(--ink);padding-top:.9rem;
+    font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase}
+  .other .ol{color:var(--muted)}
+  .other a{color:var(--cobalt);text-decoration:none;border-bottom:1.5px solid var(--cobalt);padding-bottom:2px}
+  .other a:hover{color:var(--orange);border-bottom-color:var(--orange)}
+</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ============================================================
+   TEMA CURSULUI · „Riso”: tipar risograf, hârtie granulată,
+   cerneluri suprapuse ușor nealiniate, forzaț marmorat propriu
+   fiecărei lecții (seed = numărul lecției).
+   Un singur registru vizual, pictat explicit.
+   Blocul acesta este identic în toate paginile cursului.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --paper:#EEE8D5;
+  --paper-2:#F7F3E6;
+  --ink:#22252D;
+  --muted:#686A62;
+  --rule:#CFC8B4;      /* linii de grilă în desene */
+  --cobalt:#2F4BC4;
+  --orange:#EE5A2F;
+  --olive:#6B7A38;
+  --lemon:#E9C93B;
+  --rose:#DDA6B0;
+
+  /* gramatica de culoare: aceleași roluri în toate lecțiile */
+  --c-live:#2F4BC4;  --c-live-bg:#C9D1F1;   /* încă posibil, valoare 1, curent */
+  --c-dead:#BDB9AA;  --c-dead-bg:#E2DECF;   /* exclus, valoare 0, inert */
+  --c-found:#EE5A2F; --c-found-bg:#F9D3C2;  /* găsit, rezultat, valoare învățată */
+  --c-know:#5F6D2E;  --c-know-bg:#E1E4C3;   /* întrebare, tăietură, pereche aleasă */
+  --c-ok:#5F6D2E;    --c-ok-bg:#E1E4C3;     /* verificare trecută */
+  --c-bad:#B5232B;   --c-bad-bg:#F3C9C6;    /* eroare, bit răsturnat */
+
+  /* culorile figurilor de învățare (lecțiile 12–21) și numele vechi folosite de desene */
+  --surface:#F7F3E6; --surface-2:#EEE8D5; --bg:#EEE8D5; --accent-soft:#E1E4C3;
+  --c-data:#2F4BC4;   /* măsurători, exemple, clasa 1 */
+  --c-out:#EE5A2F;    /* dreapta potrivită, rezultatul */
+  --c-error:#B5232B;  /* greșeala */
+  --c-alt:#6B7A38;    /* a doua clasă, a doua metodă */
+  --c-param:#B58A12;  /* poziția butoanelor, parametrii */
+  --c-test:#7A4E9C;   /* setul de test */
+  --land-lo:#F7F3E6; --land-hi:#2F4BC4; --land-line:#22252D;
+
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;position:relative;
+}
+/* granulația tiparului */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.14 0 0 0 0 0.18 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity:.45;
+}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+
+p{margin:0}
+a{color:var(--cobalt);text-decoration-thickness:2px;text-underline-offset:.15em}
+a:hover{color:var(--orange)}
+dfn{font-style:normal;font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--lemon) 62%)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+
+/* ---------- coala: cap de tipar ---------- */
+.runhead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem 1.4rem;flex-wrap:wrap;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  padding:1rem 0 .8rem;border-bottom:2px solid var(--ink);
+}
+.runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
+.runhead a:hover{color:var(--orange);border-color:var(--orange)}
+.snd{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:2px solid var(--ink);color:var(--ink);
+  padding:.28rem .7rem .28rem .6rem;border-radius:0;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.snd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);transition:background .2s}
+.snd[aria-pressed="false"]::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.snd:hover{background:var(--lemon)}
+
+/* forzațul marmorat, închis în chenar */
+.plate{border:2px solid var(--ink);border-top:none;display:flex;flex-direction:column}
+.marble{
+  height:clamp(150px,26vw,250px);background:var(--cobalt);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  position:relative;
+}
+.marble::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 6px var(--paper-2),inset 0 0 0 8px var(--ink)}
+
+.masthead{display:flex;flex-direction:column;gap:1.1rem;padding-top:2.2rem}
+h1{font-size:clamp(3rem,2rem + 5vw,5.4rem);letter-spacing:-.015em;line-height:.95}
+h1 i{color:var(--cobalt)}
+.lede{font-size:clamp(1.12rem,1rem + .6vw,1.35rem);line-height:1.45;max-width:36em;color:var(--ink);text-wrap:pretty}
+.terms{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:64ch;line-height:1.9}
+.terms b{font-weight:400;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:.05rem .4rem;white-space:nowrap}
+
+/* ---------- pagina de titlu: marmorarea în jurul titlului, cuprinsul ---------- */
+.cover .marble{height:clamp(300px,46vw,460px);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,5vw,3rem)}
+.cover .card{
+  position:relative;z-index:1;background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--cobalt);padding:clamp(1.1rem,3vw,2rem) clamp(1.3rem,4vw,2.6rem);
+  max-width:34rem;text-align:center;display:flex;flex-direction:column;gap:.7rem;
+}
+.cover .card h1{font-size:clamp(2.6rem,1.6rem + 5.5vw,5rem)}
+.cover .card .sub{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cover .card .sub b{color:var(--orange);font-weight:700}
+.cover .intro{display:flex;flex-direction:column;gap:1rem;padding-top:2.2rem}
+.cover .intro p{max-width:64ch;text-wrap:pretty}
+h2.bare::before{content:none}
+.toc{display:flex;flex-direction:column;gap:1.6rem;margin-top:2.6rem}
+.parts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.parts > li{display:grid;gap:.6rem 2rem}
+@media (min-width:760px){.parts > li{grid-template-columns:14rem 1fr}}
+.parts h3{font-size:1.65rem;line-height:1.1;display:flex;flex-direction:column;gap:.25rem}
+.parts h3 .pn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.lessons{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lessons li{border-bottom:1.5px solid var(--ink)}
+.lessons a,.lessons .row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.5rem .4rem;color:var(--ink);text-decoration:none}
+.lessons a:hover{background:var(--lemon);color:var(--ink)}
+.lessons .no{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--cobalt)}
+.lessons .t{font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.lessons .st{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lessons li.off .t{color:var(--muted)}
+.lessons li.off .no{color:var(--muted)}
+
+/* ---------- secțiuni ---------- */
+.sections{display:flex;flex-direction:column;gap:3.4rem;margin-top:3.2rem}
+section{position:relative;display:flex;flex-direction:column;gap:1.05rem;counter-increment:sec}
+section p,.claims li{max-width:64ch;text-wrap:pretty}
+h2{
+  font-size:clamp(1.9rem,1.5rem + 1.6vw,2.6rem);padding-top:.9rem;border-top:2px solid var(--ink);
+  display:flex;align-items:center;gap:.8rem;
+}
+h2::before{content:counter(sec,decimal-leading-zero) " /";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--orange);flex:none;align-self:flex-start;margin-top:.9rem}
+.orn{flex:none;width:2.2rem;height:2.2rem;display:inline-block;order:3;margin-left:auto}
+.orn svg{width:100%;height:100%;display:block;overflow:visible}
+.o-fill{fill:var(--rose)} .o-fill2{fill:var(--orange)}
+.o-line{fill:none;stroke:var(--ink);stroke-width:2.2}
+.o-dot{fill:var(--cobalt)} .o-half{fill:var(--cobalt)}
+.o-cut{stroke:var(--olive);stroke-width:3;fill:none}
+.o-grid circle,.o-grid rect{fill:var(--cobalt)}
+.o-bar{fill:var(--cobalt)} .o-bar2{fill:var(--orange)} .o-bad{fill:var(--c-bad)}
+.o-wave{fill:none;stroke:var(--cobalt);stroke-width:3}
+@media (min-width:1140px){
+  .orn{position:absolute;right:-5.6rem;top:1rem;width:3.8rem;height:3.8rem;margin:0}
+}
+.note{font-size:.92rem;color:var(--muted);padding-left:1rem;border-left:3px solid var(--olive)}
+.first{font-size:1.06em}
+.claims{list-style:none;padding:0;margin:.2rem 0 0;display:flex;flex-direction:column;gap:.9rem}
+.claims li{position:relative;padding-left:1.8rem}
+.claims li::before{content:"";position:absolute;left:0;top:.45em;width:.75rem;height:.75rem;border-radius:50%;background:var(--orange);box-shadow:3px -2px 0 var(--cobalt);mix-blend-mode:multiply}
+.claims b{font-weight:600}
+
+/* ---------- figuri ---------- */
+.fig{
+  margin:1rem 8px 1.4rem 0;padding:0;
+  background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:7px 7px 0 var(--cobalt);
+  display:flex;flex-direction:column;
+}
+.fig-head{
+  padding:.7rem 1rem .1rem;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+}
+.pl::before{content:"Fig. " attr(data-a) " / ";color:var(--orange);font-weight:700}
+.stage{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.85rem}
+.cap{
+  border-top:2px solid var(--ink);padding:.6rem 1rem;
+  font-size:.9rem;color:var(--muted);min-height:2.9rem;
+}
+.cap b{color:var(--ink);font-weight:600}
+.cap .bad{color:var(--c-bad)} .cap .ok{color:var(--c-ok)}
+.cap .on{color:var(--cobalt)} .cap .off{color:var(--muted)}
+.ctrl{border-top:2px solid var(--ink);padding:.65rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;background:var(--paper)}
+button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);
+  padding:.42rem .8rem;border-radius:0;cursor:pointer;
+}
+button:hover:not(:disabled){background:var(--lemon)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--ink);color:var(--paper-2)}
+button.primary:hover:not(:disabled){background:var(--cobalt);border-color:var(--cobalt)}
+button.on{background:var(--cobalt);color:var(--paper-2)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rng input[type=range]{width:clamp(100px,26vw,180px);accent-color:var(--orange)}
+.val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink);font-size:.8rem;text-transform:none;letter-spacing:0}
+.count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:700}
+.lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* rând de cutii / posibilități */
+.row{display:flex;gap:3px;align-items:stretch;position:relative}
+.row.wrap{flex-wrap:wrap}
+.cell{
+  flex:1 1 0;min-width:0;aspect-ratio:3/4;
+  border:1.5px solid var(--c-live);background:var(--c-live-bg);border-radius:0;
+  transition:background .3s,border-color .3s,opacity .3s,transform .3s;
+}
+.row.wrap .cell{flex:none;width:14px;height:19px;border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.dead{border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.found,.row.wrap .cell.pick{border-color:var(--ink);background:var(--c-found);opacity:1}
+.cell.found{transform:translateY(-3px)}
+.cell.asked{box-shadow:inset 0 0 0 2px var(--c-know)}
+@media (prefers-reduced-motion:reduce){.cell,.cut,.bars .b,.meter .fill,.bit{transition:none}}
+.cut{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--c-know);transition:left .26s;pointer-events:none}
+.rowwrap{position:relative;padding:6px 0}
+
+.log{display:flex;flex-wrap:wrap;gap:.32rem;align-items:center;min-height:1.8rem}
+.log .q{font-family:var(--f-mono);font-size:.7rem;border:1.5px solid var(--c-know);color:var(--c-know);background:var(--c-know-bg);padding:.08rem .45rem}
+.log .q.code{border-style:dashed;background:transparent;color:var(--ink);letter-spacing:.14em}
+.log .empty{font-size:.88rem;color:var(--muted)}
+
+.race{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:.6rem}
+@media (min-width:640px){.race{grid-template-columns:1fr 1fr}}
+.lane{background:var(--paper-2);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lane h3{font-size:1.35rem}
+.lane .sub2{font-size:.86rem;color:var(--muted);font-family:var(--f-mono)}
+
+/* tabele */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tblwrap{overflow-x:auto}
+.tblwrap.tall{max-height:290px;overflow-y:auto}
+.tbl th,.tbl td{text-align:left;padding:.4rem .75rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+.tbl th{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400;position:sticky;top:0;background:var(--paper-2)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.code{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);letter-spacing:.08em}
+.tbl td.sym{font-family:var(--f-mono);font-weight:700}
+.tbl tr.on td{background:var(--c-found-bg)}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* tabele de adevăr */
+.tt{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;width:100%;max-width:360px}
+.tt th,.tt td{border:1.5px solid var(--ink);padding:.2rem .45rem;text-align:center}
+.tt th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.tt tr.now td{background:var(--c-know-bg);color:var(--c-know)}
+.tt td.out{font-weight:700}
+.tt td.one{color:var(--orange);font-weight:700}
+.ttwrap{display:flex;justify-content:center}
+
+/* constructorul de funcții logice */
+.build{border-collapse:collapse;font-family:var(--f-mono);font-size:.8rem;width:100%;max-width:420px}
+.build th,.build td{border:1.5px solid var(--ink);padding:.25rem .5rem;text-align:center}
+.build th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.build td.pick{cursor:pointer;user-select:none}
+.build td.pick.one{background:var(--c-found);color:var(--ink);font-weight:700}
+.build td.pick:hover{background:var(--lemon)}
+.expr{font-family:var(--f-mono);font-size:.8rem;line-height:1.75;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;overflow-x:auto}
+.expr .op{color:var(--cobalt);font-weight:700}
+.expr .neg{color:var(--c-bad)}
+.two{display:grid;gap:.8rem}
+@media (min-width:600px){.two{grid-template-columns:auto 1fr;align-items:start}}
+
+/* coloane de adunare (lecția 6) */
+.cols{overflow-x:auto}
+.agrid{display:inline-grid;gap:3px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.agrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.acell{width:30px;height:30px;font-family:var(--f-mono);font-size:.9rem;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;letter-spacing:0;text-transform:none}
+.acell.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.acell.tap{cursor:pointer}
+.acell.tap:hover{background:var(--lemon);color:var(--ink)}
+.acell.sum{border-color:var(--ink);background:var(--paper-2)}
+.acell.sum.one{background:var(--c-found);color:var(--ink)}
+.acell.car{width:30px;height:20px;font-size:.7rem;border-style:dashed}
+.acell.car.one{border-color:var(--c-know);background:var(--c-know-bg);color:var(--c-know)}
+.acell.pend{opacity:.35}
+.acell.here{box-shadow:3px 3px 0 var(--c-know)}
+.acell.ghost{border-style:dashed;opacity:.75}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.readout b{color:var(--ink);font-weight:700}
+.readout .warn{color:var(--paper-2);background:var(--c-bad);padding:0 .4rem}
+
+/* adrese binare */
+.addr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}
+.addr div{border:1.5px solid var(--ink);padding:.4rem .2rem;background:var(--paper-2);text-align:center;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.addr div b{color:var(--ink);font-weight:700;font-size:.8rem;letter-spacing:.1em}
+.addr div.hit{background:var(--c-found);color:var(--ink);box-shadow:3px 3px 0 var(--cobalt)}
+.addr div.hit b{color:var(--ink)}
+
+/* bare de probabilitate */
+.bars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.bars .b{flex:1 1 0;background:var(--c-live);border:1.5px solid var(--ink);position:relative;transition:height .2s;min-height:2px;box-shadow:3px -2px 0 var(--orange)}
+.barlabels{display:flex;gap:5px}
+.barlabels span{flex:1 1 0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+
+/* măsurători cu bară */
+.meters{display:flex;flex-direction:column;gap:.5rem}
+.meter{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:.6rem;align-items:center;font-size:.83rem}
+.meter .nm{color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+.meter .track{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:16px;overflow:hidden}
+.meter .fill{height:100%;transition:width .3s}
+.meter .amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.74rem;white-space:nowrap}
+.fill.fix{background:var(--c-dead)}
+.fill.huf{background:var(--c-live)}
+.fill.ent{background:var(--c-found)}
+
+/* noduri în construcția unui cod */
+.nodes{display:flex;flex-wrap:wrap;gap:4px;min-height:3.4rem;align-content:flex-start}
+.node{border:1.5px solid var(--ink);background:var(--paper-2);padding:.12rem .4rem;font-family:var(--f-mono);font-size:.74rem;display:flex;gap:.35rem;align-items:baseline;transition:background .2s,border-color .2s}
+.node .w{color:var(--muted);font-size:.66rem}
+.node.pair{background:var(--c-know-bg);color:var(--c-know)}
+.node.pair .w{color:var(--c-know)}
+.node.new{background:var(--c-found);color:var(--ink)}
+.node.new .w{color:var(--ink)}
+
+textarea{width:100%;min-height:6.5rem;resize:vertical;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem}
+
+/* fluxul de biți și mesaje */
+.stream{display:flex;flex-wrap:wrap;gap:2px}
+.stream i{width:9px;height:14px;display:block;background:var(--c-dead-bg);border:1px solid var(--c-dead);font-style:normal}
+.stream i.one{background:var(--c-live-bg);border-color:var(--c-live)}
+.stream i.flip{background:var(--c-bad);border-color:var(--c-bad)}
+.msg{font-family:var(--f-mono);font-size:.9rem;line-height:1.7;word-break:break-word;background:var(--paper-2);border:1.5px solid var(--ink);padding:.5rem .6rem}
+.msg u{text-decoration:none;color:var(--paper-2);background:var(--c-bad)}
+.pair{display:flex;flex-direction:column;gap:.3rem}
+
+/* biți pe care se poate apăsa */
+.bitrow{display:flex;flex-wrap:wrap;gap:5px}
+.bit{width:36px;height:42px;cursor:pointer;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);font-family:var(--f-mono);font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:0;transition:background .15s,border-color .15s;letter-spacing:0;text-transform:none}
+.bit:hover:not(:disabled){background:var(--lemon)}
+.bit.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.bit.par{border-style:dashed}
+.bit.err{border-color:var(--ink);background:var(--c-bad);color:var(--paper-2)}
+.bit small{font-size:.55rem;letter-spacing:.04em;opacity:.8;line-height:1}
+
+/* verificări */
+.checks{display:flex;flex-direction:column;gap:.3rem}
+.check{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.check .tag{color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
+.check .res{padding:0 .35rem}
+.check .res.ok{color:var(--c-ok);background:var(--c-ok-bg)}
+.check .res.no{color:var(--paper-2);background:var(--c-bad)}
+
+/* cuvinte de trei biți */
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px}
+.words div{border:1.5px solid var(--ink);padding:.35rem .2rem;text-align:center;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);background:var(--paper-2)}
+.words div span{display:block;font-size:.6rem;opacity:.85}
+.words div.cw{background:var(--c-found);color:var(--ink);font-weight:700}
+.words div.near0{color:var(--cobalt)}
+.words div.here{box-shadow:4px 4px 0 var(--c-know)}
+
+/* pânze, panouri, legende */
+canvas{display:block;width:100%;aspect-ratio:16/6}
+canvas.cv-wave{aspect-ratio:16/6}
+canvas.cv-circ{aspect-ratio:16/8}
+canvas.cv-img{aspect-ratio:16/10;border:1.5px solid var(--ink)}
+.panels{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+@media (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper-2);display:flex;flex-direction:column;gap:.45rem;padding:.75rem .8rem .9rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{width:18px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+
+/* registre și instrucțiuni pe biți (lecțiile 7–8) */
+.regwrap{overflow-x:auto}
+.reg{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.reg .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.reg .bit,.bits .bit{width:32px;height:32px;font-size:.88rem}
+.bit.mem{border-color:var(--ink);background:var(--paper-2)}
+.bit.mem.one{background:var(--c-found);color:var(--ink)}
+.bit.diff{box-shadow:3px 3px 0 var(--c-know)}
+.bits{display:flex;gap:6px;flex-wrap:wrap}
+.bitgrp{display:flex;flex-direction:column;gap:3px;align-items:center}
+.bitgrp .gl{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bitgrp .row{display:flex;gap:3px}
+.grp-op .bit.one{background:var(--c-know);border-color:var(--ink)}
+.grp-a .bit.one{background:var(--c-found);color:var(--ink);border-color:var(--ink)}
+.asm{font-family:var(--f-mono);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .7rem}
+
+/* mașina (lecția 8) */
+.machine{display:grid;gap:.8rem}
+@media (min-width:640px){.machine{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.prog{border:1.5px solid var(--ink);overflow:hidden}
+.prow{display:grid;grid-template-columns:2.1rem 3.1rem 1fr;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem;padding:.18rem .45rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.prow:last-child{border-bottom:none}
+.prow .ad{opacity:.7}
+.prow .nm{font-variant-numeric:tabular-nums;color:var(--ink)}
+.prow .tx{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow.at{background:var(--c-know-bg)}
+.prow.at .ad,.prow.at .nm,.prow.at .tx{color:var(--c-know)}
+.regs{display:flex;flex-direction:column;gap:.35rem}
+.regrow{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.8rem}
+.regrow .rn{color:var(--muted);width:1.8rem}
+.regrow .rv{border:1.5px solid var(--ink);background:var(--paper);padding:.1rem .5rem;min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.regrow .rb{color:var(--muted);font-size:.7rem}
+.regrow.hit .rv{background:var(--c-found);color:var(--ink)}
+.small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.outbox{font-family:var(--f-mono);font-size:.85rem;border:1.5px solid var(--ink);background:var(--paper);padding:.35rem .55rem;min-height:2rem;color:var(--orange);font-weight:700}
+.phases{display:flex;gap:.3rem;flex-wrap:wrap}
+.ph{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.12rem .45rem;color:var(--muted)}
+.ph.at{background:var(--c-know);color:var(--paper-2)}
+
+/* banda de memorie, asamblorul, scara (lecția 9) */
+.strip{overflow-x:auto}
+.sgrid{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.sgrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.sc{min-width:74px;height:30px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--paper-2);color:var(--ink);padding:0 .25rem;white-space:nowrap}
+.sc.num{background:var(--c-live-bg);font-variant-numeric:tabular-nums}
+.sc.ins{background:var(--c-know-bg)}
+.sc.let{background:var(--c-found-bg);font-size:.95rem}
+.asmwrap{display:grid;gap:.7rem}
+@media (min-width:640px){.asmwrap{grid-template-columns:1fr minmax(0,15rem)}}
+.asmwrap textarea{min-height:11rem;font-family:var(--f-mono);font-size:.84rem;line-height:1.7}
+.bytes{border:1.5px solid var(--ink);overflow:hidden;align-self:start}
+.brow{display:grid;grid-template-columns:1.7rem 2.8rem 1fr;gap:.4rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .4rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.brow:last-child{border-bottom:none}
+.brow .bn{color:var(--ink);font-variant-numeric:tabular-nums}
+.brow .bb{font-size:.66rem}
+.brow.err{background:var(--c-bad);color:var(--paper-2)}
+.regline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.regline b{color:var(--ink);font-weight:700}
+.ladder{display:flex;flex-direction:column-reverse;gap:3px}
+.rung{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;border:1.5px solid var(--ink);border-left:6px solid var(--c-dead);padding:.45rem .7rem;cursor:pointer;background:var(--paper-2);font-size:.92rem}
+.rung:hover{background:var(--lemon)}
+.rung .lv{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rung.open{border-left-color:var(--orange);background:var(--c-know-bg)}
+.rung .nm{font-weight:600}
+.rung .ex{grid-column:1/-1;font-size:.86rem;color:var(--muted);margin-top:.2rem}
+
+/* bare de sortat, tabel numeric (lecția 10) */
+.sbars{display:flex;align-items:flex-end;gap:3px;height:150px}
+.sbars .b{flex:1 1 0;min-width:0;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);transition:height .12s,background .12s,border-color .12s;position:relative}
+@media (prefers-reduced-motion:reduce){.sbars .b{transition:none}}
+.sbars .b.done{border-color:var(--ink);background:var(--c-found)}
+.sbars .b.at{border-color:var(--ink);background:var(--c-live)}
+.sbars .b.scan{border-color:var(--ink);background:var(--lemon)}
+.sbars .b.min{border-color:var(--ink);background:var(--c-bad)}
+.counts{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--ink);font-weight:700}
+.tbl.numeric th,.tbl.numeric td{text-align:right}
+.tbl.numeric td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.sel{color:var(--c-bad)}
+.tbl td.mer{color:var(--orange)}
+.tbl tr.est td{color:var(--muted);font-style:italic}
+
+/* planșa de desen, galeria, schimbarea de plan (lecția 11) */
+.pad{display:grid;gap:.8rem}
+@media (min-width:600px){.pad{grid-template-columns:auto 1fr;align-items:start}}
+canvas#draw{width:190px;height:190px;aspect-ratio:1;display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--ink);background:var(--paper);image-rendering:pixelated}
+.feats{display:flex;flex-direction:column;gap:.3rem}
+.feat{display:grid;grid-template-columns:1fr auto;gap:.6rem;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);align-items:baseline}
+.feat b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.feat.pass b{color:var(--c-ok)}
+.feat.fail b{color:var(--c-bad)}
+.verdict{font-family:var(--f-mono);font-size:.9rem;padding:.4rem .6rem;border:1.5px solid var(--ink);background:var(--paper)}
+.verdict.yes{background:var(--c-found);color:var(--ink)}
+.verdict.no{background:var(--c-bad);color:var(--paper-2)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}
+.ex{border:1.5px solid var(--ink);padding:2px;background:var(--paper);position:relative}
+.ex canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+.ex.wrong{background:var(--c-bad-bg);box-shadow:3px 3px 0 var(--c-bad)}
+.ex .tag{position:absolute;top:2px;left:4px;font-family:var(--f-mono);font-size:.6rem;color:var(--muted)}
+.ex.wrong .tag{color:var(--c-bad);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.74rem}
+.fbox{border:1.5px solid var(--ink);padding:.25rem .6rem;background:var(--paper-2);color:var(--ink)}
+.fbox.in{background:var(--c-live-bg)}
+.fbox.out{background:var(--c-found)}
+.fbox.mid{background:var(--c-know-bg)}
+.farr{color:var(--muted)}
+.flab{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+
+/* pânze și panouri pentru figurile de învățare (lecțiile 12–21) */
+canvas.cv-sq{aspect-ratio:1/1} canvas.cv-wide{aspect-ratio:16/7} canvas.cv-short{aspect-ratio:16/5}
+canvas.cv-fit{aspect-ratio:16/10} canvas.cv-u{aspect-ratio:16/8} canvas.cv-neuron{aspect-ratio:16/9}
+canvas.cv-net{aspect-ratio:16/9} canvas.cv-chain{aspect-ratio:16/5}
+canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
+.panels.two{grid-template-columns:1fr 1fr} .panels.one{grid-template-columns:1fr}
+@media (max-width:639px){.panels.two{grid-template-columns:1fr}}
+.panels.three{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:620px){.panels.three{grid-template-columns:1fr 1fr}}
+.readout .big{color:var(--c-error);font-size:.95rem}
+.readout .tr{color:var(--c-data)} .readout .te{color:var(--c-test)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;border:none}
+.ph.fw.at{background:var(--cobalt);color:var(--paper-2)} .ph.bw.at{background:var(--c-bad);color:var(--paper-2)}
+.tbl.grid{width:auto;font-family:var(--f-mono);font-size:.78rem}
+.tbl.grid th,.tbl.grid td{border:1.5px solid var(--ink);text-align:center;padding:.16rem .5rem;white-space:nowrap}
+.tbl.grid th{position:static;font-size:.6rem}
+.tbl td.name{text-align:left;color:var(--muted);font-family:var(--f-body);font-size:.88rem}
+.tbl td.ok{color:var(--c-ok);font-weight:700} .tbl td.bad{color:var(--c-bad)}
+.tbl td.best{color:var(--orange);font-weight:700}
+.tbl td.w{text-align:left;color:var(--muted)} .tbl td.same{color:var(--c-bad)} .tbl td.near{color:var(--orange);font-weight:700}
+.tbl td.one{color:var(--orange);font-weight:700}
+.tblwrap.center{display:flex;justify-content:center}
+
+/* convoluție (lecția 18) */
+.imgrow{display:grid;gap:.7rem;align-items:start}
+@media (min-width:640px){.imgrow{grid-template-columns:1fr auto 1fr}}
+.imgbox{display:flex;flex-direction:column;gap:.3rem}
+.imgbox canvas{border:1.5px solid var(--ink);aspect-ratio:1/1;width:100%;image-rendering:pixelated}
+.kern{display:flex;flex-direction:column;gap:.35rem;align-items:center;justify-content:center;min-width:9rem}
+.kgrid{display:grid;grid-template-columns:repeat(3,2.5rem);gap:3px}
+.kgrid input{width:100%;height:2.1rem;text-align:center;font-family:var(--f-mono);font-size:.82rem;border:1.5px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);-moz-appearance:textfield}
+.kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
+.three{display:grid;gap:.7rem}
+@media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
+
+/* vectori (lecția 19) */
+select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
+.enc{display:flex;flex-direction:column;gap:.35rem}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc .tbl th{position:static;font-size:.58rem}
+.neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
+.neigh b{color:var(--orange)}
+
+/* tokeni (lecția 20) */
+.toks{display:flex;flex-wrap:wrap;gap:3px;line-height:1.9}
+.tok{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:.05rem .35rem;background:var(--paper-2);white-space:pre}
+.tok.c0{background:var(--c-live-bg)} .tok.c1{background:var(--c-found-bg)} .tok.c2{background:var(--c-know-bg)} .tok.c3{background:#F1DDA8}
+.tok.whole{font-weight:700}
+.merges{display:flex;flex-direction:column;gap:2px;max-height:15rem;overflow-y:auto;border:1.5px solid var(--ink)}
+.mrow{display:grid;grid-template-columns:2.2rem 1fr 3.4rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .5rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.mrow:last-child{border-bottom:none}
+.mrow .pair{color:var(--ink)} .mrow .pair em{font-style:normal;color:var(--orange);font-weight:700}
+.mrow.new{background:var(--cobalt);color:var(--paper-2)} .mrow.new .pair,.mrow.new .pair em{color:var(--paper-2)}
+textarea.short{min-height:5rem}
+
+/* cuvântul următor (lecția 21) */
+input[type=text]{width:100%;font-family:var(--f-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.45rem .6rem}
+.pbars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr 3.2rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.bar .w{text-align:right;color:var(--ink)}
+.bar .t{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:15px;overflow:hidden}
+.bar .f{height:100%;background:var(--c-live);transition:width .18s}
+.bar.top .f{background:var(--orange)}
+.bar .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.bar .f{transition:none}}
+.gen{font-family:var(--f-body);font-size:.98rem;line-height:1.75;background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:5rem}
+.gen .seed{color:var(--muted)} .gen .new{color:var(--cobalt)} .gen .copied{background:var(--lemon);color:var(--ink);padding:0 2px}
+
+/* ---------- picior de tipar: navigație între lecții ---------- */
+footer{margin-top:3.8rem;border-top:2px solid var(--ink);padding-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.lnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lnav .nav{
+  display:flex;flex-direction:column;gap:.15rem;text-decoration:none;color:var(--ink);
+  border:2px solid var(--ink);background:var(--paper-2);padding:.7rem .9rem;min-height:4.4rem;
+  transition:box-shadow .15s,transform .15s;
+}
+.lnav a.nav:hover{background:var(--lemon);box-shadow:5px 5px 0 var(--cobalt);transform:translate(-2px,-2px);color:var(--ink)}
+.lnav .nav.next{text-align:right;align-items:flex-end}
+.lnav .nav .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.lnav .nav .t{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.lnav .nav.off{opacity:.45;border-style:dashed}
+.lnav .nav.off .k{color:var(--muted)}
+@media (max-width:520px){.lnav{grid-template-columns:1fr}.lnav .nav.next{text-align:left;align-items:flex-start}}
+.runfoot{display:flex;justify-content:space-between;gap:.5rem 1.4rem;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;border-top:2px solid var(--ink);padding-top:.7rem}
+.colophon{font-size:.86rem;color:var(--muted)}
+
+/* ===== lectiile 22-31 ===== */
+.sep{color:var(--rule)}
+canvas.cv-att{aspect-ratio:16/7}
+canvas.cv-blk{aspect-ratio:16/8}
+canvas.cv-sin{aspect-ratio:16/6}
+canvas.cv-plot{aspect-ratio:16/9}
+canvas.cv-cal{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+@media (max-width:560px){canvas.cv-blk{aspect-ratio:5/4} canvas.cv-sin{aspect-ratio:5/4} canvas.cv-plot{aspect-ratio:4/5}}
+.tbl tr.pending td{opacity:.35}
+.tbl td.warn{color:var(--c-param);font-weight:700}
+.tbl td.dim{opacity:.55}
+.tbl tfoot td{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border-bottom:none;padding-top:.5rem;white-space:normal}
+.tbl.wrapname td.name{white-space:normal;min-width:14rem}
+/* grila subiect x verb (22) */
+.grid{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.gh{color:var(--muted);font-size:.62rem;letter-spacing:.06em;padding:.1rem .3rem;text-align:center}
+.gl{color:var(--muted);font-size:.62rem;padding:.1rem .4rem;text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.gc{border:1.5px solid var(--ink);text-align:center;padding:.25rem .1rem;background:var(--paper-2);cursor:pointer;user-select:none}
+.gc.seen{background:var(--c-live-bg)}
+.gc.held{background:var(--c-bad);color:var(--paper-2);font-weight:700}
+.gc:hover{box-shadow:2px 2px 0 var(--orange)}
+.vs{display:grid;gap:.6rem}
+@media (min-width:560px){.vs{grid-template-columns:1fr 1fr}}
+.vsbox{border:1.5px solid var(--ink);background:var(--paper-2);padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.vsbox .lbl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vsbox .big{font-family:var(--f-mono);font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.vsbox.zero .big{color:var(--c-bad)} .vsbox.some .big{color:var(--cobalt)}
+.vsbox .sub{font-size:.8rem;color:var(--muted)}
+.bar.held .w{color:var(--c-bad);font-weight:700} .bar.held .f{background:var(--c-bad)}
+/* pasii atentiei (24) */
+.steps{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.steps .lb{color:var(--muted);font-size:.62rem;letter-spacing:.06em;text-align:right;padding-right:.5rem;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.steps .cl{border:1.5px solid var(--ink);text-align:center;padding:.2rem .1rem;background:var(--paper-2);font-variant-numeric:tabular-nums}
+.steps .cl.hi{background:var(--orange);color:var(--paper-2);font-weight:700}
+.steps .cl.sym{font-size:.9rem}
+/* fasia de pozitii (26) */
+.striprow{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;padding-bottom:1.2rem}
+.ptok{font-family:var(--f-mono);font-size:1.05rem;width:2.3rem;height:2.3rem;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:var(--paper-2);position:relative}
+.ptok.q{background:var(--orange);color:var(--paper-2);font-weight:700}
+.ptok .ix{position:absolute;bottom:-1.1rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+/* legenda liniilor (27, 30) */
+.key{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.key .sw{width:16px;height:3px;display:inline-block}
+/* bare cu temperatura (28) */
+.tbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.8rem}
+.tbars .ch{text-align:right;color:var(--ink);white-space:pre}
+.tbars .bw{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.95rem;overflow:hidden}
+.tbars .bf{height:100%;background:var(--c-live);transition:width .12s linear}
+.tbars .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.4rem;text-align:right}
+.ctxline{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);word-break:break-word}
+.ctxline b{color:var(--ink);font-weight:700;background:var(--lemon);padding:0 .15rem}
+.gen.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:8.5rem}
+/* cartonase (29, 31) */
+.qline{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);word-break:break-word}
+@media (min-width:600px){.two.cards{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.45rem}
+.card .lb{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .tx{font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:6.6rem}
+.card .qq{font-family:var(--f-mono);font-size:.82rem;word-break:break-word}
+.card .qq .blind{color:var(--muted);opacity:.38}
+.card .qq .seen{background:var(--lemon);color:var(--ink);font-weight:700}
+.card .qq+.tx{border-top:1.5px solid var(--ink);padding-top:.4rem;min-height:5.4rem}
+.card.win{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.card.lose{opacity:.6}
+.card .sc{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.wbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.wbars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbars .tr{position:relative;height:.85rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.wbars .tr i{position:absolute;top:0;bottom:0;display:block}
+.wbars .tr i.pos{background:var(--cobalt)} .wbars .tr i.neg{background:var(--c-param)}
+.wbars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+/* banda de context (30) */
+.band{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;max-height:11rem;overflow:hidden;word-break:break-word}
+.band .out{color:var(--muted);opacity:.35;text-decoration:line-through}
+.band .in{color:var(--ink)}
+.band .now{background:var(--lemon);color:var(--ink);font-weight:700}
+
+/* ===== lectiile 32-36 ===== */
+.key .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl tr.over td{background:var(--accent-soft)}
+canvas.cv-sqm{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+canvas.cv-loss{aspect-ratio:16/6}
+canvas.cv-noise{aspect-ratio:1/1;max-width:340px;margin:0 auto;image-rendering:auto;border:1.5px solid var(--ink)}
+.nstrip,.set{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:600px){.nstrip,.set{grid-template-columns:repeat(3,1fr)}}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dpair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:420px;margin:0 auto}
+.nstrip figure,.set figure,.trio figure,.dpair figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.nstrip canvas,.set canvas,.trio canvas,.dpair canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2)}
+.set canvas,.dpair canvas{image-rendering:pixelated}
+.nstrip figcaption,.set figcaption,.trio figcaption,.dpair figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.trio figcaption b{color:var(--orange)}
+.set figure.hit canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.wbar{display:grid;grid-template-columns:auto 1fr auto;gap:2px .5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem}
+.wbar .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbar .tr{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.8rem;overflow:hidden}
+.wbar .tr i{display:block;height:100%;background:var(--cobalt)}
+.wbar .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+
+/* ===== lectiile 37-45 ===== */
+.tbl tr.hi td{background:var(--accent-soft)}
+.tbl td.win{color:var(--c-ok);font-weight:700;background:var(--accent-soft)}
+.tbl tr.sep td{border-top:2px solid var(--ink)}
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;max-width:520px;margin:0 auto}
+@media (max-width:520px){.trip{grid-template-columns:1fr}}
+.trip figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.trip canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2);image-rendering:pixelated}
+.trip figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.zgrid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:2.4rem;align-content:center}
+.zgrid i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.trio .nm{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-align:center}
+.trio button{width:100%}
+.trio figcaption b{color:var(--ink)}
+@media (max-width:620px){.trio.stack{grid-template-columns:1fr}}
+.igal{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:560px){.igal{grid-template-columns:repeat(3,1fr)}}
+.igal figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.igal canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);image-rendering:pixelated}
+.igal figcaption{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);text-align:center}
+.igal figure.good canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.igal figure.bad canvas{border-color:var(--c-bad);opacity:.7}
+.key .sq{width:9px;height:9px;display:inline-block}
+.key.swatches i{display:inline-block;width:.7rem;height:.7rem;margin-right:.35rem;vertical-align:-1px;border:1px solid var(--ink)}
+.tape{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:11rem;display:flex;flex-direction:column;gap:.3rem}
+.tape .ln{display:flex;gap:.5rem}
+.tape .who{flex:none;width:5.2rem;color:var(--muted);text-align:right}
+.tape .tx{word-break:break-word}
+.tape .model .tx{color:var(--cobalt)}
+.tape .tool .tx{color:var(--c-param)}
+.tape .user .tx{color:var(--ink)}
+.tape .done .tx{color:var(--orange);font-weight:700}
+.frags{display:flex;flex-direction:column;gap:.3rem}
+.frag{display:flex;gap:.5rem;font-family:var(--f-mono);font-size:.74rem;line-height:1.5;border:1.5px solid var(--ink);background:var(--paper-2);padding:.35rem .5rem}
+.frag .rk{flex:none;width:1.6rem;color:var(--muted);text-align:right}
+.frag .sc{flex:none;width:3rem;color:var(--muted);text-align:right}
+.frag .tx{flex:1 1 auto}
+.frag.hit{border-color:var(--orange);background:var(--accent-soft);box-shadow:3px 3px 0 var(--orange)}
+.frag.hit .tx{color:var(--ink);font-weight:700}
+.ctx{font-family:var(--f-mono);font-size:.74rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.55rem .65rem;white-space:pre-wrap;word-break:break-word;max-height:11rem;overflow:auto}
+.ctx b{color:var(--cobalt)}
+.ibars{display:grid;grid-template-columns:auto 1fr auto;gap:4px .6rem;align-items:center;font-family:var(--f-mono);font-size:.78rem}
+.ibars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.ibars .tr{position:relative;height:1.1rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.ibars .tr i{position:absolute;top:0;bottom:0;display:block;border-left:2px solid var(--cobalt);border-right:2px solid var(--cobalt)}
+.ibars .tr i::before{content:'';position:absolute;top:45%;left:0;right:0;height:2px;background:var(--cobalt)}
+.ibars .tr i.b{border-color:var(--c-param)}
+.ibars .tr i.b::before{background:var(--c-param)}
+.ibars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:5.6rem;text-align:right}
+canvas.cv-wide.boxed{aspect-ratio:2.6/1;border:1.5px solid var(--ink)}
+canvas.cv-main{aspect-ratio:16/10;border:1.5px solid var(--ink);background:var(--paper-2)}
+canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
+.jump{display:flex;flex-wrap:wrap;gap:.28rem}
+.jump button{font-size:.62rem;padding:.18rem .42rem;color:var(--muted)}
+.jump button.on{color:var(--paper-2);background:var(--orange);border-color:var(--ink)}
+.rng.wide{flex:1 1 14rem}
+.rng.wide input[type=range]{flex:1 1 8rem;width:auto;min-width:0}
+</style>
+
+<article class="page cover">
+
+<header>
+  <div class="runhead">
+    <div class="l"><span>Pagina de titlu</span><span>48 de lecții · 8 părți</span></div>
+    <div class="r"><button id="sndBtn" class="snd" aria-pressed="true"><span>sunet pornit</span></button></div>
+  </div>
+  <div class="plate">
+    <div class="marble" id="marble" data-seed="99">
+      <div class="card">
+        <span class="sub">Un curs, <b>de la bit la limbaj</b></span>
+        <h1>Ce știe <i>o mașină</i></h1>
+        <span class="sub">Informație · Calculator · Învățare · Limbaj · Imagini · Întrebări</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro">
+    <p class="lede">Cum ajunge un comutator să scrie fraze? Cursul răspunde de jos în sus, fără nicio treaptă sărită: de la ce înseamnă să afli ceva, la felul în care un curent electric ține un bit, la mașina care învață din exemple și, în cele din urmă, la modelele care vorbesc.</p>
+    <p>Fiecare lecție folosește numai ce s-a construit în lecțiile dinainte, iar fiecare mecanism e desenat și pus în mișcare în pagină: cutiile se sting, codul se construiește singur, curentul curge prin comutator. Calculele din figuri sunt reale, nu regizate.</p>
+  </div>
+</header>
+
+<main class="toc">
+  <h2 class="bare">Cuprins</h2>
+  <ol class="parts">
+    <li>
+      <h3><span class="pn">Partea 1</span>Informația</h3>
+      <ol class="lessons">
+        <li><a href="lectia-01.html"><span class="no">01</span><span class="t">Măsura informației</span><span class="st">bit · log₂ · cod binar</span></a></li>
+        <li><a href="lectia-02.html"><span class="no">02</span><span class="t">Entropia</span><span class="st">surpriză · Huffman · redundanță</span></a></li>
+        <li><a href="lectia-03.html"><span class="no">03</span><span class="t">Corectarea erorilor</span><span class="st">paritate · Hamming · capacitate</span></a></li>
+        <li><a href="lectia-04.html"><span class="no">04</span><span class="t">Eșantionare și cuantizare</span><span class="st">Nyquist · pixeli · pierderi</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 2</span>Calculatorul</h3>
+      <ol class="lessons">
+        <li><a href="lectia-05.html"><span class="no">05</span><span class="t">Comutatorul</span><span class="st">porți · tranzistor</span></a></li>
+        <li><a href="lectia-06.html"><span class="no">06</span><span class="t">Sumatorul</span><span class="st">transport · complement · depășire</span></a></li>
+        <li><a href="lectia-07.html"><span class="no">07</span><span class="t">Bistabilul</span><span class="st">buclă · zăvor · ceas · registru</span></a></li>
+        <li><a href="lectia-08.html"><span class="no">08</span><span class="t">Procesorul</span><span class="st">instrucțiune · ciclu · calea datelor</span></a></li>
+        <li><a href="lectia-09.html"><span class="no">09</span><span class="t">Programul stocat</span><span class="st">von Neumann · asamblor · scara</span></a></li>
+        <li><a href="lectia-10.html"><span class="no">10</span><span class="t">Algoritmul</span><span class="st">sortare · complexitate</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 3</span>Învățarea</h3>
+      <ol class="lessons">
+        <li><a href="lectia-11.html"><span class="no">11</span><span class="t">Învățarea din exemple</span><span class="st">regulă cu praguri · schimbarea de plan</span></a></li>
+        <li><a href="lectia-12.html"><span class="no">12</span><span class="t">Funcția de cost</span><span class="st">parametri · cost · teren</span></a></li>
+        <li><a href="lectia-13.html"><span class="no">13</span><span class="t">Coborârea pantei</span><span class="st">gradient · rată de învățare</span></a></li>
+        <li><a href="lectia-14.html"><span class="no">14</span><span class="t">Supraînvățarea</span><span class="st">antrenare · test · regularizare</span></a></li>
+        <li><a href="lectia-15.html"><span class="no">15</span><span class="t">Neuronul artificial</span><span class="st">ponderi · frontieră · sigmoidă</span></a></li>
+        <li><a href="lectia-16.html"><span class="no">16</span><span class="t">Straturile</span><span class="st">straturi ascunse · adâncime</span></a></li>
+        <li><a href="lectia-17.html"><span class="no">17</span><span class="t">Propagarea înapoi</span><span class="st">vina · regula lanțului</span></a></li>
+        <li><a href="lectia-18.html"><span class="no">18</span><span class="t">Convoluția</span><span class="st">filtru · hartă de activare</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 4</span>Limbajul</h3>
+      <ol class="lessons">
+        <li><a href="lectia-19.html"><span class="no">19</span><span class="t">Reprezentarea vectorială</span><span class="st">vectori · cosinus</span></a></li>
+        <li><a href="lectia-20.html"><span class="no">20</span><span class="t">Tokenizarea</span><span class="st">tokeni · lipirea perechilor</span></a></li>
+        <li><a href="lectia-21.html"><span class="no">21</span><span class="t">Cuvântul următor</span><span class="st">model de limbaj · perplexitate</span></a></li>
+        <li><a href="lectia-22.html"><span class="no">22</span><span class="t">Modelul neural de limbaj</span><span class="st">vectori · ponderi în comun</span></a></li>
+        <li><a href="lectia-23.html"><span class="no">23</span><span class="t">Rețeaua recurentă</span><span class="st">stare ascunsă · panta care se stinge</span></a></li>
+        <li><a href="lectia-24.html"><span class="no">24</span><span class="t">Atenția</span><span class="st">interogare · cheie · valoare</span></a></li>
+        <li><a href="lectia-25.html"><span class="no">25</span><span class="t">Blocul transformer</span><span class="st">flux rezidual · ocolire · normalizare</span></a></li>
+        <li><a href="lectia-26.html"><span class="no">26</span><span class="t">Ordinea cuvintelor</span><span class="st">marcaj de poziție · sinusoide</span></a></li>
+        <li><a href="lectia-27.html"><span class="no">27</span><span class="t">Antrenarea la scară</span><span class="st">preantrenare · legi de scalare</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 5</span>Asistentul</h3>
+      <ol class="lessons">
+        <li><a href="lectia-28.html"><span class="no">28</span><span class="t">Cum se alege cuvântul</span><span class="st">temperatură · tăierea cozii</span></a></li>
+        <li><a href="lectia-29.html"><span class="no">29</span><span class="t">De la continuator la asistent</span><span class="st">reglaj fin · model de recompensă</span></a></li>
+        <li><a href="lectia-30.html"><span class="no">30</span><span class="t">Ce se întâmplă când răspunde</span><span class="st">memorie de chei-valori · fereastra de context</span></a></li>
+        <li><a href="lectia-31.html"><span class="no">31</span><span class="t">De ce inventează</span><span class="st">confabulare · calibrare</span></a></li>
+        <li><a href="lectia-32.html"><span class="no">32</span><span class="t">Învățarea din context</span><span class="st">prompt · exemple în context</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 6</span>Imaginile</h3>
+      <ol class="lessons">
+        <li><a href="lectia-33.html"><span class="no">33</span><span class="t">Zgomotul ca material</span><span class="st">proces direct · programul zgomotului</span></a></li>
+        <li><a href="lectia-34.html"><span class="no">34</span><span class="t">Drumul înapoi</span><span class="st">pas de eșantionare · difuzie</span></a></li>
+        <li><a href="lectia-35.html"><span class="no">35</span><span class="t">Difuzie pe o mână de puncte</span><span class="st">rețea antrenată în pagină · spirala</span></a></li>
+        <li><a href="lectia-36.html"><span class="no">36</span><span class="t">Textul care trage imaginea</span><span class="st">condiționare · ghidare</span></a></li>
+        <li><a href="lectia-37.html"><span class="no">37</span><span class="t">Lucrul în spațiul comprimat</span><span class="st">autocodificator · difuzie latentă</span></a></li>
+        <li><a href="lectia-38.html"><span class="no">38</span><span class="t">Rude apropiate</span><span class="st">rețea adversarială · potrivire de flux</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 7</span>Sistemele de azi</h3>
+      <ol class="lessons">
+        <li><a href="lectia-39.html"><span class="no">39</span><span class="t">Un singur spațiu pentru imagine și text</span><span class="st">spațiu comun · multimodal</span></a></li>
+        <li><a href="lectia-40.html"><span class="no">40</span><span class="t">Unelte și bucla agentului</span><span class="st">apel de unealtă · buclă</span></a></li>
+        <li><a href="lectia-41.html"><span class="no">41</span><span class="t">Căutare înainte de răspuns</span><span class="st">regăsire · bază vectorială</span></a></li>
+        <li><a href="lectia-42.html"><span class="no">42</span><span class="t">Cât costă un răspuns</span><span class="st">amestec de experți · cuantizare · distilare</span></a></li>
+        <li><a href="lectia-43.html"><span class="no">43</span><span class="t">Cum se măsoară</span><span class="st">evaluare · contaminare</span></a></li>
+        <li><a href="lectia-44.html"><span class="no">44</span><span class="t">Ce se vede înăuntru</span><span class="st">sondă · direcție · intervenție</span></a></li>
+      </ol>
+    </li>
+    <li>
+      <h3><span class="pn">Partea 8</span>Întrebările deschise</h3>
+      <ol class="lessons">
+        <li><a href="lectia-45.html"><span class="no">45</span><span class="t">Modelul lumii</span><span class="st">stare ascunsă · sondă · intervenție</span></a></li>
+        <li><a href="lectia-46.html"><span class="no">46</span><span class="t">Ce înseamnă „mai deștept”</span><span class="st">generalitate · salturi · rigla</span></a></li>
+        <li><a href="lectia-47.html"><span class="no">47</span><span class="t">Scopul și măsura lui</span><span class="st">cel mai bun din k · Goodhart · aliniere</span></a></li>
+        <li><a href="lectia-48.html"><span class="no">48</span><span class="t">Scara, de la capăt la capăt</span><span class="st">cincisprezece opriri, una din alta</span></a></li>
+      </ol>
+    </li>
+  </ol>
+</main>
+
+<footer>
+  <p class="colophon">Forzațul marmorat al fiecărei lecții se generează în pagină din numărul ei; nicio lecție nu are aceeași hârtie ca alta.</p>
+  <nav class="other" aria-label="Alt proiect">
+    <span class="ol">Alt proiect</span>
+    <a href="../index.html">The River of Dharma</a>
+  </nav>
+  <div class="runfoot"><span>Ce știe o mașină</span><span>Cuprins</span></div>
+</footer>
+
+</article>
+
+<script>
+"use strict";
+/* ============================================================
+   COD COMUN TUTUROR LECȚIILOR: clichete, butonul de sunet,
+   forzațul marmorat (seed = numărul lecției), ajutoare numerice.
+   ============================================================ */
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* clichete, sintetizate în pagină */
+const sfx=(function(){
+  let ctx,on=true,last=0;
+  function ac(){
+    if(ctx===undefined){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      ctx=AC?new AC():null;
+    }
+    if(ctx&&ctx.state==='suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f0,f1,dur,vol,type){
+    const c=ac(); if(!c||!on) return;
+    const t=c.currentTime;
+    const o=c.createOscillator(), g=c.createGain(), lp=c.createBiquadFilter();
+    o.type=type||'triangle';
+    o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3400,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp); lp.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  return {
+    tick:function(){ tone(1500,760,0.045,0.055); },
+    step:function(){ tone(980,560,0.05,0.04); },
+    merge:function(k){ tone(700+k*22,480+k*14,0.055,0.045); },
+    bad:function(){ tone(320,190,0.13,0.05,'sawtooth'); },
+    found:function(){ tone(740,740,0.10,0.05,'sine'); setTimeout(function(){ tone(1110,1110,0.17,0.045,'sine'); },95); },
+    soft:function(){ tone(430,300,0.07,0.04); },
+    nudge:function(){ const n=Date.now(); if(n-last<40) return; last=n; tone(2100,1600,0.02,0.022); },
+    clack:function(){ tone(1700,520,0.04,0.06); },
+    clunk:function(){ tone(900,340,0.05,0.05); },
+    lamp:function(){ tone(880,880,0.09,0.04,'sine'); setTimeout(function(){ tone(1320,1320,0.14,0.035,'sine'); },80); },
+    col:function(k){ tone(760+k*70,520+k*50,0.05,0.045); },
+    carry:function(){ tone(1900,1200,0.035,0.04); },
+    done:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    over:function(){ tone(300,180,0.16,0.05,'sawtooth'); },
+    edge:function(){ tone(1250,900,0.03,0.03); },
+    latch:function(){ tone(900,620,0.05,0.05); },
+    fetch:function(){ tone(1150,900,0.035,0.035); },
+    dec:function(){ tone(1400,1100,0.035,0.033); },
+    exec:function(){ tone(820,600,0.05,0.045); },
+    jump:function(){ tone(1500,2100,0.06,0.04); },
+    out:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    halt:function(){ tone(420,240,0.16,0.05); },
+    stepk:function(k){ tone(760+(k||0)*40,520,0.04,0.04); },
+    cmp:function(h){ const n=Date.now(); if(n-last<24) return; last=n; tone(1400+h*7,1100,0.022,0.03); },
+    swap:function(){ tone(880,560,0.05,0.05); },
+    yes:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    no:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    search:function(){ tone(600,1600,0.18,0.04,'sine'); },
+    good:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    snap:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    arrive:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    thud:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    blow:function(){ tone(300,140,0.22,0.055,'sawtooth'); },
+    flat:function(){ tone(420,420,0.16,0.045,'sine'); },
+    fw:function(k){ tone(900+(k||0)*90,700,0.04,0.04); },
+    bw:function(k){ tone(1500-(k||0)*120,900,0.045,0.042); },
+    word:function(k){ tone(900+(((k||0)*67)%500),700,0.026,0.026); },
+    toggle:function(){ on=!on; if(on) tone(880,880,0.06,0.045,'sine'); return on; }
+  };
+})();
+(function(){
+  const b=document.getElementById('sndBtn'); if(!b) return;
+  b.addEventListener('click',function(){
+    const on=sfx.toggle();
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('span').textContent=on?'sunet pornit':'sunet oprit';
+  });
+})();
+
+/* numerele se scriu cu virgulă zecimală; acordul cu numeralul: 1 bit, 5 biți, 20 de biți */
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+const log2=x=>Math.log(x)/Math.LN2;
+function unit(n,sing,plur){
+  if(n===1) return sing;
+  const l=Math.abs(Math.round(n))%100;
+  return (l===0||l>=20)?('de '+plur):plur;
+}
+const bits=n=>n+' '+unit(n,'bit','biți');
+
+/* forzațul marmorat: vopsea plutind pe baie, pieptănată de zgomot;
+   totul e hotărât de numărul lecției, deci fiecare lecție are hârtia ei */
+(function(){
+  const host=document.getElementById('marble'); if(!host) return;
+  const SEED=+host.dataset.seed||1;
+  let s=(SEED*7919+104729)>>>0;
+  const rnd=()=>{ s=(s*1103515245+12345)>>>0; return (s>>>8)/16777216; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const inks=['#2F4BC4','#EE5A2F','#6B7A38','#E9C93B','#DDA6B0'];
+  const cream='#F7F3E6', dark='#22252D';
+  const dom=pick(inks);                       /* cerneala dominantă a lecției */
+  const W=1600,H=500;
+  let g='';
+  /* fâșii orizontale, de lățimi neregulate; cele subțiri devin vene */
+  let y=-160;
+  while(y<H+160){
+    const thin=rnd()<0.45;
+    const h=thin?2+rnd()*4:12+rnd()*34;
+    const fill=thin?(rnd()<0.6?cream:dark):(rnd()<0.3?dom:pick(inks.concat([cream,cream])));
+    g+='<rect x="-300" y="'+y.toFixed(1)+'" width="2200" height="'+h.toFixed(1)+'" fill="'+fill+'"/>';
+    y+=h+(thin?3+rnd()*8:rnd()*10);
+  }
+  /* stropi: picături de vopsea, unele cu ochi deschis */
+  for(let i=0;i<190;i++){
+    const big=rnd()<0.16;
+    const rx=big?22+rnd()*40:3+rnd()*14, ry=big?11+rnd()*22:2+rnd()*8;
+    const light=rnd()<0.5;
+    const fill=light?cream:pick(inks.concat([dark]));
+    const stroke=(!light&&rnd()<0.7)?' stroke="'+cream+'" stroke-width="'+(1.5+rnd()*2.2).toFixed(1)+'"':'';
+    g+='<ellipse cx="'+(rnd()*W).toFixed(1)+'" cy="'+(-30+rnd()*(H+60)).toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+fill+'"'+stroke+'/>';
+  }
+  const bf1=(0.0022+rnd()*0.0018).toFixed(4)+' '+(0.006+rnd()*0.005).toFixed(4);
+  const sc1=(130+rnd()*90).toFixed(0);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<filter id="m" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">'+
+    '<feTurbulence type="fractalNoise" baseFrequency="'+bf1+'" numOctaves="3" seed="'+(SEED*11)+'" result="t1"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="t1" scale="'+sc1+'" xChannelSelector="R" yChannelSelector="G" result="d1"/>'+
+    '<feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="3" seed="'+(SEED*11+5)+'" result="t2"/>'+
+    '<feDisplacementMap in="d1" in2="t2" scale="42" xChannelSelector="G" yChannelSelector="R"/>'+
+    '</filter>'+
+    '<rect width="'+W+'" height="'+H+'" fill="'+dom+'"/>'+
+    '<g filter="url(#m)"><rect x="-300" y="-200" width="2200" height="'+(H+400)+'" fill="'+dom+'"/>'+g+'</g></svg>';
+  host.style.backgroundColor=dom;
+  try{
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas'); c.width=W; c.height=H;
+      c.getContext('2d').drawImage(img,0,0,W,H);
+      let url; try{ url=c.toDataURL('image/png'); }catch(e){ return; }
+      host.style.backgroundImage='url("'+url+'")';
+    };
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>

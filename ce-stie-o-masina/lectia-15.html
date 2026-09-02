@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neuronul artificial</title>
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style>
+
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ============================================================
+   TEMA CURSULUI · „Riso”: tipar risograf, hârtie granulată,
+   cerneluri suprapuse ușor nealiniate, forzaț marmorat propriu
+   fiecărei lecții (seed = numărul lecției).
+   Un singur registru vizual, pictat explicit.
+   Blocul acesta este identic în toate paginile cursului.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --paper:#EEE8D5;
+  --paper-2:#F7F3E6;
+  --ink:#22252D;
+  --muted:#686A62;
+  --rule:#CFC8B4;      /* linii de grilă în desene */
+  --cobalt:#2F4BC4;
+  --orange:#EE5A2F;
+  --olive:#6B7A38;
+  --lemon:#E9C93B;
+  --rose:#DDA6B0;
+
+  /* gramatica de culoare: aceleași roluri în toate lecțiile */
+  --c-live:#2F4BC4;  --c-live-bg:#C9D1F1;   /* încă posibil, valoare 1, curent */
+  --c-dead:#BDB9AA;  --c-dead-bg:#E2DECF;   /* exclus, valoare 0, inert */
+  --c-found:#EE5A2F; --c-found-bg:#F9D3C2;  /* găsit, rezultat, valoare învățată */
+  --c-know:#5F6D2E;  --c-know-bg:#E1E4C3;   /* întrebare, tăietură, pereche aleasă */
+  --c-ok:#5F6D2E;    --c-ok-bg:#E1E4C3;     /* verificare trecută */
+  --c-bad:#B5232B;   --c-bad-bg:#F3C9C6;    /* eroare, bit răsturnat */
+
+  /* culorile figurilor de învățare (lecțiile 12–21) și numele vechi folosite de desene */
+  --surface:#F7F3E6; --surface-2:#EEE8D5; --bg:#EEE8D5; --accent-soft:#E1E4C3;
+  --c-data:#2F4BC4;   /* măsurători, exemple, clasa 1 */
+  --c-out:#EE5A2F;    /* dreapta potrivită, rezultatul */
+  --c-error:#B5232B;  /* greșeala */
+  --c-alt:#6B7A38;    /* a doua clasă, a doua metodă */
+  --c-param:#B58A12;  /* poziția butoanelor, parametrii */
+  --c-test:#7A4E9C;   /* setul de test */
+  --land-lo:#F7F3E6; --land-hi:#2F4BC4; --land-line:#22252D;
+
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;position:relative;
+}
+/* granulația tiparului */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.14 0 0 0 0 0.18 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity:.45;
+}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+
+p{margin:0}
+a{color:var(--cobalt);text-decoration-thickness:2px;text-underline-offset:.15em}
+a:hover{color:var(--orange)}
+dfn{font-style:normal;font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--lemon) 62%)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+
+/* ---------- coala: cap de tipar ---------- */
+.runhead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem 1.4rem;flex-wrap:wrap;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  padding:1rem 0 .8rem;border-bottom:2px solid var(--ink);
+}
+.runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
+.runhead a:hover{color:var(--orange);border-color:var(--orange)}
+.snd{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:2px solid var(--ink);color:var(--ink);
+  padding:.28rem .7rem .28rem .6rem;border-radius:0;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.snd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);transition:background .2s}
+.snd[aria-pressed="false"]::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.snd:hover{background:var(--lemon)}
+
+/* forzațul marmorat, închis în chenar */
+.plate{border:2px solid var(--ink);border-top:none;display:flex;flex-direction:column}
+.marble{
+  height:clamp(150px,26vw,250px);background:var(--cobalt);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  position:relative;
+}
+.marble::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 6px var(--paper-2),inset 0 0 0 8px var(--ink)}
+
+.masthead{display:flex;flex-direction:column;gap:1.1rem;padding-top:2.2rem}
+h1{font-size:clamp(3rem,2rem + 5vw,5.4rem);letter-spacing:-.015em;line-height:.95}
+h1 i{color:var(--cobalt)}
+.lede{font-size:clamp(1.12rem,1rem + .6vw,1.35rem);line-height:1.45;max-width:36em;color:var(--ink);text-wrap:pretty}
+.terms{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:64ch;line-height:1.9}
+.terms b{font-weight:400;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:.05rem .4rem;white-space:nowrap}
+
+/* ---------- pagina de titlu: marmorarea în jurul titlului, cuprinsul ---------- */
+.cover .marble{height:clamp(300px,46vw,460px);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,5vw,3rem)}
+.cover .card{
+  position:relative;z-index:1;background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--cobalt);padding:clamp(1.1rem,3vw,2rem) clamp(1.3rem,4vw,2.6rem);
+  max-width:34rem;text-align:center;display:flex;flex-direction:column;gap:.7rem;
+}
+.cover .card h1{font-size:clamp(2.6rem,1.6rem + 5.5vw,5rem)}
+.cover .card .sub{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cover .card .sub b{color:var(--orange);font-weight:700}
+.cover .intro{display:flex;flex-direction:column;gap:1rem;padding-top:2.2rem}
+.cover .intro p{max-width:64ch;text-wrap:pretty}
+h2.bare::before{content:none}
+.toc{display:flex;flex-direction:column;gap:1.6rem;margin-top:2.6rem}
+.parts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.parts > li{display:grid;gap:.6rem 2rem}
+@media (min-width:760px){.parts > li{grid-template-columns:14rem 1fr}}
+.parts h3{font-size:1.65rem;line-height:1.1;display:flex;flex-direction:column;gap:.25rem}
+.parts h3 .pn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.lessons{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lessons li{border-bottom:1.5px solid var(--ink)}
+.lessons a,.lessons .row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.5rem .4rem;color:var(--ink);text-decoration:none}
+.lessons a:hover{background:var(--lemon);color:var(--ink)}
+.lessons .no{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--cobalt)}
+.lessons .t{font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.lessons .st{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lessons li.off .t{color:var(--muted)}
+.lessons li.off .no{color:var(--muted)}
+
+/* ---------- secțiuni ---------- */
+.sections{display:flex;flex-direction:column;gap:3.4rem;margin-top:3.2rem}
+section{position:relative;display:flex;flex-direction:column;gap:1.05rem;counter-increment:sec}
+section p,.claims li{max-width:64ch;text-wrap:pretty}
+h2{
+  font-size:clamp(1.9rem,1.5rem + 1.6vw,2.6rem);padding-top:.9rem;border-top:2px solid var(--ink);
+  display:flex;align-items:center;gap:.8rem;
+}
+h2::before{content:counter(sec,decimal-leading-zero) " /";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--orange);flex:none;align-self:flex-start;margin-top:.9rem}
+.orn{flex:none;width:2.2rem;height:2.2rem;display:inline-block;order:3;margin-left:auto}
+.orn svg{width:100%;height:100%;display:block;overflow:visible}
+.o-fill{fill:var(--rose)} .o-fill2{fill:var(--orange)}
+.o-line{fill:none;stroke:var(--ink);stroke-width:2.2}
+.o-dot{fill:var(--cobalt)} .o-half{fill:var(--cobalt)}
+.o-cut{stroke:var(--olive);stroke-width:3;fill:none}
+.o-grid circle,.o-grid rect{fill:var(--cobalt)}
+.o-bar{fill:var(--cobalt)} .o-bar2{fill:var(--orange)} .o-bad{fill:var(--c-bad)}
+.o-wave{fill:none;stroke:var(--cobalt);stroke-width:3}
+@media (min-width:1140px){
+  .orn{position:absolute;right:-5.6rem;top:1rem;width:3.8rem;height:3.8rem;margin:0}
+}
+.note{font-size:.92rem;color:var(--muted);padding-left:1rem;border-left:3px solid var(--olive)}
+.first{font-size:1.06em}
+.claims{list-style:none;padding:0;margin:.2rem 0 0;display:flex;flex-direction:column;gap:.9rem}
+.claims li{position:relative;padding-left:1.8rem}
+.claims li::before{content:"";position:absolute;left:0;top:.45em;width:.75rem;height:.75rem;border-radius:50%;background:var(--orange);box-shadow:3px -2px 0 var(--cobalt);mix-blend-mode:multiply}
+.claims b{font-weight:600}
+
+/* ---------- figuri ---------- */
+.fig{
+  margin:1rem 8px 1.4rem 0;padding:0;
+  background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:7px 7px 0 var(--cobalt);
+  display:flex;flex-direction:column;
+}
+.fig-head{
+  padding:.7rem 1rem .1rem;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+}
+.pl::before{content:"Fig. " attr(data-a) " / ";color:var(--orange);font-weight:700}
+.stage{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.85rem}
+.cap{
+  border-top:2px solid var(--ink);padding:.6rem 1rem;
+  font-size:.9rem;color:var(--muted);min-height:2.9rem;
+}
+.cap b{color:var(--ink);font-weight:600}
+.cap .bad{color:var(--c-bad)} .cap .ok{color:var(--c-ok)}
+.cap .on{color:var(--cobalt)} .cap .off{color:var(--muted)}
+.ctrl{border-top:2px solid var(--ink);padding:.65rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;background:var(--paper)}
+button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);
+  padding:.42rem .8rem;border-radius:0;cursor:pointer;
+}
+button:hover:not(:disabled){background:var(--lemon)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--ink);color:var(--paper-2)}
+button.primary:hover:not(:disabled){background:var(--cobalt);border-color:var(--cobalt)}
+button.on{background:var(--cobalt);color:var(--paper-2)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rng input[type=range]{width:clamp(100px,26vw,180px);accent-color:var(--orange)}
+.val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink);font-size:.8rem;text-transform:none;letter-spacing:0}
+.count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:700}
+.lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* rând de cutii / posibilități */
+.row{display:flex;gap:3px;align-items:stretch;position:relative}
+.row.wrap{flex-wrap:wrap}
+.cell{
+  flex:1 1 0;min-width:0;aspect-ratio:3/4;
+  border:1.5px solid var(--c-live);background:var(--c-live-bg);border-radius:0;
+  transition:background .3s,border-color .3s,opacity .3s,transform .3s;
+}
+.row.wrap .cell{flex:none;width:14px;height:19px;border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.dead{border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.found,.row.wrap .cell.pick{border-color:var(--ink);background:var(--c-found);opacity:1}
+.cell.found{transform:translateY(-3px)}
+.cell.asked{box-shadow:inset 0 0 0 2px var(--c-know)}
+@media (prefers-reduced-motion:reduce){.cell,.cut,.bars .b,.meter .fill,.bit{transition:none}}
+.cut{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--c-know);transition:left .26s;pointer-events:none}
+.rowwrap{position:relative;padding:6px 0}
+
+.log{display:flex;flex-wrap:wrap;gap:.32rem;align-items:center;min-height:1.8rem}
+.log .q{font-family:var(--f-mono);font-size:.7rem;border:1.5px solid var(--c-know);color:var(--c-know);background:var(--c-know-bg);padding:.08rem .45rem}
+.log .q.code{border-style:dashed;background:transparent;color:var(--ink);letter-spacing:.14em}
+.log .empty{font-size:.88rem;color:var(--muted)}
+
+.race{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:.6rem}
+@media (min-width:640px){.race{grid-template-columns:1fr 1fr}}
+.lane{background:var(--paper-2);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lane h3{font-size:1.35rem}
+.lane .sub2{font-size:.86rem;color:var(--muted);font-family:var(--f-mono)}
+
+/* tabele */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tblwrap{overflow-x:auto}
+.tblwrap.tall{max-height:290px;overflow-y:auto}
+.tbl th,.tbl td{text-align:left;padding:.4rem .75rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+.tbl th{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400;position:sticky;top:0;background:var(--paper-2)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.code{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);letter-spacing:.08em}
+.tbl td.sym{font-family:var(--f-mono);font-weight:700}
+.tbl tr.on td{background:var(--c-found-bg)}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* tabele de adevăr */
+.tt{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;width:100%;max-width:360px}
+.tt th,.tt td{border:1.5px solid var(--ink);padding:.2rem .45rem;text-align:center}
+.tt th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.tt tr.now td{background:var(--c-know-bg);color:var(--c-know)}
+.tt td.out{font-weight:700}
+.tt td.one{color:var(--orange);font-weight:700}
+.ttwrap{display:flex;justify-content:center}
+
+/* constructorul de funcții logice */
+.build{border-collapse:collapse;font-family:var(--f-mono);font-size:.8rem;width:100%;max-width:420px}
+.build th,.build td{border:1.5px solid var(--ink);padding:.25rem .5rem;text-align:center}
+.build th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.build td.pick{cursor:pointer;user-select:none}
+.build td.pick.one{background:var(--c-found);color:var(--ink);font-weight:700}
+.build td.pick:hover{background:var(--lemon)}
+.expr{font-family:var(--f-mono);font-size:.8rem;line-height:1.75;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;overflow-x:auto}
+.expr .op{color:var(--cobalt);font-weight:700}
+.expr .neg{color:var(--c-bad)}
+.two{display:grid;gap:.8rem}
+@media (min-width:600px){.two{grid-template-columns:auto 1fr;align-items:start}}
+
+/* coloane de adunare (lecția 6) */
+.cols{overflow-x:auto}
+.agrid{display:inline-grid;gap:3px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.agrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.acell{width:30px;height:30px;font-family:var(--f-mono);font-size:.9rem;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;letter-spacing:0;text-transform:none}
+.acell.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.acell.tap{cursor:pointer}
+.acell.tap:hover{background:var(--lemon);color:var(--ink)}
+.acell.sum{border-color:var(--ink);background:var(--paper-2)}
+.acell.sum.one{background:var(--c-found);color:var(--ink)}
+.acell.car{width:30px;height:20px;font-size:.7rem;border-style:dashed}
+.acell.car.one{border-color:var(--c-know);background:var(--c-know-bg);color:var(--c-know)}
+.acell.pend{opacity:.35}
+.acell.here{box-shadow:3px 3px 0 var(--c-know)}
+.acell.ghost{border-style:dashed;opacity:.75}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.readout b{color:var(--ink);font-weight:700}
+.readout .warn{color:var(--paper-2);background:var(--c-bad);padding:0 .4rem}
+
+/* adrese binare */
+.addr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}
+.addr div{border:1.5px solid var(--ink);padding:.4rem .2rem;background:var(--paper-2);text-align:center;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.addr div b{color:var(--ink);font-weight:700;font-size:.8rem;letter-spacing:.1em}
+.addr div.hit{background:var(--c-found);color:var(--ink);box-shadow:3px 3px 0 var(--cobalt)}
+.addr div.hit b{color:var(--ink)}
+
+/* bare de probabilitate */
+.bars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.bars .b{flex:1 1 0;background:var(--c-live);border:1.5px solid var(--ink);position:relative;transition:height .2s;min-height:2px;box-shadow:3px -2px 0 var(--orange)}
+.barlabels{display:flex;gap:5px}
+.barlabels span{flex:1 1 0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+
+/* măsurători cu bară */
+.meters{display:flex;flex-direction:column;gap:.5rem}
+.meter{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:.6rem;align-items:center;font-size:.83rem}
+.meter .nm{color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+.meter .track{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:16px;overflow:hidden}
+.meter .fill{height:100%;transition:width .3s}
+.meter .amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.74rem;white-space:nowrap}
+.fill.fix{background:var(--c-dead)}
+.fill.huf{background:var(--c-live)}
+.fill.ent{background:var(--c-found)}
+
+/* noduri în construcția unui cod */
+.nodes{display:flex;flex-wrap:wrap;gap:4px;min-height:3.4rem;align-content:flex-start}
+.node{border:1.5px solid var(--ink);background:var(--paper-2);padding:.12rem .4rem;font-family:var(--f-mono);font-size:.74rem;display:flex;gap:.35rem;align-items:baseline;transition:background .2s,border-color .2s}
+.node .w{color:var(--muted);font-size:.66rem}
+.node.pair{background:var(--c-know-bg);color:var(--c-know)}
+.node.pair .w{color:var(--c-know)}
+.node.new{background:var(--c-found);color:var(--ink)}
+.node.new .w{color:var(--ink)}
+
+textarea{width:100%;min-height:6.5rem;resize:vertical;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem}
+
+/* fluxul de biți și mesaje */
+.stream{display:flex;flex-wrap:wrap;gap:2px}
+.stream i{width:9px;height:14px;display:block;background:var(--c-dead-bg);border:1px solid var(--c-dead);font-style:normal}
+.stream i.one{background:var(--c-live-bg);border-color:var(--c-live)}
+.stream i.flip{background:var(--c-bad);border-color:var(--c-bad)}
+.msg{font-family:var(--f-mono);font-size:.9rem;line-height:1.7;word-break:break-word;background:var(--paper-2);border:1.5px solid var(--ink);padding:.5rem .6rem}
+.msg u{text-decoration:none;color:var(--paper-2);background:var(--c-bad)}
+.pair{display:flex;flex-direction:column;gap:.3rem}
+
+/* biți pe care se poate apăsa */
+.bitrow{display:flex;flex-wrap:wrap;gap:5px}
+.bit{width:36px;height:42px;cursor:pointer;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);font-family:var(--f-mono);font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:0;transition:background .15s,border-color .15s;letter-spacing:0;text-transform:none}
+.bit:hover:not(:disabled){background:var(--lemon)}
+.bit.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.bit.par{border-style:dashed}
+.bit.err{border-color:var(--ink);background:var(--c-bad);color:var(--paper-2)}
+.bit small{font-size:.55rem;letter-spacing:.04em;opacity:.8;line-height:1}
+
+/* verificări */
+.checks{display:flex;flex-direction:column;gap:.3rem}
+.check{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.check .tag{color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
+.check .res{padding:0 .35rem}
+.check .res.ok{color:var(--c-ok);background:var(--c-ok-bg)}
+.check .res.no{color:var(--paper-2);background:var(--c-bad)}
+
+/* cuvinte de trei biți */
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px}
+.words div{border:1.5px solid var(--ink);padding:.35rem .2rem;text-align:center;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);background:var(--paper-2)}
+.words div span{display:block;font-size:.6rem;opacity:.85}
+.words div.cw{background:var(--c-found);color:var(--ink);font-weight:700}
+.words div.near0{color:var(--cobalt)}
+.words div.here{box-shadow:4px 4px 0 var(--c-know)}
+
+/* pânze, panouri, legende */
+canvas{display:block;width:100%;aspect-ratio:16/6}
+canvas.cv-wave{aspect-ratio:16/6}
+canvas.cv-circ{aspect-ratio:16/8}
+canvas.cv-img{aspect-ratio:16/10;border:1.5px solid var(--ink)}
+.panels{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+@media (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper-2);display:flex;flex-direction:column;gap:.45rem;padding:.75rem .8rem .9rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{width:18px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+
+/* registre și instrucțiuni pe biți (lecțiile 7–8) */
+.regwrap{overflow-x:auto}
+.reg{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.reg .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.reg .bit,.bits .bit{width:32px;height:32px;font-size:.88rem}
+.bit.mem{border-color:var(--ink);background:var(--paper-2)}
+.bit.mem.one{background:var(--c-found);color:var(--ink)}
+.bit.diff{box-shadow:3px 3px 0 var(--c-know)}
+.bits{display:flex;gap:6px;flex-wrap:wrap}
+.bitgrp{display:flex;flex-direction:column;gap:3px;align-items:center}
+.bitgrp .gl{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bitgrp .row{display:flex;gap:3px}
+.grp-op .bit.one{background:var(--c-know);border-color:var(--ink)}
+.grp-a .bit.one{background:var(--c-found);color:var(--ink);border-color:var(--ink)}
+.asm{font-family:var(--f-mono);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .7rem}
+
+/* mașina (lecția 8) */
+.machine{display:grid;gap:.8rem}
+@media (min-width:640px){.machine{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.prog{border:1.5px solid var(--ink);overflow:hidden}
+.prow{display:grid;grid-template-columns:2.1rem 3.1rem 1fr;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem;padding:.18rem .45rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.prow:last-child{border-bottom:none}
+.prow .ad{opacity:.7}
+.prow .nm{font-variant-numeric:tabular-nums;color:var(--ink)}
+.prow .tx{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow.at{background:var(--c-know-bg)}
+.prow.at .ad,.prow.at .nm,.prow.at .tx{color:var(--c-know)}
+.regs{display:flex;flex-direction:column;gap:.35rem}
+.regrow{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.8rem}
+.regrow .rn{color:var(--muted);width:1.8rem}
+.regrow .rv{border:1.5px solid var(--ink);background:var(--paper);padding:.1rem .5rem;min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.regrow .rb{color:var(--muted);font-size:.7rem}
+.regrow.hit .rv{background:var(--c-found);color:var(--ink)}
+.small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.outbox{font-family:var(--f-mono);font-size:.85rem;border:1.5px solid var(--ink);background:var(--paper);padding:.35rem .55rem;min-height:2rem;color:var(--orange);font-weight:700}
+.phases{display:flex;gap:.3rem;flex-wrap:wrap}
+.ph{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.12rem .45rem;color:var(--muted)}
+.ph.at{background:var(--c-know);color:var(--paper-2)}
+
+/* banda de memorie, asamblorul, scara (lecția 9) */
+.strip{overflow-x:auto}
+.sgrid{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.sgrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.sc{min-width:74px;height:30px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--paper-2);color:var(--ink);padding:0 .25rem;white-space:nowrap}
+.sc.num{background:var(--c-live-bg);font-variant-numeric:tabular-nums}
+.sc.ins{background:var(--c-know-bg)}
+.sc.let{background:var(--c-found-bg);font-size:.95rem}
+.asmwrap{display:grid;gap:.7rem}
+@media (min-width:640px){.asmwrap{grid-template-columns:1fr minmax(0,15rem)}}
+.asmwrap textarea{min-height:11rem;font-family:var(--f-mono);font-size:.84rem;line-height:1.7}
+.bytes{border:1.5px solid var(--ink);overflow:hidden;align-self:start}
+.brow{display:grid;grid-template-columns:1.7rem 2.8rem 1fr;gap:.4rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .4rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.brow:last-child{border-bottom:none}
+.brow .bn{color:var(--ink);font-variant-numeric:tabular-nums}
+.brow .bb{font-size:.66rem}
+.brow.err{background:var(--c-bad);color:var(--paper-2)}
+.regline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.regline b{color:var(--ink);font-weight:700}
+.ladder{display:flex;flex-direction:column-reverse;gap:3px}
+.rung{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;border:1.5px solid var(--ink);border-left:6px solid var(--c-dead);padding:.45rem .7rem;cursor:pointer;background:var(--paper-2);font-size:.92rem}
+.rung:hover{background:var(--lemon)}
+.rung .lv{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rung.open{border-left-color:var(--orange);background:var(--c-know-bg)}
+.rung .nm{font-weight:600}
+.rung .ex{grid-column:1/-1;font-size:.86rem;color:var(--muted);margin-top:.2rem}
+
+/* bare de sortat, tabel numeric (lecția 10) */
+.sbars{display:flex;align-items:flex-end;gap:3px;height:150px}
+.sbars .b{flex:1 1 0;min-width:0;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);transition:height .12s,background .12s,border-color .12s;position:relative}
+@media (prefers-reduced-motion:reduce){.sbars .b{transition:none}}
+.sbars .b.done{border-color:var(--ink);background:var(--c-found)}
+.sbars .b.at{border-color:var(--ink);background:var(--c-live)}
+.sbars .b.scan{border-color:var(--ink);background:var(--lemon)}
+.sbars .b.min{border-color:var(--ink);background:var(--c-bad)}
+.counts{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--ink);font-weight:700}
+.tbl.numeric th,.tbl.numeric td{text-align:right}
+.tbl.numeric td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.sel{color:var(--c-bad)}
+.tbl td.mer{color:var(--orange)}
+.tbl tr.est td{color:var(--muted);font-style:italic}
+
+/* planșa de desen, galeria, schimbarea de plan (lecția 11) */
+.pad{display:grid;gap:.8rem}
+@media (min-width:600px){.pad{grid-template-columns:auto 1fr;align-items:start}}
+canvas#draw{width:190px;height:190px;aspect-ratio:1;display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--ink);background:var(--paper);image-rendering:pixelated}
+.feats{display:flex;flex-direction:column;gap:.3rem}
+.feat{display:grid;grid-template-columns:1fr auto;gap:.6rem;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);align-items:baseline}
+.feat b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.feat.pass b{color:var(--c-ok)}
+.feat.fail b{color:var(--c-bad)}
+.verdict{font-family:var(--f-mono);font-size:.9rem;padding:.4rem .6rem;border:1.5px solid var(--ink);background:var(--paper)}
+.verdict.yes{background:var(--c-found);color:var(--ink)}
+.verdict.no{background:var(--c-bad);color:var(--paper-2)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}
+.ex{border:1.5px solid var(--ink);padding:2px;background:var(--paper);position:relative}
+.ex canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+.ex.wrong{background:var(--c-bad-bg);box-shadow:3px 3px 0 var(--c-bad)}
+.ex .tag{position:absolute;top:2px;left:4px;font-family:var(--f-mono);font-size:.6rem;color:var(--muted)}
+.ex.wrong .tag{color:var(--c-bad);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.74rem}
+.fbox{border:1.5px solid var(--ink);padding:.25rem .6rem;background:var(--paper-2);color:var(--ink)}
+.fbox.in{background:var(--c-live-bg)}
+.fbox.out{background:var(--c-found)}
+.fbox.mid{background:var(--c-know-bg)}
+.farr{color:var(--muted)}
+.flab{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+
+/* pânze și panouri pentru figurile de învățare (lecțiile 12–21) */
+canvas.cv-sq{aspect-ratio:1/1} canvas.cv-wide{aspect-ratio:16/7} canvas.cv-short{aspect-ratio:16/5}
+canvas.cv-fit{aspect-ratio:16/10} canvas.cv-u{aspect-ratio:16/8} canvas.cv-neuron{aspect-ratio:16/9}
+canvas.cv-net{aspect-ratio:16/9} canvas.cv-chain{aspect-ratio:16/5}
+canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
+.panels.two{grid-template-columns:1fr 1fr} .panels.one{grid-template-columns:1fr}
+@media (max-width:639px){.panels.two{grid-template-columns:1fr}}
+.panels.three{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:620px){.panels.three{grid-template-columns:1fr 1fr}}
+.readout .big{color:var(--c-error);font-size:.95rem}
+.readout .tr{color:var(--c-data)} .readout .te{color:var(--c-test)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;border:none}
+.ph.fw.at{background:var(--cobalt);color:var(--paper-2)} .ph.bw.at{background:var(--c-bad);color:var(--paper-2)}
+.tbl.grid{width:auto;font-family:var(--f-mono);font-size:.78rem}
+.tbl.grid th,.tbl.grid td{border:1.5px solid var(--ink);text-align:center;padding:.16rem .5rem;white-space:nowrap}
+.tbl.grid th{position:static;font-size:.6rem}
+.tbl td.name{text-align:left;color:var(--muted);font-family:var(--f-body);font-size:.88rem}
+.tbl td.ok{color:var(--c-ok);font-weight:700} .tbl td.bad{color:var(--c-bad)}
+.tbl td.best{color:var(--orange);font-weight:700}
+.tbl td.w{text-align:left;color:var(--muted)} .tbl td.same{color:var(--c-bad)} .tbl td.near{color:var(--orange);font-weight:700}
+.tbl td.one{color:var(--orange);font-weight:700}
+.tblwrap.center{display:flex;justify-content:center}
+
+/* convoluție (lecția 18) */
+.imgrow{display:grid;gap:.7rem;align-items:start}
+@media (min-width:640px){.imgrow{grid-template-columns:1fr auto 1fr}}
+.imgbox{display:flex;flex-direction:column;gap:.3rem}
+.imgbox canvas{border:1.5px solid var(--ink);aspect-ratio:1/1;width:100%;image-rendering:pixelated}
+.kern{display:flex;flex-direction:column;gap:.35rem;align-items:center;justify-content:center;min-width:9rem}
+.kgrid{display:grid;grid-template-columns:repeat(3,2.5rem);gap:3px}
+.kgrid input{width:100%;height:2.1rem;text-align:center;font-family:var(--f-mono);font-size:.82rem;border:1.5px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);-moz-appearance:textfield}
+.kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
+.three{display:grid;gap:.7rem}
+@media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
+
+/* vectori (lecția 19) */
+select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
+.enc{display:flex;flex-direction:column;gap:.35rem}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc .tbl th{position:static;font-size:.58rem}
+.neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
+.neigh b{color:var(--orange)}
+
+/* tokeni (lecția 20) */
+.toks{display:flex;flex-wrap:wrap;gap:3px;line-height:1.9}
+.tok{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:.05rem .35rem;background:var(--paper-2);white-space:pre}
+.tok.c0{background:var(--c-live-bg)} .tok.c1{background:var(--c-found-bg)} .tok.c2{background:var(--c-know-bg)} .tok.c3{background:#F1DDA8}
+.tok.whole{font-weight:700}
+.merges{display:flex;flex-direction:column;gap:2px;max-height:15rem;overflow-y:auto;border:1.5px solid var(--ink)}
+.mrow{display:grid;grid-template-columns:2.2rem 1fr 3.4rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .5rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.mrow:last-child{border-bottom:none}
+.mrow .pair{color:var(--ink)} .mrow .pair em{font-style:normal;color:var(--orange);font-weight:700}
+.mrow.new{background:var(--cobalt);color:var(--paper-2)} .mrow.new .pair,.mrow.new .pair em{color:var(--paper-2)}
+textarea.short{min-height:5rem}
+
+/* cuvântul următor (lecția 21) */
+input[type=text]{width:100%;font-family:var(--f-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.45rem .6rem}
+.pbars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr 3.2rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.bar .w{text-align:right;color:var(--ink)}
+.bar .t{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:15px;overflow:hidden}
+.bar .f{height:100%;background:var(--c-live);transition:width .18s}
+.bar.top .f{background:var(--orange)}
+.bar .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.bar .f{transition:none}}
+.gen{font-family:var(--f-body);font-size:.98rem;line-height:1.75;background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:5rem}
+.gen .seed{color:var(--muted)} .gen .new{color:var(--cobalt)} .gen .copied{background:var(--lemon);color:var(--ink);padding:0 2px}
+
+/* ---------- picior de tipar: navigație între lecții ---------- */
+footer{margin-top:3.8rem;border-top:2px solid var(--ink);padding-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.lnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lnav .nav{
+  display:flex;flex-direction:column;gap:.15rem;text-decoration:none;color:var(--ink);
+  border:2px solid var(--ink);background:var(--paper-2);padding:.7rem .9rem;min-height:4.4rem;
+  transition:box-shadow .15s,transform .15s;
+}
+.lnav a.nav:hover{background:var(--lemon);box-shadow:5px 5px 0 var(--cobalt);transform:translate(-2px,-2px);color:var(--ink)}
+.lnav .nav.next{text-align:right;align-items:flex-end}
+.lnav .nav .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.lnav .nav .t{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.lnav .nav.off{opacity:.45;border-style:dashed}
+.lnav .nav.off .k{color:var(--muted)}
+@media (max-width:520px){.lnav{grid-template-columns:1fr}.lnav .nav.next{text-align:left;align-items:flex-start}}
+.runfoot{display:flex;justify-content:space-between;gap:.5rem 1.4rem;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;border-top:2px solid var(--ink);padding-top:.7rem}
+.colophon{font-size:.86rem;color:var(--muted)}
+
+/* ===== lectiile 22-31 ===== */
+.sep{color:var(--rule)}
+canvas.cv-att{aspect-ratio:16/7}
+canvas.cv-blk{aspect-ratio:16/8}
+canvas.cv-sin{aspect-ratio:16/6}
+canvas.cv-plot{aspect-ratio:16/9}
+canvas.cv-cal{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+@media (max-width:560px){canvas.cv-blk{aspect-ratio:5/4} canvas.cv-sin{aspect-ratio:5/4} canvas.cv-plot{aspect-ratio:4/5}}
+.tbl tr.pending td{opacity:.35}
+.tbl td.warn{color:var(--c-param);font-weight:700}
+.tbl td.dim{opacity:.55}
+.tbl tfoot td{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border-bottom:none;padding-top:.5rem;white-space:normal}
+.tbl.wrapname td.name{white-space:normal;min-width:14rem}
+/* grila subiect x verb (22) */
+.grid{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.gh{color:var(--muted);font-size:.62rem;letter-spacing:.06em;padding:.1rem .3rem;text-align:center}
+.gl{color:var(--muted);font-size:.62rem;padding:.1rem .4rem;text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.gc{border:1.5px solid var(--ink);text-align:center;padding:.25rem .1rem;background:var(--paper-2);cursor:pointer;user-select:none}
+.gc.seen{background:var(--c-live-bg)}
+.gc.held{background:var(--c-bad);color:var(--paper-2);font-weight:700}
+.gc:hover{box-shadow:2px 2px 0 var(--orange)}
+.vs{display:grid;gap:.6rem}
+@media (min-width:560px){.vs{grid-template-columns:1fr 1fr}}
+.vsbox{border:1.5px solid var(--ink);background:var(--paper-2);padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.vsbox .lbl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vsbox .big{font-family:var(--f-mono);font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.vsbox.zero .big{color:var(--c-bad)} .vsbox.some .big{color:var(--cobalt)}
+.vsbox .sub{font-size:.8rem;color:var(--muted)}
+.bar.held .w{color:var(--c-bad);font-weight:700} .bar.held .f{background:var(--c-bad)}
+/* pasii atentiei (24) */
+.steps{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.steps .lb{color:var(--muted);font-size:.62rem;letter-spacing:.06em;text-align:right;padding-right:.5rem;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.steps .cl{border:1.5px solid var(--ink);text-align:center;padding:.2rem .1rem;background:var(--paper-2);font-variant-numeric:tabular-nums}
+.steps .cl.hi{background:var(--orange);color:var(--paper-2);font-weight:700}
+.steps .cl.sym{font-size:.9rem}
+/* fasia de pozitii (26) */
+.striprow{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;padding-bottom:1.2rem}
+.ptok{font-family:var(--f-mono);font-size:1.05rem;width:2.3rem;height:2.3rem;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:var(--paper-2);position:relative}
+.ptok.q{background:var(--orange);color:var(--paper-2);font-weight:700}
+.ptok .ix{position:absolute;bottom:-1.1rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+/* legenda liniilor (27, 30) */
+.key{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.key .sw{width:16px;height:3px;display:inline-block}
+/* bare cu temperatura (28) */
+.tbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.8rem}
+.tbars .ch{text-align:right;color:var(--ink);white-space:pre}
+.tbars .bw{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.95rem;overflow:hidden}
+.tbars .bf{height:100%;background:var(--c-live);transition:width .12s linear}
+.tbars .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.4rem;text-align:right}
+.ctxline{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);word-break:break-word}
+.ctxline b{color:var(--ink);font-weight:700;background:var(--lemon);padding:0 .15rem}
+.gen.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:8.5rem}
+/* cartonase (29, 31) */
+.qline{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);word-break:break-word}
+@media (min-width:600px){.two.cards{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.45rem}
+.card .lb{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .tx{font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:6.6rem}
+.card .qq{font-family:var(--f-mono);font-size:.82rem;word-break:break-word}
+.card .qq .blind{color:var(--muted);opacity:.38}
+.card .qq .seen{background:var(--lemon);color:var(--ink);font-weight:700}
+.card .qq+.tx{border-top:1.5px solid var(--ink);padding-top:.4rem;min-height:5.4rem}
+.card.win{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.card.lose{opacity:.6}
+.card .sc{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.wbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.wbars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbars .tr{position:relative;height:.85rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.wbars .tr i{position:absolute;top:0;bottom:0;display:block}
+.wbars .tr i.pos{background:var(--cobalt)} .wbars .tr i.neg{background:var(--c-param)}
+.wbars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+/* banda de context (30) */
+.band{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;max-height:11rem;overflow:hidden;word-break:break-word}
+.band .out{color:var(--muted);opacity:.35;text-decoration:line-through}
+.band .in{color:var(--ink)}
+.band .now{background:var(--lemon);color:var(--ink);font-weight:700}
+
+/* ===== lectiile 32-36 ===== */
+.key .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl tr.over td{background:var(--accent-soft)}
+canvas.cv-sqm{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+canvas.cv-loss{aspect-ratio:16/6}
+canvas.cv-noise{aspect-ratio:1/1;max-width:340px;margin:0 auto;image-rendering:auto;border:1.5px solid var(--ink)}
+.nstrip,.set{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:600px){.nstrip,.set{grid-template-columns:repeat(3,1fr)}}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dpair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:420px;margin:0 auto}
+.nstrip figure,.set figure,.trio figure,.dpair figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.nstrip canvas,.set canvas,.trio canvas,.dpair canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2)}
+.set canvas,.dpair canvas{image-rendering:pixelated}
+.nstrip figcaption,.set figcaption,.trio figcaption,.dpair figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.trio figcaption b{color:var(--orange)}
+.set figure.hit canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.wbar{display:grid;grid-template-columns:auto 1fr auto;gap:2px .5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem}
+.wbar .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbar .tr{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.8rem;overflow:hidden}
+.wbar .tr i{display:block;height:100%;background:var(--cobalt)}
+.wbar .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+
+/* ===== lectiile 37-45 ===== */
+.tbl tr.hi td{background:var(--accent-soft)}
+.tbl td.win{color:var(--c-ok);font-weight:700;background:var(--accent-soft)}
+.tbl tr.sep td{border-top:2px solid var(--ink)}
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;max-width:520px;margin:0 auto}
+@media (max-width:520px){.trip{grid-template-columns:1fr}}
+.trip figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.trip canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2);image-rendering:pixelated}
+.trip figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.zgrid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:2.4rem;align-content:center}
+.zgrid i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.trio .nm{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-align:center}
+.trio button{width:100%}
+.trio figcaption b{color:var(--ink)}
+@media (max-width:620px){.trio.stack{grid-template-columns:1fr}}
+.igal{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:560px){.igal{grid-template-columns:repeat(3,1fr)}}
+.igal figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.igal canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);image-rendering:pixelated}
+.igal figcaption{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);text-align:center}
+.igal figure.good canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.igal figure.bad canvas{border-color:var(--c-bad);opacity:.7}
+.key .sq{width:9px;height:9px;display:inline-block}
+.key.swatches i{display:inline-block;width:.7rem;height:.7rem;margin-right:.35rem;vertical-align:-1px;border:1px solid var(--ink)}
+.tape{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:11rem;display:flex;flex-direction:column;gap:.3rem}
+.tape .ln{display:flex;gap:.5rem}
+.tape .who{flex:none;width:5.2rem;color:var(--muted);text-align:right}
+.tape .tx{word-break:break-word}
+.tape .model .tx{color:var(--cobalt)}
+.tape .tool .tx{color:var(--c-param)}
+.tape .user .tx{color:var(--ink)}
+.tape .done .tx{color:var(--orange);font-weight:700}
+.frags{display:flex;flex-direction:column;gap:.3rem}
+.frag{display:flex;gap:.5rem;font-family:var(--f-mono);font-size:.74rem;line-height:1.5;border:1.5px solid var(--ink);background:var(--paper-2);padding:.35rem .5rem}
+.frag .rk{flex:none;width:1.6rem;color:var(--muted);text-align:right}
+.frag .sc{flex:none;width:3rem;color:var(--muted);text-align:right}
+.frag .tx{flex:1 1 auto}
+.frag.hit{border-color:var(--orange);background:var(--accent-soft);box-shadow:3px 3px 0 var(--orange)}
+.frag.hit .tx{color:var(--ink);font-weight:700}
+.ctx{font-family:var(--f-mono);font-size:.74rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.55rem .65rem;white-space:pre-wrap;word-break:break-word;max-height:11rem;overflow:auto}
+.ctx b{color:var(--cobalt)}
+.ibars{display:grid;grid-template-columns:auto 1fr auto;gap:4px .6rem;align-items:center;font-family:var(--f-mono);font-size:.78rem}
+.ibars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.ibars .tr{position:relative;height:1.1rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.ibars .tr i{position:absolute;top:0;bottom:0;display:block;border-left:2px solid var(--cobalt);border-right:2px solid var(--cobalt)}
+.ibars .tr i::before{content:'';position:absolute;top:45%;left:0;right:0;height:2px;background:var(--cobalt)}
+.ibars .tr i.b{border-color:var(--c-param)}
+.ibars .tr i.b::before{background:var(--c-param)}
+.ibars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:5.6rem;text-align:right}
+canvas.cv-wide.boxed{aspect-ratio:2.6/1;border:1.5px solid var(--ink)}
+canvas.cv-main{aspect-ratio:16/10;border:1.5px solid var(--ink);background:var(--paper-2)}
+canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
+.jump{display:flex;flex-wrap:wrap;gap:.28rem}
+.jump button{font-size:.62rem;padding:.18rem .42rem;color:var(--muted)}
+.jump button.on{color:var(--paper-2);background:var(--orange);border-color:var(--ink)}
+.rng.wide{flex:1 1 14rem}
+.rng.wide input[type=range]{flex:1 1 8rem;width:auto;min-width:0}
+</style>
+
+<article class="page">
+
+<header>
+  <div class="runhead">
+    <div class="l"><span>L.15</span><span>Partea 3 / Învățarea</span></div>
+    <div class="r"><a href="index.html">Cuprins</a><button id="sndBtn" class="snd" aria-pressed="true"><span>sunet pornit</span></button></div>
+  </div>
+  <div class="plate" aria-hidden="true"><div class="marble" id="marble" data-seed="15"></div></div>
+
+  <div class="masthead">
+    <h1>Neuronul <i>artificial</i></h1>
+    <p class="lede">O familie de reguli care se îmbogățește prin combinarea mai multor mărimi măsurate, nu prin îndoirea tot mai violentă a unei singure curbe. Piesa e modestă, o sumă cu ponderi și un prag, dar din ea se construiește tot ce urmează.</p>
+    <p class="terms">Termeni: <b>ponderi</b> <b>deplasare</b> <b>frontieră de decizie</b> <b>funcție logistică</b> <b>sau-exclusiv</b> <b>perceptron</b></p>
+  </div>
+</header>
+
+<main class="sections">
+
+<section id="s1">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 L34 32 M6 26 L34 32 M6 40 L34 32 M6 54 L34 32 M42 32 H58" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="6" cy="12" r="3.5"/><circle cx="6" cy="26" r="3.5"/><circle cx="6" cy="40" r="3.5"/><circle cx="6" cy="54" r="3.5"/></g><circle cx="36" cy="32" r="8" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Combinarea mai multor mărimi</h2>
+
+  <p class="first">Familia din lecția precedentă avea o singură intrare și se îmbogățea într-un singur fel: mai multe îndoituri. Se strica repede, fiindcă îndoiturile nu descriu nimic în afară de ele însele.</p>
+
+  <p>Problemele adevărate arată altfel. Despre un desen se pot măsura zeci de mărimi: cerneala din fiecare zonă, lățimea, numărul de capete de linie, simetria. Fiecare spune ceva puțin, niciuna nu ajunge singură. Ce trebuie construit e o familie care le combină, și cea mai simplă combinare e suma cu ponderi. Fiecare mărime se înmulțește cu un număr al ei și rezultatele se adună. Numerele acelea se numesc <dfn>ponderi</dfn>, iar la sumă se mai adaugă un număr care nu depinde de nicio intrare, numit <dfn>deplasare</dfn>.</p>
+
+  <p>O pondere pozitivă mare înseamnă că mărimea aceea pledează puternic pentru răspunsul „da”. Una negativă înseamnă că pledează împotrivă. Una apropiată de zero înseamnă că mărimea nu contează. E felul în care judecăm și noi, adesea: un vot în care fiecare martor cântărește altfel.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Patru mărimi, patru ponderi, o singură sumă</figcaption>
+    <div class="stage">
+      <canvas id="cvNeuron" class="cv-neuron"></canvas>
+      <div class="readout" id="nRead"></div>
+    </div>
+    <div class="cap" id="capNeuron"></div>
+    <div class="ctrl" id="nCtrl"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="nb">deplasare</label><input id="nb" type="range" min="-100" max="100" value="-30"><span class="val" id="nbv">—</span></div>
+      <button id="nRand">Alte valori de intrare</button>
+    </div>
+  </figure>
+</section>
+
+<section id="s2">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 52 L58 12" fill="none" stroke="#B58A12" stroke-width="3"/><g class="o-grid"><circle cx="16" cy="18" r="3.5"/><circle cx="26" cy="28" r="3.5"/><circle cx="14" cy="36" r="3.5"/></g><g fill="#6B7A38"><circle cx="46" cy="40" r="3.5"/><circle cx="36" cy="50" r="3.5"/><circle cx="52" cy="26" r="3.5"/></g></svg></span>Pragul și frontiera</h2>
+
+  <p>Suma e un singur număr. Pentru o hotărâre cu da sau nu, ea se compară cu zero: peste, răspunsul e da; sub, nu. Deplasarea joacă rolul pragului, mutat de partea cealaltă a semnului egal.</p>
+
+  <p>Privit în spațiul mărimilor măsurate, locul în care suma e exact zero formează o dreaptă atunci când mărimile sunt două, un plan când sunt trei, și ceva de aceeași natură când sunt mai multe. Locul acesta se numește <dfn>frontieră de decizie</dfn>, iar ponderile hotărăsc încotro e înclinată.</p>
+
+  <p>Deosebirea față de lecția a unsprezecea merită privită. Regula de acolo tăia cu două praguri, fiecare pe câte o axă, deci frontiera ei era un colț drept. Un neuron taie cu o dreaptă înclinată oricum. Cele două familii nu se cuprind una pe alta: colțul poate face lucruri pe care dreapta nu le poate, și invers. Pe cele patruzeci de desene din figura de mai jos, amândouă ajung, în cel mai bun caz, la exact două greșeli.</p>
+
+  <p>Ce aduce neuronul nu e deci mai multă putere pe două mărimi, ci faptul că aceeași construcție merge la oricâte. Cu douăzeci de mărimi măsurate, o regulă cu praguri pe fiecare axă ar cere douăzeci de numere alese de mână și tot n-ar putea ține seama de felul în care mărimile se compensează între ele. Suma cu ponderi le combină pe toate deodată, iar ponderile se caută singure, cu coborârea pantei.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceleași patruzeci de desene, în spațiul a două mărimi</figcaption>
+    <div class="panels two">
+      <div class="panel"><span class="lbl">frontiera și exemplele</span><canvas id="cvSpace" class="cv-sq"></canvas></div>
+      <div class="panel"><span class="lbl">costul, pas cu pas</span><canvas id="cvCost" class="cv-sq"></canvas></div>
+    </div>
+    <div class="stage" style="padding-top:0.6rem">
+      <div class="readout" id="sRead"></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--c-data)"></i>șapte</span>
+        <span><i class="dot" style="background:var(--c-alt)"></i>unu</span>
+        <span><i class="dot" style="background:var(--c-error)"></i>greșit clasificat</span>
+      </div>
+    </div>
+    <div class="cap" id="capSpace"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="w1">pondere cerneală sus</label><input id="w1" type="range" min="-100" max="100" value="20"><span class="val" id="w1v">—</span></div>
+      <div class="rng"><label for="w2">pondere lățime</label><input id="w2" type="range" min="-100" max="100" value="-10"><span class="val" id="w2v">—</span></div>
+      <div class="rng"><label for="w0">deplasare</label><input id="w0" type="range" min="-100" max="100" value="0"><span class="val" id="w0v">—</span></div>
+      <button id="sTrain" class="primary">Antrenează</button>
+      <button id="sReset">Reset</button>
+    </div>
+  </figure>
+</section>
+
+<section id="s3">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 H32 V14 H58" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M6 50 C22 50 24 14 40 14 S58 14 58 14" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>De la treaptă la pantă lină</h2>
+
+  <p>Hotărârea „peste zero sau sub” nu se poate antrena. Ea sare din 0 în 1 dintr-odată, iar în rest rămâne neclintită oricât s-ar mișca ponderile, așa că nu are pantă și nu spune încotro merită mers. E exact neajunsul semnalat la sfârșitul lecției despre funcția de cost.</p>
+
+  <p>Treapta se înlocuiește de aceea cu o curbă care urcă lin de la 0 la 1, numită <dfn>funcție logistică</dfn> sau sigmoidă. Ieșirea neuronului încetează să fie da sau nu și devine un număr între 0 și 1, care se citește ca încredere: 0,97 înseamnă aproape sigur da, 0,5 înseamnă nehotărât. Schimbarea pare mică și e una dintre cele mai importante din curs: hotărârea tăioasă e înlocuită cu un grad de încredere, iar gradele de încredere se pot coborî.</p>
+
+  <p>Departe de frontieră curba e aproape plată, deci și acolo panta e mică, iar învățarea încetinește. Aproape de frontieră panta e mare și ponderile se mișcă repede. Neuronul se ocupă astfel, de la sine, mai ales de exemplele despre care e nehotărât.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Treapta și înlocuitoarea ei</figcaption>
+    <div class="stage"><canvas id="cvSig" class="cv-wide"></canvas></div>
+    <div class="cap" id="capSig"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="sharp">cât de abruptă</label><input id="sharp" type="range" min="5" max="200" value="60"><span class="val" id="sharpv">—</span></div>
+    </div>
+  </figure>
+
+  <p>Butonul de antrenare din figura precedentă coboară panta exact ca în lecția a treisprezecea, pe ponderile neuronului. Cele două mărimi măsurate sunt aduse dinainte la aceeași scară, din motivul arătat acolo.</p>
+
+  <p>Coborârea se oprește pe trei greșeli, deși există o dreaptă care face două. Prelungirea antrenării nu schimbă nimic. Nu e o slăbiciune a metodei, ci urmarea a ceea ce i s-a cerut: ea coboară costul lin, nu numărul de greșeli. Poziția care dă costul cel mai mic nu e aceeași cu poziția care dă cele mai puține greșeli, deosebirea semnalată la sfârșitul lecției despre funcția de cost, aici cu cifre.</p>
+</section>
+
+<section id="s4">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="#6B7A38"/><circle cx="48" cy="48" r="5" fill="#6B7A38"/><circle cx="48" cy="16" r="5" fill="#2F4BC4"/><circle cx="16" cy="48" r="5" fill="#2F4BC4"/><path d="M8 40 L56 24" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Ce nu poate un singur neuron</h2>
+
+  <p>Frontiera unui neuron e o dreaptă, iar asta îi hotărăște limita. Există aranjări de puncte pe care nicio dreaptă nu le desparte, iar cea mai mică dintre ele are patru puncte.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Patru puncte, două clase pe diagonală</figcaption>
+    <div class="stage"><canvas id="cvXor" class="cv-sq" style="max-width:340px;margin:0 auto"></canvas></div>
+    <div class="cap" id="capXor"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="xa">înclinarea dreptei</label><input id="xa" type="range" min="0" max="180" value="45"><span class="val" id="xav">—</span></div>
+      <div class="rng"><label for="xb">poziția</label><input id="xb" type="range" min="-100" max="100" value="0"><span class="val" id="xbv">—</span></div>
+      <button id="xBest" class="primary">Încearcă toate dreptele</button>
+    </div>
+  </figure>
+
+  <p>Aranjarea aceasta se numește <dfn>sau-exclusiv</dfn> și e chiar operația din lecția a șasea, cea care dădea suma unei coloane. Un singur neuron nu o poate calcula, iar demonstrarea acestui fapt, publicată în 1969 de Marvin Minsky și Seymour Papert, a oprit cercetarea în domeniu pentru mai bine de un deceniu.</p>
+
+  <p>Oprirea a fost o neînțelegere. Limita privește un neuron singur, nu mai mulți legați între ei, iar autorii o spuseseră. Ce lipsea atunci era metoda de antrenare a mai multor straturi, iar aceea a apărut abia mai târziu. E o poveste instructivă despre cum o demonstrație corectă poate fi citită greșit de o întreagă comunitate.</p>
+</section>
+
+<section id="s5">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 30 Q20 8 32 24 T54 20 M32 24 V50 M22 50 Q32 40 42 50" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="32" cy="24" r="7" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/></svg></span>De unde vine numele</h2>
+
+  <p>Modelul a fost propus în 1943 de Warren McCulloch și Walter Pitts, ca descriere simplificată a unei celule nervoase: intrări care se adună, un prag care se depășește, un semnal care pleacă mai departe. În 1958 Frank Rosenblatt i-a adăugat o metodă de reglare a ponderilor din exemple și l-a numit <dfn>perceptron</dfn>.</p>
+
+  <p>Asemănarea cu o celulă nervoasă adevărată se oprește repede. Un neuron biologic comunică prin impulsuri scurte, în care momentul contează la fel de mult ca numărul lor; are o chimie proprie, o geometrie complicată, și se schimbă în timp după reguli care nu seamănă cu coborârea pantei. Numele s-a păstrat din motive istorice, iar potrivirea lui nu trebuie luată drept argument: că rețelele „gândesc ca un creier” e o metaforă, nu o descriere.</p>
+
+  <p>Un neuron taie spațiul cu o dreaptă. Mai mulți neuroni pot tăia fiecare cu dreapta lui, iar ieșirile lor pot fi date ca intrări altor neuroni, care taie la rândul lor spațiul deja tăiat. Lecția următoare arată ce se obține astfel și de ce lucrul acesta schimbă tot.</p>
+</section>
+
+</main>
+
+<footer>
+  <nav class="lnav" aria-label="Lecțiile vecine">
+    <a class="nav prev" href="lectia-14.html"><span class="k">Anterioara</span><span class="t">Supraînvățarea</span></a>
+    <a class="nav next" href="lectia-16.html"><span class="k">Urmează</span><span class="t">Straturile</span></a>
+  </nav>
+  <p class="colophon">Ponderile, frontierele și antrenarea se calculează în pagină.</p>
+  <div class="runfoot"><span>L.15 / Neuronul artificial</span><span>Partea 3 / Învățarea</span></div>
+</footer>
+
+</article>
+
+<script>
+"use strict";
+/* ============================================================
+   COD COMUN TUTUROR LECȚIILOR: clichete, butonul de sunet,
+   forzațul marmorat (seed = numărul lecției), ajutoare numerice.
+   ============================================================ */
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* clichete, sintetizate în pagină */
+const sfx=(function(){
+  let ctx,on=true,last=0;
+  function ac(){
+    if(ctx===undefined){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      ctx=AC?new AC():null;
+    }
+    if(ctx&&ctx.state==='suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f0,f1,dur,vol,type){
+    const c=ac(); if(!c||!on) return;
+    const t=c.currentTime;
+    const o=c.createOscillator(), g=c.createGain(), lp=c.createBiquadFilter();
+    o.type=type||'triangle';
+    o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3400,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp); lp.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  return {
+    tick:function(){ tone(1500,760,0.045,0.055); },
+    step:function(){ tone(980,560,0.05,0.04); },
+    merge:function(k){ tone(700+k*22,480+k*14,0.055,0.045); },
+    bad:function(){ tone(320,190,0.13,0.05,'sawtooth'); },
+    found:function(){ tone(740,740,0.10,0.05,'sine'); setTimeout(function(){ tone(1110,1110,0.17,0.045,'sine'); },95); },
+    soft:function(){ tone(430,300,0.07,0.04); },
+    nudge:function(){ const n=Date.now(); if(n-last<40) return; last=n; tone(2100,1600,0.02,0.022); },
+    clack:function(){ tone(1700,520,0.04,0.06); },
+    clunk:function(){ tone(900,340,0.05,0.05); },
+    lamp:function(){ tone(880,880,0.09,0.04,'sine'); setTimeout(function(){ tone(1320,1320,0.14,0.035,'sine'); },80); },
+    col:function(k){ tone(760+k*70,520+k*50,0.05,0.045); },
+    carry:function(){ tone(1900,1200,0.035,0.04); },
+    done:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    over:function(){ tone(300,180,0.16,0.05,'sawtooth'); },
+    edge:function(){ tone(1250,900,0.03,0.03); },
+    latch:function(){ tone(900,620,0.05,0.05); },
+    fetch:function(){ tone(1150,900,0.035,0.035); },
+    dec:function(){ tone(1400,1100,0.035,0.033); },
+    exec:function(){ tone(820,600,0.05,0.045); },
+    jump:function(){ tone(1500,2100,0.06,0.04); },
+    out:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    halt:function(){ tone(420,240,0.16,0.05); },
+    stepk:function(k){ tone(760+(k||0)*40,520,0.04,0.04); },
+    cmp:function(h){ const n=Date.now(); if(n-last<24) return; last=n; tone(1400+h*7,1100,0.022,0.03); },
+    swap:function(){ tone(880,560,0.05,0.05); },
+    yes:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    no:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    search:function(){ tone(600,1600,0.18,0.04,'sine'); },
+    good:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    snap:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    arrive:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    thud:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    blow:function(){ tone(300,140,0.22,0.055,'sawtooth'); },
+    flat:function(){ tone(420,420,0.16,0.045,'sine'); },
+    fw:function(k){ tone(900+(k||0)*90,700,0.04,0.04); },
+    bw:function(k){ tone(1500-(k||0)*120,900,0.045,0.042); },
+    word:function(k){ tone(900+(((k||0)*67)%500),700,0.026,0.026); },
+    toggle:function(){ on=!on; if(on) tone(880,880,0.06,0.045,'sine'); return on; }
+  };
+})();
+(function(){
+  const b=document.getElementById('sndBtn'); if(!b) return;
+  b.addEventListener('click',function(){
+    const on=sfx.toggle();
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('span').textContent=on?'sunet pornit':'sunet oprit';
+  });
+})();
+
+/* numerele se scriu cu virgulă zecimală; acordul cu numeralul: 1 bit, 5 biți, 20 de biți */
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+const log2=x=>Math.log(x)/Math.LN2;
+function unit(n,sing,plur){
+  if(n===1) return sing;
+  const l=Math.abs(Math.round(n))%100;
+  return (l===0||l>=20)?('de '+plur):plur;
+}
+const bits=n=>n+' '+unit(n,'bit','biți');
+
+/* forzațul marmorat: vopsea plutind pe baie, pieptănată de zgomot;
+   totul e hotărât de numărul lecției, deci fiecare lecție are hârtia ei */
+(function(){
+  const host=document.getElementById('marble'); if(!host) return;
+  const SEED=+host.dataset.seed||1;
+  let s=(SEED*7919+104729)>>>0;
+  const rnd=()=>{ s=(s*1103515245+12345)>>>0; return (s>>>8)/16777216; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const inks=['#2F4BC4','#EE5A2F','#6B7A38','#E9C93B','#DDA6B0'];
+  const cream='#F7F3E6', dark='#22252D';
+  const dom=pick(inks);                       /* cerneala dominantă a lecției */
+  const W=1600,H=500;
+  let g='';
+  /* fâșii orizontale, de lățimi neregulate; cele subțiri devin vene */
+  let y=-160;
+  while(y<H+160){
+    const thin=rnd()<0.45;
+    const h=thin?2+rnd()*4:12+rnd()*34;
+    const fill=thin?(rnd()<0.6?cream:dark):(rnd()<0.3?dom:pick(inks.concat([cream,cream])));
+    g+='<rect x="-300" y="'+y.toFixed(1)+'" width="2200" height="'+h.toFixed(1)+'" fill="'+fill+'"/>';
+    y+=h+(thin?3+rnd()*8:rnd()*10);
+  }
+  /* stropi: picături de vopsea, unele cu ochi deschis */
+  for(let i=0;i<190;i++){
+    const big=rnd()<0.16;
+    const rx=big?22+rnd()*40:3+rnd()*14, ry=big?11+rnd()*22:2+rnd()*8;
+    const light=rnd()<0.5;
+    const fill=light?cream:pick(inks.concat([dark]));
+    const stroke=(!light&&rnd()<0.7)?' stroke="'+cream+'" stroke-width="'+(1.5+rnd()*2.2).toFixed(1)+'"':'';
+    g+='<ellipse cx="'+(rnd()*W).toFixed(1)+'" cy="'+(-30+rnd()*(H+60)).toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+fill+'"'+stroke+'/>';
+  }
+  const bf1=(0.0022+rnd()*0.0018).toFixed(4)+' '+(0.006+rnd()*0.005).toFixed(4);
+  const sc1=(130+rnd()*90).toFixed(0);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<filter id="m" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">'+
+    '<feTurbulence type="fractalNoise" baseFrequency="'+bf1+'" numOctaves="3" seed="'+(SEED*11)+'" result="t1"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="t1" scale="'+sc1+'" xChannelSelector="R" yChannelSelector="G" result="d1"/>'+
+    '<feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="3" seed="'+(SEED*11+5)+'" result="t2"/>'+
+    '<feDisplacementMap in="d1" in2="t2" scale="42" xChannelSelector="G" yChannelSelector="R"/>'+
+    '</filter>'+
+    '<rect width="'+W+'" height="'+H+'" fill="'+dom+'"/>'+
+    '<g filter="url(#m)"><rect x="-300" y="-200" width="2200" height="'+(H+400)+'" fill="'+dom+'"/>'+g+'</g></svg>';
+  host.style.backgroundColor=dom;
+  try{
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas'); c.width=W; c.height=H;
+      c.getContext('2d').drawImage(img,0,0,W,H);
+      let url; try{ url=c.toDataURL('image/png'); }catch(e){ return; }
+      host.style.backgroundImage='url("'+url+'")';
+    };
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }catch(e){}
+})();
+</script>
+
+<script>
+"use strict";
+(function(){
+
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—').replace('.',',');
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function rgba(n,a){const c=hex2rgb(col(n));return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const TAU=Math.PI*2;
+const sig=z=>1/(1+Math.exp(-z));
+
+const CVS=[];
+function mkCv(id,draw){
+  const cv=document.getElementById(id), ctx=cv.getContext('2d');
+  const st={cv:cv,ctx:ctx,w:0,h:0,dpr:1};
+  st.render=function(){
+    const r=cv.getBoundingClientRect();
+    if(r.width>=1){
+      const ww=Math.round(r.width),hh=Math.round(r.height);
+      if(ww!==st.w||hh!==st.h){
+        st.dpr=Math.min(window.devicePixelRatio||1,2);
+        st.w=ww;st.h=hh;cv.width=Math.round(ww*st.dpr);cv.height=Math.round(hh*st.dpr);
+        ctx.setTransform(st.dpr,0,0,st.dpr,0,0);
+      }
+    }
+    if(st.w<60||st.h<40) return;
+    ctx.clearRect(0,0,st.w,st.h);
+    ctx.fillStyle=col('--surface'); ctx.fillRect(0,0,st.w,st.h);
+    draw(st);
+  };
+  new ResizeObserver(st.render).observe(cv);
+  CVS.push(st);
+  return st;
+}
+function renderAll(){ for(const c of CVS) c.render(); }
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+if(mq.addEventListener) mq.addEventListener('change',renderAll);
+new MutationObserver(renderAll).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});
+window.addEventListener('load',renderAll);
+
+/* ================= 1. suma cu ponderi ================= */
+(function(){
+  const NAMES=['cerneală sus','lățime','grosime','simetrie'];
+  const N={x:[0.62,0.38,0.71,0.25], w:[0.5,-0.3,0.2,0.1], b:-0.3};
+  const cv=mkCv('cvNeuron',function(st){
+    const ctx=st.ctx;
+    const padL=110,padR=120,padT=14,padB=18;
+    const iw=st.w-padL-padR, ih=st.h-padT-padB;
+    const rowH=ih/4;
+    const contrib=N.x.map((v,i)=>v*N.w[i]);
+    const maxC=Math.max(0.35,...contrib.map(Math.abs));
+    const zx=padL+iw*0.55;
+    ctx.font='10px "Space Mono", monospace';
+    for(let i=0;i<4;i++){
+      const cy=padT+rowH*(i+0.5);
+      ctx.fillStyle=col('--muted'); ctx.textAlign='right'; ctx.textBaseline='middle';
+      ctx.fillText(NAMES[i],padL-46,cy);
+      ctx.fillStyle=col('--c-data');
+      ctx.fillText(nf(N.x[i]),padL-8,cy);
+      /* bara de contribuție */
+      const len=contrib[i]/maxC*(iw*0.42);
+      ctx.fillStyle=contrib[i]>=0?rgba('--c-out',0.75):rgba('--c-error',0.75);
+      const x0=zx, x1=zx+len;
+      ctx.fillRect(Math.min(x0,x1),cy-8,Math.abs(len),16);
+      ctx.fillStyle=col('--muted'); ctx.textAlign=len>=0?'left':'right';
+      ctx.fillText((contrib[i]>=0?'+':'')+nf(contrib[i]),x1+(len>=0?5:-5),cy);
+    }
+    ctx.strokeStyle=rgba('--muted',0.6); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(zx,padT); ctx.lineTo(zx,padT+ih); ctx.stroke();
+    const z=contrib.reduce((a,b)=>a+b,0)+N.b;
+    const out=sig(z*6);
+    /* suma și ieșirea */
+    const bx=st.w-padR+14;
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillStyle=col('--muted'); ctx.fillText('sumă',bx,padT+ih*0.28);
+    ctx.fillStyle=col('--ink'); ctx.font='500 15px "Space Mono", monospace';
+    ctx.fillText(nf(z),bx,padT+ih*0.28+16);
+    ctx.font='10px "Space Mono", monospace';
+    ctx.fillStyle=col('--muted'); ctx.fillText('ieșire',bx,padT+ih*0.68);
+    ctx.fillStyle=z>0?col('--c-out'):col('--c-error');
+    ctx.font='500 15px "Space Mono", monospace';
+    ctx.fillText(z>0?'da':'nu',bx,padT+ih*0.68+16);
+    ctx.beginPath(); ctx.arc(bx+52,padT+ih*0.68+16,9,0,TAU);
+    ctx.fillStyle=z>0?rgba('--c-out',0.85):rgba('--c-error',0.25); ctx.fill();
+    ctx.font='10px "Space Mono", monospace';
+    ctx.fillStyle=col('--muted'); ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText('deplasare '+(N.b>=0?'+':'')+nf(N.b),zx,padT+ih+2);
+  });
+  const ctrl=document.getElementById('nCtrl');
+  ctrl.innerHTML=NAMES.map(function(nm,i){
+    return '<div class="rng"><label for="nw'+i+'">'+nm+'</label>'+
+      '<input id="nw'+i+'" type="range" min="-100" max="100" value="'+Math.round(N.w[i]*100)+'">'+
+      '<span class="val" id="nwv'+i+'">—</span></div>';
+  }).join('');
+  const nb=document.getElementById('nb'), nbv=document.getElementById('nbv');
+  const read=document.getElementById('nRead'), cap=document.getElementById('capNeuron');
+  function upd(){
+    for(let i=0;i<4;i++){
+      N.w[i]=+document.getElementById('nw'+i).value/100;
+      document.getElementById('nwv'+i).textContent=nf(N.w[i]);
+    }
+    N.b=+nb.value/100; nbv.textContent=nf(N.b);
+    const contrib=N.x.map((v,i)=>v*N.w[i]);
+    const z=contrib.reduce((a,b)=>a+b,0)+N.b;
+    read.innerHTML=contrib.map((c,i)=>'<span>'+NAMES[i]+' <b>'+(c>=0?'+':'')+nf(c)+'</b></span>').join('')+
+      '<span>deplasare <b>'+(N.b>=0?'+':'')+nf(N.b)+'</b></span><span>sumă <b>'+nf(z)+'</b></span>';
+    cap.innerHTML='Suma este <b>'+nf(z)+'</b>, deci răspunsul este <b class="'+(z>0?'on':'off')+'">'+(z>0?'da':'nu')+
+      '</b>. Barele verzi pledează pentru, cele roșii împotrivă; lungimea lor este valoarea mărimii înmulțită cu ponderea ei.';
+    cv.render();
+  }
+  for(let i=0;i<4;i++) document.getElementById('nw'+i).addEventListener('input',function(){ sfx.nudge(); upd(); });
+  nb.addEventListener('input',function(){ sfx.nudge(); upd(); });
+  document.getElementById('nRand').addEventListener('click',function(){
+    N.x=N.x.map(()=>Math.round(Math.random()*100)/100); sfx.clack(); upd();
+  });
+  upd();
+})();
+
+/* ================= 2. frontiera pe date adevărate ================= */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function raster(segs,S,th){
+  const g=new Uint8Array(S*S);
+  for(const s of segs){
+    const [x0,y0,x1,y1]=s;
+    const st=Math.ceil(Math.hypot(x1-x0,y1-y0)*2)+1;
+    for(let i=0;i<=st;i++){
+      const t=i/st,x=x0+(x1-x0)*t,y=y0+(y1-y0)*t;
+      for(let dy=-th;dy<=th;dy++) for(let dx=-th;dx<=th;dx++){
+        const px=Math.round(x+dx),py=Math.round(y+dy);
+        if(px>=0&&px<S&&py>=0&&py<S) g[py*S+px]=1;
+      }
+    }
+  }
+  return g;
+}
+function makeExample(kind,rnd,S){
+  const j=a=>(rnd()-0.5)*a, th=rnd()<0.5?0:1;
+  const y0=3+j(1.5), y1=S-4+j(1.5);
+  if(kind===7){
+    const bar=3+rnd()*4, x1=S-5+j(2), x0=x1-bar;
+    const lean=rnd()<0.20?j(2):-(2+rnd()*4);
+    return raster([[x0,y0,x1,y0],[x1,y0,x1+lean,y1]],S,th);
+  }
+  const x=S/2+j(3), slant=j(2.5);
+  const segs=[[x-slant/2,y0,x+slant/2,y1]];
+  if(rnd()<0.50){ const fl=1.5+rnd()*2; segs.push([x-slant/2-fl,y0+fl*0.85,x-slant/2,y0]); }
+  if(rnd()<0.25){ const f=1.5+rnd()*1.5; segs.push([x+slant/2-f,y1,x+slant/2+f,y1]); }
+  return raster(segs,S,th);
+}
+function features(g,S){
+  let n=0,minx=S,maxx=-1,miny=S,maxy=-1;
+  for(let y=0;y<S;y++) for(let x=0;x<S;x++) if(g[y*S+x]){
+    n++; if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+  }
+  if(!n) return null;
+  const h=maxy-miny+1,w=maxx-minx+1;
+  let top=0; const cut=miny+h/3;
+  for(let y=0;y<S;y++) for(let x=0;x<S;x++) if(g[y*S+x]&&y<cut) top++;
+  return {top:top/n, ratio:w/h};
+}
+const SP={pts:[],w1:0,w2:0,w0:0,hist:[],training:false};
+(function(){
+  const S=16, rnd=mulberry32(20250825);
+  const raw=[];
+  for(let i=0;i<40;i++){
+    const kind=i<20?7:1;
+    const f=features(makeExample(kind,rnd,S),S);
+    raw.push({t:f.top,r:f.ratio,y:kind===7?1:0});
+  }
+  /* aduse la aceeași scară, din motivul din lecția 13 */
+  const mt=raw.reduce((s,p)=>s+p.t,0)/raw.length, mr=raw.reduce((s,p)=>s+p.r,0)/raw.length;
+  const st_=Math.sqrt(raw.reduce((s,p)=>s+(p.t-mt)**2,0)/raw.length);
+  const sr=Math.sqrt(raw.reduce((s,p)=>s+(p.r-mr)**2,0)/raw.length);
+  SP.pts=raw.map(p=>({x:(p.t-mt)/st_, z:(p.r-mr)/sr, y:p.y}));
+})();
+
+(function(){
+  const w1=document.getElementById('w1'), w2=document.getElementById('w2'), w0=document.getElementById('w0');
+  const w1v=document.getElementById('w1v'), w2v=document.getElementById('w2v'), w0v=document.getElementById('w0v');
+  const read=document.getElementById('sRead'), cap=document.getElementById('capSpace');
+  const bTrain=document.getElementById('sTrain'), bReset=document.getElementById('sReset');
+  let timer=null;
+  const LO=-2.6, HI=2.6;
+
+  const out=p=>sig(SP.w1*p.x+SP.w2*p.z+SP.w0);
+  function wrong(){ let e=0; for(const p of SP.pts) if((out(p)>0.5?1:0)!==p.y) e++; return e; }
+  function cost(){ let s=0; for(const p of SP.pts){ const o=out(p); s+=(o-p.y)**2; } return s/SP.pts.length; }
+
+  const spSt=mkCv('cvSpace',function(st){
+    const ctx=st.ctx;
+    const pad=26, iw=st.w-pad*2, ih=st.h-pad*2;
+    const X=v=>pad+(v-LO)/(HI-LO)*iw, Y=v=>pad+ih-(v-LO)/(HI-LO)*ih;
+    /* zonele de decizie */
+    const img=ctx.createImageData(Math.round(iw),Math.round(ih));
+    const d=img.data;
+    const cA=hex2rgb(col('--c-data')), cB=hex2rgb(col('--c-alt')), bgc=hex2rgb(col('--surface'));
+    for(let py=0;py<img.height;py++) for(let px=0;px<img.width;px++){
+      const vx=LO+(px/img.width)*(HI-LO), vz=LO+((img.height-py)/img.height)*(HI-LO);
+      const o=sig(SP.w1*vx+SP.w2*vz+SP.w0);
+      const c=o>0.5?cA:cB;
+      const a=0.06+Math.abs(o-0.5)*0.20;
+      const i=(py*img.width+px)*4;
+      d[i]=c[0]*a+bgc[0]*(1-a); d[i+1]=c[1]*a+bgc[1]*(1-a); d[i+2]=c[2]*a+bgc[2]*(1-a); d[i+3]=255;
+    }
+    ctx.putImageData(img,pad,pad);
+    ctx.strokeStyle=rgba('--rule',1); ctx.lineWidth=1;
+    ctx.strokeRect(pad,pad,iw,ih);
+    /* frontiera */
+    if(Math.abs(SP.w2)>1e-6||Math.abs(SP.w1)>1e-6){
+      ctx.strokeStyle=col('--c-param'); ctx.lineWidth=2.4;
+      ctx.save(); ctx.beginPath(); ctx.rect(pad,pad,iw,ih); ctx.clip();
+      ctx.beginPath();
+      if(Math.abs(SP.w2)>Math.abs(SP.w1)){
+        const zAt=x=>-(SP.w1*x+SP.w0)/SP.w2;
+        ctx.moveTo(X(LO),Y(zAt(LO))); ctx.lineTo(X(HI),Y(zAt(HI)));
+      } else {
+        const xAt=z=>-(SP.w2*z+SP.w0)/SP.w1;
+        ctx.moveTo(X(xAt(LO)),Y(LO)); ctx.lineTo(X(xAt(HI)),Y(HI));
+      }
+      ctx.stroke(); ctx.restore();
+    }
+    for(const p of SP.pts){
+      const pred=out(p)>0.5?1:0;
+      const bad=pred!==p.y;
+      ctx.beginPath(); ctx.arc(X(p.x),Y(p.z),bad?5:4,0,TAU);
+      ctx.fillStyle=bad?col('--c-error'):(p.y?col('--c-data'):col('--c-alt'));
+      ctx.fill();
+      ctx.strokeStyle=col('--surface'); ctx.lineWidth=1.2; ctx.stroke();
+    }
+    ctx.fillStyle=col('--muted'); ctx.font='10px "Space Mono", monospace';
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText('cerneală sus →',st.w/2,st.h-14);
+    ctx.save(); ctx.translate(11,st.h/2); ctx.rotate(-Math.PI/2);
+    ctx.textBaseline='bottom'; ctx.fillText('lățime →',0,0); ctx.restore();
+  });
+  const costSt=mkCv('cvCost',function(st){
+    const ctx=st.ctx;
+    const padL=44,padR=12,padT=14,padB=24;
+    const iw=st.w-padL-padR, ih=st.h-padT-padB;
+    ctx.strokeStyle=rgba('--rule',1); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,padT+ih); ctx.lineTo(padL+iw,padT+ih); ctx.stroke();
+    ctx.fillStyle=col('--muted'); ctx.font='10px "Space Mono", monospace';
+    ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.fillText('cost',padL-5,padT+6);
+    ctx.textAlign='right'; ctx.textBaseline='top'; ctx.fillText('pași →',padL+iw,padT+ih+6);
+    const H=SP.hist;
+    if(H.length<2) return;
+    const mx=Math.max.apply(null,H), NX=Math.max(60,H.length);
+    const X=i=>padL+i/(NX-1)*iw, Y=v=>padT+ih-(v/(mx||1))*ih;
+    ctx.strokeStyle=col('--c-error'); ctx.lineWidth=2;
+    ctx.beginPath();
+    H.forEach(function(v,i){ const x=X(i),y=Y(v); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+    ctx.stroke();
+  });
+
+  function fromSliders(){ SP.w1=+w1.value/10; SP.w2=+w2.value/10; SP.w0=+w0.value/10; }
+  function toSliders(){
+    w1.value=clamp(Math.round(SP.w1*10),-100,100);
+    w2.value=clamp(Math.round(SP.w2*10),-100,100);
+    w0.value=clamp(Math.round(SP.w0*10),-100,100);
+  }
+  function upd(){
+    w1v.textContent=nf(SP.w1,1); w2v.textContent=nf(SP.w2,1); w0v.textContent=nf(SP.w0,1);
+    const e=wrong(), c=cost();
+    read.innerHTML='<span>greșite <b>'+e+'</b> din <b>'+SP.pts.length+'</b></span>'+
+      '<span>cost <b>'+nf(c,4)+'</b></span>'+
+      '<span>pași de antrenare <b>'+Math.max(0,SP.hist.length-1)+'</b></span>';
+    spSt.render(); costSt.render();
+    return e;
+  }
+  function trainStep(){
+    let g1=0,g2=0,g0=0;
+    for(const p of SP.pts){
+      const o=out(p);
+      const d=2*(o-p.y)*o*(1-o)/SP.pts.length;
+      g1+=d*p.x; g2+=d*p.z; g0+=d;
+    }
+    const lr=6;
+    SP.w1-=lr*g1; SP.w2-=lr*g2; SP.w0-=lr*g0;
+    SP.hist.push(cost());
+    toSliders();
+  }
+  [w1,w2,w0].forEach(s=>s.addEventListener('input',function(){ sfx.nudge(); fromSliders(); upd(); }));
+  bReset.addEventListener('click',function(){
+    SP.w1=2; SP.w2=-1; SP.w0=0; SP.hist=[]; toSliders(); sfx.clack();
+    const e=upd();
+    cap.innerHTML='Ponderi puse de mână. Greșite: <b>'+e+'</b> din 40. Apasă „Antrenează" ca să le caute coborârea pantei.';
+  });
+  bTrain.addEventListener('click',function(){
+    if(SP.training){ SP.training=false; clearTimeout(timer); bTrain.textContent='Antrenează'; return; }
+    SP.hist=[cost()];
+    SP.training=true; bTrain.textContent='Oprește';
+    let n=0;
+    (function next(){
+      if(!SP.training||n>=400){ SP.training=false; bTrain.textContent='Antrenează';
+        const e=upd(); sfx.good();
+        cap.innerHTML='După <b>'+n+'</b> pași de coborâre: greșite <b class="'+(e?'off':'on')+'">'+e+
+          '</b> din 40, cost <b>'+nf(cost(),4)+'</b>. Ponderile găsite: <b>'+nf(SP.w1,1)+'</b> și <b>'+nf(SP.w2,1)+
+          '</b>, deplasare <b>'+nf(SP.w0,1)+'</b>.';
+        return; }
+      const rounds=REDUCE?400:4;
+      for(let k=0;k<rounds&&n<400;k++){ trainStep(); n++; }
+      if(n%40===0) sfx.step(n/40);
+      upd();
+      timer=setTimeout(next,REDUCE?0:24);
+    })();
+  });
+  SP.w1=2; SP.w2=-1; SP.w0=0; toSliders();
+  const e=upd();
+  cap.innerHTML='Ponderi puse de mână. Greșite: <b>'+e+'</b> din 40. Mută manetele sau apasă „Antrenează".';
+})();
+
+/* ================= 3. sigmoida ================= */
+(function(){
+  const sh=document.getElementById('sharp'), shv=document.getElementById('sharpv');
+  const cap=document.getElementById('capSig');
+  const st=mkCv('cvSig',function(st){
+    const ctx=st.ctx;
+    const padL=40,padR=14,padT=14,padB=26;
+    const iw=st.w-padL-padR, ih=st.h-padT-padB;
+    const LO=-6,HI=6;
+    const X=z=>padL+(z-LO)/(HI-LO)*iw, Y=v=>padT+ih-v*ih;
+    ctx.strokeStyle=rgba('--rule',1); ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(padL,Y(0.5)); ctx.lineTo(padL+iw,Y(0.5));
+    ctx.moveTo(X(0),padT); ctx.lineTo(X(0),padT+ih);
+    ctx.stroke();
+    ctx.strokeStyle=rgba('--muted',0.55);
+    ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,padT+ih); ctx.lineTo(padL+iw,padT+ih); ctx.stroke();
+    ctx.fillStyle=col('--muted'); ctx.font='10px "Space Mono", monospace';
+    ctx.textAlign='right'; ctx.textBaseline='middle';
+    ctx.fillText('1',padL-5,Y(1)); ctx.fillText('0,5',padL-5,Y(0.5)); ctx.fillText('0',padL-5,Y(0));
+    ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText('suma →',padL+iw-24,padT+ih+8);
+    /* treapta */
+    ctx.strokeStyle=rgba('--muted',0.9); ctx.lineWidth=2; ctx.setLineDash([5,4]);
+    ctx.beginPath();
+    ctx.moveTo(X(LO),Y(0)); ctx.lineTo(X(0),Y(0)); ctx.lineTo(X(0),Y(1)); ctx.lineTo(X(HI),Y(1));
+    ctx.stroke(); ctx.setLineDash([]);
+    /* sigmoida */
+    const k=+sh.value/20;
+    ctx.strokeStyle=col('--c-out'); ctx.lineWidth=2.6;
+    ctx.beginPath();
+    for(let i=0;i<=400;i++){ const z=LO+i/400*(HI-LO); const x=X(z),y=Y(sig(k*z)); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+    ctx.stroke();
+    /* panta în câteva locuri */
+    ctx.fillStyle=col('--c-param');
+    for(const z of [-4,-2,0,2,4]){
+      const s=sig(k*z), slope=k*s*(1-s);
+      const x=X(z), y=Y(s);
+      ctx.beginPath(); ctx.arc(x,y,3,0,TAU); ctx.fill();
+      ctx.strokeStyle=col('--c-param'); ctx.lineWidth=1.4;
+      const dx=26, dy=-slope*dx*(ih/(HI-LO)/(iw/(HI-LO)))*(iw/(HI-LO));
+      ctx.beginPath(); ctx.moveTo(x-dx/2,y-(-dy/2)); ctx.lineTo(x+dx/2,y+(-dy/2)); ctx.stroke();
+    }
+    ctx.fillStyle=col('--muted'); ctx.font='10px "Space Mono", monospace';
+    ctx.textAlign='left'; ctx.textBaseline='top';
+    ctx.fillText('treaptă',X(2),Y(1)+6);
+  });
+  function upd(){
+    const k=+sh.value/20;
+    shv.textContent=nf(k,1);
+    const s0=k*0.25, s4=k*sig(4*k)*(1-sig(4*k));
+    const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+    let mic, coada;
+    if(s4===0){
+      mic='zero';
+      coada=' Panta a coborât sub cea mai mică valoare pe care calculatorul o mai poate deosebi de zero, așa că acolo învățarea se oprește cu totul.';
+    } else if(s4<0.001){
+      const e=Math.floor(Math.log10(s4));
+      mic=nf(s4/Math.pow(10,e),1)+'·10⁻'+String(-e).split('').map(d=>SUP[d]).join('');
+      coada=' Cu cât curba e mai abruptă, cu atât seamănă mai mult cu treapta și cu atât panta dispare mai repede în lături.';
+    } else {
+      mic=nf(s4,4);
+      coada=' Cu cât curba e mai abruptă, cu atât seamănă mai mult cu treapta și cu atât panta dispare mai repede în lături.';
+    }
+    cap.innerHTML='Panta la mijloc este <b>'+nf(s0,2)+'</b>, iar la depărtare de patru unități scade la <b>'+mic+'</b>.'+coada;
+    st.render();
+  }
+  sh.addEventListener('input',function(){ sfx.nudge(); upd(); });
+  upd();
+})();
+
+/* ================= 4. sau-exclusiv ================= */
+(function(){
+  const PTS=[{x:0,y:0,c:0},{x:1,y:1,c:0},{x:0,y:1,c:1},{x:1,y:0,c:1}];
+  const xa=document.getElementById('xa'), xb=document.getElementById('xb');
+  const xav=document.getElementById('xav'), xbv=document.getElementById('xbv');
+  const cap=document.getElementById('capXor');
+  function line(){ const t=+xa.value*Math.PI/180; return {w1:Math.cos(t),w2:Math.sin(t),w0:+xb.value/100*1.6}; }
+  function errs(L){ let e=0; for(const p of PTS){ const s=L.w1*(p.x-0.5)+L.w2*(p.y-0.5)+L.w0; if((s>0?1:0)!==p.c) e++; } return e; }
+  const st=mkCv('cvXor',function(st){
+    const ctx=st.ctx;
+    const pad=34, iw=st.w-pad*2, ih=st.h-pad*2;
+    const X=v=>pad+v*iw, Y=v=>pad+ih-v*ih;
+    ctx.strokeStyle=rgba('--rule',1); ctx.lineWidth=1;
+    ctx.strokeRect(pad,pad,iw,ih);
+    const L=line();
+    ctx.save(); ctx.beginPath(); ctx.rect(pad,pad,iw,ih); ctx.clip();
+    ctx.strokeStyle=col('--c-param'); ctx.lineWidth=2.4;
+    ctx.beginPath();
+    if(Math.abs(L.w2)>Math.abs(L.w1)){
+      const yAt=x=>-(L.w1*(x-0.5)+L.w0)/L.w2+0.5;
+      ctx.moveTo(X(-0.5),Y(yAt(-0.5))); ctx.lineTo(X(1.5),Y(yAt(1.5)));
+    } else {
+      const xAt=y=>-(L.w2*(y-0.5)+L.w0)/L.w1+0.5;
+      ctx.moveTo(X(xAt(-0.5)),Y(-0.5)); ctx.lineTo(X(xAt(1.5)),Y(1.5));
+    }
+    ctx.stroke(); ctx.restore();
+    for(const p of PTS){
+      const s=L.w1*(p.x-0.5)+L.w2*(p.y-0.5)+L.w0;
+      const bad=(s>0?1:0)!==p.c;
+      ctx.beginPath(); ctx.arc(X(p.x),Y(p.y),9,0,TAU);
+      ctx.fillStyle=bad?col('--c-error'):(p.c?col('--c-data'):col('--c-alt'));
+      ctx.fill(); ctx.strokeStyle=col('--surface'); ctx.lineWidth=2; ctx.stroke();
+    }
+    ctx.fillStyle=col('--muted'); ctx.font='10px "Space Mono", monospace';
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText('0',X(0),Y(0)+14); ctx.fillText('1',X(1),Y(0)+14);
+    ctx.textAlign='right'; ctx.textBaseline='middle';
+    ctx.fillText('0',X(0)-14,Y(0)); ctx.fillText('1',X(0)-14,Y(1));
+  });
+  function upd(){
+    xav.textContent=xa.value+'°'; xbv.textContent=nf(+xb.value/100*1.6,2);
+    const e=errs(line());
+    cap.innerHTML='Dreapta de acum greșește <b class="'+(e?'off':'on')+'">'+e+'</b> '+(e===1?'punct':'puncte')+
+      ' din 4. Oricum ai roti-o și oricât ai muta-o, două puncte de aceeași culoare rămân despărțite de celelalte două.';
+    st.render();
+  }
+  [xa,xb].forEach(s=>s.addEventListener('input',function(){ sfx.nudge(); upd(); }));
+  document.getElementById('xBest').addEventListener('click',function(){
+    let best=9,ba=0,bb=0;
+    for(let a=0;a<180;a++) for(let b=-100;b<=100;b++){
+      const t=a*Math.PI/180;
+      const e=errs({w1:Math.cos(t),w2:Math.sin(t),w0:b/100*1.6});
+      if(e<best){ best=e; ba=a; bb=b; }
+    }
+    xa.value=ba; xb.value=bb; sfx.bad(); upd();
+    cap.innerHTML='Toate cele <b>36.180</b> de drepte încercate. Cea mai bună greșește <b class="off">'+best+
+      '</b> punct din 4. Nu există dreaptă care să le despartă corect pe toate patru.';
+  });
+  upd();
+})();
+
+})();
+</script>
+
+</body>
+</html>
