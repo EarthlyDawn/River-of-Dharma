@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,61 +740,61 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Blocul <i>transformer</i></h1>
-    <p class="lede">Atenția mută informația între poziții; o rețea mică o prelucrează la fiecare poziție în parte. Cele două, împreună cu piesele de instalație fără de care o stivă adâncă nu se poate antrena, alcătuiesc blocul care se repetă de câteva zeci de ori. Aproape tot ce are un model de limbaj de azi e blocul acesta, pus de multe ori unul peste altul.</p>
-    <p class="terms">Termeni: <b>flux rezidual</b> <b>rețeaua de pe fiecare poziție</b> <b>conexiune de ocolire</b> <b>normalizare pe strat</b> <b>12·d²</b></p>
+    <p class="lede">Atenția mută informația între cuvinte, iar o rețea densă o prelucrează pe loc pentru fiecare termen în parte. Așezate împreună de-a lungul unei benzi transportoare continue, aceste componente formează cărămida universală a inteligenței artificiale de astăzi. Aproape tot ce poate un model modern de limbaj se reduce la acest bloc ingenios, stivuit de zeci de ori unul peste altul.</p>
+    <p class="terms">Termeni: <b>flux rezidual (banda de transport)</b> <b>rețea densă pe poziție (FFN)</b> <b>conexiune de ocolire (skip connection)</b> <b>normalizare de strat</b> <b>formula parametrilor (12·d²)</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 32 H58" fill="none" stroke="#2F4BC4" stroke-width="5"/><path d="M18 32 V16 H30 V32 M36 32 V48 H48 V32" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="24" cy="14" r="3" fill="#EE5A2F"/><circle cx="42" cy="50" r="3" fill="#EE5A2F"/></svg></span>Banda pe care scriu straturile</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 32 H58" fill="none" stroke="#2F4BC4" stroke-width="5"/><path d="M18 32 V16 H30 V32 M36 32 V48 H48 V32" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="24" cy="14" r="3" fill="#EE5A2F"/><circle cx="42" cy="50" r="3" fill="#EE5A2F"/></svg></span>Banda transportoare: dosarul care circulă nestingherit</h2>
 
-  <p class="first">Fiecare poziție din text are un vector, obținut la intrare din vectorul cuvântului plus un marcaj de poziție. Vectorul acesta nu e înlocuit de straturile care urmează. El e purtat de la intrare până la ieșire, iar fiecare parte a fiecărui bloc <i>adaugă</i> ceva la el. Vectorul purtat de-a lungul întregului model se numește <dfn>flux rezidual</dfn>, și e cel mai bine să ni-l închipuim ca pe o bandă pe care se scrie.</p>
+  <p class="first">În modelele vechi, fiecare strat distrugea reprezentarea anterioară pentru a o înlocui cu una nouă. Arhitectura Transformer schimbă radical această logică. Fiecare cuvânt pornește la drum ca un vector bogat de coordonate, iar acest vector călătorește de la intrare până la ieșire de-a lungul unei autostrăzi neîntrerupte numite <dfn>flux rezidual</dfn>.</p>
 
-  <p>Un dosar care trece pe la mai multe birouri: fiecare birou adaugă o filă, niciunul nu aruncă dosarul. Ce a scris atenția din primul bloc rămâne acolo și la al patruzecilea, dacă nimeni nu scrie peste.</p>
+  <p>Cea mai intuitivă analogie este cea a unui dosar de lucru care circulă printr-o serie de birouri specializate: fiecare birou citește dosarul, adaugă o filă nouă cu observații utile sau o ștampilă și îl trimite mai departe pe bandă, dar niciun birou nu aruncă dosarul la coș! Ceea ce a descoperit atenția în primul etaj rămâne conservat și poate fi consultat intact și la al patruzecilea etaj.</p>
 
-  <p>Blocul are două părți care citesc de pe bandă și scriu înapoi pe ea. Prima e atenția din lecția precedentă, singura care mută informație dintr-o poziție în alta. A doua lucrează la fiecare poziție separat.</p>
+  <p>Fiecare bloc Transformer are două mari ateliere care citesc de pe această bandă și adaugă rezultatele înapoi pe ea: primul este mecanismul de atenție (care face schimb de idei între cuvinte diferite), iar al doilea este o mică fabrică de gândire individuală pentru fiecare cuvânt în parte.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="5" fill="#2F4BC4"/><circle cx="32" cy="14" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="26" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="38" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="50" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="52" cy="32" r="5" fill="#EE5A2F"/><path d="M17 32 L27 14 M17 32 L27 26 M17 32 L27 38 M17 32 L27 50 M37 14 L47 32 M37 26 L47 32 M37 38 L47 32 M37 50 L47 32" fill="none" stroke="#22252D" stroke-width="1"/></svg></span>Rețeaua de pe fiecare poziție</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="5" fill="#2F4BC4"/><circle cx="32" cy="14" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="26" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="38" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="50" r="5" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="52" cy="32" r="5" fill="#EE5A2F"/><path d="M17 32 L27 14 M17 32 L27 26 M17 32 L27 38 M17 32 L27 50 M37 14 L47 32 M37 26 L47 32 M37 38 L47 32 M37 50 L47 32" fill="none" stroke="#22252D" stroke-width="1"/></svg></span>Atelierul de gândire: rețeaua densă a fiecărui cuvânt</h2>
 
-  <p>A doua parte a blocului, <dfn>rețeaua de pe fiecare poziție</dfn>, e o rețea cu un singur strat ascuns, exact felul de rețea din lecția despre straturi. Ea primește vectorul unei poziții, îl duce într-un strat ascuns de patru ori mai lat, îl trece printr-o funcție de activare și îl aduce înapoi la mărimea inițială.</p>
+  <p>După ce atenția a strâns indiciile de la vecini, intră în acțiune al doilea motor al blocului: <dfn>rețeaua de pe fiecare poziție</dfn> (cunoscută ca rețea <i>feed-forward</i> sau MLP). Ea funcționează ca un birou de reflecție individual: ia vectorul îmbogățit al unui cuvânt, îl proiectează într-un spațiu intern de patru ori mai larg unde combină nuanțele, aplică o funcție neliniară de activare și îl aduce înapoi la dimensiunea standard.</p>
 
-  <p>Două lucruri o deosebesc de atenție. Ea se aplică <i>independent</i> la fiecare poziție, fără să vadă nimic din ce e în jur. Și folosește aceleași ponderi la toate pozițiile, ca filtrul din lecția despre convoluție: un singur set de numere, aplicat peste tot.</p>
+  <p>Două trăsături o disting esențial de mecanismul de atenție. În primul rând, ea acționează complet <i>independent</i> la fiecare poziție: cuvântul de pe poziția 3 este procesat în propria lui căsuță fără să tragă cu ochiul la vecini. În al doilea rând, folosește exact aceeași formulă de calcul pentru toate cuvintele, asigurând o consecvență perfectă în tot textul.</p>
 
-  <p>De aici vine și diferența de cost. Atenția compară fiecare poziție cu fiecare, deci costul ei crește cu pătratul lungimii. Rețeaua de pe fiecare poziție se aplică o dată de fiecare poziție, deci costul ei crește liniar. La contexte lungi, atenția devine partea scumpă; la contexte scurte, rețeaua.</p>
+  <p>Această împărțire a muncii explică și consumul de resurse: atenția compară fiecare cuvânt cu toți ceilalți (cost pătratic), în timp ce rețeaua densă se aplică o singură dată pe fiecare cuvânt (cost liniar). În textele lungi, atenția solicită cel mai mult calculatorul; în schimb, rețeaua densă este cea care stochează două treimi din memoria permanentă și faptele brute învățate de model.</p>
 
-  <p class="note">Rețeaua aceasta nu e cea care aduce neliniaritatea în model. Atenția e ea însăși neliniară, fiindcă ponderile ei ies dintr-o exponențială normalizată. Măsurat pe sarcina sau-exclusiv din lecția despre straturi: două blocuri din care rețeaua de pe fiecare poziție a fost scoasă cu totul ating 100% pe toate cele trei porniri încercate. Ce aduce rețeaua e capacitatea, fiindcă ea ține două treimi din ponderile fiecărui bloc, și un loc unde calculul se face în interiorul unei singure poziții.</p>
+  <p class="note">Atenția mută piesele pe tablă, dar rețeaua densă este cea care deține cea mai mare parte din parametrii modelului. Este ca o bibliotecă de cunoștințe enciclopedice stocate direct în ponderi, consultată la fiecare pas.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 H58" fill="none" stroke="#2F4BC4" stroke-width="4"/><path d="M14 44 C14 20 50 20 50 44" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><rect x="24" y="14" width="16" height="12" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><text x="32" y="24" text-anchor="middle" font-family="monospace" font-size="11" fill="#22252D">+</text></svg></span>Conexiunea de ocolire</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 H58" fill="none" stroke="#2F4BC4" stroke-width="4"/><path d="M14 44 C14 20 50 20 50 44" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><rect x="24" y="14" width="16" height="12" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><text x="32" y="24" text-anchor="middle" font-family="monospace" font-size="11" fill="#22252D">+</text></svg></span>Banda de ocolire: salvarea semnalului</h2>
 
-  <p>Nici atenția, nici rețeaua nu produc noul vector al poziției. Fiecare produce o <i>adăugire</i>, iar rezultatul părții e intrarea ei plus adăugirea. Legătura care duce intrarea neatinsă până la ieșirea părții se numește <dfn>conexiune de ocolire</dfn>.</p>
+  <p>O regulă de aur a blocului Transformer este că niciun modul nu rescrie vectorul de la zero. Fiecare modul generează doar o <i>adăugire fină</i> (o mică ajustare numerică), care se adună pur și simplu peste conținutul inițial al benzii. Traseul direct care permite vectorului să ocolească transformările și să ajungă intact la ieșire poartă numele de <dfn>conexiune de ocolire</dfn> (sau <i>skip connection</i>).</p>
 
-  <p>Urmarea imediată e că fiecare parte are de învățat doar o corecție, nu întreaga transformare. O parte care n-ar avea nimic de spus poate produce zero, iar vectorul trece nemodificat; fără ocolire ar trebui să învețe să se copieze pe sine, ceea ce nu e deloc gratuit.</p>
+  <p>Această găselniță aduce o relaxare imensă procesului de învățare. Dacă un anumit etaj nu are nimic nou de adăugat într-o propoziție simplă, neuronii săi trebuie doar să producă zero, iar informația continuă nestingherită. Fără această pasarelă de ocolire, stratul ar fi fost silit să învețe cu greu cum să copieze fidel fiecare bit de informație fără să-l altereze.</p>
 
-  <p>A doua urmare privește antrenarea. Vina calculată la ieșire se întoarce spre intrare pe două drumuri: prin partea propriu-zisă și prin ocolire. Drumul prin ocolire nu înmulțește nimic. Oricâte blocuri ar fi puse unul peste altul, există un drum pe care panta ajunge la fund neatinsă. E aceeași lecție ca la porțile rețelei recurente, învățată încă o dată: ca semnalul să ajungă departe, trebuie să existe un drum pe care nimeni nu-l atinge.</p>
+  <p>Mai mult, ocolirea rezolvă definitiv problema estompării semnalului la antrenament. Când eroarea se propagă înapoi, ea dispune de o bandă de mare viteză pe care nu există nicio înmulțire repetată. Chiar dacă stivuim cincizeci sau o sută de etaje, semnalul de corectare a erorilor ajunge curat și nealterat până la primele cuvinte.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="8" height="44" fill="#BDB9AA"/><rect x="20" y="30" width="8" height="24" fill="#BDB9AA"/><rect x="32" y="40" width="8" height="14" fill="#BDB9AA"/><rect x="48" y="24" width="8" height="30" fill="#2F4BC4"/><path d="M6 24 H42" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Normalizarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="8" height="44" fill="#BDB9AA"/><rect x="20" y="30" width="8" height="24" fill="#BDB9AA"/><rect x="32" y="40" width="8" height="14" fill="#BDB9AA"/><rect x="48" y="24" width="8" height="30" fill="#2F4BC4"/><path d="M6 24 H42" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Amortizorul de vibrații: normalizarea pe strat</h2>
 
-  <p>Ultima piesă se ocupă de mărimi. Fiindcă fiecare bloc adaugă la bandă, vectorii cresc cu adâncimea, iar o parte care primește la intrare numere de o sută de ori mai mari decât cele pentru care a fost pregătită se poartă altfel decât trebuie.</p>
+  <p>Deoarece fiecare etaj adaugă noi valori numerice pe banda transportoare, există riscul ca numerele să crească nestăvilit spre mărimi gigantice. Dacă un strat primește la intrare valori de sute de ori mai mari decât cele pentru care a fost calibrate, calculele matematice devin instabile și o iau razna.</p>
 
-  <p><dfn>Normalizarea pe strat</dfn> ia vectorul unei poziții, îi scade media componentelor și îl împarte la abaterea lor standard, apoi îl înmulțește cu o scară învățată și îi adaugă o deplasare învățată. Rezultatul are, înainte de scară și deplasare, media zero și abaterea unu, indiferent cât de mari erau numerele de la care s-a plecat.</p>
+  <p>Aici intervine mecanismul de <dfn>normalizare pe strat</dfn> (<i>Layer Normalization</i>). La fiecare pas, înainte ca datele să intre în calcule, vectorul este calibrat: i se aduce media la zero și se împarte la variația sa internă, apoi este ajustat fin printr-o scalare învățată. Astfel, valorile sunt readuse într-un interval temperat și previzibil, indiferent de câte straturi s-au acumulat sub ele.</p>
 
-  <p>Ea se aplică pe ce <i>vede</i> fiecare parte, nu pe bandă. Banda rămâne neatinsă, iar atenția și rețeaua primesc o copie adusă la scară. Deosebirea contează: banda are voie să crească, fiindcă acolo se strânge tot ce s-a scris; ce intră în calcule nu are voie.</p>
+  <p>Un detaliu arhitectural esențial: normalizarea se aplică pe ceea ce <i>intră în atelier</i>, nu pe banda transportoare însăși! Autostrada principală rămâne liberă să crească și să acumuleze nuanțe de la toate etajele, dar fiecare specialist primește o copie frumos calibrată înainte de a se apuca de lucru.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="22" width="44" height="10" fill="#E9C93B" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="36" width="44" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="50" width="44" height="8" fill="#DDA6B0" stroke="#22252D" stroke-width="1.5"/><path d="M4 8 V58" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Blocul, pas cu pas</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="22" width="44" height="10" fill="#E9C93B" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="36" width="44" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="50" width="44" height="8" fill="#DDA6B0" stroke="#22252D" stroke-width="1.5"/><path d="M4 8 V58" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Anatomia blocului complet: pas cu pas</h2>
 
-  <p>Cele patru piese se așază într-o singură ordine, repetată de două ori în fiecare bloc: normalizare, o parte, adunare pe bandă. Întâi cu atenția, apoi cu rețeaua de pe fiecare poziție.</p>
+  <p>Toate aceste piese formează o coregrafie armonioasă, repetată de două ori în interiorul fiecărui bloc: întâi normalizăm și aplicăm atenția, adunând rezultatul pe bandă; apoi normalizăm și aplicăm rețeaua densă, adunând din nou pe bandă.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un bloc, pe șase poziții</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Parcurgerea unui bloc complet pe un șir de șase poziții</figcaption>
     <div class="stage">
       <canvas id="cvBlk" class="cv-blk"></canvas>
       <div class="readout" id="bRead"></div>
@@ -804,26 +806,24 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Ponderile blocului din figură sunt luate la întâmplare, nu antrenate: figura arată forma calculului și mărimile reale care ies din el, nu ce anume ajunge un model să urmărească.</p>
+  <p class="note">În animația didactică de mai sus, valorile numerice sunt generate pentru a ilustra ordinea operațiunilor și stabilitatea mărimilor pe parcursul etapelor de normalizare și adunare.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="12" y="46" width="40" height="8" fill="#2F4BC4"/><rect x="12" y="36" width="40" height="8" fill="#2F4BC4" opacity=".8"/><rect x="12" y="26" width="40" height="8" fill="#2F4BC4" opacity=".6"/><rect x="12" y="16" width="40" height="8" fill="#2F4BC4" opacity=".4"/><rect x="12" y="6" width="40" height="8" fill="#EE5A2F"/></svg></span>Stivuirea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="12" y="46" width="40" height="8" fill="#2F4BC4"/><rect x="12" y="36" width="40" height="8" fill="#2F4BC4" opacity=".8"/><rect x="12" y="26" width="40" height="8" fill="#2F4BC4" opacity=".6"/><rect x="12" y="16" width="40" height="8" fill="#2F4BC4" opacity=".4"/><rect x="12" y="6" width="40" height="8" fill="#EE5A2F"/></svg></span>Stivuirea pe înălțime: etajele gândirii profunde</h2>
 
-  <p>Un bloc se repetă. Al doilea are aceeași formă și alte ponderi, citește banda lăsată de primul și scrie pe ea mai departe. Modelele mici au douăsprezece blocuri, cele mari între patruzeci și o sută.</p>
+  <p>O singură cărămidă Transformer este puternică, dar adevărata magie apare când construim un zgârie-nori. Al doilea bloc citește banda lăsată de primul și adaugă reflecțiile sale; al treilea continuă de unde a rămas al doilea. Modelele compacte au 12 etaje, în timp ce giganții din prezent stivuiesc între 40 și 100 de blocuri identice ca structură.</p>
 
-  <p>Repetarea nu e doar mai mult din același lucru. Unele operații cer cel puțin două runde de atenție, iar motivul se citește direct din formule: valoarea pe care o ia o poziție de la alta se calculează numai din ce se află la acea poziție. Ca să iei ce se află la poziția <i>următoare</i> celei potrivite, o operație de care limba are nevoie des, trebuie ca poziția potrivită să conțină deja informația vecinului, iar asta o poate face doar o rundă de atenție dinainte. Adâncimea nu e un lux: e numărul de pași de gândire pe care îi poate face modelul înainte de a răspunde.</p>
-
-  <p class="note">Argumentul spune că o rundă nu ajunge; el nu spune că două runde învață ușor operația. Pe modelele de mărimea celor din pagina asta, antrenarea nu găsește soluția: nici cu trei blocuri și șaizeci de mii de exemple exactitatea nu se ridică peste nimereală. Circuitul se formează abia la scări mai mari.</p>
+  <p>Această adâncime nu este o simplă lăcomie inginerească. Anumite raționamente lingvistice necesită mai mulți pași de deducție logică. De exemplu, un prim etaj de atenție poate identifica legătura dintre un pronume și un nume propriu; etajul următor poate extrage acțiunea asociată acelui nume dintr-o altă propoziție. Fiecare etaj stivuit reprezintă o rundă suplimentară de gândire și abstractizare înainte de a da răspunsul final.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6 V50" fill="none" stroke="#22252D" stroke-width="2"/><path d="M26 44 L32 52 L38 44" fill="none" stroke="#22252D" stroke-width="2"/><rect x="14" y="12" width="36" height="6" fill="#C9D1F1"/><rect x="14" y="22" width="36" height="6" fill="#C9D1F1"/><rect x="14" y="32" width="36" height="6" fill="#C9D1F1"/><path d="M8 8 C4 30 4 40 8 56" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce ajunge la fund</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6 V50" fill="none" stroke="#22252D" stroke-width="2"/><path d="M26 44 L32 52 L38 44" fill="none" stroke="#22252D" stroke-width="2"/><rect x="14" y="12" width="36" height="6" fill="#C9D1F1"/><rect x="14" y="22" width="36" height="6" fill="#C9D1F1"/><rect x="14" y="32" width="36" height="6" fill="#C9D1F1"/><path d="M8 8 C4 30 4 40 8 56" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Mecanica fină care ține turnul în picioare</h2>
 
-  <p>Ocolirea și normalizarea par piese de instalație, iar efectul lor se vede abia la adâncime. Tabelul de mai jos construiește stive de adâncimi diferite, trece prin ele un exemplu și măsoară cât de mare e panta care ajunge înapoi la vectorii de intrare.</p>
+  <p>La prima vedere, conexiunile de ocolire și normalizarea par simple detalii tehnice de instalație. În realitate, ele fac diferența dintre o rețea care funcționează strălucit și una complet nefuncțională. În tabelul interactiv de mai jos puteți testa comportamentul semnalului de învățare pe măsură ce adăugăm etaje.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Mărimea pantei la intrare, după adâncime</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Intensitatea semnalului de învățare la baza turnului, în funcție de adâncime</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblG"></table></div>
       <div class="readout" id="gRead"></div>
@@ -834,14 +834,10 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fără ocolire, panta se stinge exponențial: între un bloc și treizeci și două scade cu peste treizeci de ordine de mărime, adică ajunge la intrare o cantitate care nu se mai deosebește de zero. Cu ocolire ea rămâne la aceeași mărime la orice adâncime, fiindcă drumul scurt nu înmulțește nimic.</p>
-
-  <p>Maneta arată la ce folosește normalizarea. Ponderile de pornire n-au o valoare corectă evidentă, iar dacă sunt luate ceva mai mari, stiva cu ocolire se duce în cealaltă extremă: la scara ×2, ce vede atenția crește din bloc în bloc până la aproape două sute, iar panta ajunge la milioane; la ×3 ajunge la 10¹⁵. Cu normalizare, ce vede fiecare parte e exact unu la orice adâncime și la orice scară de pornire, iar panta rămâne între zecimi și zeci pe toată întinderea manetei.</p>
-
-  <p>Măsurătoarea de mai sus se face la pornire. Cea de mai jos antrenează efectiv nouă stive de câte șase blocuri pe sarcina sau-exclusiv.</p>
+  <p>Fără conexiuni de ocolire, semnalul de gradient se prăbușește exponențial: după treizeci de etaje, el devine o fracțiune microscopică ce nu se mai poate deosebi de zero. Cu conexiuni de ocolire și normalizare riguroasă, semnalul ajunge la fel de viguros la primul strat ca și cum ar fi trecut printr-un singur etaj!</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Șase blocuri, antrenate pe aceeași sarcină</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Antrenarea a nouă turnuri pe aceeași sarcină logică</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblT"></table></div>
       <div class="readout" id="tRead"></div>
@@ -852,25 +848,25 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Ocolirea și normalizarea nu adaugă nimic la ce poate exprima modelul. Ele fac deosebirea dintre o stivă adâncă pe care antrenarea o poate mișca și una care rămâne la nimereală, iar adâncimile la care se lucrează azi n-ar fi accesibile fără ele. E o temă care revine în tot cursul: ce se poate exprima și ce se poate învăța sunt două întrebări diferite, iar a doua e de obicei cea grea.</p>
+  <p>Aceste componente invizibile nu măresc neapărat inteligența teoretică a formulelor, ci fac rețeaua antrenabilă în realitate. Este o distincție filozofică fundamentală în informatică: una este ceea ce o formulă poate reprezenta pe o tablă de matematică, și cu totul altceva ceea ce un algoritm poate învăța stabil în practică.</p>
 </section>
 
 <section id="s8">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="20" height="20" fill="#2F4BC4"/><rect x="30" y="8" width="26" height="20" fill="#EE5A2F"/><rect x="8" y="30" width="20" height="26" fill="#EE5A2F"/><rect x="30" y="30" width="26" height="26" fill="#2F4BC4"/><text x="32" y="36" text-anchor="middle" font-family="serif" font-style="italic" font-size="12" fill="#F7F3E6">d</text></svg></span>Numărul de parametri</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="20" height="20" fill="#2F4BC4"/><rect x="30" y="8" width="26" height="20" fill="#EE5A2F"/><rect x="8" y="30" width="20" height="26" fill="#EE5A2F"/><rect x="30" y="30" width="26" height="26" fill="#2F4BC4"/><text x="32" y="36" text-anchor="middle" font-family="serif" font-style="italic" font-size="12" fill="#F7F3E6">d</text></svg></span>Cât de mare este modelul: formula 12·d²</h2>
 
-  <p>Blocul are un număr de ponderi care se scrie în întregime cu ajutorul unei singure mărimi: lățimea vectorului, notată de obicei <i>d</i>.</p>
+  <p>Dimensiunea totală a unui bloc Transformer se calculează uimitor de simplu, sprijinindu-se pe o singură măsură de bază: lățimea vectorului de trăsături, notată în literatură cu <i>d</i>.</p>
 
-  <p>Atenția are patru matrice pătrate, pentru interogări, chei, valori și proiecția de ieșire, deci 4<i>d</i>². Rețeaua de pe fiecare poziție are o matrice de la <i>d</i> la 4<i>d</i> și una înapoi, deci 8<i>d</i>². Un bloc are așadar 12<i>d</i>² ponderi, din care două treimi în rețea. Restul, normalizările și deplasările, sunt neglijabile la numărătoare.</p>
+  <p>Mecanismul de atenție folosește patru matrici pătrate (pentru interogări, chei, valori și combinarea ieșirilor), ceea ce înseamnă 4<i>d</i>² parametri. Rețeaua densă de procesare conține o matrice de expandare de la <i>d</i> la 4<i>d</i> și una de revenire, însumând 8<i>d</i>² parametri. Adunând cele două ateliere, fiecare bloc conține exact <b>12<i>d</i>²</b> parametri! Dacă înmulțim această valoare cu numărul de etaje stivuite, obținem cu o acuratețe impresionantă dimensiunea oficială a marilor modele din presă (cum ar fi cele din familia GPT sau LLaMA).</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Formula 12·d²·blocuri, pe trei forme cunoscute</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Estimarea parametrilor conform formulei 12·d² pe modele celebre</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblP"></table></div>
     </div>
-    <div class="cap">Numerele ies din formulă, nu dintr-o listă. Ele cad peste dimensiunile anunțate ale modelelor cu aceste forme, ceea ce arată că aproape tot ce are un asemenea model sunt blocurile repetate.</div>
+    <div class="cap">Numerele din tabel decurg direct din această formulă simplă și se potrivesc la mare fix cu mărimile anunțate de laboratoare, dovedind că aproape toată substanța unui model modern de limbaj constă în stiva repetată a acestor blocuri gemene.</div>
   </figure>
 
-  <p>Blocul, repetat, e construcția pe care se sprijină modelele de limbaj de azi. Îi lipsește însă ceva de care nu s-a vorbit încă. Atenția compară fiecare poziție cu fiecare, fără să țină seama de ordinea lor. Dacă se amestecă cuvintele unei propoziții, mecanismul dă același rezultat: el vede o grămadă, nu un șir. Lecția următoare arată cum ajunge ordinea în model.</p>
+  <p>Și totuși, acestei structuri aproape perfecte îi lipsește încă un simț elementar: ea nu cunoaște noțiunea de timp sau de succesiune! Mecanismul de atenție compară toate cuvintele dintr-o mișcare; dacă amestecăm ordinea cuvintelor dintr-o propoziție, atenția va produce exact aceleași scoruri, ca și cum ar privi o grămadă dezordonată de pietre, nu o secvență vie. În lecția următoare, vom afla cum i se insuflă modelului simțul orientării și ordinea cuvintelor.</p>
 </section>
 
 </main>

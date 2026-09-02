@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Convoluția</i></h1>
-    <p class="lede">O rețea în care fiecare neuron privește toată imaginea are prea multe ponderi ca să fie antrenată. Micșorarea se face punând în rețea o presupunere despre lume: că un lucru important într-o imagine e important oriunde s-ar afla.</p>
+    <p class="lede">Dacă am conecta fiecare neuron la fiecare pixel dintr-o imagine, numărul de butoane ar exploda, făcând învățarea imposibilă. Salvarea vine dintr-o presupunere simplă și profundă despre lumea vizuală: o pisică este o pisică oriunde ar apărea în tablou. Aplicând o mică „ștampilă” matematică plimbată peste toată imaginea, reducem milioane de parametri la doar câteva zeci.</p>
     <p class="terms">Termeni: <b>filtru</b> <b>convoluție</b> <b>hartă de activare</b> <b>subeșantionare</b> <b>arhitectură</b></p>
   </div>
 </header>
@@ -746,11 +748,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="6" width="36" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><g stroke="#22252D" stroke-width="1"><path d="M15 6 V42 M24 6 V42 M33 6 V42 M6 15 H42 M6 24 H42 M6 33 H42"/></g><circle cx="54" cy="52" r="6" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M42 42 L48 48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Cât ar costa privitul întregii imagini</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="6" width="36" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><g stroke="#22252D" stroke-width="1"><path d="M15 6 V42 M24 6 V42 M33 6 V42 M6 15 H42 M6 24 H42 M6 33 H42"/></g><circle cx="54" cy="52" r="6" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M42 42 L48 48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Explozia conexiunilor: de ce privitul global eșuează</h2>
 
-  <p class="first">O imagine alb-negru de o sută pe o sută de puncte are zece mii de valori de intrare. Un singur neuron care le privește pe toate are zece mii de ponderi. Un strat cu o mie de asemenea neuroni are zece milioane, numai el.</p>
+  <p class="first">O poză alb-negru modestă de doar 100 pe 100 de pixeli conține zece mii de puncte luminoase. Dacă am încerca să o analizăm cu rețeaua clasică din lecția precedentă, un singur neuron care privește toți pixelii ar avea nevoie de zece mii de ponderi proprii. Iar un strat cu doar o mie de asemenea neuroni ar înghiți instantaneu zece milioane de butoane!</p>
 
-  <p>Numărul e supărător din două motive deodată. Fiecare pondere trebuie găsită din exemple, iar zece milioane de ponderi cer o mulțime de exemple pe măsură. Și, mai rău, ele se învață independent una de alta: un contur descoperit în colțul din stânga sus nu spune nimic despre același contur apărut în colțul din dreapta jos, fiindcă acolo lucrează cu totul alte ponderi. Rețeaua ar trebui să învețe de o mie de ori același lucru, în o mie de locuri.</p>
+  <p>Această risipă creează o problemă uriașă: fiecare buton trebuie calibrat din exemple, ceea ce ar cere milioane de fotografii de antrenare. Dar cel mai grav este că neuronii independenți sunt orbi la legăturile spațiale: dacă rețeaua învață cum arată o ureche de pisică în colțul din stânga sus, nu va avea habar să o recunoască dacă pisica se mută în colțul din dreapta jos! Ar trebui să reînvețe același concept de mii de ori, pentru fiecare colțișor de ecran în parte.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ponderi în primul strat, pentru o imagine de 100 pe 100</figcaption>
@@ -760,13 +762,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="6" width="52" height="52" fill="none" stroke="#22252D" stroke-width="2"/><rect x="12" y="12" width="16" height="16" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><rect x="34" y="30" width="16" height="16" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M28 20 L34 30" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Presupunerea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="6" width="52" height="52" fill="none" stroke="#22252D" stroke-width="2"/><rect x="12" y="12" width="16" height="16" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><rect x="34" y="30" width="16" height="16" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M28 20 L34 30" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Ideea salvatoare: ștampila călătoare</h2>
 
-  <p>Despre imagini se poate spune ceva ce nu se poate spune despre orice fel de date: ce anume e important într-o imagine nu depinde de locul în care se află. O margine e o margine oriunde ar fi, iar un ochi rămâne un ochi și dacă e mai la stânga.</p>
+  <p>Din fericire, vederea umană și lumea vizuală respectă o regulă de aur: <b>semnificația unui obiect nu depinde de locul în care se află</b>. O linie verticală este o linie verticală oriunde ar fi desenată, iar o roată de mașină rămâne o roată și dacă este în stânga, și dacă este în dreapta cadrului.</p>
 
-  <p>Presupunerea aceasta se poate scrie direct în rețea. În loc de un neuron pentru fiecare loc, cu ponderi proprii, se ia un singur set mic de ponderi și se aplică peste tot, plimbându-l din loc în loc peste imagine. Setul se numește <dfn>filtru</dfn>, iar operația de plimbare se numește <dfn>convoluție</dfn>.</p>
+  <p>Putem scrie această intuiție direct în structura rețelei! În loc să alocăm neuroni uriași pentru fiecare zonă, luăm un grup minuscul de ponderi — de pildă o grilă de doar $3 \times 3$ numere — și o plimbăm pas cu pas peste întreaga imagine, ca o lupă sau o ștampilă. Acest șablon călător se numește <dfn>filtru</dfn> (sau nucleu), iar operația matematică de alunecare peste pixeli poartă numele de <dfn>convoluție</dfn>.</p>
 
-  <p>Câștigul e dublu. Numărul de ponderi scade de la zece mii la nouă sau douăzeci și cinci, cât are filtrul. Și ce s-a învățat într-un loc e valabil automat în toate celelalte, fiindcă e vorba de aceleași ponderi. O cunoștință despre lume, „locul nu contează”, a fost transformată într-o economie de un milion de ori.</p>
+  <p>Câștigul este uluitor: numărul de butoane scade de la zeci de mii la doar 9 sau 25! Iar dacă filtrul învață să detecteze o dungă verticală, el o va recunoaște instantaneu pe toată suprafața imaginii, pentru că folosește aceleași numere peste tot. Am transformat o intuiție despre lumea fizică într-o economie uriașă de calcul.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Un filtru de trei pe trei, plimbat peste imagine</figcaption>
@@ -798,9 +800,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="18" width="18" height="28" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="22" width="14" height="20" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="46" y="26" width="10" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M24 32 H28 M42 32 H46" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Straturi peste straturi</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="18" width="18" height="28" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="22" width="14" height="20" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="46" y="26" width="10" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M24 32 H28 M42 32 H46" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ierarhia vederii: de la muchii la colțuri și obiecte</h2>
 
-  <p>O hartă de activare e o imagine, deci peste ea se poate plimba un alt filtru. Al doilea filtru nu mai vede punctele originale, ci răspunsurile primului, așa că poate căuta tipare formate din tipare. Figura de mai jos face doi pași. Primul găsește separat marginile verticale și pe cele orizontale. Al doilea cere ca amândouă să fie prezente în același loc.</p>
+  <p>Rezultatul aplicării unui filtru peste o fotografie este o nouă imagine, numită <dfn>hartă de activare</dfn>. Zonele luminoase din această hartă arată locurile unde filtrul s-a potrivit ca o mănușă cu detaliile din poză.</p>
+
+  <p>Dar iată marele secret: fiindcă harta de activare este și ea o imagine, putem plimba peste ea o nouă generație de filtre! Al doilea strat nu mai privește pixelii bruți, ci răspunsurile primului strat, învățând să combine tipare simple în tipare mai complexe. De pildă, dacă primul strat a găsit separat liniile verticale și liniile orizontale, al doilea strat poate detecta intersecția lor: <b>colțul</b>!</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Margini, apoi combinații de margini</figcaption>
@@ -820,37 +824,37 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <p>Al treilea panou nu a fost desenat de nimeni: iese din combinarea primelor două de către un neuron obișnuit, care adună cele două intrări și cere ca suma să treacă un prag.</p>
 
-  <p>Merită privit ce anume aprinde. Pe pătrat se aprind colțurile, unde chiar se întâlnesc o latură verticală și una orizontală. Pe cerc se aprind însă porțiunile înclinate la patruzeci și cinci de grade, unde o singură margine, oblică, răspunde deopotrivă la amândouă filtrele. Neuronul nu a învățat noțiunea de colț, ci una mai săracă: „amândouă orientările deodată”. Aceasta se întâmplă în colțuri, dar și în alte locuri. Deosebirea e tocmai lucrul pe care straturile următoare îl rezolvă. Într-o rețea adevărată procedeul se repetă de zeci de ori, iar filtrele de la fiecare nivel se găsesc singure, din exemple; ele ajung să deosebească un colț de o linie oblică fiindcă asta ajută la ce li se cere, nu fiindcă cineva le-a spus cum arată un colț.</p>
+  <p>Într-o rețea convoluțională profundă, această piramidă se ridică pe zeci de niveluri: primele straturi văd doar linii și lumini; straturile de mijloc asamblează colțurile și cercurile în texturi și forme; iar straturile de vârf recunosc faruri, roți, cozi sau ochi de câine. Iar toate aceste filtre specializate nu sunt programate de mână de om: coborârea pantei le sculptează singură din exemple!</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="6" width="10" height="10"/><rect x="18" y="6" width="10" height="10"/><rect x="6" y="18" width="10" height="10"/><rect x="18" y="18" width="10" height="10"/></g><rect x="40" y="12" width="16" height="16" fill="#EE5A2F"/><path d="M30 17 H38" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 14 L39 17 L36 20" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Subeșantionarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="6" width="10" height="10"/><rect x="18" y="6" width="10" height="10"/><rect x="6" y="18" width="10" height="10"/><rect x="18" y="18" width="10" height="10"/></g><rect x="40" y="12" width="16" height="16" fill="#EE5A2F"/><path d="M30 17 H38" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 14 L39 17 L36 20" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Sinteza spațială: subeșantionarea</h2>
 
-  <p>După ce un tipar a fost găsit, locul lui exact contează mai puțin decât faptul că a fost găsit undeva prin apropiere. Se poate deci păstra, din fiecare pătrățel de două pe două al hărții, numai valoarea cea mai mare, aruncând restul.</p>
+  <p>Odată ce un filtru a depistat că într-o anumită zonă există un ochi sau o roată, poziția milimetrică exactă a fiecărui pixel nu mai este atât de importantă. Mult mai valoros este faptul că trăsătura se află acolo!</p>
 
-  <p>Operația se numește <dfn>subeșantionare</dfn> și are două urmări. Harta se micșorează de patru ori, ceea ce ieftinește tot ce urmează. Și răspunsul devine nesimțitor la deplasări mici: un tipar mutat cu un punct dă aproape aceeași ieșire.</p>
+  <p>Pentru a comprima informația, inginerii introduc o operație numită <dfn>subeșantionare</dfn> (sau <i>pooling</i>): împart harta în mici careuri de $2 \times 2$ pixeli și păstrează din fiecare careu doar valoarea maximă, aruncând restul. Dimensiunea imaginii scade astfel de patru ori, făcând calculele următoare mult mai rapide și oferind rețelei o toleranță naturală: dacă pisica face un pas mic într-o parte, harta comprimată rămâne aproape neschimbată.</p>
 
-  <p class="note">Nesimțirea aceasta e dorită doar până la un punct. O rețea care nu mai știe deloc unde se află lucrurile nu poate deosebi o față de aceleași trăsături amestecate, iar arhitecturile de azi folosesc subeșantionarea mai puțin decât cele de acum zece ani.</p>
+  <p class="note">Această compactare trebuie dozată cu măsură. Dacă aruncăm prea mult din geometria inițială, rețeaua ar putea confunda o față umană normală cu un tablou suprarealist în care ochii sunt așezați sub bărbie și gura pe frunte. De aceea, modelele moderne folosesc subeșantionarea cu mai multă prudență decât în trecut.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 8 L54 20 L54 44 L32 56 L10 44 L10 20 Z" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><path d="M32 8 V56 M10 20 L54 44 M54 20 L10 44" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Ce câștigă și ce pierde</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 8 L54 20 L54 44 L32 56 L10 44 L10 20 Z" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><path d="M32 8 V56 M10 20 L54 44 M54 20 L10 44" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Arhitectura: o teorie despre lume turnată în ecuații</h2>
 
-  <p>Convoluția nu e o îmbunătățire generală a rețelelor, ci o îngustare a familiei de reguli, făcută anume. Rețeaua nu mai poate exprima o regulă care tratează colțul din stânga sus altfel decât pe cel din dreapta jos, fiindcă ponderile sunt aceleași peste tot.</p>
+  <p>Convoluția nu este un remediu universal pentru orice fel de problemă, ci o restricție inteligentă, creată anume pentru datele cu organizare vizuală. Ea presupune ferm că pixelii vecini sunt înrudiți și că tiparele au același sens indiferent unde apar.</p>
 
-  <p>Îngustarea e un câștig numai atunci când presupunerea din spatele ei e adevărată. Pentru imagini este. Pentru un tabel în care fiecare coloană înseamnă cu totul altceva, vârstă, venit, oraș, e falsă, iar plimbarea unui filtru peste coloane nu are niciun sens.</p>
+  <p>Dacă ai încerca să aplici convoluția pe un tabel de evidență a populației — unde o coloană indică vârsta, alta salariul și alta orașul de reședință —, metoda ar fi un eșec total: plimbarea unei ștampile peste date fără continuitate spațială este lipsită de sens.</p>
 
-  <p>Aici se află lucrul care merită reținut din toată lecția. Alegerea <dfn>arhitecturii</dfn> unei rețele e locul în care cunoștințele despre problemă intră în model. Nu prin reguli scrise de mână, ca în lecția a unsprezecea, ci prin hotărârea a ceea ce rețelei îi e cu putință să exprime. Un model nu învață din nimic; învață din date, într-o formă pe care i-a dat-o cineva, iar forma aceea e o teorie despre lume scrisă în tăcere.</p>
+  <p>Aceasta este marea lecție filosofică a capitolului: alegerea <dfn>arhitecturii</dfn> unei rețele este modul subtil prin care inginerul își toarnă propria înțelegere despre lume în model. Nu scriem reguli rigide cu mâna, dar construim o scenă pe care datele pot învăța doar ceea ce structura lumii le permite. Arhitectura este o teorie despre realitate codificată în tăcere.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 48 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 44 V40 M22 44 V38 M32 44 V36 M42 44 V32 M52 44 V10" fill="none" stroke="#EE5A2F" stroke-width="4"/><circle cx="52" cy="8" r="3" fill="#2F4BC4"/></svg></span>De unde vine</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 48 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 44 V40 M22 44 V38 M32 44 V36 M42 44 V32 M52 44 V10" fill="none" stroke="#EE5A2F" stroke-width="4"/><circle cx="52" cy="8" r="3" fill="#2F4BC4"/></svg></span>Punctul de cotitură: de la imagini la cuvinte</h2>
 
-  <p>Ideea a fost pusă în practică de Yann LeCun la sfârșitul anilor optzeci, într-o rețea care citea sume scrise de mână pe cecuri bancare și care a ajuns să prelucreze o parte însemnată din cecurile din Statele Unite. Metoda a rămas apoi la marginea domeniului mai bine de un deceniu, din lipsă de date și de putere de calcul.</p>
+  <p>Primele rețele convoluționale de succes au fost create de cercetătorul francez Yann LeCun la sfârșitul anilor 1980 pentru citirea automată a cifrelor de pe cecurile bancare din America. Însă explozia globală s-a produs în 2012: antrenată pe plăci grafice moderne, o rețea convoluțională profundă a spulberat toate recordurile la o mare competiție mondială de recunoaștere a imaginilor (ImageNet), dând startul revoluției contemporane a inteligenței artificiale.</p>
 
-  <p>Momentul schimbării e bine datat: în 2012, o rețea convoluțională a câștigat detașat o competiție anuală de recunoaștere a imaginilor, folosind plăci grafice pentru antrenare. Diferența față de metodele dinainte a fost destul de mare cât să reorienteze domeniul într-un singur an.</p>
+  <p>Convoluția a cucerit vederea artificială pentru că imaginile au o geometrie fixă și bidimensională. Dar ce facem când vine vorba de limbajul uman? Textul nu este un tablou: cuvintele curg în timp, propozițiile au lungimi diferite, iar înțelesul unui cuvânt poate depinde de ceva rostit cu zece pagini mai devreme.</p>
 
-  <p>Presupunerea folosită aici e potrivită imaginilor, fiindcă ele au o structură anume: ce contează nu depinde de loc, iar punctele apropiate sunt înrudite. Limba scrisă are altă structură. Cuvintele vin unul după altul, lungimea nu e fixă, iar înțelesul unui cuvânt poate atârna de un cuvânt aflat cu zeci de poziții mai devreme. Lecția următoare începe partea despre limbaj, iar prima întrebare e cum devine un cuvânt ceva ce se poate calcula.</p>
+  <p>În capitolele următoare părăsim lumea pixelilor și pătrundem în universul fascinant al limbajului: cum transformăm un cuvânt într-o entitate matematică calculabilă și cum facem o mașină să deslușească sensul?</p>
 </section>
 
 </main>

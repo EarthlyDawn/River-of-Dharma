@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,30 +740,30 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Modelul <i>lumii</i></h1>
-    <p class="lede">Un model de limbaj vede numai text, iar textul e umbra lăsată de o lume. Întrebarea e dacă, învățând să prezică umbra, mașina ajunge să-și facă înăuntru o imagine a lucrului care o aruncă. Pe o lume mică, întrebarea se poate pune cu numere: se citește lumea din stare, și se sprijină modelul pe ea?</p>
-    <p class="terms">Termeni: <b>model al lumii</b> <b>stare ascunsă</b> <b>sondă</b> <b>martor</b> <b>intervenție</b></p>
+    <p class="lede">Un model mare de limbaj nu vede niciodată lumea direct — el primește doar cuvinte, adică descrieri lăsate în urmă de experiențele umane. Întrebarea fundamentală este dacă, învățând să ghicească următorul cuvânt dintr-o poveste, mașina ajunge să-și construiască în interior o „hartă” reală a lucrurilor despre care vorbește. Pe o tablă de joc simplă, putem verifica această ipoteză direct cu cifrele pe masă: știe oare mașina unde se află pionul și se bazează pe această hartă internă când ia decizii?</p>
+    <p class="terms">Termeni: <b>model al lumii</b> <b>stare ascunsă</b> <b>sondă</b> <b>martor de control</b> <b>intervenție cauzală</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="18" cy="22" r="8" fill="#EE5A2F"/><path d="M26 30 L52 52 L30 52 Z" fill="#BDB9AA"/><path d="M8 52 H56" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Umbra și lucrul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="18" cy="22" r="8" fill="#EE5A2F"/><path d="M26 30 L52 52 L30 52 Z" fill="#BDB9AA"/><path d="M8 52 H56" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Umbra și lucrul real</h2>
 
-  <p class="first">Tot ce a primit vreodată un model de limbaj e text: înșiruiri de bucăți, una după alta. Textul însă nu e lumea. E ce rămâne din ea după ce a trecut prin oameni care au văzut ceva, au ales ce merită spus și au scris. E o umbră, cu tot ce pierde o umbră.</p>
+  <p class="first">Tot ce a primit vreodată un model de limbaj este text: șiruri lungi de cuvinte așezate unele după altele. Dar textul nu este lumea însăși. El este doar o proiecție a ei, o „umbră” lăsată pe hârtie sau pe ecran de oameni care au trăit experiențe, au observat fapte și au ales ce merită povestit. Asemenea umbrelor de pe peretele unei peșteri, textul pierde o mare parte din culorile, distanțele și profunzimea realității fizice.</p>
 
-  <p>Lecția despre cuvântul următor a arătat că a prezice bine umbra cere aproape tot: acorduri, fapte, socoteli, fire de povestire. De aici vine o bănuială care merită verificată, nu crezută: poate că cel mai ieftin fel de a prezice umbra e să reconstruiești, măcar în parte, lucrul care o aruncă. Un model care urmărește în stare unde se află lucrurile ar prezice mai bine decât unul care ține minte doar ce cuvinte au venit după ce cuvinte.</p>
+  <p>În lecțiile despre limbaj am văzut că, pentru a prezice cu succes următorul cuvânt dintr-o frază, modelul trebuie să stăpânească o mulțime de lucruri: acorduri gramaticale, noțiuni de bun-simț, relații de cauză-efect și fire narative. De aici se naște o ipoteză fascinantă: oare cel mai eficient mod prin care o mașină poate prezice umbra nu este chiar reconstituirea, măcar parțială, a obiectului care o proiectează? Un model care ține o evidență internă a obiectelor și a relațiilor din spațiu va face predicții mult mai bune decât unul care încearcă doar să memoreze statistic ce cuvinte s-au succedat în cărți.</p>
 
-  <p>Dacă bănuiala e adevărată, ea ar trebui să se vadă înăuntru. Lecția precedentă a dat uneltele: o sondă, un martor și o intervenție. Aici ele se aplică pe o lume destul de mică încât răspunsul să fie fără echivoc.</p>
+  <p>Această ipoteză nu trebuie crezută pe cuvânt — ea poate fi verificată experimental. În această lecție vom construi o mică lume în miniatură, suficient de simplă și transparentă încât să putem privi direct în memoria internă a mașinii pentru a vedea dacă și-a desenat o hartă a realității.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="none" stroke="#22252D" stroke-width="1.5"><rect x="8" y="8" width="48" height="48"/><path d="M20 8 V56 M32 8 V56 M44 8 V56 M8 20 H56 M8 32 H56 M8 44 H56"/></g><path d="M14 14 H26 V26 H38 V38 H50" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="50" cy="38" r="4" fill="#EE5A2F"/></svg></span>O lume văzută numai prin urmele ei</h2>
 
-  <p>Lumea din pagină e o tablă de patru pe patru. Un pion pornește din colțul din stânga sus și face zece pași, la fiecare pas alegând la întâmplare, cu șanse egale, una dintre mutările care nu-l scot de pe tablă. Nord, est, sud, vest.</p>
+  <p>Lumea noastră de test este o tablă de șah simplificată, de 4×4 căsuțe. Pe ea așezăm un pion care pornește din colțul stânga-sus și face câte 10 pași la rând. La fiecare pas, pionul alege la întâmplare, cu șanse egale, una dintre direcțiile cardinale (Nord, Est, Sud, Vest), având o singură restricție de bun-simț: nu are voie să sară peste marginile tablei.</p>
 
-  <p>Modelul nu vede tabla. Vede numai șirul de mutări, ca pe un text cu patru cuvinte, și e antrenat pentru un singur lucru: să prezică mutarea următoare. E o rețea recurentă, ca în lecția despre ea, cu o stare de douăzeci și patru de numere.</p>
+  <p>Modelul nostru artificial nu vede deloc tabla de joc și nici coordonatele căsuțelor. El primește doar șirul mutărilor, ca o poveste formată din patru cuvinte („Est, Sud, Est, Nord…”), având o singură sarcină: să ghicească mutarea următoare. Rețeaua este una recurentă, care își actualizează la fiecare pas o memorie internă formată din 24 de numere (starea ascunsă).</p>
 
-  <p>Sarcina are un miez ascuns. Ca să prezică bine, modelul trebuie să dea probabilitate zero mutărilor care ar scoate pionul de pe tablă, iar care sunt acelea depinde de <i>unde</i> e pionul. Poziția nu i se spune niciodată. Ea nu poate fi decât reconstruită, pas cu pas, din mutările de până acum.</p>
+  <p>Sarcina ascunde o cerință logică strictă: pentru a face predicții corecte, modelul trebuie să acorde probabilitate zero mutărilor care ar scoate pionul în afara tablei. Însă pentru a ști care mutări sunt interzise, mașina <i>trebuie să știe pe ce căsuță se află pionul în acel moment</i>. Poziția nu îi este dezvăluită niciodată direct; ea nu poate fi decât dedusă și reconstituită pas cu pas din istoricul pașilor de până atunci.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Pionul, drumul lui și ce crede modelul că urmează</figcaption>
@@ -778,15 +780,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Barele din dreapta sunt distribuția modelului peste mutarea următoare. Cele roșii sunt mutări care ar scoate pionul de pe tablă. După antrenare, ele primesc aproape nimic, oriunde s-ar afla pionul și oricât de întortocheat ar fi fost drumul până acolo. Modelul n-a văzut niciodată tabla, dar se poartă ca și cum ar ști unde e pe ea.</p>
+  <p>Barele din dreapta ilustrează distribuția de probabilități a modelului pentru mutarea următoare. Barele roșii marchează direcțiile care ar scoate pionul de pe tablă. Observați cum, după antrenare, aceste mutări interzise primesc aproape 0% șanse, indiferent unde a ajuns pionul și oricât de întortocheat a fost traseul. Deși nu i-am arătat niciodată tabla, modelul se comportă ca și cum ar ști exact unde se află în spațiu.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#C9D1F1"><circle cx="18" cy="24" r="3"/><circle cx="30" cy="24" r="3"/><circle cx="42" cy="24" r="3"/><circle cx="18" cy="40" r="3"/><circle cx="42" cy="40" r="3"/></g><circle cx="30" cy="40" r="3" fill="#EE5A2F"/><path d="M30 40 L54 20" fill="none" stroke="#22252D" stroke-width="1.5"/><text x="52" y="18" font-family="monospace" font-size="9" fill="#22252D">?</text></svg></span>Se citește poziția?</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#C9D1F1"><circle cx="18" cy="24" r="3"/><circle cx="30" cy="24" r="3"/><circle cx="42" cy="24" r="3"/><circle cx="18" cy="40" r="3"/><circle cx="42" cy="40" r="3"/></g><circle cx="30" cy="40" r="3" fill="#EE5A2F"/><path d="M30 40 L54 20" fill="none" stroke="#22252D" stroke-width="1.5"/><text x="52" y="18" font-family="monospace" font-size="9" fill="#22252D">?</text></svg></span>Se citește poziția din memoria internă?</h2>
 
-  <p>„Se poartă ca și cum” nu e destul. Întrebarea e dacă poziția stă scrisă în stare. Sonda din lecția precedentă răspunde: un clasificator liniar, antrenat să ghicească celula din cele douăzeci și patru de numere ale stării, fără să atingă modelul.</p>
+  <p>Faptul că modelul „se comportă ca și cum ar ști” nu este o dovadă suficientă. Vrem să știm sigur dacă poziția pionului este efectiv înscrisă în cele 24 de numere ale memoriei sale interne. Pentru a afla, folosim o <dfn>sondă</dfn> — un clasificator separat, asemenea unui stetoscop medical, antrenat să citească starea internă a rețelei (fără a o modifica) și să ghicească pe care dintre cele 16 căsuțe se află pionul.</p>
 
-  <p>Și aici martorii sunt cei care dau înțeles cifrelor. Primul e cât se poate ghici poziția numai din ultima mutare și din numărul pasului, adică din ce e la vedere. Al doilea e starea unei rețele cu aceeași alcătuire, dar neantrenată: orice rețea recurentă amestecă mutările de dinainte în stare, deci ceva despre poziție se poate citi și dintr-una care n-a învățat nimic.</p>
+  <p>Pentru a valida riguros rezultatul, comparăm sonda cu doi martori de control:
+  1. <i>Martorul superficial</i>: cât de bine am putea ghici poziția doar privind ultima mutare și numărul pasului (informația vizibilă direct la suprafață).
+  2. <i>Rețeaua neantrenată</i>: aceeași arhitectură cu ponderi aleatorii, pentru a verifica dacă nu cumva orice amestec mecanic de numere păstrează o urmă reziduală a pașilor.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceeași sondă, pe trei feluri de stare</figcaption>
@@ -801,17 +805,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Celula se citește din starea antrenată mult peste amândoi martorii. Nimeni n-a cerut modelului să țină minte unde e pionul. I s-a cerut numai să prezică mutarea următoare, iar poziția a apărut în stare fiindcă era drumul cel mai scurt către predicție.</p>
+  <p>Rezultatul este categoric: din memoria rețelei antrenate, sonda citește căsuța exactă cu o precizie uriașă, depășind detașat ambii martori de control. Nimeni nu i-a cerut vreodată rețelei să memoreze poziția pionului. I s-a cerut doar să prezică cuvinte, iar reprezentarea spațială a căsuței a apărut spontan în memorie pentru că era cea mai scurtă și sigură cale către o predicție de succes.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="40" r="6" fill="#2F4BC4"/><circle cx="44" cy="20" r="6" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M26 36 L38 24" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M34 24 L39 23 L38 28" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Se folosește?</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="40" r="6" fill="#2F4BC4"/><circle cx="44" cy="20" r="6" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M26 36 L38 24" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M34 24 L39 23 L38 28" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Folosește modelul această reprezentare?</h2>
 
-  <p>Citit nu înseamnă folosit, spunea lecția trecută. Poziția ar putea sta în stare ca un rest, fără ca predicția să se sprijine pe ea. Deosebirea se face printr-o intervenție, și aici intervenția are o formă deosebit de limpede.</p>
+  <p>Faptul că o informație poate fi citită dintr-o rețea nu garantează încă faptul că rețeaua se și bazează pe ea. Poziția pionului ar fi putut sta în memorie doar ca un ecou pasiv, fără să influențeze deciziile reale ale modelului. Pentru a demonstra o legătură de cauzalitate directă, avem nevoie de o <dfn>intervenție</dfn>.</p>
 
-  <p>Se ia starea de la un pas oarecare și i se mută, pe direcția găsită de sondă, „poziția”: se împinge starea până când sonda citește din ea altă celulă, una cu alte mutări legale. Nimic altceva nu se schimbă. Apoi i se cere modelului, cu starea mutată, predicția lui. Dacă modelul se sprijină pe poziția din stare, mutările pe care le socotește legale trebuie să fie cele ale celulei noi, nu ale celei adevărate.</p>
+  <p>Procedura este curată și elegantă: luăm memoria internă a modelului la un moment oarecare și, urmărind direcția identificată de sondă, îi modificăm artificial numerele — „teleportând-o” mental pe o altă căsuță de pe tablă, una care are alte margini și alte mutări permise. Lăsăm tot restul neschimbat și îi cerem modelului predicția. Dacă modelul se sprijină cu adevărat pe poziția din memorie, mutările pe care le va considera permise ar trebui să devină instantaneu cele ale căsuței noi, nu ale celei unde se află pionul în realitate!</p>
 
-  <p>Martorul e aici o împingere la fel de puternică, dar într-o direcție luată la întâmplare.</p>
+  <p>Ca martor de control, aplicăm o împingere de aceeași magnitudine, dar orientată într-o direcție complet aleatorie.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Cu ale cui mutări legale se potrivește predicția</figcaption>
@@ -826,21 +830,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Când starea e mutată spre celula țintă, predicția o urmează: modelul dă probabilitate mutărilor legale <i>acolo</i>, nu acolo unde e pionul de fapt. Aceeași împingere într-o direcție oarecare strică predicția fără s-o ducă nicăieri anume. Poziția din stare nu e un rest. E lucrul de care se folosește modelul când prezice.</p>
+  <p>Când modificăm starea către căsuța țintă, predicția o urmează fidel: modelul consideră permise mutările specifice <i>noii căsuțe</i>, ignorând unde este pionul în realitate. În schimb, împingerea aleatorie doar zăpăcește rețeaua fără să o orienteze nicăieri. Acest lucru demonstrează fără dubiu că poziția internă nu este un simplu efect secundar: ea este reperul activ de care se folosește modelul pentru a decide.</p>
 
-  <p>Asta înseamnă „model al lumii”, în forma cea mai modestă și cea mai verificabilă a cuvântului: o mărime a lumii, reconstruită din urmele ei, scrisă înăuntru într-un fel care se poate citi, și folosită.</p>
+  <p>Aceasta este esența a ceea ce numim un <dfn>model al lumii</dfn>: o proprietate a realității exterioare, dedusă exclusiv din urme textuale, înscrisă coerent în memoria internă a sistemului și folosită activ în generarea răspunsurilor.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="30" width="20" height="20" fill="none" stroke="#22252D" stroke-width="2"/><rect x="18" y="12" width="40" height="40" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/><text x="44" y="36" text-anchor="middle" font-family="monospace" font-size="10" fill="#EE5A2F">?</text></svg></span>Ce spune și ce nu spune</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="30" width="20" height="20" fill="none" stroke="#22252D" stroke-width="2"/><rect x="18" y="12" width="40" height="40" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/><text x="44" y="36" text-anchor="middle" font-family="monospace" font-size="10" fill="#EE5A2F">?</text></svg></span>Ce ne spune și ce nu ne spune acest experiment</h2>
 
-  <p>Lumea din pagină are șaisprezece stări, iar modelul are douăzeci și patru de numere ca s-o țină. Un model de limbaj adevărat are în față o lume fără număr de stări, o stare de mii de numere și un text care e o umbră mult mai strâmbă decât un șir de mutări. Ce s-a arătat aici e că mecanismul poate face lucrul acesta și că întrebarea are un răspuns măsurabil. Nu e o dovadă că modelele mari o fac peste tot.</p>
+  <p>Lumea noastră în miniatură a avut doar 16 căsuțe, iar modelul a avut la dispoziție 24 de numere pentru a le ține minte. Un model mare de limbaj se confruntă cu o lume nemărginită, are la dispoziție miliarde de parametri, iar textele umane sunt infinit mai nuanțate decât un șir mecanic de mutări cardinale. Ceea ce am demonstrat aici este că mecanismul funcționează: o rețea neurală are capacitatea de a sintetiza geometria și regulile lumii pornind doar de la cuvinte.</p>
 
-  <p>Există măsurători de felul acesta și pe ele: pe jocuri de tablă, pe hărți de orașe, pe stări ale unor programe, și în multe cazuri sonda găsește ceva, iar intervenția confirmă că ceva e folosit. Cât de întins, cât de fidel și cât de asemănător cu felul în care ne închipuim noi lumea rămâne deschis, iar răspunsurile de până acum sunt pe bucăți.</p>
+  <p>Experimente similare realizate pe modele de frontieră — testate pe jocuri de șah, hărți ale orașelor sau logica de execuție a unor programe software — au confirmat că sondele găsesc într-adevăr hărți interne coerente, iar intervențiile dovedesc că mașinile se folosesc de ele.</p>
 
-  <p>Mai e o margine, și trebuie spusă limpede. Un model al lumii nu e o legătură cu lumea. Poziția din stare a fost reconstruită din text și rămâne în text: modelul din pagină ar reconstrui la fel de sigur o poziție dintr-un șir de mutări scornit, fără niciun pion. Lecția despre confabulare rămâne întreagă. Ce se schimbă e felul în care merită pusă întrebarea „ce știe o mașină”: nu dacă are înăuntru cuvinte, ci dacă are înăuntru mărimi ale lumii, și de care se folosește.</p>
+  <p>Totuși, este esențial să înțelegem limita acestei constatări. Un model intern al lumii nu înseamnă o ancorare directă în realitate. Poziția pionului a fost dedusă din text și rămâne captivă în text: dacă i-am fi trimis modelului un șir de mutări imaginare dintr-o lume absurdă, ar fi construit la fel de docil o hartă pentru acea ficțiune. Fenomenul confabulării (sau „halucinației”) rămâne o realitate, deoarece mașina nu are simțuri fizice pentru a verifica direct lumea.</p>
 
-  <p>Lecția următoare pune a doua întrebare deschisă: ce ar însemna ca o astfel de mașină să fie „mai deșteaptă”, și de ce cuvântul e mai greu de măsurat decât pare.</p>
+  <p>Ceea ce câștigăm însă este o schimbare profundă de perspectivă asupra întrebării „ce știe o mașină”: nu doar dacă memorează asocieri de cuvinte, ci dacă reușește să își construiască reprezentări structurate ale realității din care să extragă raționamente utile.</p>
+
+  <p>În lecția următoare explorăm ce înseamnă ca o astfel de mașină să devină „mai deșteaptă” și de ce progresul ei este adesea mult mai continuu decât pare pe hârtie.</p>
 </section>
 
 </main>

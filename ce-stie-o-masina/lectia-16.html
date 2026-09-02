@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Straturile</i></h1>
-    <p class="lede">Un neuron taie spațiul cu o dreaptă. Mai mulți, puși unul după altul, taie spațiul deja tăiat, iar de acolo încolo forma frontierei nu mai are nicio limită. Aici, și nu în neuronul singur, stă puterea rețelelor.</p>
+    <p class="lede">Un singur neuron poate doar să taie spațiul cu o linie dreaptă. Dar când conectăm mai mulți neuroni unii după alții, fiecare nouă generație taie un spațiu deja sculptat de generația anterioară. Din această colaborare în trepte se naște adevărata forță a rețelelor: capacitatea de a învăța orice formă, oricât de întortocheată ar fi.</p>
     <p class="terms">Termeni: <b>strat</b> <b>straturi ascunse</b> <b>funcție de activare</b> <b>teorema de aproximare universală</b> <b>rețea adâncă</b></p>
   </div>
 </header>
@@ -746,19 +748,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><circle cx="8" cy="20" r="4"/><circle cx="8" cy="44" r="4"/></g><g fill="#F9D3C2" stroke="#22252D" stroke-width="2"><circle cx="32" cy="12" r="5"/><circle cx="32" cy="32" r="5"/><circle cx="32" cy="52" r="5"/></g><circle cx="56" cy="32" r="5" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><path d="M12 20 L27 12 M12 20 L27 32 M12 20 L27 52 M12 44 L27 12 M12 44 L27 32 M12 44 L27 52 M37 12 L51 32 M37 32 L51 32 M37 52 L51 32" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Mai mulți neuroni pe aceleași intrări</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><circle cx="8" cy="20" r="4"/><circle cx="8" cy="44" r="4"/></g><g fill="#F9D3C2" stroke="#22252D" stroke-width="2"><circle cx="32" cy="12" r="5"/><circle cx="32" cy="32" r="5"/><circle cx="32" cy="52" r="5"/></g><circle cx="56" cy="32" r="5" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><path d="M12 20 L27 12 M12 20 L27 32 M12 20 L27 52 M12 44 L27 12 M12 44 L27 32 M12 44 L27 52 M37 12 L51 32 M37 32 L51 32 M37 52 L51 32" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>O echipă de neuroni: nașterea primului strat</h2>
 
-  <p class="first">Nimic nu oprește punerea mai multor neuroni pe aceleași mărimi de intrare, fiecare cu ponderile lui. Fiecare taie spațiul cu dreapta lui și scoate un număr între 0 și 1, care spune de care parte a dreptei sale se află exemplul.</p>
+  <p class="first">Nimic nu ne obligă să folosim un singur neuron pentru a analiza datele de intrare. Putem așeza în paralel o întreagă echipă de neuroni, fiecare privind aceleași măsurători, dar cântărindu-le cu propriul său set de ponderi. Fiecare membru al echipei va trasa propria sa linie de demarcație în spațiu și va oferi un răspuns nuanțat între 0 și 1.</p>
 
-  <p>Un grup de neuroni care privesc aceleași intrări se numește <dfn>strat</dfn>. Ieșirile lui, luate împreună, sunt o descriere nouă a exemplului: în loc de mărimile măsurate la început, un șir de răspunsuri la întrebări pe care le pun neuronii. E prima dată în curs când un model își construiește singur mărimile cu care lucrează; până acum le alesese omul.</p>
+  <p>Un astfel de grup de neuroni care procesează simultan aceleași date formează un <dfn>strat</dfn>. Ieșirile lor, luate împreună, reprezintă o descriere complet nouă a exemplului: în locul măsurătorilor brute de la început, obținem o listă de răspunsuri la întrebări intermediare puse de neuroni. Este un moment istoric în curs: pentru prima oară, modelul nu mai lucrează doar cu trăsăturile alese de om, ci își construiește singur reprezentări interne!</p>
 
-  <p>Descrierea aceasta nouă poate fi dată mai departe, ca intrare, altui neuron. Straturile dinaintea ultimului nu au contact nici cu datele brute, nici cu răspunsul cerut, și se numesc de aceea <dfn>straturi ascunse</dfn>.</p>
+  <p>Răspunsurile acestui prim strat pot fi trimise mai departe ca date de intrare pentru un alt neuron. Straturile intermediare — cele care nu primesc direct datele brute din afară și nici nu produc răspunsul final vizibil — poartă numele de <dfn>straturi ascunse</dfn> (sau <i>hidden layers</i>).</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 34 L34 8 M30 56 L56 30" fill="none" stroke="#B58A12" stroke-width="2.5"/><circle cx="16" cy="16" r="5" fill="#6B7A38"/><circle cx="48" cy="48" r="5" fill="#6B7A38"/><circle cx="48" cy="16" r="5" fill="#2F4BC4"/><circle cx="16" cy="48" r="5" fill="#2F4BC4"/></svg></span>Sau-exclusivul, rezolvat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 34 L34 8 M30 56 L56 30" fill="none" stroke="#B58A12" stroke-width="2.5"/><circle cx="16" cy="16" r="5" fill="#6B7A38"/><circle cx="48" cy="48" r="5" fill="#6B7A38"/><circle cx="48" cy="16" r="5" fill="#2F4BC4"/><circle cx="16" cy="48" r="5" fill="#2F4BC4"/></svg></span>Misterul XOR, rezolvat în trei pași simpli</h2>
 
-  <p>Problema pe care un neuron singur n-o poate rezolva se rezolvă cu trei. Primul întreabă dacă măcar una dintre intrări e 1. Al doilea întreabă dacă amândouă sunt 1. Al treilea, care primește răspunsurile lor, întreabă dacă primul a spus da și al doilea nu.</p>
+  <p>Problema care a blocat cercetarea în 1969 — imposibilitatea de a separa cele patru puncte pe diagonală — se rezolvă spectaculos cu o mini-echipă formată din doar trei neuroni: doi în stratul ascuns și unul la ieșire.</p>
+
+  <p>Primul neuron ascuns trasează o linie și întreabă: <i>„Este măcar una dintre intrări activă?”</i>. Al doilea neuron trasează o altă linie paralelă și întreabă: <i>„Sunt ambele intrări active?”</i>. Al treilea neuron, cel de la ieșire, ascultă doar vocile celor doi colegi și dă verdictul final: <i>„Spune DA doar dacă primul a zis DA, dar al doilea a zis NU!”</i>.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Doi neuroni ascunși și unul de ieșire</figcaption>
@@ -776,23 +780,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Frontiera din panoul al treilea nu mai e o dreaptă, ci o fâșie. Ea a fost obținută fără nicio unealtă nouă: doar din drepte, așezate una peste alta.</p>
+  <p>Privește panoul al treilea: frontiera rezultată nu mai este o linie dreaptă rigidă, ci o fâșie decupată cu măiestrie! Am învins limitarea fără să inventăm nicio magie complicată: am folosit aceleași tăieturi drepte, dar le-am combinat logic pe etape.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 C22 50 24 14 40 14 S58 14 58 14" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 52 L58 12" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M40 40 L52 52 M52 40 L40 52" fill="none" stroke="#B5232B" stroke-width="2.5"/></svg></span>De ce e nevoie de curba S</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 C22 50 24 14 40 14 S58 14 58 14" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 52 L58 12" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M40 40 L52 52 M52 40 L40 52" fill="none" stroke="#B5232B" stroke-width="2.5"/></svg></span>De ce este curba S sufletul rețelei</h2>
 
-  <p>Aici se află lucrul care face straturile să însemne ceva, și el nu e evident.</p>
+  <p>Aici se ascunde un secret matematic fascinant, care explică de ce funcționează rețelele neuronale și de ce un detaliu aparent minor face toată diferența.</p>
 
-  <p>Dacă neuronii ar face numai suma cu ponderi, fără curba S, atunci ieșirea unui strat ar fi o sumă cu ponderi a intrărilor, iar ieșirea stratului următor ar fi o sumă cu ponderi a unor sume cu ponderi, adică tot o sumă cu ponderi a intrărilor de la început. Oricâte straturi s-ar pune, ele s-ar strânge la loc într-unul singur, iar frontiera ar rămâne o dreaptă. E o observație algebrică simplă cu o urmare uriașă: fără ceva neliniar între straturi, adâncimea e o iluzie.</p>
+  <p>Imaginează-ți ce s-ar întâmpla dacă am elimina curba S (funcția logistică) și am lăsa neuronii să facă doar adunări și înmulțiri simple. Ieșirea primului strat ar fi o sumă de numere. Al doilea strat ar aduna și el aceste sume. Dar în algebră, o sumă de sume este tot o simplă sumă liniară! Oricâte sute de straturi am stivui unul peste altul, întreaga rețea uriașă s-ar prăbuși matematic într-un singur neuron echivalent, iar frontiera ar redeveni o linie dreaptă plată. Fără o îndoitură neliniară între etape, adâncimea rețelei este o pură iluzie optică!</p>
 
-  <p>Îndoirea adusă de curba S, numită în general <dfn>funcție de activare</dfn>, e singurul lucru care împiedică strângerea aceasta. Butonul din figura următoare o scoate, iar rețeaua, oricât de mare, redevine un singur neuron.</p>
+  <p>Curba lină în S — numită în general <dfn>funcție de activare</dfn> — este tocmai balamaua care îndoaie spațiul la fiecare pas și împiedică această prăbușire. Apasă pe butonul <b>„Scoate curba S”</b> din figura următoare și vei vedea cu ochii tăi: oricâți neuroni adaugi, rețeaua devine neputincioasă și se comportă ca o simplă riglă.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#B58A12" stroke-width="2.5"/><g fill="#2F4BC4"><circle cx="32" cy="32" r="3"/><circle cx="24" cy="28" r="3"/><circle cx="38" cy="38" r="3"/><circle cx="28" cy="40" r="3"/></g><g fill="#6B7A38"><circle cx="8" cy="10" r="3"/><circle cx="56" cy="12" r="3"/><circle cx="10" cy="54" r="3"/><circle cx="54" cy="56" r="3"/></g></svg></span>Cât de complicată poate fi frontiera</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#B58A12" stroke-width="2.5"/><g fill="#2F4BC4"><circle cx="32" cy="32" r="3"/><circle cx="24" cy="28" r="3"/><circle cx="38" cy="38" r="3"/><circle cx="28" cy="40" r="3"/></g><g fill="#6B7A38"><circle cx="8" cy="10" r="3"/><circle cx="56" cy="12" r="3"/><circle cx="10" cy="54" r="3"/><circle cx="54" cy="56" r="3"/></g></svg></span>Sculptarea formelor complexe: inelul fermecat</h2>
 
-  <p>Exemplele de mai jos sunt așezate în cerc: unele înăuntru, altele în afară. Nicio dreaptă nu le desparte, și nici o fâșie.</p>
+  <p>În figura interactivă de mai jos avem o provocare spectaculoasă: un cerc de puncte albastre înconjurat de o mare de puncte verzi. Nicio linie dreaptă și nicio fâșie simplă nu poate izola cercul din mijloc.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Un strat ascuns, cu număr de neuroni la alegere</figcaption>
@@ -811,23 +815,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cu un singur neuron ascuns frontiera rămâne o dreaptă. Cu trei sau patru devine un poligon cu tot atâtea laturi, fiecare latură fiind dreapta unui neuron. Cu opt sau mai mulți, poligonul are destule laturi cât să pară rotund.</p>
+  <p>Privește ce se întâmplă pe măsură ce mărești numărul de neuroni ascunși: cu un singur neuron, frontiera este o linie dreaptă eșuată. Cu 3 sau 4 neuroni, frontiera devine un triunghi sau un romb — fiecare neuron adăugând o latură dreaptă care „cioplește” spațiul din jur. Când ajungi la 8 sau 12 neuroni, poligonul capătă atâtea fațete încât devine un cerc aproape perfect, îmbrățișând impecabil punctele albastre!</p>
 
-  <p>Cu butonul care scoate curba S, numărul de neuroni încetează să mai conteze. Pe exemplele de mai sus, unul singur greșește 31 din 191; patru greșesc tot 31; doisprezece greșesc tot 31, și ajung la exact același cost. Nu e o coincidență și nici o antrenare nereușită: cele douăsprezece drepte chiar se strâng la loc într-una singură, iar rețeaua nu are cum să fie altceva decât un neuron. Cu curba S pusă înapoi, aceiași doisprezece neuroni nu mai greșesc niciunul.</p>
+  <p>Dar dacă apeși acum pe „Scoate curba S”? Toți cei 12 neuroni își pierd brusc puterea: dreptele lor se strâng la loc într-una singură, greșind din nou zeci de exemple. Pune curba S la loc, iar forma rotundă reapare instantaneu. Neliniaritatea este adevărata foarfecă magică a rețelei.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"><circle cx="10" cy="20" r="4"/><circle cx="10" cy="32" r="4"/><circle cx="10" cy="44" r="4"/><circle cx="26" cy="20" r="4"/><circle cx="26" cy="32" r="4"/><circle cx="26" cy="44" r="4"/><circle cx="42" cy="26" r="4"/><circle cx="42" cy="38" r="4"/></g><circle cx="56" cy="32" r="5" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/></svg></span>Cât de departe merge</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"><circle cx="10" cy="20" r="4"/><circle cx="10" cy="32" r="4"/><circle cx="10" cy="44" r="4"/><circle cx="26" cy="20" r="4"/><circle cx="26" cy="32" r="4"/><circle cx="26" cy="44" r="4"/><circle cx="42" cy="26" r="4"/><circle cx="42" cy="38" r="4"/></g><circle cx="56" cy="32" r="5" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/></svg></span>De la lățime la adâncime: rețelele profunde</h2>
 
-  <p>Rezultatul general se numește <dfn>teorema de aproximare universală</dfn>: un singur strat ascuns, cu destui neuroni, poate imita orice frontieră suficient de cuminte, cu oricâtă precizie s-ar cere. Sună ca o garanție că problema e rezolvată; nu e.</p>
+  <p>Matematicienii au demonstrat un rezultat spectaculos numit <dfn>teorema de aproximare universală</dfn>: chiar și un singur strat ascuns, dacă primește un număr suficient de mare de neuroni, poate aproxima cu orice precizie dorită orice formă continuă din lume. Ar părea că problema este rezolvată pentru totdeauna; dar în practică există două capcane uriașe.</p>
 
-  <p>Enunțul e mai puțin generos decât pare, din două motive. „Destui” nu are nicio margine: pentru unele forme, numărul de neuroni cerut crește atât de repede cu precizia dorită încât devine inutilizabil. Iar teorema spune că ponderile potrivite există, fără să spună nimic despre cum se găsesc; iar găsirea lor e, în practică, toată problema. Existența și găsirea sunt lucruri diferite, aici ca și în lecția despre algoritmi.</p>
+  <p>În primul rând, cuvântul „suficient” poate însemna miliarde de neuroni așezați în paralel — o risipă uriașă de memorie și calcul. În al doilea rând, teorema garantează doar că acele ponderi ideale <i>există</i>, fără să ne ofere nicio certitudine că algoritmul de coborâre a pantei va reuși vreodată să le găsească într-un timp rezonabil.</p>
 
-  <p>De aceea rețelele folosite azi nu sunt late și subțiri, ci <dfn>adânci</dfn>. Un strat construiește descrieri simple din datele brute, următorul construiește descrieri din acelea, și tot așa. Pentru multe sarcini, aceeași putere se obține cu mult mai puțini neuroni așezați în adâncime decât în lățime, iar descrierile intermediare seamănă adesea cu lucruri pe care le-am numi noi înșine: margini, apoi forme, apoi obiecte.</p>
+  <p>Iată de ce revoluția inteligenței artificiale nu a constat în crearea unor rețele foarte „late”, ci a unor <dfn>rețele adânci</dfn> (<i>deep learning</i>). Când așezăm straturile unele după altele în cascadă, rețeaua învață în mod natural o ierarhie de concepte: primele straturi detectează mici muchii și contururi; următoarele le combină în texturi și colțuri; straturile superioare asamblează aceste forme în ochi, nasuri sau roți; iar ultimul strat recunoaște o persoană sau o mașină întreagă. Aceeași putere de exprimare se obține cu mult mai puțini neuroni dacă îi așezăm în adâncime!</p>
 
-  <p class="note">Curba S folosită aici a fost înlocuită, în practică, cu una mai simplă: zero pentru intrări negative, valoarea însăși pentru cele pozitive. Are un colț în loc de o îndoitură lină, dar panta ei nu se stinge niciodată la valori mari, iar asta face rețelele adânci mult mai ușor de antrenat.</p>
+  <p class="note">În rețelele adânci moderne, curba clasică în S a fost adesea înlocuită cu o funcție și mai simplă, numită ReLU: lasă numerele pozitive neschimbate și taie la zero tot ce este negativ. Deși are un colț abrupt, panta ei nu se stinge la valori mari, ceea ce permite antrenarea fluidă a rețelelor cu sute de straturi.</p>
 
-  <p>Antrenarea din figura de mai sus a fost tot coborâre a pantei, pe toate ponderile deodată. La un strat ascuns cu doisprezece neuroni sunt treizeci și șapte de ponderi; la o rețea adevărată sunt miliarde. Rămâne întrebarea cum se obțin toate pantele acelea. Măsurarea lor una câte una, mișcând fiecare pondere și văzând ce se schimbă, ar cere o trecere prin rețea pentru fiecare pondere în parte. Lecția următoare arată cum se obțin toate dintr-o singură trecere înapoi.</p>
+  <p>Dar cum antrenăm o rețea cu zeci de straturi și miliarde de butoane? Cum aflăm panta fiecărui buton ascuns adânc în măruntaiele modelului fără să recalculăm totul de la capăt? În lecția următoare descoperim cel mai elegant motor al inteligenței artificiale: algoritmul de <i>propagare înapoi</i>.</p>
 </section>
 
 </main>

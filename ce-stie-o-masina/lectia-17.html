@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Propagarea <i>înapoi</i></h1>
-    <p class="lede">Coborârea pantei are nevoie de panta costului după fiecare pondere. Măsurarea lor una câte una e cu neputință la scară. Toate se obțin dintr-o singură trecere înapoi prin rețea, împărțind vina greșelii, strat cu strat, celor care au contribuit la ea.</p>
+    <p class="lede">Coborârea pantei are nevoie disperată să știe în ce direcție trebuie rotit fiecare buton din rețea. Să le testăm pe rând este omenește și matematic imposibil. Totuși, putem afla panta tuturor miliardelor de butoane într-o singură trecere elegantă înapoi prin rețea, împărțind vina pentru greșeală, strat cu strat, celor care au contribuit la ea.</p>
     <p class="terms">Termeni: <b>trecere înainte</b> <b>trecere înapoi</b> <b>vina unui neuron</b> <b>regula lanțului</b> <b>verificarea pantelor</b></p>
   </div>
 </header>
@@ -746,21 +748,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="10" width="8" height="8"/><rect x="18" y="10" width="8" height="8"/><rect x="30" y="10" width="8" height="8"/><rect x="42" y="10" width="8" height="8"/><rect x="6" y="22" width="8" height="8"/><rect x="18" y="22" width="8" height="8"/><rect x="30" y="22" width="8" height="8"/><rect x="42" y="22" width="8" height="8"/></g><path d="M6 44 H58 M6 52 H40" fill="none" stroke="#B5232B" stroke-width="3"/></svg></span>De ce nu merge pipăitul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="10" width="8" height="8"/><rect x="18" y="10" width="8" height="8"/><rect x="30" y="10" width="8" height="8"/><rect x="42" y="10" width="8" height="8"/><rect x="6" y="22" width="8" height="8"/><rect x="18" y="22" width="8" height="8"/><rect x="30" y="22" width="8" height="8"/><rect x="42" y="22" width="8" height="8"/></g><path d="M6 44 H58 M6 52 H40" fill="none" stroke="#B5232B" stroke-width="3"/></svg></span>De ce încercarea pe bâjbâite este imposibilă</h2>
 
-  <p class="first">Panta costului după o pondere se poate afla mișcând acea pondere cu foarte puțin și privind cât se schimbă costul. Metoda e cinstită și funcționează, dar cere o trecere întreagă prin rețea, pe toate exemplele, pentru fiecare pondere în parte.</p>
+  <p class="first">Cel mai la îndemână mod de a afla panta unui buton este să-l miști foarte puțin spre dreapta și să măsori cât se modifică greșeala totală. Metoda este perfect logică și intuitivă: este exact ceea ce facem când reglăm dușul până găsim temperatura plăcută.</p>
 
-  <p>La rețeaua din lecția precedentă, cu treizeci și șapte de ponderi, asta înseamnă vreo șaptezeci de treceri pentru un singur pas de coborâre. La un model cu un miliard de ponderi înseamnă două miliarde de treceri pentru un singur pas, iar pașii trebuie făcuți de sute de mii de ori. Metoda nu e lentă, ci imposibilă. Ce urmează obține toate pantele deodată, cu un cost aproape egal cu cel al unei singure treceri înainte, și e motivul pentru care rețelele adânci se pot antrena deloc.</p>
+  <p>Dar iată problema ascunsă: pentru fiecare buton în parte, trebuie să rulezi rețeaua de la cap la coadă pe toate datele tale de antrenament! La o rețea minusculă cu 37 de butoane, asta cere vreo 70 de treceri pentru un singur pas de învățare. La un model modern cu zeci sau sute de miliarde de parametri, încercarea butoanelor pe rând ar dura mii de ani doar pentru a face un singur pas mic pe muntele de eroare!</p>
+
+  <p>Avem nevoie de o metodă uluitor de rapidă, capabilă să calculeze panta tuturor butoanelor deodată. Această metodă există, se numește <b>propagare înapoi</b> (sau <i>backpropagation</i>) și reprezintă adevăratul motor invizibil care a făcut posibilă inteligența artificială modernă.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"><circle cx="10" cy="24" r="4"/><circle cx="10" cy="40" r="4"/><circle cx="30" cy="16" r="4"/><circle cx="30" cy="32" r="4"/><circle cx="30" cy="48" r="4"/></g><circle cx="52" cy="32" r="5" fill="#B5232B" stroke="#22252D" stroke-width="2"/><path d="M47 32 L34 16 M47 32 L34 32 M47 32 L34 48 M26 16 L14 24 M26 32 L14 40 M26 48 L14 40" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Vina, împărțită înapoi</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"><circle cx="10" cy="24" r="4"/><circle cx="10" cy="40" r="4"/><circle cx="30" cy="16" r="4"/><circle cx="30" cy="32" r="4"/><circle cx="30" cy="48" r="4"/></g><circle cx="52" cy="32" r="5" fill="#B5232B" stroke="#22252D" stroke-width="2"/><path d="M47 32 L34 16 M47 32 L34 32 M47 32 L34 48 M26 16 L14 24 M26 32 L14 40 M26 48 L14 40" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Împărțirea vinei: ancheta de la coadă la cap</h2>
 
-  <p>La ieșire se știe totul: cât a dat rețeaua, cât se cerea, deci cu cât s-a greșit. De acolo încolo, întrebarea se pune pentru fiecare pondere: dacă ea ar crește puțin, cu cât ar crește greșeala?</p>
+  <p>La ieșirea rețelei totul este clar: știm ce răspuns a dat mașina, știm care era răspunsul corect și putem măsura cu precizie greșeala (costul). Întrebarea este: <i>cine este de vină pentru această eroare și în ce măsură?</i></p>
 
-  <p>Pentru ponderile care intră direct în neuronul de ieșire, răspunsul e la îndemână: contribuția unei ponderi e valoarea care a trecut prin ea, deci vina ei e greșeala de la ieșire înmulțită cu acea valoare. Pentru ponderile din straturile dinainte, răspunsul cere un ocol: influența lor asupra greșelii trece prin neuronii de după ele.</p>
+  <p>Pentru neuronul final de la ieșire, calculul e simplu: vina fiecărei conexiuni care intră în el depinde de cât de puternic a fost semnalul care a trecut prin acea sârmă. Dar ce facem cu neuronii ascunși din straturile anterioare, care nu văd deloc ieșirea finală?</p>
 
-  <p>Fiecare neuron ascuns primește de aceea o parte din vină, proporțională cu cât de mult a contat el pentru ieșire, adică cu ponderea prin care s-a legat de ea. Odată știută vina unui neuron ascuns, ponderile lui se tratează exact ca cele de la ieșire. Procedeul se repetă strat cu strat, de la coadă la cap. E ca urmărirea unui defect pe o linie de montaj înapoi, de la piesa stricată către posturile prin care a trecut, fiecare post primind o parte din răspundere după cât a atins piesa.</p>
+  <p>Aici intervine analogia liniei de asamblare dintr-o fabrică. Când la capătul liniei iese o piesă defectă, inginerul merge înapoi: fiecare atelier primește o cotă de responsabilitate proporțională cu influența pe care a avut-o asupra produsului final. Un neuron din stratul ascuns care a contribuit masiv la decizia greșită va primi o „vină” mare; un neuron care aproape că a tăcut va primi o vină neglijabilă. Odată stabilită vina fiecărui neuron ascuns, o transmitem mai departe către straturile anterioare, până ajungem la datele brute de intrare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>O trecere înainte și una înapoi, cu cifrele adevărate</figcaption>
@@ -779,11 +783,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#C9D1F1" stroke="#22252D" stroke-width="2"><circle cx="10" cy="32" r="6"/><circle cx="32" cy="32" r="6"/><circle cx="54" cy="32" r="6"/></g><path d="M16 32 H26 M38 32 H48" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M10 48 H54" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="4 3"/></svg></span>Regula lanțului</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#C9D1F1" stroke="#22252D" stroke-width="2"><circle cx="10" cy="32" r="6"/><circle cx="32" cy="32" r="6"/><circle cx="54" cy="32" r="6"/></g><path d="M16 32 H26 M38 32 H48" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M10 48 H54" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="4 3"/></svg></span>Regula lanțului: cauza cauzelor</h2>
 
-  <p>Toată procedura se sprijină pe o singură observație despre mărimi înlănțuite. Dacă o mărime influențează o a doua, iar a doua influențează o a treia, atunci influența primei asupra ultimei e produsul celor două influențe.</p>
+  <p>Sub cupola matematică a acestei anchete stă o regulă de o simplitate dezarmantă, cunoscută încă din zorii calculului diferențial: <dfn>regula lanțului</dfn>. Ea spune că dacă evenimentul A influențează pe B, iar B la rândul său îl influențează pe C, atunci influența totală a lui A asupra lui C este pur și simplu produsul celor două influențe parțiale.</p>
 
-  <p>O creștere cu un pic a primei mărimi o mișcă pe a doua de trei ori mai mult; a doua o mișcă pe a treia de două ori mai mult; deci prima o mișcă pe a treia de șase ori mai mult. Regula se numește <dfn>regula lanțului</dfn> și e cunoscută de la începuturile calculului diferențial. E, de altfel, felul în care judecăm intuitiv orice lanț de cauze.</p>
+  <p>Gândește-te la o serie de roți dințate: dacă rotirea primei rotițe cu un milimetru o rotește pe a doua cu 3 milimetri, iar a doua o rotește pe a treia cu 2 milimetri, atunci rotirea primei rotițe o va deplasa pe a treia cu 6 milimetri ($3 \times 2$). Propagarea înapoi aplică această înmulțire sistematic pe toate firele rețelei.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Trei verigi, o singură influență totală</figcaption>
@@ -796,13 +800,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Propagarea înapoi nu e altceva decât aplicarea acestei reguli, sistematic, pe toate drumurile dintr-o rețea, cu grija de a nu recalcula de două ori aceeași bucată de drum. Ce e nou nu e matematica, ci contabilitatea.</p>
+  <p>Frumusețea propagării înapoi nu constă într-o formulă matematică nemaivăzută, ci într-o <b>contabilitate impecabilă</b>: calculăm efectele de la sfârșit către început și memorăm rezultatele parțiale, astfel încât să nu recalculăm niciodată de două ori aceeași bucată de drum!</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 50 L54 14" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M8 50 H54" fill="none" stroke="#5F6D2E" stroke-width="3"/></svg></span>De ce iese ieftin</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 50 L54 14" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M8 50 H54" fill="none" stroke="#5F6D2E" stroke-width="3"/></svg></span>De ce este uluitor de ieftin</h2>
 
-  <p>Economia vine din faptul că o pondere aflată devreme în rețea influențează costul prin toate drumurile care pleacă din ea, iar acele drumuri au bucăți comune. Vina calculată o dată pentru un neuron se folosește pentru toate ponderile care intră în el, în loc să fie recalculată pentru fiecare. Rezultatul e că trecerea înapoi costă cam cât una înainte, indiferent câte ponderi are rețeaua.</p>
+  <p>Magia eficienței vine dintr-o proprietate geometrică a rețelei: mii de conexiuni diferite trec prin aceiași neuroni intermediari. În loc să calculăm influența fiecărei conexiuni pornind de la zero, calculăm vina neuronului intermediar o singură dată și o împărțim instantaneu tuturor conexiunilor care intră în el.</p>
+
+  <p>Rezultatul este o victorie tehnologică colosală: trecerea înapoi prin întreaga rețea durează aproximativ cât o singură trecere înainte! Oricât de mare ar fi numărul de butoane — zeci, milioane sau miliarde —, costul rămâne neschimbat: doar <b>două treceri per pas</b> (una înainte pentru calculul răspunsului și una înapoi pentru calculul pantelor).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Treceri prin rețea pentru un singur pas de coborâre</figcaption>
@@ -812,44 +818,35 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap">Numărul de treceri prin pipăit crește odată cu numărul de ponderi. Prin propagare înapoi rămâne doi, oricât ar crește rețeaua.</div>
   </figure>
 
-  <p class="note">Dacă o trecere prin rețea ar dura o miime de secundă, un singur pas de coborâre pe un model cu un miliard de ponderi ar cere, prin pipăit, aproape treizeci și doi de ani. Prin propagare înapoi, două miimi de secundă.</p>
+  <p class="note">Dacă o trecere prin rețea ar dura o miime de secundă, calculul pe bâjbâite la un model cu un miliard de butoane ar necesita aproape 32 de ani pentru un singur pas de învățare! Prin propagare înapoi, același pas durează doar două miimi de secundă. Aceasta este diferența dintre imposibil și realizabil.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="20" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="32" y="14" width="24" height="36" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M12 22 H24 M12 30 H24 M12 38 H24 M36 22 H52 M36 30 H52 M36 38 H52 M36 46 H52" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Ce trebuie ținut minte</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="20" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="32" y="14" width="24" height="36" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M12 22 H24 M12 30 H24 M12 38 H24 M36 22 H52 M36 30 H52 M36 38 H52 M36 46 H52" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Prețul ascuns: memoria necesară la antrenare</h2>
 
-  <p>Trecerea înapoi are nevoie de valorile calculate la trecerea înainte: ca să se afle vina unei ponderi, trebuie știut ce a trecut prin ea. Toate valorile intermediare trebuie deci păstrate din momentul în care sunt produse până când vina ajunge înapoi la ele.</p>
+  <p>Există totuși un preț pe care trebuie să-l plătim pentru această viteză uimitoare: consumul uriaș de memorie. Pentru a calcula vina unei conexiuni la drumul de întoarcere, algoritmul are nevoie neapărat să știe ce semnal a trecut prin ea în timpul trecerii înainte. Asta înseamnă că toate valorile intermediare ale fiecărui neuron trebuie păstrate în memoria plăcii grafice până când valul de întoarcere ajunge la ele.</p>
 
-  <p>De aici vine o deosebire practică des trecută cu vederea. Un model care doar răspunde la întrebări are nevoie de memorie cât ponderile lui. Același model, în timpul antrenării, are nevoie de mult mai mult: ponderile, valorile intermediare pentru fiecare exemplu din pachet, și încă o copie a pantelor. Antrenarea unui model e de câteva ori mai scumpă în memorie decât folosirea lui, iar asta hotărăște ce fel de mașini sunt necesare și cine și le poate permite.</p>
+  <p>Iată o deosebire practică pe care publicul larg rareori o cunoaște: a <i>utiliza</i> un model antrenat (de pildă, a pune o întrebare unui asistent AI) este de câteva ori mai ieftin în memorie decât a <i>antrena</i> acel model! La utilizare, poți arunca valorile straturilor precedente pe măsură ce avansezi; la antrenare însă, ești forțat să reții întregul istoric al trecerii înainte, alături de copii complete ale tuturor pantelor.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H28 M36 32 H56" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="18" cy="32" r="6" fill="#B5232B"/><circle cx="46" cy="32" r="6" fill="#5F6D2E"/><path d="M14 48 L20 54 L32 42" fill="none" stroke="#5F6D2E" stroke-width="3"/></svg></span>Verificarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H28 M36 32 H56" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="18" cy="32" r="6" fill="#B5232B"/><circle cx="46" cy="32" r="6" fill="#5F6D2E"/><path d="M14 48 L20 54 L32 42" fill="none" stroke="#5F6D2E" stroke-width="3"/></svg></span>Testul de siguranță: verificarea pantelor</h2>
 
-  <p>Pantele obținute prin propagare înapoi se pot verifica împotriva celor obținute prin pipăit. Pipăitul e prea lent ca să antreneze, dar destul de bun cât să judece: dacă cele două metode dau aceleași numere, formulele scrise pentru trecerea înapoi sunt corecte. Tabelul de mai jos face verificarea în pagină, pe rețeaua din prima figură, pentru fiecare pondere în parte.</p>
+  <p>Cum putem fi siguri că formulele matematice ale propagării înapoi sunt implementate corect în cod și că nu există o eroare ascunsă? Aici metoda lentă a bâjbâitului revine ca o unealtă de control de neînlocuit!</p>
 
-  <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Aceleași pante, aflate în două feluri</figcaption>
-    <div class="stage">
-      <div class="tblwrap"><table class="tbl numeric" id="tblCheck"></table></div>
-    </div>
-    <div class="cap" id="capCheck"></div>
-    <div class="ctrl">
-      <button id="chkNew">Alte ponderi la întâmplare</button>
-    </div>
-  </figure>
+  <p>Deși este mult prea înceată pentru a antrena o rețea mare, mișcarea ușoară a fiecărui buton oferă panta matematică adevărată, lipsită de orice ambiguitate. Inginerii compară pantele calculate prin propagare înapoi cu cele obținute prin această metodă pe o rețea mică de test. Dacă cifrele coincid până la a cincea zecimală (așa cum poți vedea în tabelul de mai jos), avem dovada că algoritmul funcționează impecabil.</p>
 
-  <p>Verificarea aceasta se face și astăzi, de fiecare dată când cineva scrie de mână o bucată nouă de rețea. E singura metodă simplă de a prinde o greșeală într-o formulă de derivare, iar greșelile de felul acesta nu se văd altfel: rețeaua se antrenează în continuare, doar că mai prost, fără să dea vreun semn.</p>
+  <p>Fără această verificare, o greșeală strecurată într-un semn minus sau o înmulțire ar putea lăsa rețeaua să se antreneze în continuare, dar lamentabil și fără să afișeze vreun mesaj de eroare pe ecran.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 48 H56" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="14" cy="48" r="3"/><circle cx="30" cy="48" r="3"/><circle cx="50" cy="48" r="3"/></g><path d="M14 44 V30 M30 44 V22 M50 44 V12" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>De unde vine</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 48 H56" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="14" cy="48" r="3"/><circle cx="30" cy="48" r="3"/><circle cx="50" cy="48" r="3"/></g><path d="M14 44 V30 M30 44 V22 M50 44 V12" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>O scânteie renăscută: istoria propagării înapoi</h2>
 
-  <p>Ideea a fost descoperită de mai multe ori, în contexte diferite, începând din anii șaizeci, sub alte nume și pentru alte scopuri. Legarea ei de rețelele de neuroni și răspândirea în forma folosită azi vin dintr-o lucrare din 1986 a lui David Rumelhart, Geoffrey Hinton și Ronald Williams.</p>
+  <p>Ideea de a trimite erorile înapoi printr-un lanț de ecuații a fost descoperită independent de mai mulți cercetători încă din anii 1960. Însă gloria și forma ei actuală au explodat în 1986, grație unui articol de răsunet semnat de David Rumelhart, Geoffrey Hinton și Ronald Williams.</p>
 
-  <p>Ce a fost nou atunci nu a fost matematica, ci convingerea că merită aplicată: până în acel moment se credea larg că rețelele cu straturi ascunse nu se pot antrena în practică. Deceniul de tăcere de după demonstrația despre sau-exclusiv s-a încheiat aici.</p>
+  <p>Marea contribuție a acelui moment nu a fost doar matematica pură, ci o convingere fermă care a spulberat scepticismul general: rețelele neuronale cu multe straturi chiar pot fi antrenate în practică! Cei aproape douăzeci de ani de apatie de după cartea despre sau-exclusiv s-au spulberat, deschizând drumul spre viitor.</p>
 
-  <p>Cu propagarea înapoi, dimensiunea rețelei încetează să fie o piedică de principiu. Rămâne o piedică de fapt: pentru imagini sau texte, numărul de ponderi al unei rețele în care fiecare neuron privește tot devine oricum prea mare, iar exemplele necesare, prea multe. Lecția următoare arată cum se micșorează numărul de ponderi punând în rețea o presupunere despre lume, anume că ce e important într-o imagine nu depinde de locul în care se află.</p>
+  <p>Odată ce avem propagarea înapoi, știm cum să antrenăm orice rețea, oricât de mare. Dar când încercăm să aplicăm această structură generală la imagini cu milioane de pixeli, ne lovim de o explozie a numărului de conexiuni. Pentru a vedea lumea cu adevărat, avem nevoie de o arhitectură special concepută pentru spațiu: în lecția următoare descoperim <i>convoluția</i>.</p>
 </section>
 
 </main>

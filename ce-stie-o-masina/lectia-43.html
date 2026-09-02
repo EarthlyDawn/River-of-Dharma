@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Cum se <i>măsoară</i></h1>
-    <p class="lede">Un scor pe un test spune ceva, dar nu spune ce se crede de obicei. Trei modele, patru teste și patru clasamente diferite, apoi ce se întâmplă când întrebările testului au trecut prin antrenare. Măsura nu e o însușire a modelului, ci a perechii dintre model și test.</p>
+    <p class="lede">Citim zilnic știri despre un nou model care „a obținut 92% la un test celebru” și a depășit toți rivalii. Dar ce măsoară, de fapt, un astfel de procent? În această lecție punem față în față trei modele pe patru teste diferite și descoperim cum fiecare test alege un alt câștigător. Vom vedea de ce scorurile sunt însoțite de o marjă firească de zgomot statistic și ce se întâmplă când subiectele de examen „se scurg” direct în datele de antrenament: un scor nu măsoară o inteligență absolută, ci doar relația subtilă dintre un model și testul ales.</p>
     <p class="terms">Termeni: <b>evaluare</b> <b>nesiguranța unui scor</b> <b>contaminare</b></p>
   </div>
 </header>
@@ -747,11 +749,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M18 20 L22 24 L28 16" fill="none" stroke="#6B7A38" stroke-width="2.5"/><path d="M18 34 L22 38 L28 30" fill="none" stroke="#6B7A38" stroke-width="2.5"/><path d="M18 46 L27 52 M27 46 L18 52" fill="none" stroke="#B5232B" stroke-width="2.5"/><path d="M34 20 H48 M34 34 H46 M34 48 H48" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Ce e de fapt un scor</h2>
 
-  <p class="first">Un test e o mulțime de întrebări cu răspuns cunoscut, iar scorul e partea nimerită. Judecarea unui model prin astfel de teste se numește <dfn>evaluare</dfn>.</p>
+  <p class="first">La rădăcină, un test standardizat (un benchmark) este pur și simplu o culegere de întrebări la care cunoaștem deja răspunsul corect. Trimitem fiecare întrebare către model, numărăm răspunsurile nimerite și calculăm procentul de reușită. Acest proces poartă numele de <dfn>evaluare</dfn> (sau benchmark evaluation).</p>
 
-  <p>Din asta ies două lucruri care se uită ușor. Întâi, întrebările au fost alese de cineva, deci scorul spune cât de bine merge modelul pe <i>acel</i> fel de întrebări, nu în general. Apoi, ele sunt un eșantion, deci scorul e o estimare, cu o nesiguranță care se poate socoti.</p>
+  <p>Din această definiție aparent banală decurg două adevăruri fundamentale, deseori trecute cu vederea. În primul rând, întrebările au fost alese de anumiți oameni cu preferințe și prejudecăți proprii — prin urmare, scorul reflectă doar priceperea la <i>acel set particular</i> de sarcini, nu o presupusă istețime generală. În al doilea rând, orice test este doar un eșantion restrâns din universul infinit al posibilităților: scorul obținut nu este o certitudine divină, ci o estimare statistică însoțită inevitabil de o marjă de eroare.</p>
 
-  <p>Modelele din pagină sunt trei, antrenate pe același fel de sarcină, socoteli mărunte cu două numere, dar cu amestecuri diferite: unul a văzut mai ales adunări, altul mai ales scăderi, al treilea toate în părți egale.</p>
+  <p>Pentru a ilustra acest fenomen, am pregătit trei modele diferite, antrenate pe aceeași materie de bază (calcule cu două numere), dar cu experiențe distincte de învățare: primul a exersat predominant adunări, al doilea a fost hrănit mai ales cu scăderi, iar al treilea a primit un amestec echilibrat din ambele operații.</p>
 </section>
 
 <section id="s2">
@@ -770,15 +772,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fiecare test are alt câștigător, iar niciunul dintre modele nu e „mai bun” decât celelalte fără să se spună la ce. Clasamentul nu e o însușire a modelelor; e o însușire a perechii dintre modele și test.</p>
+  <p>Apăsați pe „Antrenează și măsoară” și priviți rezultatele: fiecare dintre cele patru teste proclamă un alt campion! Niciunul dintre modele nu poate fi numit „cel mai bun” în mod absolut, fără a preciza imediat la ce anume ne raportăm. Clasamentul final nu este o proprietate intrinsecă a rețelei neuronale, ci o oglindire a modului în care a fost compus examenul.</p>
 
-  <p>Testul amestecat pare că le împacă, dar și el alege: dacă o deprindere e mai grea decât celelalte, ea cântărește mai puțin în scor, fiindcă toate modelele merg prost la ea deopotrivă.</p>
+  <p>Chiar și un test presupus „neutru”, care combină mai multe materii, introduce subtil propriile sale distorsiuni: dacă o sarcină este mult mai dificilă decât restul, toate modelele vor eșua la ea în egală măsură, astfel încât diferențierea pe podium va fi decisă de probele ușoare sau colaterale.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 24 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M14 24 H38 M14 18 V30 M38 18 V30" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M8 44 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M24 44 H50 M24 38 V50 M50 38 V50" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Cât din diferență e zgomot</h2>
 
-  <p>Fiindcă întrebările sunt un eșantion, scorul se clatină. Cât anume, se socotește exact: la un scor apropiat de opt zecimi, nesiguranța scade cu rădăcina numărului de întrebări.</p>
+  <p>Deoarece testul conține un număr finit de întrebări, scorul calculat fluctuează în mod natural: este <dfn>nesiguranța unui scor</dfn> (intervalul de încredere statistic). Dacă un model obține 82% pe un set de 100 de întrebări, adevărata sa pricepere se află undeva între 75% și 89%. Pentru a reduce această marjă de incertitudine la jumătate, ar trebui să cvadruplăm numărul de întrebări din test.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Două modele, măsurate pe câte un test de aceeași mărime</figcaption>
@@ -794,17 +796,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>De aici vine de ce clasamentele se schimbă de la o lună la alta fără ca modelele să se fi schimbat. Când deosebirea dintre două modele e mai mică decât nesiguranța testului, ordinea dintre ele e dată de care întrebări au nimerit în test.</p>
+  <p>Această realitate matematică explică de ce tabelele cu clasamente publice din inteligența artificială oscilează neîncetat de la o lună la alta, fără ca modelele să fi suferit vreo transformare reală. Când diferența dintre locul 1 și locul 2 este de doar 1-2 procente, ierarhia este dictată de norocul statistic al întrebărilor care s-au nimerit în test, nu de o superioritate intelectuală palpabilă.</p>
 
-  <p class="note">Pragul de mai sus e cel pentru două teste alcătuite deosebit. Puse pe exact aceleași întrebări, două modele se pot despărți ceva mai fin, fiindcă greșesc în bună parte la aceleași întrebări grele și numai deosebirile rămân de cântărit. Câștigul acesta se pierde însă imediat ce se schimbă întrebările, adică tocmai atunci când interesează.</p>
+  <p class="note">Comparația pe exact aceleași întrebări (subiecte identice) permite o diferențiere statistică ceva mai fină, deoarece modelele greșesc adesea la aceleași capcane. Totuși, această aparentă precizie se evaporă instantaneu de îndată ce scoatem modelele în lumea reală și le confruntăm cu întrebări noi, neprevăzute.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="26" height="34" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="30" y="20" width="26" height="34" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M36 30 H50 M36 38 H48 M36 46 H50" fill="none" stroke="#BDB9AA" stroke-width="2"/><rect x="30" y="20" width="4" height="24" fill="#EE5A2F"/></svg></span>Când testul a trecut prin antrenare</h2>
 
-  <p>Testele se publică, iar textul publicat ajunge, mai devreme sau mai târziu, în grămada din care se antrenează modelele. Când întrebările unui test se află printre datele de antrenare, situația se numește <dfn>contaminare</dfn>.</p>
+  <p>Există însă un pericol și mai insidios: „scurgerea subiectelor de bacalaureat”. Testele standardizate sunt publice pe internet, iar roboții care adună texte pentru antrenarea modelelor absorb fără discernământ miliarde de pagini web. Când întrebările și rezolvările oficiale ale unui test ajung în materia de studiu a rețelei, fenomenul se numește <dfn>contaminare</dfn> (data contamination).</p>
 
-  <p>Măsurătoarea de mai jos ia modelul amestecat și-l antrenează încă o dată, de la aceleași ponderi de pornire și cu același număr de pași, dar cu o parte din exemple luate chiar din test.</p>
+  <p>Experimentul de mai jos antrenează din nou modelul echilibrat de la aceleași valori de pornire, însă strecoară în materia de învățare chiar câteva dintre exercițiile din testul oficial.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Același model, cu și fără testul în antrenare</figcaption>
@@ -815,21 +817,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capC"></div>
   </figure>
 
-  <p>Scorul pe testul cunoscut urcă, iar cel pe întrebări noi coboară. Modelul contaminat arată mai bine decât e, iar deosebirea dintre cele două coloane e singura urmă vizibilă.</p>
+  <p>Priviți ce se întâmplă: scorul pe testul oficial „contaminat” crește spectaculos, dând iluzia unui progres extraordinar, în timp ce pe întrebări complet noi performanța reală chiar stagnează sau se degradează. Modelul nu a devenit mai capabil; a învățat pur și simplu testul pe de rost, ca un elev care a văzut fișa cu răspunsuri înainte de oră.</p>
 
-  <p>Urma aceasta se vede numai dacă cineva ține un test curat. Cu un singur test publicat, cele două modele nu se pot deosebi.</p>
+  <p>Tragedia este că această fraudă involuntară nu poate fi detectată dacă ne uităm doar la testul publicat. Ea iese la iveală exclusiv atunci când evaluatorul deține un set secret de întrebări proaspete, ținut strict sub cheie.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14 H54 M10 24 H46 M10 34 H54 M10 44 H40" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M30 24 H46" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M10 44 H22" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="50" cy="50" r="5" fill="none" stroke="#22252D" stroke-width="2"/><path d="M54 54 L58 58" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>De ce nu se curăță ușor</h2>
 
-  <p>Pare că e de ajuns să fie scoase din datele de antrenare textele testului. Nu e.</p>
+  <p>La prima vedere, soluția pare evidentă: de ce nu ștergem întrebările testelor din datele de antrenament? În practică, este o misiune aproape imposibilă.</p>
 
-  <p>Grămada de antrenare e de obicei prea mare ca să fie căutată în ea temeinic, iar cine folosește un model n-are acces la ea. Întrebarea poate să apară reformulată, tradusă, discutată pe un forum sau cu răspunsul într-un comentariu. Iar odată ce un model a fost ales pe baza unui test, testul acela a intrat în alegerea lui chiar dacă nu i-a trecut prin antrenare.</p>
+  <p>Arhivele de pe internet conțin mii de miliarde de cuvinte. O întrebare dintr-un test poate apărea parafrazată, tradusă într-o altă limbă, citată într-un articol de blog sau discutată pe larg pe un forum tehnic. Mai mult, chiar dacă datele ar fi complet curate, intervine Legea lui Goodhart: de îndată ce o măsurătoare devine o țintă comercială, toți dezvoltatorii își optimizează rețelele anume pentru a bifa acel test, iar indicatorul își pierde orice relevanță obiectivă.</p>
 
-  <p>De aceea măsurătorile care se țin cel mai bine sunt cele făcute pe întrebări scrise după ce modelul a fost încheiat, și schimbate des. Orice riglă lăsată la vedere ajunge, mai devreme sau mai târziu, să fie măsurată de cel pe care voia să-l măsoare.</p>
+  <p>Iată de ce cele mai oneste evaluări moderne sunt cele dinamice: întrebări complet noi, formulate după ce modelul a fost finalizat, și platforme oarbe de vot (precum arenele de chat) unde utilizatori reali judecă răspunsurile fără să știe ce model se află în spate. Orice riglă lăsată prea mult la vedere ajunge, inevitabil, să deformeze tocmai ceea ce dorea să măsoare.</p>
 
-  <p>Toate măsurătorile de până acum privesc modelul din afară: i se dau intrări și se cântăresc ieșirile. Lecția următoare se uită înăuntru.</p>
+  <p>Până aici, am analizat modelul ca pe o „cutie neagră”, privind doar ce intră și ce iese pe ușă. În lecția următoare, vom deschide însăși cutia: vom pătrunde în interiorul rețelei pentru a vedea cum se aprind circuitele neuronale și ce concepte reale iau naștere în straturile sale adânci.</p>
 </section>
 
 </main>

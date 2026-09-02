@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,43 +740,43 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Antrenarea <i>la scară</i></h1>
-    <p class="lede">Eroarea unui model de limbaj se desface în trei părți: una pe care nimic n-o poate înlătura, una care cere mai mulți parametri și una care cere mai mult text. Cine crește un singur lucru înlătură o singură parte, și apoi se oprește. Toată arta scării stă în a le crește împreună.</p>
-    <p class="terms">Termeni: <b>preantrenare</b> <b>entropia sursei</b> <b>gol de capacitate</b> <b>gol de estimare</b> <b>lege de scalare</b></p>
+    <p class="lede">Eroarea unui model de limbaj este ca un puzzle format din trei piese: o doză de imprevizibil uman pe care nimeni nu o poate șterge, o limită a mărimii creierului artificial și o lipsă de lectură. Dacă mărești un singur buton, te împotmolești rapid. Adevărata măiestrie a inteligenței artificiale moderne constă într-o rețetă de proporții: parametrii, datele și calculul trebuie să crească în armonie perfectă.</p>
+    <p class="terms">Termeni: <b>preantrenare</b> <b>entropia limbajului (eroare ireductibilă)</b> <b>gol de capacitate</b> <b>gol de estimare</b> <b>legi de scalare (Chinchilla)</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H40 M8 26 H52 M8 36 H30 M8 46 H46" fill="none" stroke="#BDB9AA" stroke-width="5"/><rect x="34" y="33" width="12" height="6" fill="#EE5A2F"/></svg></span>Ce se învață dintr-un text</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H40 M8 26 H52 M8 36 H30 M8 46 H46" fill="none" stroke="#BDB9AA" stroke-width="5"/><rect x="34" y="33" width="12" height="6" fill="#EE5A2F"/></svg></span>Marea lectură: ce învață o mașină din bibliotecile lumii</h2>
 
-  <p class="first">Sarcina pe care se antrenează un model de limbaj e cea din lecția despre cuvântul următor: din bucata de text de până acum, o distribuție peste bucata următoare. Răspunsul corect se află chiar în text, la poziția următoare, deci nu trebuie ca cineva să eticheteze nimic. Etapa aceasta lungă, dinaintea oricărei specializări, se numește <dfn>preantrenare</dfn>.</p>
+  <p class="first">Sarcina fundamentală care stă la baza marilor modele de limbaj este surprinzător de simplă: parcurgând un fragment de text, modelul trebuie să ghicească ce jeton urmează. Soluția corectă este deja scrisă negru pe alb chiar în fraza respectivă, la pasul imediat următor. Nu este nevoie ca oameni plătiți să pună etichete manuale pe fiecare cuvânt: tot ce s-a tipărit vreodată este, din oficiu, un caiet de exerciții gata de rezolvat. Această primă fază masivă poartă numele de <dfn>preantrenare</dfn>.</p>
 
-  <p>De aici vine cantitatea. Orice text scris vreodată e, fără nicio pregătire, material de antrenare. Întrebarea nu mai e de unde se iau exemplele, ci ce se întâmplă când sunt atât de multe.</p>
+  <p>De aici provine scara gigantică a inteligenței artificiale contemporane. Omenirea a produs trilioane de cuvinte în cărți, articole, cod sursă și conversații. Întrebarea crucială nu mai este de unde adunăm exemple, ci cum se transformă comportamentul rețelei pe măsură ce este hrănită cu oceane de text.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="14" fill="#BDB9AA" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="26" width="44" height="14" fill="#2F4BC4" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="42" width="44" height="14" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Din ce e făcută eroarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="14" fill="#BDB9AA" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="26" width="44" height="14" fill="#2F4BC4" stroke="#22252D" stroke-width="1.5"/><rect x="10" y="42" width="44" height="14" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Anatomia greșelii: cele trei componente ale erorii</h2>
 
-  <p>Pierderea măsurată pe text nemaivăzut se desface în trei părți care se adună.</p>
+  <p>Când testăm modelul pe texte proaspete pe care nu le-a mai văzut niciodată, greșeala sa totală (măsurată prin pierdere sau perplexitate) nu este un număr haotic, ci suma a trei surse distincte:</p>
 
-  <p>Prima e <dfn>entropia sursei</dfn>: cât de imprevizibil e textul chiar și pentru cineva care i-ar cunoaște perfect regulile. Nimic nu coboară sub ea. Un text în care după fiecare cuvânt pot urma cu adevărat mai multe cuvinte are o pierdere minimă strict pozitivă, și nu e vina modelului: e felul de a fi al limbii.</p>
+  <p>Prima este <dfn>entropia sursei</dfn> (sau <i>eroarea ireductibilă</i>): gradul firesc de mister al comunicării vii. Nici măcar un cititor omniscient nu ar putea ști cu siguranță absolută cum se va încheia o frază poetică sau ce decizie va lua autorul în rândul următor. Limba are o doză de libertate și joc care impune o barieră minimă de incertitudine, imposibil de coborât la zero.</p>
 
-  <p>A doua e <dfn>golul de capacitate</dfn>: cât pierde un model din pricina formei lui, chiar dacă i s-ar da text nesfârșit. Un model care se uită doar la ultimul cuvânt nu poate prinde o legătură dintre cuvinte aflate la trei poziții distanță, oricât ar fi antrenat.</p>
+  <p>A doua este <dfn>golul de capacitate</dfn>: neputința cauzată de dimensiunea rețelei. Un model mic, cu memorie redusă, pur și simplu nu are suficiente sinapse pentru a reține toate subtilitățile gramaticale sau faptele istorice ale lumii. Chiar dacă i-am pune la dispoziție o bibliotecă infinită, el se va plafona rapid din cauza propriei sale îngustimi structurale.</p>
 
-  <p>A treia e <dfn>golul de estimare</dfn>: cât pierde fiindcă a văzut prea puțin text ca să-și fixeze numerele. Aceasta scade pe măsură ce datele cresc și dispare, în principiu, la infinit.</p>
+  <p>A treia este <dfn>golul de estimare</dfn>: ignoranța generată de lipsa de lectură. Modelul ar avea destui parametri pentru a pricepe o idee, dar nu a întâlnit suficiente exemple concrete pentru a-și calibra ponderile. Această eroare se dizolvă treptat pe măsură ce volumul de date crește.</p>
 
-  <p>Datele înlătură a treia parte, parametrii pe a doua, iar prima rămâne. De aici vine faptul că un cadran crescut singur se oprește: după ce partea lui de eroare s-a dus, restul nu-i mai răspunde.</p>
+  <p>Datele elimină golul de estimare, parametrii elimină golul de capacitate, iar entropia rămâne neatinsă ca o podea de netrecut. Dacă forțezi un singur aspect și le neglijezi pe celelalte, te lovești rapid de un zid: ai un motor supradimensionat care funcționează în gol sau o caroserie firavă copleșită de combustibil.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 40 30 44 54 46" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 18 C22 30 30 32 54 32" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M10 46 H54" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/></svg></span>Măsurătoarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 40 30 44 54 46" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 18 C22 30 30 32 54 32" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M10 46 H54" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/></svg></span>Experimentul de laborator: curbele de învățare</h2>
 
-  <p>Fenomenul se poate măsura exact pe un text al cărui generator e cunoscut. Sursa de mai jos produce semne dintr-un alfabet de opt, iar semnul următor depinde de ultimele trei, după un tabel fix; structura e așezată pe mai multe adâncimi, așa cum se întâmplă și în limbă. Fiindcă tabelul e cunoscut, entropia sursei și golul de capacitate al fiecărei mărimi de model se calculează prin formulă, nu prin ghicire.</p>
+  <p>Putem observa acest fenomen cu precizie matematică pe un generator sintetic ale cărui secrete le cunoaștem pe de-a-ntregul. Sursa de mai jos emite simboluri conform unui set strict de reguli ce depind de ultimele trei caractere. Știind formula exactă a sursei, putem calcula dinainte nivelul exact al entropiei și podeaua teoretică a fiecărui model.</p>
 
-  <p>Modelele sunt contoare de înșiruiri din lecția despre cuvântul următor, de patru mărimi: cel mic se uită la un semn în urmă, cel mare la patru.</p>
+  <p>Antrenăm patru modele de dimensiuni diferite: de la cel mai mic (care observă doar un caracter în urmă) până la cel mai mare (care ține cont de patru caractere).</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Pierderea pe text nemaivăzut, după cât text a văzut modelul</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Scăderea erorii pe text nevăzut în funcție de volumul de lectură</figcaption>
     <div class="stage">
       <canvas id="cvPlot" class="cv-plot"></canvas>
       <div class="key" id="pKey"></div>
@@ -787,18 +789,18 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fiecare curbă coboară și se oprește. Locul unde se oprește nu depinde de noroc: e golul de capacitate al modelului de mărimea aceea, calculat din tabelul sursei și desenat cu linie întreruptă. Modelul de ordinul unu se lipește de podeaua lui și nu mai coboară, oricât text ar primi.</p>
+  <p>Fiecare curbă coboară vertiginos la început, după care se nivelează și refuză să mai scadă. Plafonul nu este o întâmplare: este golul de capacitate al fiecărui model. Cel mai mic atinge podeaua imediat și nu mai învață nimic nou, oricâte milioane de caractere i-am furniza.</p>
 
-  <p>Modelul de ordinul trei e cel care se potrivește exact cu sursa, deci podeaua lui e chiar entropia sursei. Cel de ordinul patru are aceeași podea, fiindcă un semn în plus de context nu mai spune nimic, dar are de opt ori mai mulți parametri de estimat, deci ajunge acolo mult mai târziu. Mai mare nu înseamnă mai bun decât după ce a fost hrănit pe măsură.</p>
+  <p>Modelul de mărime potrivită ajunge exact la entropia sursei. În schimb, un model supradimensionat are aceeași podea finală, dar pentru că are mult mai mulți parametri de ajustat, are nevoie de mult mai mult text pentru a atinge performanța optimă. A fi „mai mare” nu înseamnă automat a fi „mai bun”, decât dacă modelul este hrănit cu date pe măsura mărimii sale.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="40" width="10" height="16" fill="#2F4BC4"/><rect x="22" y="30" width="10" height="26" fill="#2F4BC4"/><rect x="36" y="18" width="10" height="38" fill="#EE5A2F"/><rect x="50" y="8" width="8" height="48" fill="#BDB9AA"/><path d="M6 58 H60" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ce model merită la fiecare buget</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="40" width="10" height="16" fill="#2F4BC4"/><rect x="22" y="30" width="10" height="26" fill="#2F4BC4"/><rect x="36" y="18" width="10" height="38" fill="#EE5A2F"/><rect x="50" y="8" width="8" height="48" fill="#BDB9AA"/><path d="M6 58 H60" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Armonia bugetului: ce model alegem la fiecare etapă?</h2>
 
-  <p>Urmarea practică se vede punând curbele una lângă alta la fiecare cantitate de text.</p>
+  <p>Priviți clasamentul modelelor la diferite bugete de date din tabelul de mai jos:</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Cel mai bun model la fiecare cantitate de text</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Cel mai performant model pentru fiecare cantitate de text disponibilă</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblB"></table></div>
       <div class="readout" id="bRead"></div>
@@ -806,31 +808,27 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capB"></div>
   </figure>
 
-  <p>Modelul cel mai mare nu e cel mai bun decât dacă are text pe măsură. Pe puțin text, modelul mare e mai slab decât unul mai mic: are prea multe numere de estimat din prea puține exemple, iar rezultatul e zgomot. Pe mult text, ordinea se răstoarnă.</p>
+  <p>Lecția practică este fără echivoc: dacă ai puțin text, un model uriaș este o risipă curată și dă rezultate mai slabe decât un model compact! Neavând destule exemple pentru a ancora miile de parametri, modelul gigant începe să halucineze și să memoreze zgomot. Pe măsură ce muntele de date crește, ierarhia se inversează spectaculos, iar arhitecturile mai încăpătoare preiau conducerea.</p>
 
-  <p>Mărimea potrivită crește odată cu cantitatea de date. Aceasta e forma pe care o iau, la scară mare, alegerile din care se construiesc modelele de azi.</p>
+  <p>Mărimea optimă a creierului artificial crește mână în mână cu volumul de lectură oferit. Această regulă de bun-simț guvernează marile decizii economice din culisele laboratoarelor de inteligență artificială.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 L54 46" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="16" cy="18" r="3" fill="#2F4BC4"/><circle cx="28" cy="27" r="3" fill="#2F4BC4"/><circle cx="40" cy="36" r="3" fill="#2F4BC4"/><circle cx="50" cy="43" r="3" fill="#2F4BC4"/></svg></span>Legea de scalare</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 L54 46" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="16" cy="18" r="3" fill="#2F4BC4"/><circle cx="28" cy="27" r="3" fill="#2F4BC4"/><circle cx="40" cy="36" r="3" fill="#2F4BC4"/><circle cx="50" cy="43" r="3" fill="#2F4BC4"/></svg></span>Legile de scalare: o rețetă inginerească predictibilă</h2>
 
-  <p>Pusă pe axe logaritmice, coborârea unei curbe către podeaua ei e aproape o linie dreaptă. O linie dreaptă în logaritmi înseamnă că distanța până la podea scade ca o putere a cantității de text: se înjumătățește ori de câte ori textul crește de un anumit număr de ori. O astfel de relație se numește <dfn>lege de scalare</dfn>.</p>
+  <p>Când reprezentăm scăderea erorii pe axe logaritmice, traiectoria se transformă într-o linie dreaptă remarcabil de netedă. O linie dreaptă pe grafic logaritmic reflectă o <dfn>lege de putere</dfn>: de fiecare dată când multiplicăm resursele de un anumit număr de ori, distanța până la perfecțiune scade cu o proporție fixă și previzibilă.</p>
 
-  <p>Aceeași formă apare, la scări cu multe ordine de mărime mai mari, pentru modelele reale, cu trei mărimi legate între ele: numărul de parametri, cantitatea de text și calculul cheltuit. Ultimul e aproximativ produsul primelor două, fiindcă fiecare bucată de text trece o dată prin fiecare parametru.</p>
+  <p>Aceste reguli, numite <dfn>legi de scalare</dfn>, leagă între ele trei mărimi fundamentale: numărul de <b>parametri</b> ai rețelei (capacitatea cilindrică), volumul de <b>date</b> de lectură (combustibilul) și puterea totală de <b>calcul</b> (electricitatea consumată de procesoare). Faimosul studiu <i>Chinchilla</i> (2022) a demonstrat că, pentru a obține eficiență maximă dintr-un buget de calcul, parametrii și volumul de jetoane trebuie să fie dublate în proporții egale.</p>
 
-  <p>Un buget de calcul se poate deci cheltui în multe feluri: un model mare pe puțin text, sau unul mic pe mult text. Tabelul de mai sus e exact alegerea aceasta, făcută la scară mică și cu răspunsul verificabil.</p>
-
-  <p class="note">Legea spune cum coboară pierderea; ea nu spune ce anume devine posibil când pierderea coboară. Legătura dintre o pierdere mai mică și purtări noi nu e cuprinsă în formulă, iar aceasta rămâne partea nelămurită a subiectului. Se știe cu destulă precizie cât va coborî cifra; se știe mult mai puțin ce va ști să facă modelul când va coborî.</p>
+  <p class="note">Există totuși o mare enigmă care îi intrigă pe cercetători: legile de scalare pot estima cu o precizie de laborator cât de mult va scădea pierderea matematică, dar ele nu pot anticipa <i>ce abilități noi</i> va dobândi modelul! Scăderea treptată a unei fracțiuni de eroare deblochează dintr-o dată deducții logice, traduceri surprinzător de fluide și capacitatea de a scrie programe de calculator complexe.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 40 30 44 54 46" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 46 H54" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/><text x="52" y="42" text-anchor="end" font-family="monospace" font-size="9" fill="#EE5A2F">?</text></svg></span>Ce nu se transferă direct</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 40 30 44 54 46" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 46 H54" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/><text x="52" y="42" text-anchor="end" font-family="monospace" font-size="9" fill="#EE5A2F">?</text></svg></span>Unde este limita limbajului uman?</h2>
 
-  <p>Sursa din figuri are o adâncime adevărată, de trei semne, deci există o mărime de model dincolo de care nimic nu se mai câștigă. Textul scris de oameni n-are o astfel de margine: legăturile dintre cuvinte se întind pe fraze, paragrafe și capitole, iar podeaua nu s-a atins la nicio mărime încercată până acum.</p>
+  <p>În experimentul nostru simplificat, sursa avea o memorie de doar trei litere, așa că am putut atinge rapid podeaua absolută dincolo de care nu mai era nimic de învățat. Limba umană vie este însă infinit mai adâncă: o aluzie dintr-un roman poate trimite la o frază rostită cu trei capitole în urmă, la o tragedie greacă antică sau la o trăire psihologică nuanțată. Nimeni nu a atins încă podeaua absolută a limbajului, iar modelele continuă să se îmbunătățească pe măsură ce le oferim mai multă putere de calcul și texte mai bogate.</p>
 
-  <p>Aceasta e deosebirea dintre figură și realitate. Forma fenomenului, coborâre, podea, mărime potrivită care crește cu datele, se vede la fel; locul podelei, nu. Nimeni nu știe unde e podeaua limbii, și tocmai de aceea creșterea continuă.</p>
-
-  <p>Un model preantrenat produce, pentru fiecare poziție, o distribuție peste bucata următoare. Textul se naște abia când din distribuția aceea se alege efectiv ceva. Lecția următoare arată cum se face alegerea și ce se schimbă în text când ea devine mai îndrăzneață sau mai prudentă.</p>
+  <p>La capătul acestui stagiu masiv de preantrenare, modelul devine un maestru al probabilităților: el calculează la fiecare pas o distribuție de șanse pentru următorul cuvânt. Dar cum se transformă aceste procente abstracte într-un text coerent rostit pe ecran? În partea următoare, vom asista la nașterea dialogului: vom descoperi cum alege calculatorul cuvântul potrivit și cum se modelează personalitatea unei inteligențe artificiale.</p>
 </section>
 
 </main>

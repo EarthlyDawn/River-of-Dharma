@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Bistabilul</i></h1>
-    <p class="lede">Toate circuitele de până acum uită tot în clipa în care intrările dispar. Unul care ține minte se face din aceleași porți, legate altfel: undeva, un fir se întoarce înapoi. Din bucla aceea ies memoria, ceasul și, odată cu ele, timpul.</p>
+    <p class="lede">Toate circuitele pe care le-am întâlnit până acum suferă de o amnezie totală: uită totul în fracțiunea de secundă în care semnalele de intrare dispar. Pentru a construi un circuit care ține minte, nu avem nevoie de substanțe magice, ci de o simplă întoarcere: un fir de la ieșire se leagă înapoi la intrare. Din această buclă modestă se nasc memoria, ritmul ceasului și, odată cu ele, timpul ordonat al mașinii de calcul.</p>
     <p class="terms">Termeni: <b>circuit combinațional</b> <b>circuit secvențial</b> <b>SAU-NU</b> <b>zăvor</b> <b>validare</b> <b>bistabil</b> <b>front</b> <b>ceas</b> <b>registru</b></p>
   </div>
 </header>
@@ -748,15 +750,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 24 H20 M44 24 H58" class="o-line"/><rect x="20" y="14" width="24" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M52 24 V48 H12 V24" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-dasharray="4 3"/></svg></span>Circuite cu trecut și fără</h2>
 
-  <p class="first">Ieșirea unui sumator depinde numai de ce se află pe firele lui de intrare în clipa aceea. Schimbi intrările și ieșirea se schimbă odată cu ele; le scoți și ieșirea dispare. Circuitele de felul acesta se numesc <dfn>combinaționale</dfn>, iar tabelul de adevăr le descrie complet: la aceleași intrări, același răspuns, oricând și de oricâte ori.</p>
+  <p class="first">Ieșirea unui sumator seamănă cu o oglindă fidelă: ea reflectă strict ceea ce îi pui în față în clipa prezentă. Schimbi semnalele de la intrare, iar ieșirea se adaptează instantaneu; decuplezi firele, iar rezultatul dispare fără urmă. Asemenea circuite se numesc <dfn>combinaționale</dfn>. Ele nu au nicio memorie: sunt prizoniere ale prezentului, iar comportamentul lor este descris până la ultimul amănunt de tabelul de adevăr — aceleași intrări vor produce cu sfințenie aceleași ieșiri, astăzi, mâine sau peste zece ani.</p>
 
-  <p>Un calculator are nevoie însă și de altceva: de circuite care păstrează o valoare după ce cauza ei a dispărut. Un circuit a cărui ieșire depinde și de ce s-a întâmplat înainte se numește <dfn>secvențial</dfn>. Deosebirea nu vine din porți, care sunt aceleași, ci din felul în care sunt legate: într-un circuit secvențial există cel puțin o buclă, un drum pe care ieșirea se întoarce la intrare. E o idee cu greutate: memoria nu e un material nou, ci o formă. Aceleași piese, legate în cerc, capătă trecut.</p>
+  <p>Dar o mașină care doar reacționează mecanic la stimulul clipei nu poate purta un raționament lung. Un calculator trebuie să poată salva un rezultat intermediar, să facă o altă operație și să revină la ce a calculat mai devreme. Are nevoie de circuite a căror stare să depindă nu doar de ceea ce primesc acum, ci și de ceea ce s-a petrecut cu o clipă înainte. Acestea sunt circuitele <dfn>secvențiale</dfn>. Iar secretul lor nu rezidă în componente noi sau materiale exotice, ci într-o simplă idee de arhitectură: <dfn>bucla de reacție</dfn>, drumul prin care ieșirea unui circuit se întoarce și devine propria sa intrare. Memoria nu este o substanță nouă, ci o formă: aceleași porți logice, legate în cerc, dobândesc brusc o istorie și un trecut.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 20 L34 20 L26 32 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2" transform="rotate(90 24 26)"/><path d="M50 44 L30 44 L38 32 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2" transform="rotate(90 40 38)"/><path d="M32 12 H50 V30 M32 52 H14 V34" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Bucla care se ține de ea însăși</h2>
 
-  <p>Două porți NU legate în cerc, ieșirea primei la intrarea celei de-a doua și ieșirea celei de-a doua înapoi la intrarea primei, nu pot sta decât în două feluri. Dacă un capăt e 0, celălalt e 1, iar fiecare poartă găsește la intrare exact ce îi trebuie ca să producă ceea ce produce. Configurația se susține singură și nu are niciun motiv să se schimbe.</p>
+  <p>Să ne imaginăm două porți inversoare NU conectate cap la cap, într-un cerc închis: ieșirea primeia intră în a doua, iar ieșirea celei de-a doua se leagă înapoi la intrarea primeia. Este ca doi oameni care stau față în față și decid să spună mereu contrariul a ceea ce aude de la celălalt. Dacă primul spune „0”, al doilea rostește neapărat „1”. Auzind „1”, primul își menține neclintit răspunsul „0”. Fiecare poartă găsește la intrare exact justificarea de care are nevoie pentru a-și păstra starea.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Două porți NU în cerc</figcaption>
@@ -768,15 +770,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Bucla ține un bit atâta vreme cât are curent, fără să-l primească de nicăieri și fără să-l piardă. Ce îi lipsește e o cale de scriere: singurul fel de a-i schimba valoarea e să i-o impui cu forța, apăsând un capăt mai tare decât apasă poarta care îl comandă. Butoanele de mai sus fac tocmai asta, și e o metodă proastă: ca să scrii, trebuie să te lupți cu circuitul.</p>
+  <p>Acest inel simplu are două stări perfect stabile și nu are niciun motiv din lume să iasă vreodată din ele: sus 1 și jos 0, ori sus 0 și jos 1. El ține minte un bit fără să mai ceară nimic din exterior, atâta timp cât este alimentat cu curent. Însă buclei îi lipsește ceva esențial: o ușă civilizată de acces. Singurul mod în care îi putem schimba starea în experimentul de mai sus este să forțăm brutal un nod electric din afară, luptându-ne cu tensiunea susținută de poartă. Este evident că avem nevoie de o cale elegantă de a scrie o valoare nouă fără să intrăm în conflict cu circuitul.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 14 H18 M6 50 H18 M46 20 H58 M46 44 H58" class="o-line"/><path d="M18 10 Q30 20 18 30 Q36 28 40 20 Q36 12 18 10 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M18 34 Q30 44 18 54 Q36 52 40 44 Q36 36 18 34 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M42 20 V30 H14 V38 M42 44 V34 H14 V26" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Zăvorul</h2>
 
-  <p>Soluția e să se lase loc, în chiar porțile buclei, pentru un semnal de comandă. O poartă <dfn>SAU-NU</dfn>, un SAU urmat de un NU, dă 1 numai când toate intrările ei sunt 0. Cu o intrare pusă pe 0 ea se poartă ca o poartă NU pentru cealaltă intrare, deci poate lua locul porților din buclă fără să schimbe nimic; iar când intrarea de comandă urcă la 1, ieșirea e trasă la 0 indiferent de buclă.</p>
+  <p>Soluția strălucită este să înlocuim porțile NU cu porți care au două intrări: una rămâne în buclă pentru a susține memoria, iar a doua devine intrare de comandă din exterior. Poarta ideală pentru acest rol este <dfn>SAU-NU</dfn> (NOR). Atâta timp cât intrarea de comandă stă liniștită la 0, poarta SAU-NU se comportă exact ca un inversor NU obișnuit, iar inelul își păstrează nestingherit starea. Însă în clipa în care ridicăm comanda la 1, ieșirea este forțată la 0 din motive logice pure, deschizând zăvorul fără nicio luptă electrică.</p>
 
-  <p>Două astfel de porți legate încrucișat formează un <dfn>zăvor</dfn>. Intrarea care pune ieșirea pe 1 se numește <i>înscriere</i>, cea care o pune pe 0, <i>ștergere</i>. Cu amândouă pe 0, zăvorul păstrează ce avea. E prima memorie adevărată din curs: un bit care se poate scrie fără luptă și care rămâne.</p>
+  <p>Două asemenea porți conectate încrucișat alcătuiesc un <dfn>zăvor</dfn> (latch). Circuitul are două intrări prietenoase: una numită <i>înscriere</i> (Set), care așază ieșirea pe 1, și alta numită <i>ștergere</i> (Reset), care o aduce la 0. Când ambele comenzi revin la 0, zăvorul se blochează și păstrează valoarea neschimbată la nesfârșit. Iată prima celulă veritabilă de memorie statică: un bit care poate fi scris cu un impuls scurt și care rămâne pe loc după ce impulsul a încetat.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Zăvorul din două porți SAU-NU</figcaption>
@@ -789,19 +791,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Combinația cu amândouă intrările pe 1 trage amândouă ieșirile la 0, ceea ce strică regula după care ele sunt una opusul celeilalte. Mai rău, la coborârea lor simultană înapoi la 0 cele două porți pornesc în cursă, iar cine ajunge primul hotărăște starea rămasă. Rezultatul depinde de mărunte deosebiri de fabricație, deci nu se poate prezice. Combinația aceasta se ocolește: e primul loc din curs unde fizica, cu întârzierile ei, iese la iveală de sub logică.</p>
+  <p>Dar ce se întâmplă dacă apăsăm ambele butoane deodată? Ambele ieșiri sunt forțate la 0, încălcând regula firească după care ele trebuie să fie complementare. Iar dacă eliberăm ambele comenzi în aceeași microsecundă, cele două porți se prăbușesc într-o cursă contracronometru pe viață și pe moarte: oricare dintre ele reacționează chiar și cu o nanosecundă mai repede o va bloca pe cealaltă. Rezultatul final devine imprevizibil, depinzând de imperfecțiunile minuscule ale atomilor de siliciu. Aceasta este o stare interzisă — locul fascinant în care fizica materială, cu întârzierile și asperitățile ei, străpunge fațada elegantă a logicii ideale.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 44 H14 V20 H26 V44 H38 V20 H50 V44 H60" fill="none" stroke="#5F6D2E" stroke-width="3"/><path d="M14 12 V52 M38 12 V52" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Ceasul și frontul</h2>
 
-  <p>Un zăvor cu o singură intrare de date se face punând înaintea lui o poartă care lasă datele să treacă numai când un al doilea semnal, numit <dfn>validare</dfn>, este 1. Cât timp validarea stă sus, ieșirea urmează intrarea pas cu pas: zăvorul e <i>transparent</i>. Când validarea coboară, ultima valoare rămâne prinsă.</p>
+  <p>Pentru a stăpâni zăvorul, îi putem adăuga la intrare o poartă de gardă, controlată de un semnal numit <dfn>validare</dfn>. Cât timp validarea este 1, ușa este larg deschisă, iar ieșirea urmărește intrarea clipă de clipă — spunem că zăvorul este <i>transparent</i>. În momentul în care validarea cade la 0, ușa se trântește, iar ultima valoare rămasă înăuntru este înghețată.</p>
 
-  <p>Transparența e o problemă acolo unde ieșirea unui circuit ajunge, prin alte porți, înapoi la propria lui intrare. Cât timp validarea stă sus, valoarea nouă apucă să facă turul buclei și să se schimbe din nou, poate de mai multe ori, iar rezultatul depinde de întârzierile firelor.</p>
+  <p>Totuși, transparența ascunde o mare primejdie. Dacă ieșirea unui circuit este conectată, printr-un lanț de alte porți, înapoi la propria sa intrare, menținerea ușii deschise chiar și pentru un timp scurt permite semnalului nou să facă turul buclei de mai multe ori la rând, zăpăcind circuitul într-o oscilație haotică. Avem nevoie de un mecanism care să nu lase poarta deschisă pe un interval de timp, ci să captureze valoarea într-o singură clipă infinitezimală.</p>
 
-  <p>Leacul e să se prindă valoarea într-o singură clipă, nu pe un răstimp. Două zăvoare legate unul după altul, comandate de faze opuse ale aceluiași semnal, fac exact asta: primul se deschide când al doilea e închis și invers, așa că nicio valoare nu poate trece de la intrare la ieșire dintr-o singură dată. Circuitul rezultat se numește <dfn>bistabil</dfn> și își schimbă ieșirea numai în clipa în care semnalul de comandă urcă; clipa aceea se numește <dfn>front</dfn>.</p>
+  <p>Gândiți-vă la un sas de ecluză sau la două uși succesive ale unui submarin: prima ușă se deschide pentru a primi pasagerul doar atunci când a doua ușă este zăvorâtă etanș. Apoi prima ușă se închide, iar a doua se deschide pentru a-i da drumul mai departe. Niciodată nu există o cale liberă de la un capăt la altul! Legând două zăvoare în cascadă, comandate în opoziție de fază, obținem un <dfn>bistabil</dfn> (flip-flop). El își actualizează ieșirea exclusiv în momentul precis în care semnalul de comandă trece de la 0 la 1. Această tranziție fulgerătoare se numește <dfn>front crescător</dfn> (sau muchie de ceas).</p>
 
-  <p>Semnalul care urcă și coboară regulat și dă tuturor bistabilelor din circuit aceeași clipă de referință se numește <dfn>ceas</dfn>. Cu el, un calculator capătă ceva ce porțile singure nu aveau: un „acum” comun, împărțit în pași, în care lucrurile se întâmplă în ordine.</p>
+  <p>Semnalul ritmic care urcă și coboară neobosit, oferind tuturor bistabilelor din cip același reper temporal comun, este <dfn>ceasul</dfn>. Odată cu el, calculatorul capătă o inimă care pulsează regulat: un „acum” sincronizat în pași limpezi, în care haosul continuu al naturii este disciplinat într-o succesiune ordonată de pași impecabili.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceleași date, prinse în două feluri</figcaption>
@@ -817,13 +819,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Pe urma de sus, zăvorul copiază datele oricând ceasul e sus, deci sare de câte ori se schimbă intrarea în răstimpul acela. Pe urma de jos, bistabilul se uită o singură dată, exact pe muchia care urcă, și nu-l mai interesează ce se întâmplă până la următoarea.</p>
+  <p>Urmăriți cele două trasee din desenul de mai sus: zăvorul de sus copiază fidel datele pe toată durata în care semnalul este sus, tremurând la fiecare fluctuație a intrării. În schimb, bistabilul de jos este impasibil: el „fotografiază” intrarea doar în clipa exactă a frontului crescător și ignoră complet orice agitație ulterioară până la următorul tact de ceas.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="24" width="10" height="16"/><rect x="30" y="24" width="10" height="16"/><rect x="42" y="24" width="10" height="16"/></g><rect x="18" y="24" width="10" height="16" fill="#BDB9AA"/><rect x="54" y="24" width="6" height="16" fill="#BDB9AA"/><path d="M4 48 H62" fill="none" stroke="#5F6D2E" stroke-width="3"/><path d="M4 14 H62" class="o-line"/></svg></span>Registrul</h2>
 
-  <p>Opt bistabile alăturate, legate la același ceas, țin un octet. Ansamblul se numește <dfn>registru</dfn>. Intrările lui pot fi schimbate oricând; valoarea păstrată se schimbă numai la front.</p>
+  <p>Dacă aliniem opt bistabile și le conectăm pe toate la aceeași linie comună de ceas, obținem un dispozitiv care poate imortaliza un octet întreg la fiecare bătaie de inimă. Acest grup compact poartă numele de <dfn>registru</dfn>. Putem schimba semnalele de la intrare cum dorim; octetul păstrat înăuntru nu se va clinti decât în clipa în care sosește frontul de ceas.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Opt bistabile, un singur ceas</figcaption>
@@ -839,9 +841,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Memoria aceasta se pierde la întreruperea curentului: bucla nu are ce să susțină starea când nu mai trece nimic prin ea. Registrele dinăuntrul unui procesor sunt exact bistabile ca cele de mai sus. Memoria de lucru a unui calculator folosește o schemă mai ieftină, cu un singur tranzistor și un condensator pentru fiecare bit, care ține sarcina câteva miliseconde și trebuie împrospătată necontenit.</p>
+  <p class="note">Această memorie este volatilă: dacă tăiem alimentarea cu energie, buclele de reacție se sting, iar conținutul se pierde instantaneu. Registrele din miezul procesorului sunt construite exact din asemenea bistabile ultrarapide. În schimb, memoria mare de lucru (RAM) a calculatorului folosește o soluție mai densă și mai economică: fiecare bit este ținut ca o sarcină minusculă într-un condensator microscopic, care trebuie reîmprospătat de sute de ori pe secundă înainte de a se descărca.</p>
 
-  <p>Există acum circuite care calculează și circuite care țin minte, iar ceasul le dă tuturor aceeași clipă de referință. Un pas de calcul devine astfel ceva bine delimitat: între două fronturi, valorile ies din registre, trec prin porți și se așază la intrarea altor registre, unde așteaptă frontul următor. Lecția următoare leagă piesele: un ceas, câteva registre, un sumator și un circuit care alege ce se întâmplă la fiecare tact.</p>
+  <p>Priviți cât de departe am ajuns: avem acum circuite capabile să facă calcule matematice (sumatorul) și circuite capabile să țină minte valorile (registrele), toate coordonate de un ceas care le sincronizează perfect pașii. Între două bătăi succesive de ceas, datele ies dintr-un registru, străbat porțile aritmetice, își schimbă valorile și se așază cuminți la intrarea următorului registru, așteptând următorul impuls pentru a fi înregistrate. În lecția următoare asamblăm toate aceste piese la un loc: ceasul, registrele, sumatorul și o unitate de comandă care hotărăște ce se petrece la fiecare pas. A sosit clipa să construim procesorul.</p>
 </section>
 
 </main>

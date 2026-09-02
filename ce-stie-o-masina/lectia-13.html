@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Coborârea <i>pantei</i></h1>
-    <p class="lede">Costul are o vale, iar butoanele trebuie duse în ea. Metoda folosită peste tot, de la dreapta cu două butoane la modelele cu miliarde, nu se uită niciodată la mai mult decât la locul în care se află: pipăie panta sub picioare și face un pas la vale.</p>
+    <p class="lede">Funcția de cost desenează un relief plin de dealuri și văi, iar misiunea noastră este să aducem butoanele pe fundul văii, unde eroarea este minimă. Algoritmul universal care face asta — de la cea mai simplă dreaptă până la rețelele neuronale uriașe de astăzi — funcționează ca un călător prins în ceață pe munte: pipăie panta solului sub tălpi și face cu răbdare un pas la vale.</p>
     <p class="terms">Termeni: <b>coborârea pantei</b> <b>pantă · derivată</b> <b>gradient</b> <b>rată de învățare</b> <b>normalizare</b> <b>coborâre stocastică</b></p>
   </div>
 </header>
@@ -746,19 +748,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="6" width="8" height="8"/><rect x="18" y="6" width="8" height="8"/><rect x="30" y="6" width="8" height="8"/><rect x="42" y="6" width="8" height="8"/><rect x="6" y="18" width="8" height="8"/><rect x="18" y="18" width="8" height="8"/><rect x="30" y="18" width="8" height="8"/><rect x="6" y="30" width="8" height="8"/><rect x="18" y="30" width="8" height="8"/><rect x="6" y="42" width="8" height="8"/></g><path d="M40 40 L58 58 M58 40 L40 58" fill="none" stroke="#B5232B" stroke-width="3"/></svg></span>Căutarea care nu se poate face</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="6" width="8" height="8"/><rect x="18" y="6" width="8" height="8"/><rect x="30" y="6" width="8" height="8"/><rect x="42" y="6" width="8" height="8"/><rect x="6" y="18" width="8" height="8"/><rect x="18" y="18" width="8" height="8"/><rect x="30" y="18" width="8" height="8"/><rect x="6" y="30" width="8" height="8"/><rect x="18" y="30" width="8" height="8"/><rect x="6" y="42" width="8" height="8"/></g><path d="M40 40 L58 58 M58 40 L40 58" fill="none" stroke="#B5232B" stroke-width="3"/></svg></span>Căutarea oarbă care devine imposibilă</h2>
 
-  <p class="first">Cu două butoane și o sută de poziții pe fiecare ies zece mii de încercări, care se fac într-o clipită; așa a lucrat butonul „încearcă toate combinațiile” din lecția a unsprezecea. Cu zece butoane ies o sută de miliarde de miliarde. Un model de astăzi are sute de miliarde de butoane, iar încercarea tuturor combinațiilor nu e doar impracticabilă, ci lipsită de sens: numărul lor depășește orice mărime fizică din univers.</p>
+  <p class="first">Când avem doar două butoane și testăm câte o sută de poziții pentru fiecare, obținem zece mii de combinații. Un calculator modern le parcurge într-o clipită — exact așa a funcționat căutarea automată din lecția 11. Dar ce se întâmplă când modelul are zece butoane? Numărul combinațiilor sare la o sută de miliarde de miliarde.</p>
 
-  <p>Rămâne o singură cale, și e una modestă: să se plece dintr-un loc oarecare și să se facă îmbunătățiri mici, folosind numai ce se poate afla acolo unde te afli. Metoda se numește <dfn>coborârea pantei</dfn>. E ca și cum ai coborî un munte în ceață deasă: nu vezi valea, dar simți sub tălpi încotro coboară solul, și faci un pas într-acolo.</p>
+  <p>Iar marile modele de limbaj de astăzi au sute de miliarde de parametri. Încercarea la întâmplare sau testarea tuturor combinațiilor nu mai este doar lentă, ci fizic imposibilă: numărul încercărilor ar depăși cu mult numărul atomilor din universul observabil.</p>
+
+  <p>Suntem nevoiți să apelăm la o strategie mult mai înțeleaptă și mai modestă: pornim dintr-un punct oarecare și facem ajustări mici, folosind exclusiv indiciile pe care le putem culege chiar acolo unde ne aflăm. Această metodă se numește <dfn>coborârea pantei</dfn> (sau <i>gradient descent</i>). Este exact ca și cum te-ai afla pe un munte învăluit într-o ceață densă: nu poți vedea satul din vale, dar dacă simți cu tălpile că pământul coboară spre stânga, faci un pas prudent în acea direcție.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 Q32 62 58 20" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M14 26 L34 46" fill="none" stroke="#B58A12" stroke-width="3"/><circle cx="24" cy="36" r="5" fill="#B58A12"/></svg></span>Panta unui buton</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 Q32 62 58 20" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M14 26 L34 46" fill="none" stroke="#B58A12" stroke-width="3"/><circle cx="24" cy="36" r="5" fill="#B58A12"/></svg></span>Panta unui singur buton</h2>
 
-  <p>Se ține un buton pe loc și se mișcă numai celălalt. Costul devine atunci o curbă: o valoare pentru fiecare poziție a butonului mișcat. Curba întreagă nu se cunoaște; a o desena ar însemna tocmai încercarea tuturor pozițiilor, adică lucrul de evitat.</p>
+  <p>Să simplificăm lucrurile: lăsăm un buton complet nemișcat și ne jucăm doar cu celălalt. În acel moment, costul devine o simplă curbă — o valoare a erorii pentru fiecare poziție a butonului activ. În realitate, nu cunoaștem dinainte această curbă pe de-a-ntregul; a o desena dinainte ar însemna să testăm toate pozițiile, exact risipa pe care vrem să o evităm.</p>
 
-  <p>Ce se poate afla e local. Se mișcă butonul cu foarte puțin într-o parte, apoi cu foarte puțin în cealaltă, și se compară cele două costuri. Diferența spune încotro scade costul și cât de repede. Mărimea aceasta, cât se schimbă costul la o mișcare foarte mică a unui buton, se numește <dfn>panta</dfn> costului după acel buton sau, cu numele ei din matematică, <dfn>derivata</dfn>. Nu e nevoie de nimic altceva despre derivate ca să înțelegem tot ce urmează: o derivată e o pantă, iar o pantă se află pipăind.</p>
+  <p>Tot ce putem afla este strict local. Mișcăm butonul o fracțiune de milimetru spre stânga, apoi o fracțiune spre dreapta, și comparăm cele două costuri. Diferența ne spune imediat încotro coboară terenul și cât de repede scade eroarea. Această măsură — cu cât se modifică eroarea la o mișcare minusculă a unui parametru — este <dfn>panta</dfn> sau, în limbaj matematic, <dfn>derivata</dfn>. Nu ai nevoie de formule complicate pentru a o înțelege: derivata este pur și simplu înclinația solului pe care o simți sub picioare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un singur buton mișcat, restul curbei ascuns</figcaption>
@@ -771,15 +775,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Când cele două tălpi ajung la aceeași înălțime, panta e zero: orice mișcare mică, în orice parte, urcă. Acolo e fundul văii, după acel buton.</p>
+  <p>Când ambele tălpi ajung la același nivel orizontal, panta devine zero: orice mișcare într-o parte sau alta ar însemna să urci. Acolo ai atins fundul văii pentru acel buton.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 H56 M32 32 V8" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M32 32 L52 12" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M32 32 L12 52" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M12 52 L14 44 M12 52 L20 50" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="4" fill="#22252D"/></svg></span>Gradientul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 H56 M32 32 V8" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M32 32 L52 12" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M32 32 L12 52" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M12 52 L14 44 M12 52 L20 50" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="4" fill="#22252D"/></svg></span>Gradientul: busola care arată drumul</h2>
 
-  <p>Fiecare buton are panta lui, măsurată în același fel, cu celelalte ținute pe loc. Pantele tuturor butoanelor, luate împreună, formează o săgeată care arată direcția în care costul crește cel mai repede. Săgeata se numește <dfn>gradient</dfn>. Cu două butoane e o săgeată pe o hartă; cu un miliard, e tot o săgeată, doar că într-un spațiu pe care nimeni nu-l poate vedea, și metoda nu are nevoie să-l vadă.</p>
+  <p>Fiecare buton are propria sa pantă, măsurată independent, ținându-le pe celelalte nemișcate. Dacă punem laolaltă toate aceste înclinații, obținem o săgeată unică ce indică direcția în care costul crește cel mai abrupt. Această săgeată combinată se numește <dfn>gradient</dfn>.</p>
 
-  <p>Pasul se face exact în sens invers. Nimic mai mult: se calculează gradientul acolo unde te afli, se merge puțin împotriva lui, se recalculează.</p>
+  <p>Dacă avem două butoane, gradientul este o săgeată pe o hartă plană. Dacă avem un miliard de butoane, gradientul este tot o săgeată matematică, doar că trăiește într-un spațiu cu un miliard de dimensiuni. Mintea umană nu poate vizualiza un asemenea spațiu, dar algoritmul nu are nevoie să-l vadă: el are nevoie doar de cifrele acelei săgeți.</p>
+
+  <p>Regula de aur este fermecător de simplă: facem pasul <b>exact în sensul opus săgeții</b>. Calculăm gradientul în punctul în care ne aflăm, facem un pas mic la vale împotriva lui, recalculăm panta în noul loc și repetăm procesul.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Terenul costului, în ceață; apasă sau trage ca să muți poziția</figcaption>
@@ -799,11 +805,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 14 Q32 60 58 14" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M10 18 L20 34 L30 44 L38 46 L32 40" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M10 18 L46 40 L18 46 L54 22" fill="none" stroke="#B5232B" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Pasul și rata de învățare</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 14 Q32 60 58 14" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M10 18 L20 34 L30 44 L38 46 L32 40" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M10 18 L46 40 L18 46 L54 22" fill="none" stroke="#B5232B" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Lungimea pasului: rata de învățare</h2>
 
-  <p>Cât de departe se merge în direcția aleasă e singura mărime din toată metoda pe care o hotărăște omul, nu datele. Ea se numește <dfn>rată de învățare</dfn>.</p>
+  <p>Cât de mare trebuie să fie pasul pe care îl facem la vale? Aceasta este singura decizie critică pe care nu o pot lua datele singure, ci trebuie aleasă de om. Ea se numește <dfn>rată de învățare</dfn> (sau <i>learning rate</i>).</p>
 
-  <p>Prea mică, drumul e corect și nesfârșit. Prea mare, pasul trece dincolo de vale și urcă pe versantul opus, mai sus decât a plecat; dacă depășirea crește la fiecare pas, costul explodează în câteva runde. Între cele două există un prag precis, pe care figura îl afișează, iar meseria de a antrena modele e, într-o măsură surprinzătoare, meseria de a alege bine acest număr.</p>
+  <p>Dacă rata este prea mică, pașii sunt minusculi și prudenți; coborârea este corectă, dar poate dura o veșnicie. Dacă rata este prea mare, pasul devine un salt uriaș: sari peste fundul văii și aterizezi pe versantul opus, mai sus decât ai plecat. Dacă continui așa, sari tot mai haotic dintr-o parte în alta, iar eroarea explodează în câteva secunde. Arta de a antrena rețele neuronale este, într-o măsură uriașă, arta de a regla cu măiestrie această mărime a pasului.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Coborâre completă; apasă pe teren ca să alegi punctul de plecare</figcaption>
@@ -828,19 +834,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="28" ry="8" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="32" rx="16" ry="4" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="12" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>De ce contează scara mărimilor</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="28" ry="8" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="32" rx="16" ry="4" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="12" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>De ce contează scara mărimilor (normalizarea)</h2>
 
-  <p>Butonul de normalizare schimbă unitățile: în locul kilometrilor se folosește abaterea fiecărei distanțe față de media lor, împărțită la împrăștierea lor. Modelul rămâne același și dreapta potrivită rămâne aceeași; se schimbă numai cifrele cu care sunt scrise butoanele.</p>
+  <p>Apasă pe butonul <b>„Normalizează mărimile”</b> din figură. Acest buton schimbă unitățile de măsură: în loc de distanțe brute exprimate în zeci de kilometri, exprimăm fiecare distanță ca o abatere față de media tuturor călătoriilor. Modelul final și dreapta optimă rămân absolut neschimbate; se schimbă doar cifrele scrise pe cadranele butoanelor.</p>
 
-  <p>Terenul, în schimb, se schimbă radical. În kilometri, valea e un jgheab lung și îngust: o mișcare mică a înclinării schimbă costul enorm, iar o mișcare mică a pornirii abia îl atinge. Coborârea se lovește de pereții jgheabului și înaintează în zigzag, cu pași mărunți. În mărimi normalizate, valea devine aproape rotundă, iar coborârea merge drept la fund în câțiva pași.</p>
+  <p>Privește însă ce se întâmplă cu relieful: în kilometri neprelucrați, valea era un canion lung, îngust și deformat. O mică rotire a pantei arunca eroarea în aer, în timp ce pornirea abia dacă mișca ceva. Coborârea se lovește continuu de pereții abrupți, înaintând într-un zigzag lent și chinuit. Când aducem datele la aceeași scară, canionul devine un castron aproape perfect rotund! Pașii se îndreaptă glonț spre fundul văii.</p>
 
-  <p>Deosebirea nu e de câteva procente. Numărul de pași până la vale scade de zeci sau sute de ori, iar rata de învățare care încă mai funcționează crește pe măsură. De aceea normalizarea datelor e primul lucru care se face înaintea antrenării, în aproape orice sistem. E o lecție de un fel aparte: același model, aceleași date, același răspuns final, și totuși felul în care sunt scrise numerele hotărăște dacă drumul până la răspuns durează o clipă sau o veșnicie.</p>
+  <p>Numărul de pași necesari scade de zeci sau chiar sute de ori! Iată o lecție prețioasă: aceleași date și același model pot ajunge la soluție fie într-o clipă, fie după ore întregi de chin, doar din felul în care sunt calibrate scalele numerice înainte de antrenare.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 20 Q14 52 24 34 T44 40 T62 14" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><circle cx="14" cy="40" r="4" fill="#B58A12"/><circle cx="46" cy="42" r="4" fill="#B58A12"/></svg></span>Văi cu mai multe funduri</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 20 Q14 52 24 34 T44 40 T62 14" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><circle cx="14" cy="40" r="4" fill="#B58A12"/><circle cx="46" cy="42" r="4" fill="#B58A12"/></svg></span>Capcana văilor multiple și șeile de munte</h2>
 
-  <p>Terenul de până acum are o singură vale, fiindcă modelul e o dreaptă și costul e media pătratelor. Însușirea aceasta se pierde imediat ce modelul se complică. Un teren cu mai multe văi oprește coborârea în prima în care intră, iar care anume e aceea depinde de locul de pornire.</p>
+  <p>Terenul neted cu o singură vale pe care l-am explorat până acum există pentru că modelul nostru este o simplă linie dreaptă. De îndată ce construim modele mai expresive, relieful devine accidentat, plin de dealuri, văi adânci și depresiuni locale. O bilă lăsată să se rostogolească se poate opri în prima groapă pe care o întâlnește, fără să mai ajungă la valea cea mai adâncă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Un teren cu două văi; trage bila și dă-i drumul</figcaption>
@@ -852,19 +858,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Situația pare gravă și se dovedește, în practică, mult mai puțin gravă decât pare. La modelele cu multe butoane, punctele în care toate pantele sunt zero sunt rareori funduri de vale: aproape întotdeauna sunt șei, care urcă într-o direcție și coboară în alta, iar coborârea găsește direcția care coboară. Iar văile diferite ajung, de obicei, la costuri asemănătoare. Spațiile cu multe dimensiuni au intuiții proprii, adesea contrare celor din două dimensiuni, și aceasta e una dintre ele.</p>
+  <p>Această problemă pare descurajantă, dar în practică spațiile cu mii sau milioane de dimensiuni ne rezervă o surpriză plăcută: adevăratele funduri de vale izolate sunt surprinzător de rare. Cele mai multe zone plate sunt de fapt „șei de munte” (locuri care urcă într-o direcție, dar coboară în altele). În plus, chiar dacă algoritmul se oprește într-o vale secundară, în modelele uriașe calitatea soluției de acolo este aproape la fel de bună ca în oricare altă vale rezonabilă.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q20 30 30 40 T50 24 T60 30" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M6 50 Q28 26 60 20" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="4 3"/><g class="o-grid"><circle cx="30" cy="40" r="3"/><circle cx="50" cy="24" r="3"/></g></svg></span>Ce se schimbă la scară adevărată</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q20 30 30 40 T50 24 T60 30" fill="none" stroke="#B58A12" stroke-width="2.5"/><path d="M6 50 Q28 26 60 20" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="4 3"/><g class="o-grid"><circle cx="30" cy="40" r="3"/><circle cx="50" cy="24" r="3"/></g></svg></span>Cum arată coborârea la scară adevărată</h2>
 
-  <p>Trei lucruri din figurile de mai sus sunt simplificări, și merită numite ca atare.</p>
+  <p>Pentru a înțelege cum lucrează sistemele reale de inteligență artificială, merită să dezvăluim trei simplificări pe care le-am folosit în demonstrațiile de mai sus:</p>
 
-  <p>Pantele nu se măsoară pipăind. Pipăitul cere două calcule ale costului pentru fiecare buton, ceea ce pentru un milion de butoane ar însemna două milioane de treceri prin model la fiecare pas. Ele se obțin printr-un calcul care le scoate pe toate deodată, dintr-o singură trecere înapoi prin model, iar acela e subiectul lecției a șaptesprezecea.</p>
+  <p>În primul rând, pantele nu se măsoară prin „pipăit” pas cu pas la fiecare buton. Dacă un model are un miliard de parametri, pipăitul ar cere două miliarde de calcule doar pentru un singur pas! În practică, pantele tuturor parametrilor se calculează simultan, dintr-o singură trecere înapoi prin model — mecanismul ingenios numit <i>propagare înapoi</i>, pe care îl vom descoperi în lecția 17.</p>
 
-  <p>Terenul nu stă pe loc. La antrenarea adevărată, costul se calculează la fiecare pas pe un alt pachet de exemple, luat la întâmplare din mulțimea lor, fiindcă folosirea tuturor ar fi prea scumpă. Panta măsurată e atunci o estimare zgomotoasă a celei adevărate, iar drumul e mai zbârlit decât cel din figuri. Procedeul se numește <dfn>coborâre stocastică</dfn>, iar zgomotul lui se dovedește adesea folositor: ajută la ieșirea din văi mici.</p>
+  <p>În al doilea rând, terenul nu stă nemișcat. Într-un antrenament real pe milioane de texte sau imagini, costul se calculează la fiecare pas doar pe un mic pachețel de exemple alese la întâmplare. Aceasta se numește <dfn>coborâre stocastică</dfn> (SGD). Terenul se clatină ușor la fiecare pas, iar drumul este mai zdruncinat; dar această mișcare zgomotoasă este o binecuvântare: ajută bila să sară din micile gropi accidentale și să continue coborârea.</p>
 
-  <p>Fundul văii nu e ținta adevărată. Coborârea găsește butoanele care greșesc cel mai puțin pe exemplele văzute. Ce se întâmplă pe exemplele nevăzute e o altă chestiune, și e subiectul lecției următoare. Nimic din metodă nu s-a sprijinit pe faptul că modelul e o dreaptă: e nevoie doar de niște butoane și de un cost care se schimbă lin când butoanele se mișcă. Orice model construit astfel se poate coborî la fel, și tocmai asta face metoda universală.</p>
+  <p>În sfârșit, fundul văii pe datele cunoscute nu este ținta supremă. Coborârea găsește reglajul ideal pentru exemplele pe care le-a văzut deja. Dar cum se va descurca modelul pe exemple complet noi, pe care nu le-a întâlnit niciodată? Aceasta este marea provocare a <i>supraînvățării</i>, pe care o vom explora chiar în lecția următoare.</p>
 </section>
 
 </main>

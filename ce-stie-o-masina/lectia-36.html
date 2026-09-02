@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,28 +740,28 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Textul care <i>trage</i> imaginea</h1>
-    <p class="lede">Modelul din lecția precedentă scotea ceva din tot ce învățase, fără să întrebe nimeni ce anume. Ca descrierea să conteze, ea trebuie să intre în socoteala fiecărui pas. Cât de tare trage e o manetă cu două tăișuri, și amândouă se pot măsura.</p>
-    <p class="terms">Termeni: <b>condiționare</b> <b>atenție încrucișată</b> <b>sămânță</b> <b>ghidare</b></p>
+    <p class="lede">Până acum, modelele noastre desenau liber din tot ce învățaseră, fără ca cineva să le poată cere o temă anume. Dar cum convingi o furtună de purici să se transforme la comandă într-un apus de soare sau într-o siluetă precisă? Cuvintele noastre trebuie să devină forțe active care călăuzesc pensula difuziei la fiecare pas. Iar cât de tare lăsăm textul să tragă de imagine este o manetă subtilă cu două tăișuri, pe care o putem măsura și stăpâni.</p>
+    <p class="terms">Termeni cheie: <b>condiționare text-imagine</b> <b>atenție încrucișată (cross-attention)</b> <b>sămânță aleatorie (seed)</b> <b>ghidare fără clasificator (CFG)</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="26" height="12" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M12 16 H30" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M21 22 V32 H40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M37 28 L41 32 L37 36" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="50" cy="32" r="8" fill="#EE5A2F"/><path d="M8 50 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Cum intră descrierea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="26" height="12" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M12 16 H30" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M21 22 V32 H40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M37 28 L41 32 L37 36" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="50" cy="32" r="8" fill="#EE5A2F"/><path d="M8 50 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Cuvintele care ghidează pensula: condiționarea</h2>
 
-  <p class="first">Rețeaua care numește zgomotul primea până acum două lucruri: punctul și nivelul de zgomot. Acum primește un al treilea: o descriere. Ea intră ca un vector, alături de celelalte intrări, iar rețeaua e antrenată cu el de față. Etapa aceasta se numește <dfn>condiționare</dfn>.</p>
+  <p class="first">Până în acest punct, rețeaua care curăța zgomotul primea doar două indicii: coordonatele punctului și nivelul de zgomot la care se află. Acum îi așezăm în față un al treilea martor esențial: o descriere în cuvinte. Textul este transformat mai întâi într-o reprezentare numerică (un vector de sens) și oferit rețelei ca reper suplimentar la antrenament. Acest parteneriat se numește <dfn>condiționare</dfn>.</p>
 
-  <p>Din acel moment, zgomotul numit de rețea nu mai depinde numai de unde se află punctul, ci și de ce scrie în descriere. Aceeași poziție, la același nivel de zgomot, primește împingeri diferite după cuvântul dat.</p>
+  <p>Din acea clipă, zgomotul ghicit de rețea nu mai depinde doar de poziția punctului în spațiu, ci și de instrucțiunea primită. Același punct mâncat de purici, la exact același nivel de degradare, va fi împins într-o direcție dacă îi șoptim cuvântul <i>„spirală”</i> și într-o direcție complet diferită dacă îi cerem un <i>„inel”</i> sau o <i>„cruce”</i>.</p>
 
-  <p class="note">În modelele de imagini adevărate, textul nu intră ca un singur vector. Fiecare regiune a imaginii interoghează fiecare cuvânt al descrierii, prin mecanismul din lecția despre atenție aplicat între două șiruri deosebite; se numește <dfn>atenție încrucișată</dfn> și îngăduie ca un cuvânt să tragă de o parte anume a imaginii. Modelul din pagină folosește forma cea mai simplă, cu o singură descriere pentru tot, fiindcă aici imaginea e un punct.</p>
+  <p class="note">În sistemele complexe de generare vizuală, textul nu intră ca un singur bloc rigid. Fiecare regiune a pânzei analizează cuvintele descrierii prin mecanismul de <dfn>atenție încrucișată</dfn> (<i>cross-attention</i>): un anumit cuvânt trage de pensulă în colțul de sus al imaginii, în timp ce altul ghidează detaliile de la bază. Modelul nostru din pagină folosește forma cea mai directă, cu o singură etichetă globală, fiindcă imaginea este simplificată la un singur punct.</p>
 
-  <p>Cele trei descrieri cu putință sunt aici trei cuvinte, iar mulțimile care le corespund se suprapun în plan: cine vrea să vadă deosebirea trebuie să se uite la formă, nu la loc.</p>
+  <p>Cele trei descrieri disponibile aici sunt cuvinte simple ale căror forme geometrice se suprapun parțial în plan. Cine vrea să vadă efectul textului trebuie să urmărească armonia formei finale, nu doar locul unde aterizează punctele.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="6" fill="#22252D"/><path d="M18 32 L36 14 M18 32 L36 32 M18 32 L36 50" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="44" cy="14" r="6" fill="#2F4BC4"/><circle cx="44" cy="32" r="6" fill="#EE5A2F"/><circle cx="44" cy="50" r="6" fill="#6B7A38"/></svg></span>Aceeași sămânță, alt cuvânt</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="6" fill="#22252D"/><path d="M18 32 L36 14 M18 32 L36 32 M18 32 L36 50" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="44" cy="14" r="6" fill="#2F4BC4"/><circle cx="44" cy="32" r="6" fill="#EE5A2F"/><circle cx="44" cy="50" r="6" fill="#6B7A38"/></svg></span>Sămânța și cuvântul: cine hotărăște compoziția?</h2>
 
-  <p>Zgomotul de la care pornește drumul înapoi se numește <dfn>sămânță</dfn>. Ținut același și schimbând numai cuvântul, se vede exact ce aduce descrierea și ce aduce întâmplarea.</p>
+  <p>Zgomotul aleatoriu din care pornește difuzia inversă este determinat matematic de un număr numit <dfn>sămânță</dfn> (sau <i>seed</i>). Păstrând fixă această sămânță și schimbând doar cuvântul călăuzitor, putem separa cu o claritate desăvârșită ce anume aduce hazardul și ce anume dictează dorința noastră.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Același zgomot de plecare, trei cuvinte</figcaption>
@@ -776,17 +778,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cele trei panouri pornesc din exact aceleași puncte de zgomot. Tot ce le desparte e cuvântul dat rețelei la fiecare pas. Schimbând sămânța, se schimbă unde anume cade fiecare punct, dar nu și forma pe care o alcătuiesc împreună. Cuvântul hotărăște ce; sămânța hotărăște care.</p>
+  <p>Toate cele trei panouri de mai sus au pornit din exact aceleași puncte inițiale de zgomot. Singurul lucru care le-a despărțit a fost cuvântul oferit rețelei la fiecare pas. Dacă schimbați sămânța, se modifică locul exact în care aterizează fiecare firicel; dar conturul de ansamblu rămâne fidel cuvântului ales. Regula de aur a generării este simplă: cuvântul hotărăște <i>ce</i> se desenează; sămânța hazardului hotărăște <i>care</i> anume dintre variantele posibile se naște.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="5" fill="#BDB9AA"/><circle cx="32" cy="32" r="5" fill="#2F4BC4"/><path d="M20 32 H32" fill="none" stroke="#22252D" stroke-width="1.5"/><path d="M32 32 H54" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M50 28 L54 32 L50 36" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Ghidarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="5" fill="#BDB9AA"/><circle cx="32" cy="32" r="5" fill="#2F4BC4"/><path d="M20 32 H32" fill="none" stroke="#22252D" stroke-width="1.5"/><path d="M32 32 H54" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M50 28 L54 32 L50 36" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Maneta ghidării: cum amplificăm vocea textului</h2>
 
-  <p>Antrenată așa, rețeaua ține seama de cuvânt, dar nu prea mult: descrierea e doar una dintre intrări, iar ea învață să facă bine media peste tot ce a văzut.</p>
+  <p>Dacă antrenăm rețeaua în mod obișnuit, observăm o timiditate deranjantă: descrierea în cuvinte este doar una dintre mai multe intrări, iar modelul tinde adesea să facă o medie neutră peste tot ce a văzut, ignorând cerințele specifice.</p>
 
-  <p>Metoda folosită azi pornește de la un truc de antrenare. O parte din timp, cuvântul e ascuns și înlocuit cu unul gol, astfel încât aceeași rețea învață și cu descriere, și fără. La generare i se cer amândouă predicțiile, iar între ele se socotește diferența: ea arată încotro împinge cuvântul, față de a nu avea niciun cuvânt.</p>
+  <p>Soluția modernă se bazează pe o strategie inteligentă: în timpul antrenamentului, ascundem cuvântul din când în când și lăsăm rețeaua să lucreze fără nicio descriere. La generare, îi cerem să facă două predicții paralele: una în care ascultă textul și una în care nu are niciun text la dispoziție. Diferența dintre cele două ne dezvăluie exact forța cuvântului: încotro împinge cerința noastră în raport cu o desenare oarbă.</p>
 
-  <p>Diferența aceasta se poate apoi înmulți. Factorul se numește <dfn>ghidare</dfn>: la unu se folosește predicția obișnuită, la zero cuvântul e cu totul ignorat, iar peste unu împingerea lui e exagerată dincolo de ce a învățat rețeaua.</p>
+  <p>Această diferență poate fi amplificată cu un factor de multiplicare numit <dfn>ghidare</dfn> (sau <i>Classifier-Free Guidance</i>). La valoarea unu folosim predicția firească a rețelei; la zero cuvântul este ignorat complet; iar peste unu exagerăm intenționat impulsul textului, forțând punctele să se supună temei alese.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Maneta ghidării, pe un cuvânt ales</figcaption>
@@ -808,11 +810,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 40 C24 22 36 18 54 16" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 20 C24 30 36 44 54 50" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Cele două tăișuri</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 40 C24 22 36 18 54 16" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 20 C24 30 36 44 54 50" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Cele două tăișuri: claritate versus rigiditate</h2>
 
-  <p>Maneta se plătește. Cu cât împingerea cuvântului e exagerată mai tare, cu atât punctele se strâng spre partea cea mai tipică a mulțimii cerute, iar ce iese seamănă tot mai mult cu el însuși.</p>
+  <p>Maneta ghidării este însă o sabie cu două tăișuri. Cu cât forțăm cuvântul mai tare, cu atât punctele sunt strivite către centrul cel mai tipic și mai stereotip al formei cerute. Rezultatul devine mai clar și mai docil, dar își pierde varietatea naturală, semănând excesiv cu el însuși.</p>
 
-  <p>Tabelul măsoară amândouă lucrurile deodată: cât de des rezultatul chiar aparține mulțimii cerute și cât de împrăștiate sunt punctele între ele.</p>
+  <p>Tabelul de mai jos măsoară simultan ambele aspecte: procentul în care rezultatul aparține cu adevărat formei cerute și gradul de împrăștiere (diversitate) al punctelor.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Potrivire și împrăștiere, după ghidare</figcaption>
@@ -826,11 +828,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Un desenator care primește indicații în timp ce desenează. Câteva îl ajută să nimerească ce i se cere; prea multe și desenul devine țeapăn, la fel de fiecare dată, iar la un moment dat nici măcar nu mai iese ce s-a cerut.</p>
+  <p>Gândiți-vă la un desenator talentat care primește indicații în timp ce schițează pe pânză. Câteva sugestii clare îl ajută să nimerească tema dorită. Dar dacă îi strigi instrucțiuni la fiecare trăsătură și îi ții mâna rigidă, desenul devine țeapăn, repetitiv și artificial. Iar dacă exagerezi peste măsură, lucrarea se strică definitiv.</p>
 
-  <p>De aici vine și purtarea pe care o observă oricine folosește asemenea unelte: la ghidare mare rezultatele sunt izbitoare și se aseamănă între ele; la ghidare mică sunt mai felurite și se abat mai des de la ce s-a cerut. Nu e o alegere între bine și rău, ci între două feluri de a greși.</p>
+  <p>De aici provine comportamentul pe care îl observă oricine folosește unelte generative de text-în-imagine: la ghidare mare rezultatele sunt izbitoare și foarte ascultătoare, dar repetitive și saturate; la ghidare mică sunt bogate, poetice și felurite, deși riscă să se abată de la text. Nu este o bătălie între bine și rău, ci un compromis viu între fidelitate și libertate creativă.</p>
 
-  <p>Toate socotelile de până acum s-au făcut direct pe ce se generează. Pentru o fotografie de un milion de pixeli, asta ar însemna un milion de numere la fiecare pas, de sute de ori. Lecția următoare arată unde se mută difuzia ca să nu coste atât.</p>
+  <p>Până acum, toate calculele noastre s-au petrecut direct pe ecran, pixel cu pixel. Pentru o fotografie de înaltă rezoluție, acest volum ar fi uriaș. În lecția următoare vom vedea cum putem muta întreaga difuzie într-un spațiu comprimat, mult mai elegant: spațiul latent.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,30 +740,30 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Lucrul în spațiul <i>comprimat</i></h1>
-    <p class="lede">O fotografie are milioane de valori, iar difuzia trece prin toate la fiecare pas, de zeci de ori. Aproape nimic din ele n-are legătură cu ce se hotărăște pe drum. Soluția e veche cât arhitectura: hotărârile se iau pe schiță, iar textura se pune la sfârșit.</p>
-    <p class="terms">Termeni: <b>autocodificator</b> <b>reprezentare latentă</b> <b>difuzie latentă</b></p>
+    <p class="lede">O fotografie modernă conține milioane de valori, iar difuzia trebuie să treacă prin fiecare pixel la fiecare pas, de zeci de ori la rând. Însă o uriașă risipă se ascunde aici: aproape niciun pixel individual nu participă la marile decizii de compoziție. Soluția este la fel de înțeleaptă ca practica arhitecturii: marile hotărâri se iau pe o schiță comprimată — planul arhitectural —, iar textura, tencuiala și cărămizile se așază o singură dată, la final.</p>
+    <p class="terms">Termeni cheie: <b>autocodificator (autoencoder)</b> <b>reprezentare latentă (spațiu latent)</b> <b>difuzie latentă (LDM)</b> <b>halucinații de decodificare</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#BDB9AA"><rect x="10" y="12" width="4" height="4"/><rect x="18" y="16" width="4" height="4"/><rect x="30" y="12" width="4" height="4"/><rect x="44" y="14" width="4" height="4"/><rect x="12" y="30" width="4" height="4"/><rect x="50" y="34" width="4" height="4"/><rect x="24" y="46" width="4" height="4"/><rect x="40" y="48" width="4" height="4"/></g><rect x="24" y="24" width="16" height="16" fill="#EE5A2F"/></svg></span>Unde se duce costul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#BDB9AA"><rect x="10" y="12" width="4" height="4"/><rect x="18" y="16" width="4" height="4"/><rect x="30" y="12" width="4" height="4"/><rect x="44" y="14" width="4" height="4"/><rect x="12" y="30" width="4" height="4"/><rect x="50" y="34" width="4" height="4"/><rect x="24" y="46" width="4" height="4"/><rect x="40" y="48" width="4" height="4"/></g><rect x="24" y="24" width="16" height="16" fill="#EE5A2F"/></svg></span>Coșmarul pixelilor: unde se duce efortul de calcul</h2>
 
-  <p class="first">La fiecare pas de eșantionare, rețeaua primește imaginea întreagă și scoate o predicție tot cât imaginea. Pentru o fotografie de o mie de pixeli pe latură, asta înseamnă vreo trei milioane de numere trecute prin rețea, de câteva zeci de ori la rând, pentru o singură imagine.</p>
+  <p class="first">Dacă am aplica difuzia direct pe ecran, la fiecare pas de curățare a zgomotului rețeaua neuronală ar primi o imagine uriașă și ar returna o predicție de aceeași mărime. Pentru o fotografie obișnuită de o mie de pixeli pe latură, colorată în cele trei canale fundamentale (roșu, verde, albastru), asta înseamnă peste trei milioane de numere procesate la fiecare pas, de zeci de ori la rând, pentru un singur cadru generat.</p>
 
-  <p>Cea mai mare parte din numerele acelea poartă textură: firicele de zgomot, granulația, marginile fine. Ele contează pentru cum arată rezultatul, dar nu pentru <i>ce</i> se hotărăște pe drum: dacă iese o casă sau un copac, dacă cerul e senin, unde stau lucrurile unele față de altele.</p>
+  <p>Și totuși, cea mai mare parte din acel potop numeric poartă simple detalii de suprafață: mici firicele de zgomot, granulația aspră, variații minuscule de lumină pe o frunză. Toate acestea contează pentru senzația finală de claritate, dar nu au nicio legătură cu marile decizii luate pe parcurs: dacă desenăm o casă sau un copac, dacă cerul e senin sau unde anume se așază personajele în scenă.</p>
 
-  <p>De aici ideea: hotărârile se iau într-un loc mai mic, iar textura se pune la sfârșit.</p>
+  <p>Așa s-a născut o idee strălucită: de ce să mutăm munți de pixeli la fiecare fracțiune de secundă, când putem lua toate deciziile grele într-un spațiu restrâns, lăsând textura și fardul să fie aplicate o singură dată, la sfârșit?</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 H24 L32 26 L24 40 H6 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M58 12 H40 L32 26 L40 40 H58 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="22" width="8" height="8" fill="#EE5A2F"/><path d="M6 52 H58" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Autocodificatorul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 H24 L32 26 L24 40 H6 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M58 12 H40 L32 26 L40 40 H58 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="22" width="8" height="8" fill="#EE5A2F"/><path d="M6 52 H58" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Autocodificatorul: arhitectul și constructorul</h2>
 
-  <p>Piesa care face mutarea cu putință are două jumătăți. Una strânge imaginea într-un pumn de numere, cealaltă o reface din ele. Antrenarea le cere să lucreze împreună: ce iese la capăt trebuie să semene cu ce a intrat. Perechea aceasta se numește <dfn>autocodificator</dfn>, iar pumnul de numere din mijloc se numește <dfn>reprezentare latentă</dfn>.</p>
+  <p>Piesa care face posibilă această mutare funcționează asemenea unei echipe formate din două rețele partenere. Prima jumătate (codificatorul) strânge imaginea mare într-un pumn concentrat de numere esențiale. A doua jumătate (decodificatorul) ia acel pumn de numere și reconstruiește din ele o imagine completă. Antrenate împreună, ele învață o regulă sacră: ce iese la capăt trebuie să semene fidel cu ce a intrat. Această pereche se numește <dfn>autocodificator</dfn>, iar pumnul de numere din mijloc poartă numele de <dfn>reprezentare latentă</dfn> (sau spațiu latent).</p>
 
-  <p>Nimic nu-i spune ce anume să păstreze. Fiindcă locul din mijloc e strâmt, el ajunge să păstreze ce se poate folosi ca să refacă imaginea, adică tocmai ce se deosebește de la o imagine la alta. Strâmtoarea e cea care învață.</p>
+  <p>Nimeni nu dictează mecanic ce trăsături să păstreze. Fiindcă spațiul din mijloc este o trecătoare foarte strâmtă, sistemul ajunge de la sine să rețină doar informația vitală din care se poate reface tabloul — adică exact marile contururi care deosebesc o imagine de alta. Strâmtoarea este cel mai bun profesor de sinteză.</p>
 
-  <p>Figura de mai jos folosește forma cea mai simplă de comprimare, cea liniară, socotită exact din exemple. Ea nu e la fel de bună ca o rețea antrenată, dar are toate însușirile care contează aici, iar rezultatul se poate verifica până la ultima cifră.</p>
+  <p>Figura de mai jos folosește o formă simplificată de comprimare liniară, calculată riguros pe baza exemplelor geometrice. Deși o rețea neuronală modernă este mult mai bogată, proprietățile fundamentale sunt identice: reduceți numărul de valori latente și priviți cum pânza își păstrează sensul chiar și când este comprimată drastic.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Imaginea, pumnul de numere, refacerea</figcaption>
@@ -782,11 +784,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C24 16 40 30 54 50" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 16 C30 16 44 18 54 30" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Ce se păstrează</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C24 16 40 30 54 50" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 16 C30 16 44 18 54 30" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Schița arhitecturală: ce se păstrează cu adevărat</h2>
 
-  <p>Întrebarea care hotărăște dacă mutarea are rost nu e cât de frumos se reface imaginea, ci dacă din numerele păstrate se mai poate spune ce e în ea.</p>
+  <p>Întrebarea care stabilește dacă mutarea are rost nu este dacă imaginea refăcută e identică pixel cu pixel, ci dacă din numerele păstrate se mai poate citi fără echivoc <i>ce</i> se află în ea.</p>
 
-  <p>Tabelul măsoară amândouă lucrurile. Eroarea de refacere spune cât se pierde din imagine. Recunoașterea spune cât de des se poate afla felul formei privind numai pumnul de numere, cu ajutorul unei reguli simple antrenate pe ele.</p>
+  <p>Tabelul de mai jos măsoară simultan ambele dimensiuni: eroarea vizuală de reconstrucție (cât se pierde pe ecran) și acuratețea recunoașterii (cât de ușor poate o regulă simplă să afle forma corectă privind doar cele câteva numere comprimate).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Pierdere și înțeles, după cât se păstrează</figcaption>
@@ -800,17 +802,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cele două coloane nu scad la fel. Refacerea se strică treptat pe măsură ce se taie numere, dar recunoașterea se ține mult mai bine: cu de douăzeci și cinci de ori mai puține valori se mai poate spune, în cele mai multe cazuri, ce formă a fost acolo.</p>
+  <p>Priviți contrastul dintre cele două coloane: refacerea fină a pixelilor se degradează treptat pe măsură ce tăiem din valori, dar recunoașterea semantică rezistă admirabil! Chiar și cu de douăzeci și cinci de ori mai puține valori numerice, modelul știe precis ce desen se află acolo.</p>
 
-  <p>Schița de lucru a arhitectului. N-are texturi și n-are culori, dar are tot ce trebuie ca să se hotărască unde se pun pereții.</p>
+  <p>Este exact rolul schiței de lucru a arhitectului: nu conține textura tencuielii și nici nuanța exactă a parchetului, dar conține tot ce este indispensabil pentru a hotărî unde se ridică zidurile și unde se deschid ușile.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="20" width="16" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="42" y="20" width="16" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="28" width="8" height="8" fill="#EE5A2F"/><path d="M22 32 H28 M36 32 H42" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 22 C32 12 40 12 40 18" fill="none" stroke="#6B7A38" stroke-width="2"/></svg></span>Difuzia latentă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="20" width="16" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="42" y="20" width="16" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="28" y="28" width="8" height="8" fill="#EE5A2F"/><path d="M22 32 H28 M36 32 H42" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 22 C32 12 40 12 40 18" fill="none" stroke="#6B7A38" stroke-width="2"/></svg></span>Difuzia latentă: dansul pe schiță</h2>
 
-  <p>De aici încolo totul se mută. Imaginile de antrenare se trec o singură dată prin jumătatea care strânge, iar difuzia din lecțiile precedente se face pe reprezentările latente, nu pe pixeli: zgomotul se adaugă acolo, rețeaua învață să-l numească acolo, drumul înapoi se parcurge acolo. Abia la sfârșit rezultatul trece prin jumătatea care reface, o singură dată. Aceasta e <dfn>difuzia latentă</dfn>.</p>
+  <p>Aici se produce marea cotitură care a deschis calea generatoarelor moderne de imagini (cum este <i>Stable Diffusion</i>). În loc să aplicăm zgomot și să facem calcule greoaie pe milioane de pixeli, mutăm întregul laborator al difuziei în spațiul latent!</p>
 
-  <p>Economia nu e mică. Ea se socotește exact, fiindcă munca unei rețele de acest fel crește odată cu numărul de valori pe care le prelucrează.</p>
+  <p>Fotografiile de antrenament sunt trecute o singură dată prin codificator, transformându-se în schițe comprimate. Apoi, tot dansul difuziei se petrece exclusiv acolo: zgomotul se adaugă pe numerele latente, rețeaua învață să-l ghicească acolo, iar drumul înapoi de 50 de pași curăță doar această schiță compactă. Abia la finalul procesului, rezultatul trece o singură dată prin decodificator, care îl transformă într-o fotografie de rezoluție înaltă. Aceasta este <dfn>difuzia latentă</dfn>.</p>
+
+  <p>Economia de resurse este uriașă și se poate calcula cu precizie, deoarece efortul unei rețele crește direct proporțional cu numărul de valori pe care le manevrează.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Câte valori trec prin rețea pentru o imagine</figcaption>
@@ -825,17 +829,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Micșorarea se face pe amândouă laturile deodată, deci o micșorare de opt ori pe latură înseamnă de șaizeci și patru de ori mai puține locuri. O parte din câștig se dă înapoi, fiindcă fiecare loc din reprezentarea latentă poartă mai multe numere decât cele trei culori ale unui pixel, dar raportul rămâne de câteva zeci.</p>
+  <p>Comprimarea acționează pe ambele laturi ale imaginii: o reducere de opt ori pe latură înseamnă o suprafață de 64 de ori mai mică! Chiar dacă fiecare punct latent poartă mai multe canale de informație decât cele trei culori ale unui pixel obișnuit, câștigul net rămâne de ordinul zecilor de ori, făcând posibil ca generarea să ruleze chiar pe un laptop obișnuit.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 22 H30 M14 30 H26 M14 38 H32 M14 46 H24" fill="none" stroke="#BDB9AA" stroke-width="3" stroke-dasharray="2 2"/><rect x="38" y="20" width="12" height="16" fill="#DDA6B0"/></svg></span>Ce se pierde</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 22 H30 M14 30 H26 M14 38 H32 M14 46 H24" fill="none" stroke="#BDB9AA" stroke-width="3" stroke-dasharray="2 2"/><rect x="38" y="20" width="12" height="16" fill="#DDA6B0"/></svg></span>Ce se pierde: măruntele invenții ale decodificatorului</h2>
 
-  <p>Jumătatea care reface nu întoarce imaginea de la care s-a plecat. Ea scoate o imagine care se potrivește cu numerele primite și care arată ca imaginile pe care le-a văzut la antrenare.</p>
+  <p>Această viteză formidabilă are însă un preț ascuns. Decodificatorul care pictează pixelii finali nu poate citi trecutul cu o lupă infailibilă: el inventează detalii și texturi plauzibile care să se potrivească cu numerele primite, inspirându-se din imaginile pe care le-a văzut la antrenament.</p>
 
-  <p>De aici vin cusururile pe care le are oricine s-a uitat de aproape la asemenea rezultate: textul mărunt iese ca un text mărunt, fără să scrie ceva; țesăturile fine se prefac în țesături plauzibile; fețele mici capătă trăsături care nu erau acolo. Nu sunt greșeli ale difuziei, ci ale jumătății care reface, iar ele se văd exact la scara la care aceasta a fost lăsată să inventeze.</p>
+  <p>De aici provin cusururile celebre pe care le cunoaște oricine s-a uitat de aproape la astfel de rezultate: textul minuscul de pe o etichetă din fundal arată ca un text credibil, dar nu conține litere reale; țesăturile fine capătă modele sintetice stranii; iar chipurile mici aflate în depărtare primesc trăsături ușor deformate sau halucinate. Nu sunt defecte ale procesului de difuzie, ci improvizații ale decodificatorului, vizibile exact la scara microscopică la care acesta a fost lăsat să inventeze.</p>
 
-  <p>Difuzia nu e singurul fel de a genera imagini și n-a fost nici primul. Lecția următoare pune alături trei drumuri care duc în același loc și arată prin ce se deosebesc.</p>
+  <p>Difuzia este astăzi regina sintezei de imagini, dar nu este singura familie generativă și nu a fost nici prima. În lecția următoare vom așeza difuzia alături de celelalte mari rude ale sale — rețelele adversariale și fluxurile generative —, comparând pas cu pas siguranța și viteza fiecăreia.</p>
 </section>
 
 </main>

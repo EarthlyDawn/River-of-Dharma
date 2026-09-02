@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,21 +740,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Rețeaua <i>recurentă</i></h1>
-    <p class="lede">Prima construcție care primește un șir de orice lungime, cu aceleași ponderi la fiecare pas. A purtat prelucrarea limbii vreme de douăzeci de ani și s-a lovit de o limită pe care n-a putut-o trece. Limita aceea e o lecție în sine, fiindcă ea a hotărât forma a tot ce a venit după.</p>
-    <p class="terms">Termeni: <b>stare ascunsă</b> <b>rețea recurentă</b> <b>panta care se stinge</b> <b>porți</b> <b>memorie lungă și scurtă</b></p>
+    <p class="lede">Prima arhitectură ingenioasă capabilă să citească texte de orice lungime folosind un singur set de reguli reutilizate la fiecare pas. A dominat procesarea limbajului timp de două decenii, până când s-a izbit de propriile limite fizice: memoria care se estompează ca într-un joc de „telefonul fără fir” și neputința de a calcula în paralel pe cipurile moderne.</p>
+    <p class="terms">Termeni: <b>stare ascunsă (memorie internă)</b> <b>rețea recurentă (RNN)</b> <b>estomparea gradientului</b> <b>porți selective</b> <b>memorie LSTM</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 32 H22 M42 32 H54" fill="none" stroke="#22252D" stroke-width="2"/><rect x="22" y="22" width="20" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M32 22 C32 8 52 8 52 22 L52 32" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M49 29 L52 33 L55 29" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>O stare purtată mai departe</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 32 H22 M42 32 H54" fill="none" stroke="#22252D" stroke-width="2"/><rect x="22" y="22" width="20" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M32 22 C32 8 52 8 52 22 L52 32" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M49 29 L52 33 L55 29" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Un carnețel purtat din pas în pas</h2>
 
-  <p class="first">Ideea înlătură fereastra dintr-o mișcare. În loc să primească un număr fixat de cuvinte deodată, rețeaua le primește unul câte unul și păstrează între ele un șir de numere care rezumă tot ce a citit până atunci. Șirul acesta se numește <dfn>stare ascunsă</dfn>, și e tot ce știe rețeaua despre trecut.</p>
+  <p class="first">Cum putem scăpa de tirania ferestrei fixe de cuvinte? Printr-o idee elegantă și profund umană: în loc să încercăm să cuprindem toată fraza dintr-o singură privire rigidă, citim textul cuvânt cu cuvânt, de la stânga la dreapta, exact așa cum citește un om. Pe măsură ce înaintează, rețeaua poartă cu sine un mic rezumat numeric — un fel de carnețel de notițe intern — care sintetizează tot ce a citit până în acea clipă. Acest pachet de numere poartă numele de <dfn>stare ascunsă</dfn> și reprezintă întreaga memorie a rețelei despre trecut.</p>
 
-  <p>La fiecare pas se face același lucru: se iau cuvântul de acum și starea de la pasul dinainte, se trec amândouă printr-un strat de neuroni, iar rezultatul devine starea nouă. Construcția se numește <dfn>rețea recurentă</dfn>, fiindcă ieșirea ei se întoarce la propria intrare. E aceeași buclă din lecția despre bistabil, de data asta cu numere în loc de biți: un lucru care se ține minte pe sine.</p>
+  <p>La fiecare pas de lectură se repetă aceeași operațiune ritmică: rețeaua combină cuvântul abia sosit cu notițele de la pasul anterior, le trece printr-un strat de neuroni și produce o nouă versiune actualizată a carnețelului. O astfel de construcție se numește <dfn>rețea recurentă</dfn> (sau RNN), deoarece ieșirea fiecărui moment se reîntoarce ca intrare pentru pasul următor. Este exact aceeași buclă de autoreglare pe care o întâlnisem la circuitul bistabil din primele lecții: o mașină care își ține minte propria stare de la o clipă la alta.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceeași celulă, repetată la fiecare pas; culoarea arată starea</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceeași celulă repetată la fiecare pas; nuanțele reflectă memoria internă</figcaption>
     <div class="stage">
       <canvas id="cvUnroll" class="cv-unroll"></canvas>
       <div class="readout" id="uRead"></div>
@@ -765,26 +767,26 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Rețeaua din figură a fost antrenată pentru o singură sarcină: să spună, la sfârșit, care a fost primul semn. Se vede că unele numere din stare rămân deosebite pe tot parcursul, după cum a început șirul cu A sau cu B. Acolo se află amintirea, și nu e nimic altceva decât o valoare care s-a păstrat de la un pas la altul.</p>
+  <p>În simularea interactivă de mai sus, am antrenat o rețea simplă cu o singură misiune: să țină minte care a fost primul simbol al șirului (A sau B) până la capătul drumului. Observați cum anumite valori din carnețelul intern rămân clar diferențiate de-a lungul întregii secvențe. Acolo stă amintirea: un ecou numeric care rezistă și este transmis mai departe de la o celulă la alta.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="25" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="44" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M20 32 H25 M39 32 H44" fill="none" stroke="#22252D" stroke-width="2"/><path d="M13 20 V12 H51 V20 M32 12 V20" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Aceleași ponderi la fiecare pas</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="25" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="44" y="24" width="14" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M20 32 H25 M39 32 H44" fill="none" stroke="#22252D" stroke-width="2"/><path d="M13 20 V12 H51 V20 M32 12 V20" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Aceeași mașinărie refolosită la nesfârșit</h2>
 
-  <p>Rețeaua n-are ponderi separate pentru poziția întâi, a doua și a treia. Are un singur set, folosit din nou la fiecare pas, exact cum un filtru de convoluție e folosit din nou în fiecare loc al imaginii.</p>
+  <p>Marea frumusețe inginerească a unei rețele recurente este că nu are nevoie de parametri separați pentru primul, al doilea sau al zecelea cuvânt. Ea folosește un singur set stabil de conexiuni, refolosit identic la fiecare pas — întocmai cum filtrul de convoluție glisa pe întreaga suprafață a unei imagini.</p>
 
-  <p>De aici vin două urmări bune. Șirul poate avea orice lungime, fiindcă nu există nimic legat de o poziție anume. Și ce se învață despre un cuvânt se aplică oriunde ar apărea el, ceea ce înlătură risipa semnalată la sfârșitul lecției precedente. Pe hârtie, problema ferestrei e rezolvată.</p>
+  <p>Acest truc aduce două avantaje formidabile. În primul rând, fraza poate avea orice lungime imaginabilă: o sută, o mie sau zece mii de cuvinte, pentru că celula de procesare este aceeași. În al doilea rând, ceea ce învață rețeaua despre un verb sau o prepoziție rămâne valabil indiferent unde apare cuvântul în frază. Risipa enormă a ferestrei rigide părea să fie rezolvată definitiv pe hârtie.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><rect x="12" y="18" width="10" height="28" fill="#2F4BC4"/><rect x="24" y="18" width="10" height="28" fill="#2F4BC4" opacity=".6"/><rect x="36" y="18" width="10" height="28" fill="#2F4BC4" opacity=".3"/><rect x="48" y="18" width="4" height="28" fill="#EE5A2F"/></svg></span>Cât de departe ține minte</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><rect x="12" y="18" width="10" height="28" fill="#2F4BC4"/><rect x="24" y="18" width="10" height="28" fill="#2F4BC4" opacity=".6"/><rect x="36" y="18" width="10" height="28" fill="#2F4BC4" opacity=".3"/><rect x="48" y="18" width="4" height="28" fill="#EE5A2F"/></svg></span>Gâtuirea memoriei: cât de mult poate reține carnețelul?</h2>
 
-  <p>Starea are însă o mărime fixată. Tot ce s-a citit, oricât de lung ar fi textul, trebuie să încapă în aceleași câteva sute de numere, iar informația veche se află mereu în concurență cu cea nouă pentru același loc. O cameră cu un număr fix de rafturi, în care fiecare carte nouă împinge ceva mai vechi spre ușă.</p>
+  <p>Dar există o piedică fizică inevitabilă: carnețelul rețelei are o dimensiune fixă. Indiferent cât de lung și complex este textul parcurs, toată informația din paginile anterioare trebuie condensată și înghesuită în aceleași câteva sute de numere reale. Fiecare cuvânt nou sosit concurează acerb pentru spațiu cu amintirile vechi. Este ca o cameră îngustă de arhivă: pentru fiecare dosar nou pe care îl îndesi pe raft, un dosar mai vechi este împins inevitabil afară pe fereastră.</p>
 
-  <p>Cât ține minte se poate măsura curat. Se dă rețelei un șir care începe cu A sau cu B, urmat de un număr de semne fără înțeles, iar la sfârșit i se cere să spună cu ce a început. Sarcina nu cere nimic altceva decât memorie.</p>
+  <p>Această slăbiciune a memoriei poate fi testată cu precizie de laborator: îi dăm rețelei un șir care debutează cu „A” sau „B”, inserăm apoi o serie de simboluri aleatorii de umplutură și o întrebăm la final ce literă a fost la început. Sarcina nu presupune nicio deducție sofisticată, ci doar reținerea fidelă a unei informații pe distanță lungă.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Câți pași ține minte primul semn</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Testul rezistenței în timp a memoriei recurente</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblMem"></table></div>
       <div class="readout" id="mRead"></div>
@@ -795,18 +797,18 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Rezultatul nu se degradează încet, ci se prăbușește. Până la o anumită depărtare rețeaua nimerește de fiecare dată; dincolo de ea, răspunde exact ca aruncarea unei monede. Pragul e același cu patru mii, cu douăsprezece mii și cu treizeci și șase de mii de exemple de antrenare, ceea ce arată că nu lipsa de exemple e de vină. E ceva în construcție.</p>
+  <p>Priviți rezultatele din tabel: precizia nu scade lin, ci se prăbușește abrupt! Până la o distanță de zece-cincisprezece pași, rețeaua răspunde impecabil; dincolo de această barieră invizibilă, performanța cade la 50%, exact ca la aruncarea la întâmplare a unei monede. Iar mărirea volumului de exemple la antrenament nu schimbă deloc acest prag. Defecțiunea este adânc înrădăcinată în chiar mecanismul matematic de învățare.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 14 24 48 56 50" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="10" cy="14" r="4" fill="#EE5A2F"/><circle cx="56" cy="50" r="2" fill="#EE5A2F"/></svg></span>Panta care se stinge</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C20 14 24 48 56 50" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="10" cy="14" r="4" fill="#EE5A2F"/><circle cx="56" cy="50" r="2" fill="#EE5A2F"/></svg></span>Telefonul fără fir: panta care se stinge</h2>
 
-  <p>Cauza se vede în propagarea înapoi. Pentru ca rețeaua să învețe că primul semn contează, vina de la ultimul pas trebuie să călătorească înapoi prin toți pașii dintre ele, iar la fiecare pas ea e înmulțită cu aceleași ponderi.</p>
+  <p>De unde vine această amnezie timpurie? Răspunsul se ascunde în algoritmul de propagare înapoi a erorii. Pentru ca rețeaua să realizeze că primul cuvânt a influențat greșeala comisă la final, semnalul de corecție (gradientul) trebuie să călătorească înapoi prin timp, pas cu pas, prin toate verigile intermediare. La fiecare pas înapoi, semnalul este înmulțit cu matricea de ponderi a celulei.</p>
 
-  <p>E chiar lanțul din lecția despre propagarea înapoi, cu o singură verigă repetată de zeci de ori. Dacă înmulțirea micșorează, produsul se stinge; dacă mărește, el explodează. Nu există a treia posibilitate, în afară de o potrivire exactă pe care nimic n-o păstrează. Un zvon transmis din gură în gură pe o stradă lungă: fie se pierde, fie se umflă, dar nu ajunge la capăt așa cum a plecat.</p>
+  <p>Ne amintim regula înmulțirilor repetate din lecția despre optimizare: dacă înmulțești repetat un număr subunitar (de pildă 0,9) de treizeci de ori cu el însuși, rezultatul tinde rapid spre zero. Dacă numărul este doar puțin supraunitar (de pildă 1,1), rezultatul explodează spre infinit! Este sindromul clasic al jocului de „telefonul fără fir” de-a lungul unui șir lung de copii: șoapta inițială fie se stinge complet până nu se mai aude nimic, fie este distorsionată grotesc.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Mărimea vinei, mergând înapoi de la ultimul pas</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Scăderea intensității semnalului de învățare pe măsură ce călătorește înapoi</figcaption>
     <div class="stage">
       <canvas id="cvGrad" class="cv-grad"></canvas>
       <div class="readout" id="gRead"></div>
@@ -817,27 +819,27 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Vina care ajunge la primii pași e de zeci de mii de ori mai mică decât cea de la ultimii. Ponderile care ar trebui să învețe să păstreze amintirea primesc, practic, o corectură nulă. Rețeaua nu uită fiindcă n-ar avea loc; uită fiindcă nimeni n-a reușit să-i spună că merită să țină minte.</p>
+  <p>Semnalul de corectură care reușește să ajungă la primii pași este de zeci de mii de ori mai slab decât cel de la sfârșit. Conexiunile care ar trebui să învețe să conserve amintirile vechi primesc o ajustare practic nulă. Rețeaua nu uită din răutate sau lipsă de memorie brută; ea uită fiindcă ecoul matematic al învățării se stinge pe drum și nimeni nu reușește să-i transmită că acele detalii inițiale meritau ținute minte!</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 32 H58" fill="none" stroke="#2F4BC4" stroke-width="4"/><rect x="24" y="14" width="16" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M32 14 V26 M32 38 V50" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Poarta care lasă să treacă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 32 H58" fill="none" stroke="#2F4BC4" stroke-width="4"/><rect x="24" y="14" width="16" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M32 14 V26 M32 38 V50" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Bypass-ul salvator: porțile celulei LSTM</h2>
 
-  <p>Leacul găsit în 1997 de Sepp Hochreiter și Jürgen Schmidhuber schimbă felul în care starea se transmite. În loc ca ea să fie recalculată în întregime la fiecare pas, i se adaugă un drum pe care valorile trec neatinse, iar ce se schimbă din ele e hotărât de niște neuroni anume, numiți <dfn>porți</dfn>: una hotărăște ce se uită, alta ce se scrie, alta ce se citește.</p>
+  <p>Soluția ingenioasă la această problemă a fost formulată în 1997 de cercetătorii Sepp Hochreiter și Jürgen Schmidhuber sub numele de rețea cu memorie pe termen lung și scurt (<dfn>LSTM</dfn>). Ideea lor a fost să creeze o bandă transportoare paralelă (o „autostradă a memoriei”) pe care informația să poată călători nestingherită, fără a fi strivită la fiecare pas de înmulțiri succesive.</p>
 
-  <p>Pe drumul acela, vina nu mai e înmulțită cu ponderi la fiecare pas, deci nu se mai stinge. Construcția se numește <dfn>memorie lungă și scurtă</dfn> și a rămas metoda obișnuită vreme de aproape două decenii, folosită în traducerea automată, în recunoașterea vorbirii și în tot ce ținea de șiruri.</p>
+  <p>Accesul la această bandă este controlat de niște robinete inteligente numite <dfn>porți</dfn>: o poartă de uitare care decide ce detalii vechi pot fi șterse, o poartă de scriere care adaugă fapte proaspete și o poartă de citire care extrage ce este util pentru momentul prezent. Datorită acestei structuri cu autostradă directă, semnalul de gradient nu se mai stinge, iar rețelele LSTM au putut reține contexte mult mai lungi, dominând traducerea automată și recunoașterea vocală timp de aproape douăzeci de ani.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="5" fill="#2F4BC4"/><circle cx="26" cy="32" r="5" fill="#2F4BC4"/><circle cx="40" cy="32" r="5" fill="#2F4BC4"/><circle cx="54" cy="32" r="5" fill="#BDB9AA"/><path d="M17 32 H21 M31 32 H35 M45 32 H49" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 48 H56" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Ce nu s-a rezolvat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="5" fill="#2F4BC4"/><circle cx="26" cy="32" r="5" fill="#2F4BC4"/><circle cx="40" cy="32" r="5" fill="#2F4BC4"/><circle cx="54" cy="32" r="5" fill="#BDB9AA"/><path d="M17 32 H21 M31 32 H35 M45 32 H49" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 48 H56" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Zidul de netrecut: gâtuirea și prelucrarea pas cu pas</h2>
 
-  <p>Porțile mută pragul mult mai departe, fără să înlăture cele două neajunsuri de fond.</p>
+  <p>Deși arhitectura LSTM a împins considerabil capacitatea de memorare, două neajunsuri fundamentale au rămas nesoluționate și au blocat în cele din urmă progresul.</p>
 
-  <p>Primul e gâtuirea. Oricât de bine ar fi păstrată, starea rămâne un șir de numere de mărime fixă, iar o carte întreagă trebuie să treacă prin el. Ce nu încape se pierde, iar ce se pierde nu se mai poate recupera din pașii următori.</p>
+  <p>Primul este gâtuirea informațională a rezumatului unic. Oricât de rafinate sunt porțile, întregul conținut al unei cărți sau al unui document complex trebuie să fie stors și comprimat printr-un singur vector de dimensiune fixă. Ceea ce se pierde pe parcurs este pierdut pentru totdeauna; pașii ulteriori nu mai au nicio modalitate de a privi direct în urmă pentru a reciti textul original.</p>
 
-  <p>Al doilea s-a dovedit hotărâtor și n-are nicio legătură cu învățarea. Pasul al miilea nu se poate calcula până nu s-a calculat al nouă sute nouăzeci și nouălea, fiindcă are nevoie de starea lui. Prelucrarea e obligatoriu în șir, iar mașinile care fac antrenarea rapidă sunt tocmai cele care fac multe socoteli deodată. O rețea recurentă nu le poate folosi din plin, oricât ar fi ele de mari.</p>
+  <p>Al doilea obstacol s-a dovedit însă fatal pentru epoca calculatoarelor moderne: dependența strict secvențială. Pentru a procesa cuvântul numărul o mie, o rețea recurentă trebuie să fi terminat obligatoriu cuvântul nouă sute nouăzeci și nouă, deoarece are nevoie vitală de starea lui ascunsă! Este imposibil să procesezi fraza dintr-o singură lovitură în paralel. Or, procesoarele grafice moderne (GPU-urile) își trag puterea tocmai din capacitatea de a executa milioane de operații simultane pe matrici mari.</p>
 
-  <p>Aici s-a oprit creșterea. Nu la lipsa de idei, ci la faptul că modelul nu putea fi mărit destul de repede. Rămâne de găsit ceva care să lase fiecare poziție să se uite direct la toate celelalte, fără să treacă printr-un rezumat de mărime fixă și fără să aștepte pasul dinainte. Lecția următoare o construiește.</p>
+  <p>Aici s-a oprit evoluția recurenței: nu din lipsă de imaginație, ci fiindcă nu putea profita de puterea masivă a noilor cipuri paralele. Era nevoie de o revoluție completă: un mecanism care să permită fiecărui cuvânt să privească direct spre oricare alt cuvânt din frază, dintr-o singură privire globală și fără rezumate gâtuite. În lecția următoare, vom descoperi această idee care a schimbat lumea: mecanismul de atenție.</p>
 </section>
 
 </main>

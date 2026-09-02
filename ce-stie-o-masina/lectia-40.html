@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Unelte și <i>bucla agentului</i></h1>
-    <p class="lede">Un model nu trebuie să știe să înmulțească. Trebuie să știe ce să ceară, iar altcineva înmulțește. Din această despărțire, între a recunoaște ce se cere și a face, iese aproape tot ce se numește astăzi agent.</p>
+    <p class="lede">Un model lingvistic nu are nevoie să fie un calculator uman sau o enciclopedie exhaustivă. Mult mai valoros este să recunoască ce anume nu știe și să apeleze la uneltele potrivite — exact ca un om care lucrează cu un carnețel și un calculator de buzunar. Din această distincție firească între înțelegerea unei intenții și execuția efectivă se naște tot ceea ce numim astăzi un agent autonom.</p>
     <p class="terms">Termeni: <b>apel de unealtă</b> <b>buclă</b> <b>agent</b> <b>greșelile se adună</b></p>
   </div>
 </header>
@@ -747,9 +749,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><text x="10" y="40" font-family="monospace" font-size="16" fill="#22252D">47</text><text x="32" y="40" font-family="monospace" font-size="16" fill="#22252D">×</text><text x="42" y="40" font-family="monospace" font-size="16" fill="#22252D">83</text><path d="M8 48 H58" fill="none" stroke="#B5232B" stroke-width="2.5"/><text x="20" y="20" font-family="monospace" font-size="10" fill="#B5232B">?</text></svg></span>Ce iese prost dintr-o singură trecere</h2>
 
-  <p class="first">Socotelile exacte pe mai multe cifre nu se potrivesc cu felul în care lucrează un model. El nu ține un registru și nu duce un rest mai departe; el scoate bucata următoare din tipare, iar un rezultat care are patru cifre trebuie nimerit din prima, tot deodată.</p>
+  <p class="first">Calculele matematice exacte cu mai multe cifre contrazic natura fundamentală a unui model lingvistic. O rețea neuronală nu deține registre interne de siliciu și nu poate ține minte „restul purtat în gând”; ea prezice următorul jeton de text pe baza unor asocieri statistice învățate. Dacă îi cerem să rezolve 47 × 83, ea este silită să nimerească direct toate cele patru cifre ale rezultatului dintr-o singură trecere.</p>
 
-  <p>Măsurătoarea de mai jos ia același model mic, antrenat în două feluri. Într-unul, el trebuie să scoată cifrele răspunsului. În celălalt, el trebuie să scoată numai ce anume să se ceară: semnul socotelii și cele două numere. Apoi socoteala o face, exact, o bucată de program din pagină.</p>
+  <p>Experimentul de mai jos compară același model de mici dimensiuni, antrenat în două feluri diferite. În primul caz, modelul încearcă să calculeze singur și să emită direct cifrele răspunsului. În al doilea caz, nu îi mai cerem să facă aritmetică, ci doar să identifice ce anume se cere: operația matematică și cele două numere implicate. Calculul efectiv este preluat instantaneu de un mic program clasic de calculator din pagină.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Același model, cu unealtă și fără</figcaption>
@@ -764,19 +766,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Adunarea se învață; înmulțirea, nu. Coloana din dreapta arată de ce nu e vorba de neputință totală: modelul nimerește o bună parte din cifrele înmulțirii, dar aproape niciodată pe toate patru deodată, iar un răspuns cu o cifră greșită e un răspuns greșit.</p>
+  <p>Contrastul este grăitor: dacă adunările simple pot fi memorate prin asocieri frecvente, înmulțirea eșuează fără o unealtă exterioară. Priviți coloana din dreapta: modelul ghicește adesea ordinul de mărime sau câteva cifre, însă aproape niciodată pe toate patru simultan. Iar în matematică, un rezultat cu o singură cifră greșită este complet greșit.</p>
 
-  <p>Al doilea fel de antrenare nu-l face mai deștept la socoteli. Îi cere altceva: să recunoască ce se cere și să scrie cererea. Aceasta e o sarcină de citire, nu de calcul, iar ea se învață aproape perfect. Toată ideea stă aici: se mută sarcina de la ce nu știe la ce știe.</p>
+  <p>Al doilea tip de antrenament nu face rețeaua mai deșteaptă la calcul, ci îi oferă o sarcină pe măsura naturii ei: o problemă de limbaj. Modelul citește fraza, înțelege intenția omului și emite o comandă structurată. Aceasta este esența oricărei arhitecturi cu unelte: mutăm povara de pe ceea ce rețeaua face nesigur către ceea ce stăpânește remarcabil de bine — înțelegerea și dialogul.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="22" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="40" y="22" width="16" height="20" fill="#E9C93B" stroke="#22252D" stroke-width="2"/><path d="M30 26 H40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 22 L40 26 L36 30" fill="none" stroke="#22252D" stroke-width="2"/><path d="M40 38 H30" fill="none" stroke="#EE5A2F" stroke-width="2"/><path d="M34 34 L30 38 L34 42" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Cum arată cererea</h2>
 
-  <p>Cererea nu e o vorbă adresată cuiva. E text scris într-o formă hotărâtă dinainte, pe care programul din jurul modelului o recunoaște, o desface și o execută. Se numește <dfn>apel de unealtă</dfn>.</p>
+  <p>Dar cum comunică, în practică, modelul cu o unealtă exterioară? Cererea nu este o conversație liberă, ci un text formatat riguros într-o convenție prestabilită. Când rețeaua recunoaște că are nevoie de un calcul, ea generează acest format specific, pe care programul din jur îl interceptează, îl decodează și îl trimite uneltei. Această solicitare poartă numele de <dfn>apel de unealtă</dfn> (tool call).</p>
 
-  <p>Rezultatul se întoarce tot ca text și se lipește la coada a ceea ce modelul are în față. De aici încolo, pentru model, el nu se deosebește cu nimic de restul: e o bucată din context, ca oricare alta.</p>
+  <p>Rezultatul calculat de unealtă revine tot ca text și este adăugat la sfârșitul șirului de conversație. Din perspectiva modelului, această nouă informație devine o bucată obișnuită de context — o notiță proaspătă pe carnețelul său de lucru, de la care își poate relua firul gândirii.</p>
 
-  <p>Programul care ține această învârtire, modelul scrie, ceva din afară execută, rezultatul se întoarce, modelul scrie mai departe, se numește <dfn>buclă</dfn>, iar ansamblul se numește <dfn>agent</dfn>. Cuvântul sună mare; mecanismul e o coadă de text care crește.</p>
+  <p>Programul care coordonează acest du-te-vino continuu — modelul scrie o intenție, programul exterior o execută, rezultatul revine pe foaie, iar modelul citește și continuă — se numește <dfn>buclă</dfn>, iar întregul sistem articulat poartă numele de <dfn>agent</dfn>. Cuvântul poate suna spectaculos, însă mecanismul este curat și pragmatic: o bandă de text care se extinde pas cu pas.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Bucla, învârtită pas cu pas</figcaption>
@@ -791,15 +793,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Cererile din bandă sunt scrise de modelul antrenat mai sus, iar socotelile sunt făcute cu adevărat de pagină. Ce nu face modelul de aici e să hotărască <i>ce</i> să ceară în continuare: ordinea socotelilor e dată de forma întrebării. Într-un agent adevărat, tot modelul hotărăște și asta, iar bucla arată la fel.</p>
+  <p class="note">Cererile de pe banda interactivă sunt emise de modelul antrenat anterior, iar calculele sunt executate în timp real de browser. Diferența față de un agent complet autonom este că aici succesiunea pașilor este sugerată de structura întrebării; într-un sistem avansat, modelul decide de la sine ce unealtă să invoce la fiecare pas, însă dinamica buclei rămâne neschimbată.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 50 L54 14" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M10 50 Q34 48 54 26" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce costă învârtirea</h2>
 
-  <p>Fiecare rotire adaugă text: cererea scrisă de model și rezultatul întors de unealtă. Contextul crește, iar modelul îl are în față întreg la fiecare pas.</p>
+  <p>Fiecare iterație a buclei adaugă text nou: comanda scrisă de model, răspunsul generat de unealtă și noile deducții. Carnețelul de lucru se îngroașă continuu, iar modelul trebuie să păstreze în atenție întregul istoric la fiecare pas.</p>
 
-  <p>Aici se leagă lecția despre ce se întâmplă când răspunde. Fără memoria de chei-valori, la fiecare rotire s-ar reciti tot ce s-a adunat, iar munca ar crește cu pătratul numărului de rotiri. Cu ea, fiecare rotire plătește numai bucata nouă, plus atenția asupra a tot ce s-a strâns.</p>
+  <p>Aici redescoperim importanța memoriei de chei-valori (KV cache), studiată la generarea textului. Fără această memorie rapidă, la fiecare rotire a buclei calculatorul ar trebui să recitească de la capăt toate paginile acumulate anterior, iar efortul de calcul ar crește proporțional cu pătratul numărului de pași. Datorită acestei optimizări, fiecare pas plătește doar procesarea noutăților și atenția distribuită asupra a ceea ce s-a strâns deja.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Cât text se adună și cât se citește</figcaption>
@@ -818,13 +820,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="5" fill="#2F4BC4"/><circle cx="26" cy="32" r="5" fill="#2F4BC4"/><circle cx="40" cy="32" r="5" fill="#B5232B"/><circle cx="54" cy="32" r="5" fill="#B5232B"/><path d="M17 32 H21 M31 32 H35 M45 32 H49" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 22 L44 26 M36 26 L44 22" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Unde se rupe</h2>
 
-  <p>Bucla nu adaugă nicio putere de judecată. Ea adaugă acces.</p>
+  <p>Este esențial să reținem că bucla agentului nu conferă o inteligență magică rețelei; ea îi oferă doar acces la lumea din afară.</p>
 
-  <p>Modelul n-are cum să știe dacă rezultatul întors de unealtă e bun; el îl citește ca pe orice altă bucată de text și merge mai departe. Dacă cererea a fost scrisă greșit, răspunsul greșit se întoarce cu aceeași înfățișare ca unul bun, iar de aici încolo totul se sprijină pe el.</p>
+  <p>Modelul nu are un simț infailibil pentru a ști dacă datele primite de la o unealtă sunt corecte; el le citește ca pe oricare alt text și construiește mai departe pe baza lor. Dacă cererea inițială a fost vagă sau greșită, rezultatul întors va fi la fel de defectuos — dar va purta haina unui răspuns oficial. Iar din acel moment, întregul eșafodaj logic ulterior se sprijină pe o fisură.</p>
 
-  <p>Și fiindcă greșelile se adună, o rotire care merge în nouă cazuri din zece dă, după zece rotiri, ceva mai puțin de patru cazuri din zece în care totul a mers bine. De aceea agenții care fac multe rotiri au nevoie de verificări la fiecare pas, nu numai la sfârșit. Un lanț lung e la fel de bun ca înmulțirea siguranțelor verigilor lui, și înmulțirea unor numere mai mici decât unu coboară repede.</p>
+  <p>O vulnerabilitate majoră a oricărui sistem autonom este că <dfn>greșelile se adună</dfn>. Chiar dacă fiecare pas individual are o rată excelentă de succes de 90%, după un lanț de zece pași consecutivi probabilitatea ca întreaga misiune să iasă perfect scade sub 35% (0,9 înmulțit cu el însuși de zece ori coboară rapid). De aceea, agenții care execută planuri complexe au nevoie de verificări, confirmări și autocorecții la fiecare cotitură, nu doar la final.</p>
 
-  <p>Cea mai des folosită unealtă nu e un calculator, ci una care caută text și-l aduce în context înaintea răspunsului. Lecția următoare arată cum se caută, folosind harta din lecția despre spațiul comun.</p>
+  <p>În practică, cea mai utilizată unealtă nu este un calculator de buzunar, ci un sistem capabil să caute informații în biblioteci uriașe de date și să le așeze pe masa de lucru a modelului înainte ca acesta să formuleze un răspuns. În lecția următoare, vom explora tocmai această tehnică — generarea augmentată prin regăsire (RAG) — un veritabil examen cu cărțile deschise.</p>
 </section>
 
 </main>

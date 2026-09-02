@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Ce se vede <i>înăuntru</i></h1>
-    <p class="lede">Un model e o grămadă de numere fără nume. Se poate totuși întreba dacă printre ele stau scrise mărimi pe care le recunoaștem, și mai ales dacă modelul se folosește de ele. Răspunsul cere trei lucruri: o citire, un martor și o intervenție.</p>
+    <p class="lede">Privită din exterior, o rețea neuronală pare o cutie neagră impenetrabilă: un ocean de miliarde de numere zecimale anonime. Oare putem privi înăuntru pentru a vedea dacă modelul își formează reprezentări reale ale lumii — concepte clare pe care le putem înțelege și noi? Domeniul interpretării mecaniciste demonstrează că da. Pentru a cerceta creierul de siliciu fără iluzii, știința folosește o metodă riguroasă în trei pași: o citire cu o sondă, un grup de control (martor) și o intervenție chirurgicală directă.</p>
     <p class="terms">Termeni: <b>activări</b> <b>sondă</b> <b>direcție</b> <b>martor</b> <b>intervenție</b></p>
   </div>
 </header>
@@ -747,11 +749,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#2F4BC4"><circle cx="18" cy="22" r="3"/><circle cx="30" cy="22" r="3"/><circle cx="42" cy="22" r="3"/><circle cx="18" cy="32" r="3"/><circle cx="42" cy="32" r="3"/><circle cx="18" cy="42" r="3"/><circle cx="30" cy="42" r="3"/><circle cx="42" cy="42" r="3"/></g><circle cx="30" cy="32" r="3" fill="#EE5A2F"/><text x="52" y="36" font-family="monospace" font-size="9" fill="#22252D">?</text></svg></span>Sarcina și întrebarea</h2>
 
-  <p class="first">Modelul din pagină e cel din lecția dinainte: primește două numere de câte două cifre și un semn, și scoate cifrele răspunsului. Între intrare și ieșire stau două straturi de câte 72 de unități, iar valorile lor pentru o intrare dată se numesc <dfn>activări</dfn>.</p>
+  <p class="first">Modelul interactiv din această pagină primește două numere de câte două cifre și o operație matematică, generând cifrele rezultatului. Între datele de intrare și răspunsul final se află două straturi neuronale ascunse, fiecare compus din 72 de neuroni. Când rețeaua procesează un calcul, valorile numerice instantanee care trec prin aceste unități se numesc <dfn>activări</dfn>.</p>
 
-  <p>Activările sunt 72 de numere fără nume. Întrebarea e dacă vreo mărime cu înțeles pentru om, un transport de la unități la zeci, cifra zecilor din răspuns, se poate citi din ele. Mijlocul obișnuit e o <dfn>sondă</dfn>: un clasificator mic și simplu, antrenat să ghicească acea mărime din activări, fără să atingă modelul.</p>
+  <p>Aceste activări sunt doar 72 de numere zecimale fără nicio etichetă descriptivă. Întrebarea fascinantă este: oare rețeaua a descoperit de la sine concepte logice umane — cum ar fi „transportul de la unități la zeci” (trecerea peste ordin) sau valoarea zecilor din rezultat? Pentru a afla, cercetătorii introduc o <dfn>sondă</dfn> (probe): un mic detector extern, complet separat de model, antrenat să ghicească conceptul căutat analizând exclusiv activările interne, fără a atinge sau modifica modelul.</p>
 
-  <p>Sonda folosită aici e liniară, adică ea nu poate socoti nimic de la sine; ea poate doar să cântărească cele 72 de numere și să adune. Dacă reușește, înseamnă că mărimea era deja scrisă acolo.</p>
+  <p>Sonda pe care o folosim este deliberat minimalistă (o sondă liniară). Ea nu are capacitatea de a face raționamente complicate pe cont propriu; poate doar să înmulțească fiecare dintre cele 72 de numere cu o pondere și să le adune. Dacă un detector atât de simplu reușește să ghicească perfect conceptul, concluzia este fără echivoc: informația era deja organizată limpede chiar în măruntaiele rețelei!</p>
 </section>
 
 <section id="s2">
@@ -770,17 +772,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Coloanele din mijloc sunt martorii, și fără ei tabelul n-ar spune nimic. Prima arată ce se citește direct din intrarea brută, a doua ce se citește dintr-o rețea cu aceeași alcătuire, dar cu ponderi rămase la întâmplare, neantrenată.</p>
+  <p>Priviți tabelul interactiv: coloanele din mijloc reprezintă grupul de control — <dfn>martorul</dfn> științific indispensabil, fără de care cifrele nu ar avea nicio valoare. Prima coloană martor măsoară ce se poate citi direct din numerele brute de la intrare; a doua coloană arată ce găsește sonda într-o rețea identică, dar complet neantrenată, lăsată cu valori la întâmplare.</p>
 
-  <p>Ele despart trei situații. Unde toate coloanele stau sus, mărimea era în intrare de la bun început și sonda n-a descoperit nimic despre model. Unde ultima coloană urcă mult peste martori, modelul a socotit el ceva ce în intrare nu se putea citi liniar. Unde ultima coloană coboară sub martori, modelul a lăsat pe drum o mărime pe care intrarea o avea.</p>
+  <p>Prezența martorilor ne permite să distingem trei situații fundamentale. Când toate valorile sunt mari, conceptul era deja evident în datele brute de intrare, deci sonda nu demonstrează nicio pricepere a rețelei. Când ultima coloană (modelul antrenat) depășește spectaculos ambii martori, avem dovada că modelul a calculat intern o abstractizare nouă, absentă la intrare. Iar când scorul final coboară sub martori, înseamnă că rețeaua a renunțat la acel detaliu pentru a se concentra pe alte priorități.</p>
 
-  <p class="note">Ultimul caz nu înseamnă că mărimea s-a pierdut cu totul; înseamnă că nu mai stă scrisă în felul simplu pe care o sondă liniară îl poate citi. Ce se măsoară aici e întotdeauna o citire cu un anumit fel de ochelari.</p>
+  <p class="note">O scădere a scorului nu înseamnă neapărat că informația a dispărut fără urmă; înseamnă doar că ea nu mai stă întinsă la suprafață într-o formă liniară simplă. Orice sondă măsoară lumea printr-o pereche anume de ochelari.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="16" cy="32" r="8" fill="#E9C93B" stroke="#22252D" stroke-width="2"/><path d="M32 52 L54 14" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M48 14 L54 14 L54 20" fill="none" stroke="#2F4BC4" stroke-width="3"/><g fill="#BDB9AA"><circle cx="38" cy="44" r="2"/><circle cx="44" cy="34" r="2"/><circle cx="48" cy="26" r="2"/></g></svg></span>O unitate sau o direcție</h2>
 
-  <p>Dacă o mărime se citește din activări, se poate întreba de unde anume. Cea mai simplă bănuială e că o poartă o singură unitate, ca un bec care se aprinde.</p>
+  <p>Dacă un concept se află cu siguranță în rețea, unde anume locuiește el? Prima noastră intuiție naivă ar fi să căutăm „neuronul dedicat” — o singură unitate biologică sau artificială care să se aprindă ca un bec ori de câte ori apare acel concept (faimoasa teorie a „neuronului bunicii”).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Fiecare unitate luată singură, față de toate luate împreună</figcaption>
@@ -797,17 +799,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="ctrl" id="uCtrl"></div>
   </figure>
 
-  <p>Butoanele despart două situații, aceleași ca în tabelul dinainte. La mărimile pe care modelul le-a socotit, nicio unitate luată singură nu se apropie de ce citesc toate împreună: mărimea nu stă într-un bec, ci într-o <dfn>direcție</dfn>, o anumită combinație de unități cu ponderi și cu semne, care se citește numai privind mai multe deodată. La mărimile pe care modelul nu le-a păstrat, o unitate singură face cât întreg stratul, fiindcă acolo nu mai e nimic de citit nici într-un fel, nici în celălalt.</p>
+  <p>Graficul de mai sus demontează categoric această iluzie. Pentru conceptele pe care rețeaua le calculează activ, niciun neuron individual nu se apropie de precizia întregului strat. Conceptul nu locuiește într-o celulă izolată, ci într-o <dfn>direcție</dfn> distribuită — o armonie colectivă, un tipar fin în care zeci de unități vibrează împreună cu intensități și semne diferite.</p>
 
-  <p>Asta are o urmare cu greutate. Numărul de direcții deosebite pe care le poate ține un strat e mult mai mare decât numărul de unități, fiindcă direcțiile se pot suprapune parțial fără să se încurce prea tare. De aceea căutarea de neuroni cu nume dă rezultate slabe, iar căutarea de direcții dă rezultate.</p>
+  <p>Această descoperire explică fenomenul de superpoziție: un spațiu cu 72 de dimensiuni poate găzdui simultan mii de concepte diferite sub formă de direcții cvasi-ortogonale, care se întrepătrund armonios fără a se distruge reciproc. Iată de ce căutarea unui neuron unic pentru fiecare noțiune este o fundătură, în timp ce căutarea direcțiilor vectoriale aduce la lumină adevărata geometrie a gândirii artificiale.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H56" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M26 22 L38 42 M38 22 L26 42" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M8 48 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Citit nu înseamnă folosit</h2>
 
-  <p>O sondă care reușește arată că mărimea e scrisă acolo. Ea nu arată că modelul se sprijină pe ea; ar putea fi un rest de socoteală care nu duce nicăieri.</p>
+  <p>Atenție însă la o capcană logică: faptul că o sondă poate citi o trăsătură nu înseamnă automat că modelul o și folosește pentru a lua decizii! Ar putea fi o simplă coincidență, o umbră pasivă sau un deșeu de calcul fără relevanță.</p>
 
-  <p>Deosebirea se face printr-o intervenție. Direcția găsită de sondă se scoate din activări, se șterge acea combinație și se lasă tot restul neatins, după care se măsoară cât de bine mai lucrează modelul la sarcina lui.</p>
+  <p>Pentru a trece de la corelație la cauzalitate, este nevoie de o <dfn>intervenție</dfn> chirurgicală (ablation). Luăm direcția geometrică identificată de sondă și o eliminăm pur și simplu din activările interne — „anesteziem” acea componentă fără a atinge restul rețelei —, apoi măsurăm impactul asupra rezolvării sarcinii.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Ce pierde modelul când i se șterge o direcție din 72</figcaption>
@@ -818,21 +820,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capA"></div>
   </figure>
 
-  <p>Rândul cu direcția la întâmplare e martorul de care atârnă toată citirea: orice ștergere strică ceva, iar întrebarea e cu cât mai mult decât o ștergere fără înțeles. Direcțiile care costă mult sunt cele pe care modelul le folosește; cele care costă cât întâmplarea sunt scrise, dar nefolosite.</p>
+  <p>Priviți rândul de control cu direcția aleatorie: orice intervenție brută produce o mică perturbare, dar marea întrebare este dacă direcția vizată provoacă o cădere semnificativ mai severă. Dacă eliminarea direcției prăbușește precizia modelului, avem certitudinea că modelul se bizuia activ pe ea. Dacă impactul este identic cu cel al unei perturbări la întâmplare, înseamnă că trăsătura era doar scrisă pasiv, fără a avea vreun rol funcțional.</p>
 
-  <p>Aceasta e forma pe care o iau, la scară, cercetările despre interiorul modelelor mari: se caută direcții cu înțeles în activări, se verifică pe martori că nu sunt găsite din senin, și se șterg sau se întăresc ca să se vadă la ce ține modelul.</p>
+  <p>Exact aceasta este metodologia de vârf folosită astăzi pentru a sonda modelele lingvistice de frontieră: identificarea direcțiilor cu sens, validarea riguroasă pe eșantioane martor și intervenția activă (ștergere sau amplificare) pentru a ghida comportamentul rețelei din interior.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="32" cy="32" r="4" fill="#EE5A2F"/><path d="M32 10 V4 M32 60 V54 M10 32 H4 M60 32 H54" fill="none" stroke="#2F4BC4" stroke-width="2"/></svg></span>Cât de departe se poate merge</h2>
 
-  <p>Ceea ce se vede aici cu 72 de unități și șase mărimi alese dinainte se face și pe modele cu miliarde de ponderi, dar cu două deosebiri.</p>
+  <p>Principiul demonstrat aici pe un model didactic de 72 de unități este aplicat direct marilor sisteme lingvistice cu sute de miliarde de parametri, însă la o scară amețitoare.</p>
 
-  <p>Întâi, acolo nimeni nu poate scrie dinainte lista mărimilor de căutat, așa că direcțiile se caută automat, cerându-se ca fiecare intrare să se scrie ca o sumă de puține direcții dintr-un dicționar mult mai mare decât numărul de unități. Apoi, ce iese trebuie citit și numit de oameni, iar numele sunt mai puțin sigure decât cifrele.</p>
+  <p>La acea scară, cercetătorii nu pot ghici dinainte manual toate milioanele de concepte posibile. Se folosesc rețele ajutătoare speciale (auto-codificatoare rare / sparse autoencoders) care descompun automat activitățile interne într-un dicționar gigantic de direcții curate. În aceste hărți au fost descoperite direcții fascinante: reprezentări neuronale pentru Turnul Eiffel, pentru concepte științifice avansate, pentru tonul glumeț sau chiar pentru intenția de a induce în eroare.</p>
 
-  <p>Ce rămâne neschimbat e metoda: o citire, un martor și o intervenție. Fără martor citirea nu spune nimic, iar fără intervenție nu se știe dacă ce s-a citit contează. E, la urma urmei, felul în care se cunoaște orice lucru pe care nu-l putem întreba direct.</p>
+  <p>Ceea ce rămâne neschimbat și peren este rigoarea metodei științifice: o citire fidelă prin sonde, un martor de control și o intervenție cauzală directă. Fără martor, riscăm să ne amăgim singuri; fără intervenție, nu putem ști dacă ceea ce vedem contează cu adevărat. Este modul prin care deslușim orice mister pe care nu îl putem întreba direct în cuvinte.</p>
 
-  <p>Cu aceasta se încheie mecanismele. Ultima parte a cursului nu mai adaugă piese, ci pune trei întrebări care rămân deschise, cu aceleași unelte: dacă un model care prezice își face un model al lumii, ce ar însemna ca o mașină să fie „mai deșteaptă”, și ce se întâmplă cu un scop atunci când e urmărit prin măsura lui.</p>
+  <p>Cu această privire în interior se încheie călătoria noastră prin mecanismele fundamentale ale inteligenței artificiale moderne. În ultima parte a cursului, nu vom mai adăuga piese noi de puzzle. Vom folosi tot ce am învățat pentru a medita la trei mari întrebări filosofice și practice: oare o mașină care doar prezice cuvinte își construiește un model profund al lumii? ce înseamnă cu adevărat ca un algoritm să fie „inteligent”? și ce riscuri nebănuite apar atunci când o societate întreagă își optimizează scopurile după indicatori artificiali?</p>
 </section>
 
 </main>

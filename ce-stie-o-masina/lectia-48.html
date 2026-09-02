@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,8 +740,8 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Scara, de la <i>capăt la capăt</i></h1>
-    <p class="lede">Un singur drum înapoi prin tot cursul, fără cuvinte noi: de la sarcina care se mișcă printr-un cristal până la sistemul care caută, cheamă unelte și răspunde. Cincisprezece opriri, fiecare făcută din cea de dedesubt și fără nevoie să știe cum e făcută aceea.</p>
-    <p class="terms">Termeni: <b>trepte</b> <b>ce se păstrează de la o treaptă la alta</b> <b>de unde vin limitele</b></p>
+    <p class="lede">O călătorie completă de la un capăt la altul al cursului, fără noțiuni noi: privind drumul de la electronul care străbate un cristal de siliciu până la sistemele capabile să caute informații, să folosească unelte și să converseze liber. Cincisprezece trepte ale abstracției, fiecare clădită pe etajul de dedesubt, fără a avea nevoie să-i cunoască mecanica internă.</p>
+    <p class="terms">Termeni: <b>scara abstracțiilor</b> <b>proprietăți emergente</b> <b>de unde vin limitele</b> <b>ce știe o mașină</b></p>
   </div>
 </header>
 <main class="sections">
@@ -747,7 +749,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 56 H20 V44 H32 V32 H44 V20 H56 V8" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="14" cy="56" r="3" fill="#2F4BC4"/><circle cx="26" cy="44" r="3" fill="#6B7A38"/><circle cx="38" cy="32" r="3" fill="#E9C93B"/><circle cx="50" cy="20" r="3" fill="#EE5A2F"/></svg></span>Cincisprezece opriri</h2>
 
-  <p class="first">Figura de mai jos e tot cursul, strâns într-o singură pânză. Fiecare oprire e o treaptă întâlnită într-o lecție, iar trecerea de la una la alta e o mărire: se face un pas înapoi, și ce era înainte întreaga imagine devine o piesă a celei următoare.</p>
+  <p class="first">Figura interactivă de mai jos reunește întreaga poveste a cursului într-o singură pânză continuă. Fiecare oprire reprezintă o treaptă tehnologică pe care am construit-o împreună: trecerea de la una la alta este o schimbare de perspectivă, un pas înapoi prin care ceea ce înainte părea întregul univers devine doar o piesă componentă a etajului următor.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Cincisprezece opriri, una din alta</figcaption>
@@ -767,23 +769,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H56" fill="none" stroke="#22252D" stroke-width="2.5"/><path d="M12 26 V38 M20 28 V36 M28 26 V38 M36 28 V36 M44 26 V38 M52 28 V36" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 20 L36 44" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Unde se schimbă rigla</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H56" fill="none" stroke="#22252D" stroke-width="2.5"/><path d="M12 26 V38 M20 28 V36 M28 26 V38 M36 28 V36 M44 26 V38 M52 28 V36" fill="none" stroke="#22252D" stroke-width="2"/><path d="M36 20 L36 44" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Unde se schimbă rigla de măsură</h2>
 
-  <p>Primele cinci opriri se pot măsura în metri, iar fiecare o cuprinde pe cea dinainte: sarcina stă în cristal, cristalul face tranzistorul, tranzistoarele fac poarta, porțile fac bistabilul, bistabilele și porțile fac procesorul. Drumul e o mărire obișnuită, cu numere pe care le știe oricine.</p>
+  <p>Primele cinci opriri pot fi măsurate în metri și nanometri, într-o ierarhie spațială clasică: sarcinile electrice se mișcă în interiorul unui cristal de siliciu; cristalul formează tranzistorul; tranzistoarele compun porțile logice; porțile formează memoria și bistabilii; iar acestea se unesc pentru a alcătui procesorul. Acest segment al călătoriei este o mărire geometrică obișnuită, de la scara microscopică a atomilor la scara vizibilă a cipurilor.</p>
 
-  <p>De la a șasea oprire încolo nu mai există metri. Un număr nu e mai mare decât un procesor, iar o rețea nu e mai mare decât un neuron; ele stau unele peste altele în alt fel. Ce se păstrează e singurul lucru care conta și înainte: fiecare treaptă e alcătuită din trepte de dedesubt și n-are nevoie să știe cum sunt ele făcute.</p>
+  <p>Însă de la a șasea oprire încolo, rigla spațială își pierde relevanța. Un număr nu este mai mare în centimetri decât un procesor, iar o rețea neurală nu ocupă mai mult spațiu fizic decât o linie de cod. Ele se așază unele peste altele într-un alt fel: ca <i>niveluri de abstracție</i>. Ceea ce se păstrează însă intact este principiul fundamental al întregului curs: fiecare etaj folosește componentele de dedesubt ca pe niște cărămizi gata făcute, fără să aibă nevoie să știe cum sunt construite în detaliu.</p>
 
-  <p>Aceasta e toată povestea cursului. Un tranzistor nu știe nimic despre porți, o poartă nu știe nimic despre numere, un neuron nu știe nimic despre cuvinte, iar un model de limbaj nu știe nimic despre unealta pe care o cheamă. Fiecare strat lucrează numai cu ce-i dă cel de sub el și oferă mai departe ceva care se poate folosi fără să fie desfăcut.</p>
+  <p>Aceasta este, în fond, marea arhitectură a calculatoarelor și a inteligenței artificiale: un tranzistor nu știe ce este o poartă logică; o poartă logică nu știe ce este un număr; un neuron artificial nu știe ce este o propoziție; iar un model de limbaj nu știe ce este unealta software pe care o apelează. Fiecare nivel primește doar ceea ce îi oferă nivelul inferior și produce un rezultat stabil, pregătit pentru etajul următor.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 32 L32 14" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M32 32 L44 40" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#22252D"/><path d="M8 56 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Ce rămâne în urmă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 32 L32 14" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M32 32 L44 40" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#22252D"/><path d="M8 56 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Ce știe cu adevărat o mașină</h2>
 
-  <p>Nimic din drumul acesta nu cere ca vreo treaptă să fie deșteaptă. Sarcina se mișcă după fizică, poarta comută după tensiuni, ponderea se schimbă după o derivată, cuvântul se alege după o probabilitate. Ceea ce se vede la capăt vine din numărul de trepte și din mărimea fiecăreia, nu dintr-un fel deosebit de piesă undeva pe drum.</p>
+  <p>Privind această scară de la un capăt la altul, descoperim ceva eliberator: <i>niciuna dintre componentele individuale nu este conștientă sau „inteligentă” în sine</i>. Electronul se supune fizicii semiconductoarelor, tranzistorul comută după diferențe de tensiune, ponderile se ajustează după o derivată matematică, iar următorul cuvânt este selectat după o distribuție statistică. Ceea ce percepem noi ca inteligență, înțelegere sau creativitate nu provine dintr-o scânteie magică ascunsă undeva pe parcurs, ci din numărul uriaș de trepte simple suprapuse la o scară monumentală.</p>
 
-  <p>De aici vin și limitele arătate pe parcurs. Un model care alege cuvântul următor după probabilități n-are cum să știe când greșește, iar un scor pe un test nu spune decât ce a fost măsurat. Aceleași reguli simple care fac lucrul cu putință îi pun și marginile.</p>
+  <p>Din această simplitate de bază decurg însă și limitele firești pe care le-am întâlnit pe parcurs: un model care doar prezice continuarea cea mai plauzibilă a unui text nu are o conștiință a greșelii și nici o ancoră directă în realitatea fizică. Aceleași principii statistice care îi dau puterea îi trasează și granițele.</p>
 
-  <p>Titlul cursului era o întrebare: ce știe o mașină. După patruzeci și opt de lecții, răspunsul cel mai cinstit e că ea știe ce urmează de obicei, la fiecare treaptă, și nimic altceva. Tot restul, tot ce ne pare înțelegere, e felul în care treptele acestea, puse una peste alta de destule ori, ajung să semene cu ceva ce am recunoaște la noi. Dacă asemănarea e și altceva decât asemănare, cursul acesta nu poate spune. Poate doar să arate, treaptă cu treaptă, din ce e făcută.</p>
+  <p>Titlul cursului nostru a fost o întrebare simplă: <i>ce știe o mașină?</i> După patruzeci și opt de lecții parcurse pas cu pas, răspunsul cel mai onest și profund este că mașina știe ce tipar urmează în mod natural la fiecare nivel, și nimic mai mult. Tot restul — ceea ce nouă ni se pare gândire, intuiție sau dialog viu — este modul spectaculos în care aceste trepte modeste, combinate de miliarde de ori, ajung să reflecte complexitatea minții umane. Dacă această reflexie este doar o oglindă sofisticată sau începutul a ceva complet nou, rămâne o întrebare deschisă. Ceea ce putem spune cu certitudine este că acum știm, treaptă cu treaptă, din ce este clădită.</p>
 </section>
 
 </main>

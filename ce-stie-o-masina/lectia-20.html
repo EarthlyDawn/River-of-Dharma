@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,40 +740,40 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Tokenizarea</i></h1>
-    <p class="lede">Un dicționar de cuvinte nu se poate încheia niciodată, iar unul de litere nu spune nimic. Unitatea folosită se află între ele și se alege numărând, fără ca nimeni să hotărască dinainte ce e o bucată de cuvânt.</p>
-    <p class="terms">Termeni: <b>tokeni</b> <b>lipirea perechilor frecvente</b> <b>vocabular</b> <b>tokenizator</b></p>
+    <p class="lede">Un dicționar cu toate cuvintele posibile este o iluzie fără sfârșit, în timp ce lucrul literă cu literă este lent și lipsit de înțeles. Soluția ingenioasă a inteligenței artificiale se află la mijloc: tăierea textului în cărămizi flexibile de Lego. Fără reguli gramaticale rigide, un algoritm simplu numără literele și lipește bucățile cele mai frecvente.</p>
+    <p class="terms">Termeni: <b>tokeni (piese de vocabular)</b> <b>lipirea perechilor frecvente (BPE)</b> <b>vocabular fix</b> <b>tokenizator</b> <b>piese oarbe</b></p>
   </div>
 </header>
 
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="40" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 18 H42 M14 26 H36 M14 34 H42 M14 42 H30" fill="none" stroke="#22252D" stroke-width="2"/><path d="M48 46 L58 56 M58 46 L48 56" fill="none" stroke="#B5232B" stroke-width="2.5"/></svg></span>Dicționarul care nu se poate încheia</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="40" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 18 H42 M14 26 H36 M14 34 H42 M14 42 H30" fill="none" stroke="#22252D" stroke-width="2"/><path d="M48 46 L58 56 M58 46 L48 56" fill="none" stroke="#B5232B" stroke-width="2.5"/></svg></span>Dicționarul care nu se poate încheia niciodată</h2>
 
-  <p class="first">Lecția precedentă a dat fiecărui cuvânt un vector, ceea ce cere o listă dinainte cu toate cuvintele. Lista aceasta nu poate fi completă. Vor exista mereu nume proprii nemaivăzute, cuvinte scrise greșit, forme rare, termeni apăruți ieri, adrese, numere. Fiecare dintre ele lovește în același perete: un cuvânt care lipsește din listă nu are vector, iar tot ce se poate face cu el e să fie înlocuit cu un semn de necunoscut, adică să fie pierdut cu totul.</p>
+  <p class="first">În lecția anterioară am văzut că fiecare noțiune are nevoie de un vector propriu de numere, ceea ce presupune alcătuirea unui catalog complet cu toate cuvintele posibile. Dar în limba vie, o astfel de listă definitivă este o imposibilitate. Mereu vor apărea nume proprii neașteptate, neologisme tehnologice, greșeli de tipar, numere sau cuvinte inventate în joacă. Orice termen absent din catalog se lovește de un zid: neavând un vector asociat, rețeaua nu are ce face cu el și este silită să-l înlocuiască cu un simbol sec de „cuvânt necunoscut” (celebrul <i>[UNK]</i>), pierzând orice informație.</p>
 
-  <p>La o limbă cu multe forme, problema se agravează. „Casă”, „casei”, „case”, „casele” și „căsuța” sunt cinci intrări deosebite într-o listă de cuvinte, fiecare cu vectorul ei, fiecare învățată separat. Legătura dintre ele, evidentă pentru un vorbitor, trebuie descoperită de model din contexte, dacă are destule.</p>
+  <p>În limbi bogate în forme gramaticale, cum este româna, coșmarul se multiplică. „Casă”, „casei”, „case”, „casele”, „căsuță” și „căsuței” ar trebui tratate ca intrări complet separate în catalog, fiecare cu vectorul ei învățat de la zero. Deși orice vorbitor recunoaște numaidecât rădăcina comună, modelul ar trebui să redescopere această legătură evidentă din sute de contexte paralele.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F7F3E6" stroke="#22252D" stroke-width="1.5"><rect x="4" y="26" width="9" height="12"/><rect x="15" y="26" width="9" height="12"/><rect x="26" y="26" width="9" height="12"/><rect x="37" y="26" width="9" height="12"/><rect x="48" y="26" width="9" height="12"/></g><rect x="8" y="46" width="24" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="34" y="46" width="22" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/></svg></span>Litere în loc de cuvinte</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#F7F3E6" stroke="#22252D" stroke-width="1.5"><rect x="4" y="26" width="9" height="12"/><rect x="15" y="26" width="9" height="12"/><rect x="26" y="26" width="9" height="12"/><rect x="37" y="26" width="9" height="12"/><rect x="48" y="26" width="9" height="12"/></g><rect x="8" y="46" width="24" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="34" y="46" width="22" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/></svg></span>Cealaltă extremă: litere în loc de cuvinte</h2>
 
-  <p>Extrema cealaltă rezolvă complet problema listei. Cu litere, dicționarul are câteva zeci de intrări, nu lipsește niciodată nimic, iar orice cuvânt nou se scrie firesc.</p>
+  <p>O reacție firească ar fi să mergem la nivelul minim: de ce nu lucrăm direct cu litere? Un alfabet are doar câteva zeci de caractere, lista este închisă pentru totdeauna și orice cuvânt imaginabil poate fi transcris fără excepție.</p>
 
-  <p>Prețul se vede în lungime. O propoziție de douăzeci de cuvinte are în jur de o sută treizeci de litere, deci modelul are de prelucrat de șase ori mai multe unități pentru același înțeles. Iar fiecare literă, luată singură, nu spune aproape nimic: tot ce înseamnă un cuvânt trebuie reconstruit de rețea din litere, de fiecare dată.</p>
+  <p>Prețul plătit pentru această simplitate este însă uriaș. O frază obișnuită de douăzeci de cuvinte se transformă într-un șir de peste o sută treizeci de litere individuale. Rețeaua ar fi obligată să proceseze secvențe de șase ori mai lungi pentru aceeași cantitate de informație. Mai grav, o literă izolată nu poartă aproape niciun înțeles: ce înseamnă litera „p” de una singură? Modelul ar trebui să consume enorm de multă energie computațională doar pentru a reconstitui sensul fiecărui cuvânt, literă cu literă, de fiecare dată.</p>
 
-  <p>Între cele două extreme se află soluția folosită peste tot: unități mai mari decât litera și mai mici decât cuvântul, alese astfel încât cuvintele frecvente să încapă într-una singură, iar cele rare să se scrie din câteva bucăți. Unitățile se numesc <dfn>tokeni</dfn>. E același compromis pe care l-a făcut codul Morse în lecția întâi: ce e frecvent primește nume scurt, ce e rar se scrie din mai multe semne.</p>
+  <p>Soluția optimă este o cale de mijloc: decuparea textului în fragmente de dimensiune intermediară, mai mari decât o literă, dar mai mici sau egale cu un cuvânt întreg. Aceste cărămizi se numesc <dfn>tokeni</dfn>. Principiul seamănă perfect cu logica codului Morse din prima lecție: cuvintele foarte des întâlnite primesc o piesă compactă proprie, în timp ce termenii rari sunt asamblați elegant din câteva bucăți mai mici.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="20" width="14" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="24" y="20" width="14" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M20 27 H24" fill="none" stroke="#EE5A2F" stroke-width="3"/><rect x="44" y="20" width="14" height="14" fill="#F7F3E6" stroke="#22252D" stroke-width="1.5"/><rect x="6" y="42" width="32" height="14" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/><path d="M22 34 V42" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Bucățile se aleg numărând</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="20" width="14" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="24" y="20" width="14" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M20 27 H24" fill="none" stroke="#EE5A2F" stroke-width="3"/><rect x="44" y="20" width="14" height="14" fill="#F7F3E6" stroke="#22252D" stroke-width="1.5"/><rect x="6" y="42" width="32" height="14" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/><path d="M22 34 V42" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Bucățile de Lego se nasc din numărare</h2>
 
-  <p>Alegerea nu se face de mână. Se pornește de la litere, se numără toate perechile de unități alăturate din text, iar perechea cea mai frecventă se lipește într-o unitate nouă. Apoi se numără din nou, cu unitățile de acum, și se lipește următoarea. Procedeul se repetă de câteva zeci de mii de ori.</p>
+  <p>Cine stabilește unde tăiem cuvintele? Nu un lingvist și nu o comisie de experți. Împărțirea se face pur statistic printr-un algoritm automat. Pornim de la textul descompus complet în litere. Numărăm care două simboluri apar cel mai des unul lângă altul și le unim într-o cărămidă nouă. Apoi reluăm numărarea pe noul text și unim următoarea pereche fruntașă. Repetăm acest procedeu simplu de câteva zeci de mii de ori.</p>
 
-  <p>Metoda se numește <dfn>lipirea perechilor frecvente</dfn> și a fost publicată în 1994 ca metodă de compresie, apoi împrumutată pentru modelele de limbaj în 2015. Rezultatul ei e că grupurile de litere care apar des, terminații, prefixe, cuvinte scurte întregi, devin unități de sine stătătoare, fără ca nimeni să fi hotărât care sunt. Ce e un „cuvânt” pentru model nu vine dintr-o gramatică, ci din statistică.</p>
+  <p>Această rețetă poartă numele de <dfn>lipirea perechilor frecvente</dfn> (cunoscută internațional ca <i>Byte-Pair Encoding</i> sau BPE). A fost inventată în 1994 ca tehnică de compresie a fișierelor și readusă în prim-plan în 2015 pentru procesarea limbajului. Rezultatul este remarcabil: prefixele uzuale, sufixele gramaticale și cuvintele scurte devin piese unice de sine stătătoare, fără ca algoritmul să știe vreo regulă de morfologie. Pentru model, noțiunea de „cuvânt” nu provine dintr-un manual școlar, ci din statistica pură a lecturii.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Lipirile, una câte una, pe un text românesc</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Construirea vocabularului pas cu pas pe un text românesc</figcaption>
     <div class="stage">
       <div class="merges" id="mergeList"></div>
       <div class="readout" id="bpeRead"></div>
@@ -785,16 +787,16 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Textul de antrenare de aici are câteva sute de cuvinte, deci lipirile ies potrivite tocmai pentru el. Tokenizatoarele adevărate se antrenează pe miliarde de cuvinte și ajung la <dfn>vocabulare</dfn> de o sută de mii de unități.</p>
+  <p class="note">În exemplul interactiv de mai sus folosim un text restrâns de câteva sute de cuvinte, astfel că îmbinările reflectă fidel acele fraze. În sistemele industriale din viața reală, tokenizatoarele citesc biblioteci întregi de zeci de miliarde de cuvinte și opresc consolidarea la un <dfn>vocabular</dfn> echilibrat de cincizeci sau o sută de mii de piese standard.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="4" y="26" width="18" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="24" y="26" width="10" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/><rect x="36" y="26" width="8" height="12" fill="#E1E4C3" stroke="#22252D" stroke-width="1.5"/><rect x="46" y="26" width="14" height="12" fill="#F1DDA8" stroke="#22252D" stroke-width="1.5"/></svg></span>Tăierea unui text</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="4" y="26" width="18" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="24" y="26" width="10" height="12" fill="#F9D3C2" stroke="#22252D" stroke-width="1.5"/><rect x="36" y="26" width="8" height="12" fill="#E1E4C3" stroke="#22252D" stroke-width="1.5"/><rect x="46" y="26" width="14" height="12" fill="#F1DDA8" stroke="#22252D" stroke-width="1.5"/></svg></span>Cum se feliază un text nou</h2>
 
-  <p>Odată alese lipirile, orice text se taie aplicându-le în ordinea în care au fost învățate. Cuvintele frecvente în textul de antrenare ies dintr-o bucată; cele nemaivăzute se sfărâmă în câte bucăți e nevoie, dar nu se pierd niciodată.</p>
+  <p>După ce lista de îmbinări a fost fixată în vocabular, orice text nou poate fi feliat instantaneu aplicând regulile exact în ordinea învățată. Cuvintele foarte populare rămân intacte ca o singură piesă. În schimb, cuvintele nemaivăzute, termenii rari sau numele de familie neobișnuite sunt descompuse automat în bucățele mai mici — dar nu se pierd niciodată!</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Scrie orice; tăierea se face cu lipirile de mai sus</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Felierea interactivă a textului folosind vocabularul învățat</figcaption>
     <div class="stage">
       <textarea id="txt" class="short" spellcheck="false"></textarea>
       <div class="toks" id="toks"></div>
@@ -809,16 +811,16 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Bucățile îngroșate sunt cuvinte întregi, prinse dintr-o singură unitate. Restul sunt frânturi. Se vede că textul obișnuit se taie în puține bucăți mari, iar cel plin de nume proprii și numere se sfărâmă mărunt.</p>
+  <p>Piesele evidențiate cu caractere îngroșate reprezintă cuvinte întregi capturate dintr-o singură mișcare. Celelalte sunt silabe sau așchii de cuvinte. Puteți observa clar contrastul: frazele obișnuite se compactează în câteva blocuri mari, pe când textele încărcate de cifre, coduri sau denumiri rare sunt mărunțite în numeroși tokeni mărunți.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="24" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="32" y="14" width="26" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><g fill="#F3C9C6" stroke="#22252D" stroke-width="1.5"><rect x="6" y="38" width="8" height="12"/><rect x="16" y="38" width="8" height="12"/><rect x="26" y="38" width="8" height="12"/><rect x="36" y="38" width="8" height="12"/><rect x="46" y="38" width="12" height="12"/></g></svg></span>Pe ce text a fost antrenat tokenizatorul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="24" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="32" y="14" width="26" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><g fill="#F3C9C6" stroke="#22252D" stroke-width="1.5"><rect x="6" y="38" width="8" height="12"/><rect x="16" y="38" width="8" height="12"/><rect x="26" y="38" width="8" height="12"/><rect x="36" y="38" width="8" height="12"/><rect x="46" y="38" width="12" height="12"/></g></svg></span>Inegalitatea ascunsă dintre limbi</h2>
 
-  <p>Lipirile depind în întregime de textul pe care au fost numărate. Un <dfn>tokenizator</dfn> antrenat pe engleză nu are printre unități terminațiile românești, deci le va sparge în litere. Figura de mai jos face aceleași lipiri, în același număr, pe două texte de mărimi asemănătoare, unul românesc și unul englezesc, și taie apoi cu fiecare aceeași propoziție românească.</p>
+  <p>Piesele de Lego obținute depind în totalitate de limba textelor pe care s-a făcut numărarea inițială. Un <dfn>tokenizator</dfn> antrenat preponderent pe pagini în limba engleză nu va deține în vocabular terminațiile și particulele specifice limbii române, așa că va sparge fiecare cuvânt românesc într-o multitudine de așchii minuscule de două sau trei litere. Figura de mai jos demonstrează acest efect: două vocabulare de aceeași mărime, unul antrenat pe română și celălalt pe engleză, feliind aceeași frază românească.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceeași propoziție, două tokenizatoare</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceeași frază văzută prin două perechi de ochelari lingvistici</figcaption>
     <div class="stage">
       <div>
         <p class="small">antrenat pe română</p>
@@ -833,21 +835,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capCmp"></div>
   </figure>
 
-  <p>Deosebirea nu e de gust. Costul folosirii unui model se socotește în tokeni, iar fereastra de context se măsoară tot în tokeni. Un text scris într-o limbă slab reprezentată în datele de antrenare ale tokenizatorului ocupă mai mult loc și costă mai mult, pentru exact același înțeles. E o inegalitate tăcută, așezată la temelia sistemelor, înainte ca vreun model să fi învățat ceva.</p>
+  <p>Această diferență are consecințe practice majore. Memoria și viteza unui model de limbaj sunt limitate de numărul maxim de tokeni pe care îi poate cuprinde dintr-o dată (așa-numita fereastră de context), iar costul financiar al apelurilor API se taxează tot pe numărul de tokeni procesați. O limbă insuficient reprezentată în faza de tokenizare este fragmentată excesiv, consumă memoria de două-trei ori mai repede și devine mult mai scump de utilizat pentru exact același volum de idei. Este o inegalitate structurală discretă, fixată înainte ca rețeaua propriu-zisă să fi învățat primul ei concept.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="20" width="44" height="24" fill="#22252D"/><path d="M16 32 H48" fill="none" stroke="#F7F3E6" stroke-width="2" stroke-dasharray="3 3"/><circle cx="32" cy="10" r="4" fill="#EE5A2F"/></svg></span>Ce nu vede modelul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="20" width="44" height="24" fill="#22252D"/><path d="M16 32 H48" fill="none" stroke="#F7F3E6" stroke-width="2" stroke-dasharray="3 3"/><circle cx="32" cy="10" r="4" fill="#EE5A2F"/></svg></span>Unghiurile moarte: ce nu poate zări modelul</h2>
 
-  <p>Odată tăiat textul, modelul nu mai vede litere. El primește numere de ordine ale unor bucăți, iar bucata „strawberry”, dacă e o singură unitate, e pentru el un simbol indivizibil, la fel de opac ca o pictogramă.</p>
+  <p>Din clipa în care textul a fost feliat în tokeni, literele individuale dispar din câmpul vizual al rețelei. Modelul primește doar un șir de coduri numerice corespunzătoare pieselor din vocabular. Dacă termenul englezesc „strawberry” (căpșună) constituie o singură piesă compactă în vocabular, pentru rețea el este un simbol atomic, la fel de opac și indivizibil precum o hieroglifă egipteană.</p>
 
-  <p>De aici vin câteva neputințe care par absurde la prima vedere și au o explicație simplă. Numărarea literelor dintr-un cuvânt cere o informație pe care modelul nu o primește. Scrierea unui cuvânt de-a-ndoaselea cere același lucru. Rimele și jocurile de cuvinte lucrează la un nivel sub cel pe care modelul îl vede.</p>
+  <p>Această realitate tehnică explică gafe care îi amuză și îi descumpănesc adesea pe utilizatori. De ce se împiedică modelele când sunt întrebate „câte litere «r» sunt în cuvântul strawberry”? Pur și simplu pentru că modelul nu vede literele componente! Același motiv face ca inversarea unui cuvânt, compunerea de acrostihuri fine sau jocurile de rime fonetice să fie surprinzător de dificile: ele operează la un nivel de detaliu pe care tokenizarea l-a ascuns în spatele unui cod unic.</p>
 
-  <p>Tot de aici vine și slăbiciunea la socotit. Un număr lung se taie în bucăți după frecvența lor în text, nu după cifre: „1024” poate ieși dintr-o bucată, iar „1025” din trei. Regulile adunării, care lucrează pe cifre, trebuie învățate peste o tăiere care le ignoră.</p>
+  <p>Tot aici își are rădăcina și ezitarea în aritmetica elementară. Numerele mari nu sunt decupate după valoarea lor pozițională (unități, zeci, sute), ci după frecvența apariției lor în cărțile scanate. Numărul „1024” ar putea fi un token unic (fiind des întâlnit în informatică), în timp ce „1025” ar putea fi feliat bizar în două sau trei bucăți: „10” și „25”. Pentru a aduna aceste numere, rețeaua trebuie să compenseze o fragmentare arbitrară care nu respectă nicio logică matematică.</p>
 
-  <p class="note">Modelele recente atenuează neajunsurile acestea forțând tăierea cifrelor una câte una și antrenând pe multe exemple de scriere pe litere. Neajunsul de fond rămâne: nivelul la care modelul privește textul nu e cel al literei.</p>
+  <p class="note">Modelele de ultimă generație atenuează aceste stângăcii forțând tokenizatorul să păstreze fiecare cifră ca o piesă separată și exersând extensiv pe exerciții ortografice detaliate. Cu toate acestea, bariera structurală rămâne: nivelul de bază la care gândește un model nu este litera, ci tokenul.</p>
 
-  <p>Cu tokenizarea, un text a devenit un șir de numere de ordine, iar fiecare număr are un vector care se învață. Sunt gata amândouă piesele cerute de o rețea. Rămâne sarcina. Lecția următoare arată care e ea și de ce, jucată destul de bine, cere înțelegerea aproape a tot.</p>
+  <p>Datorită tokenizării, orice text uman devine un șir curat de identificatori numerici, iar fiecare identificator se sprijină pe un vector învățat pe harta semantică. Piesele de puzzle sunt pregătite. Rămâne însă marea întrebare: ce sarcină îi dăm rețelei să rezolve cu ele? În lecția următoare, vom vedea că o misiune aparent banală — ghicirea următorului cuvânt dintr-o frază — ascunde în subsidiar cheia întregii înțelegeri a lumii.</p>
 </section>
 
 </main>

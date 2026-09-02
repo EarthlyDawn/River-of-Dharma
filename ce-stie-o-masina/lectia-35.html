@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,20 +740,20 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Difuzie pe o <i>mână de puncte</i></h1>
-    <p class="lede">Tot mecanismul, cu calcul adevărat, la scara la care încape pe ecran. O rețea mică se antrenează în pagină să recunoască zgomotul, iar din zgomot ies puncte care nu s-au aflat niciodată în datele ei. Se poate măsura dacă a copiat sau a înțeles.</p>
-    <p class="terms">Termeni: <b>distribuție</b> <b>rețeaua care numește zgomotul</b> <b>câmp de direcții</b> <b>distanța până la cel mai apropiat exemplu</b></p>
+    <p class="lede">Iată întregul mecanism al difuziei moderne, cu calcul matematic veritabil, adus la o scară pe care o puteți urmări pas cu pas pe ecran. O rețea neuronală minusculă se antrenează în timp real să recunoască zgomotul dintr-un plan bidimensional. Din haosul inițial se cristalizează o spirală elegantă de puncte noi, care nu au existat niciodată în datele de pornire. Este momentul adevărului: putem măsura dacă mașina doar a copiat sau a înțeles structura ascunsă a lumii.</p>
+    <p class="terms">Termeni cheie: <b>varietate de date (manifold)</b> <b>rețea de predicție a zgomotului</b> <b>câmp de direcții (score matching)</b> <b>distanță până la cel mai apropiat exemplu</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 C32 24 40 22 42 30 C44 40 30 46 24 36 C18 26 30 14 42 18 C56 24 54 46 36 52" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><circle cx="36" cy="52" r="3" fill="#EE5A2F"/><circle cx="42" cy="18" r="2.5" fill="#EE5A2F"/><circle cx="24" cy="36" r="2.5" fill="#EE5A2F"/></svg></span>Ce se pune în locul formulei</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 C32 24 40 22 42 30 C44 40 30 46 24 36 C18 26 30 14 42 18 C56 24 54 46 36 52" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><circle cx="36" cy="52" r="3" fill="#EE5A2F"/><circle cx="42" cy="18" r="2.5" fill="#EE5A2F"/><circle cx="24" cy="36" r="2.5" fill="#EE5A2F"/></svg></span>O rețea neuronală în locul formulelor rigide</h2>
 
-  <p class="first">În lecția precedentă media cerută era socotită dintr-o formulă, fiindcă mulțimea imaginilor cu putință era cunoscută. Într-un caz adevărat nu e: se cunosc doar niște exemple, iar mulțimea din care ele vin nu se poate scrie.</p>
+  <p class="first">În lecția anterioară am putut folosi o formulă matematică fixă doar fiindcă știam dinainte că existau doar șase pictograme posibile. În lumea reală însă, nimeni nu poate scrie o formulă matematică pentru <i>„toate fotografiile posibile cu pisici, apusuri de soare și chipuri umane”</i>. Ceea ce avem la dispoziție este doar o colecție finită de exemple culese din natură.</p>
 
-  <p>În locul formulei se pune o rețea. Ea primește un punct și un nivel de zgomot și trebuie să spună ce zgomot a fost adăugat ca să se ajungă acolo. Antrenarea ei se face din nimic: se ia un exemplu, se alege un nivel la întâmplare, se face zgomotul, se murdărește exemplul, iar rețeaua e pusă să ghicească zgomotul pe care noi îl știm.</p>
+  <p>În locul formulei așezăm așadar o rețea neuronală. Sarcina ei este simplă și limpede: primește un punct din spațiu și un anumit nivel de zgomot, iar datoria ei este să spună: <i>„iată ce zgomot cred că a fost adăugat aici ca să se ajungă în această poziție”</i>. Antrenarea se naște de la sine: luăm un exemplu cunoscut, alegem un nivel de zgomot la întâmplare, îl murdărim cu o cantitate precisă de purici digitali pe care o ținem minte, iar apoi provocăm rețeaua să ghicească zgomotul aplicat.</p>
 
-  <p>Ca imaginile să încapă pe ecran, ele sunt aici puncte în plan. <dfn>Distribuția</dfn> pe care rețeaua trebuie s-o învețe e o spirală: exemplele nu umplu planul, ci stau pe o linie subțire din el, așa cum fotografiile stau pe o mulțime subțire din toate imaginile cu putință.</p>
+  <p>Pentru ca întregul proces să încapă intuitiv pe ecran, în loc de imagini cu milioane de pixeli lucrăm cu simple puncte într-un plan. <dfn>Distribuția</dfn> (sau varietatea geometrică) pe care rețeaua trebuie s-o învețe este o spirală subțire. La fel cum fotografiile reale ocupă doar o oază restrânsă și armonioasă din oceanul tuturor combinațiilor de pixeli, tot așa punctele noastre nu umplu haotic întreg planul, ci trăiesc pe o cărare grațioasă în formă de melc.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Exemplele și antrenarea</figcaption>
@@ -765,9 +767,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#BDB9AA"><circle cx="10" cy="12" r="2"/><circle cx="20" cy="8" r="2"/><circle cx="14" cy="22" r="2"/><circle cx="26" cy="18" r="2"/><circle cx="8" cy="30" r="2"/><circle cx="22" cy="30" r="2"/></g><path d="M30 32 H38" fill="none" stroke="#22252D" stroke-width="2"/><path d="M35 28 L39 32 L35 36" fill="none" stroke="#22252D" stroke-width="2"/><path d="M50 50 C50 44 56 42 56 48 C56 54 44 56 44 46 C44 36 60 34 60 46" fill="none" stroke="#2F4BC4" stroke-width="2.5"/></svg></span>Generarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#BDB9AA"><circle cx="10" cy="12" r="2"/><circle cx="20" cy="8" r="2"/><circle cx="14" cy="22" r="2"/><circle cx="26" cy="18" r="2"/><circle cx="8" cy="30" r="2"/><circle cx="22" cy="30" r="2"/></g><path d="M30 32 H38" fill="none" stroke="#22252D" stroke-width="2"/><path d="M35 28 L39 32 L35 36" fill="none" stroke="#22252D" stroke-width="2"/><path d="M50 50 C50 44 56 42 56 48 C56 54 44 56 44 46 C44 36 60 34 60 46" fill="none" stroke="#2F4BC4" stroke-width="2.5"/></svg></span>Marea naștere: din pulbere de haos se încheagă spirala</h2>
 
-  <p>După antrenare, rețeaua nu știe să deseneze nimic. Ea știe doar să numească zgomotul. Din atât se face totul: se pornește de la puncte luate la întâmplare din zgomot curat, iar la fiecare pas se scade o parte din zgomotul numit de rețea și se adaugă înapoi puțin, mai puțin decât s-a scos.</p>
+  <p>După ce s-a antrenat, rețeaua nu ține minte nicio spirală desenată dinainte. Ea știe un singur lucru: să recunoască zgomotul dintr-un punct. Și totuși, din această pricepere modestă se naște întreaga magie a generării!</p>
+
+  <p>Pornim cu o mână de puncte împrăștiate la întâmplare pe tot ecranul — un roi de zgomot pur. La fiecare pas, rețeaua estimează zgomotul din fiecare punct, scădem o parte din această predicție pentru a ghida punctul spre o zonă mai curată, adăugăm un strop minuscul de zgomot proaspăt și repetăm procedura pas cu pas.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Din zgomot, spirala</figcaption>
@@ -784,15 +788,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cele două numere din dreptul figurii se mișcă foarte diferit, iar în deosebirea dintre ele stă tot înțelesul. Raza medie pornește deja aproape de valoarea potrivită, fiindcă un nor de zgomot are cam mărimea cerută, și se apropie de ea încet, pe tot drumul. Partea din puncte aflată chiar pe braț rămâne în schimb la nimereală pe mai bine de trei sferturi din drum, apoi urcă abrupt în ultima parte.</p>
+  <p>Observați cele două numere din dreptul figurii, fiindcă ele dezvăluie ritmul intim al creației: raza medie a roiului se așază foarte repede aproape de valoarea firească, deoarece norul de zgomot are din start o anvergură globală similară. În schimb, procentul de puncte așezate fidel chiar pe brațele spiralei stagnează la valori mici pe trei sferturi din drum, pentru a urca exploziv abia în ultima parte a călătoriei.</p>
 
-  <p>Așa arată „contururile înaintea detaliilor”, socotit: mărimea de ansamblu se hotărăște devreme, fiindcă ea se deosebește de zgomot devreme; pe care braț anume cade fiecare punct se hotărăște la urmă, când zgomotul rămas e mai mic decât depărtarea dintre brațe.</p>
+  <p>Iată cum arată în cifre concrete principiul <i>„contururile mari înaintea detaliilor fine”</i>: anvergura generală a formei se fixează devreme, deoarece ea iese imediat în evidență din zgomot; pe care braț anume al spiralei se va așeza fiecare punct se hotărăște abia la urmă, când ceața rămasă devine mai subțire decât distanța dintre brațe.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="none" stroke="#2F4BC4" stroke-width="2"><path d="M12 12 L20 18 M12 32 L20 32 M12 52 L20 46 M32 12 L32 20 M32 52 L32 44 M52 12 L44 18 M52 32 L44 32 M52 52 L44 46"/></g><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Ce a învățat rețeaua</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="none" stroke="#2F4BC4" stroke-width="2"><path d="M12 12 L20 18 M12 32 L20 32 M12 52 L20 46 M32 12 L32 20 M32 52 L32 44 M52 12 L44 18 M52 32 L44 32 M52 52 L44 46"/></g><circle cx="32" cy="32" r="5" fill="#EE5A2F"/></svg></span>Harta invizibilă: un câmp de forțe călăuzitoare</h2>
 
-  <p>Rețeaua nu ține minte punctele. Ea ține o direcție pentru fiecare loc din plan și pentru fiecare nivel de zgomot: încotro trebuie împins un punct aflat acolo, ca să semene mai mult cu datele.</p>
+  <p>Rețeaua nu a învățat o listă rigidă de puncte. Ea a dobândit o hartă de navigare: pentru orice colț din plan și pentru fiecare nivel de zgomot, ea cunoaște o direcție — încotro trebuie împins un punct rătăcit pentru a-l apropia de pământul ferm al datelor reale.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Încotro împinge rețeaua, la un nivel de zgomot ales</figcaption>
@@ -806,15 +810,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>La zgomot mare, săgețile arată toate spre mijloc: de departe, tot ce se știe e că punctele stau undeva prin preajma originii. Pe măsură ce nivelul scade, ele se aliniază după braț și împing spre linia spiralei. Aceasta e toată cunoașterea rețelei, și ea n-are nicăieri o listă de exemple. Ce a reținut nu e un loc, ci un fel de a merge.</p>
+  <p>Trageți de maneta nivelului de zgomot și priviți orientarea săgeților: la zgomot mare, săgețile arată toate obedient spre centrul planului — de la mare distanță, tot ce știe rețeaua este că spirala locuiește undeva în mijloc. Dar pe măsură ce zgomotul se risipește, săgețile se curbează delicat, se aliniază după brațele spiralei și împing precis spre linia ei subțire. Aceasta este întreaga înțelepciune a rețelei: nu a memorat coordonate fixe, ci o dinamică vie de mișcare.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="5" fill="#2F4BC4"/><circle cx="44" cy="30" r="5" fill="#EE5A2F"/><path d="M25 32 H39" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M8 52 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/><text x="32" y="24" text-anchor="middle" font-family="monospace" font-size="9" fill="#22252D">d</text></svg></span>Copiază sau nu</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="5" fill="#2F4BC4"/><circle cx="44" cy="30" r="5" fill="#EE5A2F"/><path d="M25 32 H39" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M8 52 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/><text x="32" y="24" text-anchor="middle" font-family="monospace" font-size="9" fill="#22252D">d</text></svg></span>Verdictul: memorie oarbă sau imaginație autentică?</h2>
 
-  <p>Întrebarea rămasă din lecția precedentă era dacă drumul înapoi scoate ceva nou sau doar repetă exemplele. Se poate răspunde prin măsurătoare.</p>
+  <p>Marea întrebare rămasă din lecția precedentă este dacă drumul invers creează ceva cu adevărat nou sau doar repetă mecanic exemplele pe care le-a văzut la antrenament. Putem răspunde fără speculații, printr-o măsurătoare geometrică riguroasă.</p>
 
-  <p>Pentru fiecare punct generat se caută cel mai apropiat punct din datele de antrenare și se notează distanța. Aceeași măsurătoare se face pentru puncte reale nemaivăzute, luate din aceeași spirală. Dacă rețeaua ar copia, distanțele ei ar fi mult mai mici decât ale punctelor reale.</p>
+  <p>Pentru fiecare punct generat de rețea, căutăm cel mai apropiat punct din datele de antrenare și notăm distanța. Apoi facem exact aceeași măsurătoare pentru un eșantion de puncte *reale noi*, culese din aceeași ecuație a spiralei, dar pe care rețeaua nu le-a văzut niciodată. Dacă modelul ar copia orbește exemplele, distanțele sale ar fi minuscule — practic zero.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Distanța până la cel mai apropiat exemplu</figcaption>
@@ -828,13 +832,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Depărtările sunt de același ordin. Rețeaua n-a reținut spirala punct cu punct; a reținut ce fel de loc e spirala, iar de acolo poate scoate puncte care nu i-au fost arătate niciodată. Raportul dintre cele două mediane, scris sub tabel, spune cât de mult se depărtează ea de exemple față de cum o face realitatea însăși.</p>
+  <p>Priviți cifrele: distanțele sunt de același ordin de mărime! Rețeaua nu a memorat spirala punct cu punct; ea a înțeles structura geometrică a formei și poate așeza puncte pe brațele ei în locuri unde nu i s-a arătat niciodată vreun exemplu. Raportul dintre cele două mediane, afișat sub tabel, confirmă că punctele generate se bucură de aceeași libertate spațială ca datele naturale.</p>
 
-  <p class="note">Numărul de puncte aflate foarte aproape de un exemplu nu dovedește copierea. Exemplele înseși stau des la depărtări mici unele de altele, iar puncte reale nemaivăzute cad sub același prag cam la fel de des. Tabelul le pune pe amândouă alături tocmai ca să se vadă asta.</p>
+  <p class="note">Faptul că unele puncte se nimeresc foarte aproape de un exemplu nu este o dovadă de copiere: exemplele reale stau ele însele adesea înghesuite la distanțe mici unele de altele. Tabelul le pune alături tocmai pentru a vă oferi un termen onest de comparație.</p>
 
-  <p class="note">Ce se măsoară aici nu e calitatea, ci noutatea. O parte dintre punctele generate cad alături de spirală: rețeaua e mică și antrenată puțin, iar greșelile ei se văd. Numărul din tabel spune câte cad pe linie și câte nu.</p>
+  <p class="note">Măsurătoarea de aici testează noutatea, nu perfecțiunea execuției. Fiindcă rețeaua din pagină este minusculă și s-a antrenat în doar câteva clipe în browserul dumneavoastră, unele puncte cad pe lângă spirală. Cifrele din tabel reflectă transparent câte puncte au nimerit brațele și câte s-au rătăcit.</p>
 
-  <p>Până acum nimic n-a spus modelului ce anume să genereze. El scoate ceva din distribuția pe care a învățat-o și atât. Lecția următoare adaugă o descriere în text și arată cum ea trage drumul înapoi într-o parte anume, precum și ce se întâmplă când i se dă prea multă putere.</p>
+  <p>Până acum, modelul a desenat liber tot ce știa, fără nicio preferință. În lecția următoare vom adăuga o baghetă călăuzitoare: un text descriptiv care să tragă pensula difuziei către o anumită formă dorită, și vom descoperi ce se întâmplă când forțăm prea tare această călăuzire.</p>
 </section>
 
 </main>

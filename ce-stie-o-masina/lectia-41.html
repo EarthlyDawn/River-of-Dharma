@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Căutare <i>înainte</i> de răspuns</h1>
-    <p class="lede">Cea mai folosită unealtă nu socotește nimic. Ea caută printre texte, culege câteva fragmente și le lipește în față, iar modelul răspunde citind ce i s-a pus acolo. Cunoașterea se mută din ponderi în context, cu tot ce câștigă și cu tot ce nu se schimbă prin asta.</p>
+    <p class="lede">Cea mai puternică unealtă a unui model modern nu este un calculator matematic, ci o bibliotecă bine organizată. În loc să cerem rețelei să memoreze pe de rost toate cărțile lumii în parametrii săi interni, o lăsăm să dea un examen cu manualul pe masă: mai întâi căutăm câteva fragmente relevante dintr-o bază de date externă, le așezăm în fața modelului, iar acesta răspunde citind și sintetizând informația proaspătă. Cunoașterea se mută astfel din memoria rigidă a ponderilor direct în contextul viu al conversației.</p>
     <p class="terms">Termeni: <b>regăsire</b> <b>bază vectorială</b> <b>potrivire după cuvinte</b> <b>fragmentul potrivit</b></p>
   </div>
 </header>
@@ -747,19 +749,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="10" width="24" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><rect x="34" y="10" width="24" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 18 H26 M10 24 H22 M10 30 H26 M38 18 H54 M38 24 H50 M38 30 H54 M38 36 H48" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M38 30 H54" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>De ce se caută întâi</h2>
 
-  <p class="first">Un model știe ce a apucat să vadă la antrenare, în forma în care a rămas în ponderi. Nu știe ce s-a întâmplat de atunci, n-are cum să citeze exact, și nu poate spune de unde a luat ceva.</p>
+  <p class="first">Un model lingvistic clasic este prizonierul momentului în care s-a încheiat antrenamentul său: el știe doar ce a apucat să citească până atunci, sub forma unor asocieri difuze imprimate în miliardele de ponderi. Nu cunoaște știrile de ieri, nu poate cita cu precizie paragrafe dintr-un contract privat și nu poate garanta sursa exactă a unei afirmații.</p>
 
-  <p>Toate trei se rezolvă mutând cunoașterea din ponderi în context. Textul de care e nevoie se caută într-o colecție, se taie o bucată potrivită și se pune în fața întrebării. Metoda se numește <dfn>regăsire</dfn>, iar de acolo încolo totul e citit de model ca text obișnuit.</p>
+  <p>Toate aceste trei mari neajunsuri își găsesc rezolvarea printr-o schimbare ingenioasă de strategie: mutăm cunoașterea faptică din memoria internă a modelului direct pe foaia sa de lucru (în context). Când utilizatorul adresează o întrebare, un sistem dedicat caută într-o arhivă de documente, decupează pasajele cele mai relevante și i le servește modelului alături de întrebare. Această tehnică poartă numele de generare augmentată prin <dfn>regăsire</dfn> (cunoscută pe scurt ca RAG – Retrieval-Augmented Generation).</p>
 
-  <p>Un examen cu manualul deschis. Nu ajută dacă nu găsești pagina, iar dacă găsești pagina greșită, răspunsul iese greșit cu aceeași siguranță.</p>
+  <p>Este diferența de la cer la pământ dintre un examen tradițional bazat exclusiv pe toceală și un examen cu cărțile deschise pe bancă. Totuși, manualul deschis vine cu propriul său risc: dacă nu găsești pagina potrivită sau dacă răsfoiești din greșeală un capitol nepotrivit, răspunsul va fi compromis cu aceeași siguranță aparentă.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 L40 20" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M10 52 L50 34" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M22 40 A14 14 0 0 1 26 45" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Cum se măsoară apropierea</h2>
 
-  <p>Colecția din pagină are treizeci și șase de fragmente, fiecare o afirmație despre ceva din curs. Întrebarea trebuie să scoată fragmentul care o lămurește.</p>
+  <p>Colecția demonstrativă din această pagină conține 36 de fragmente explicative din lecțiile parcurse până acum. Scopul căutării este ca, la primirea unei întrebări, sistemul să găsească automat tocmai fragmentul care conține lămurirea dorită.</p>
 
-  <p>Sunt două feluri de a socoti cât de bine se potrivesc. Primul numără cuvintele comune, dând mai multă greutate celor rare, fiindcă acelea deosebesc mai bine. Al doilea așază fiecare cuvânt într-un spațiu, ca în lecția despre reprezentarea vectorială, adună vectorii cuvintelor dintr-un text și compară direcțiile; o colecție ținută astfel se numește <dfn>bază vectorială</dfn>.</p>
+  <p>Cum decidem însă ce text se potrivește cu întrebarea? Există două mari filosofii. Prima abordare — căutarea lexicală clasică — numără cuvintele identice apărute în ambele texte, acordând o pondere mai mare cuvintelor rare și specifice (precum „tranzistor” sau „atenție”) față de cuvintele comune de legătură. A doua abordare — căutarea semantică — proiectează fiecare propoziție într-un spațiu geometric de sens, transformând textul într-un vector de coordonate și măsurând unghiul dintre direcțiile lor. O bază de date organizată după acest principiu geometric se numește <dfn>bază vectorială</dfn>.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ce scoate căutarea</figcaption>
@@ -776,13 +778,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fragmentul potrivit e arătat cu ramă portocalie, oriunde ar cădea. Numărul din dreapta e potrivirea socotită, între zero și unu.</p>
+  <p>Fragmentul cu adevărat relevant este evidențiat cu un chenar portocaliu, indiferent de poziția pe care a obținut-o în clasament. Numărul din dreapta măsoară scorul matematic de potrivire, calculat pe o scară de la 0 la 1.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="21" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="34" width="48" height="10" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="47" width="48" height="10" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Contextul care se dă modelului</h2>
 
-  <p>Ce urmează după căutare n-are nimic deosebit. Fragmentele alese se lipesc, în ordine, înaintea întrebării, iar tot ce iese se dă modelului ca un singur text.</p>
+  <p>Odată ce etapa de căutare s-a încheiat, asamblarea finală este simplă și transparentă. Fragmentele câștigătoare sunt concatenate ordonat într-un bloc compact de referință, la finalul căruia se adaugă întrebarea utilizatorului. Tot acest ansamblu îi este înmânat modelului ca un singur text continuu.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Textul lipit, gata de dat</figcaption>
@@ -800,9 +802,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H30 M8 24 H26" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M34 16 H56 M34 24 H50" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 40 H26 M8 48 H30" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M34 40 H52 M34 48 H56" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Când se schimbă cuvintele întrebării</h2>
 
-  <p>Măsurătoarea care hotărăște dacă un asemenea sistem merge nu e cât de frumos se lipește textul, ci cât de des ajunge fragmentul potrivit în ce s-a lipit.</p>
+  <p>Adevăratul test de maturitate al unui sistem RAG nu este eleganța cu care lipește textele, ci precizia regăsirii: cât de des reușește să prindă fragmentul esențial printre primele rezultate returnate?</p>
 
-  <p>Tabelul o face de două ori. Întâi cu întrebările scrise așa cum au fost, apoi cu aceleași întrebări puse în alte cuvinte, ocolind termenul căutat.</p>
+  <p>Experimentul de mai jos rulează această verificare în două scenarii diferite. Mai întâi folosim întrebări formulate direct, folosind termenii tehnici exacți; apoi testăm aceleași întrebări reformulate prin sinonime sau ocolișuri, evitând deliberat cuvintele-cheie evidente.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Cât de des se găsește fragmentul potrivit</figcaption>
@@ -815,21 +817,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capR"></div>
   </figure>
 
-  <p>Pe formularea de acasă, numărarea cuvintelor comune scoate fragmentul potrivit pe primul loc de fiecare dată. Puse în alte cuvinte, aceleași întrebări le dau peste cap pe amândouă metodele.</p>
+  <p>Când întrebarea folosește exact termenii din dicționar, simpla potrivire a cuvintelor funcționează perfect și aduce fragmentul corect pe primul loc. Însă de îndată ce omul folosește o metaforă sau un sinonim neașteptat, căutarea strict lexicală devine neputincioasă.</p>
 
-  <p>Aceasta e deosebirea dintre ce se vede în pagină și un sistem adevărat. Acolo, vectorii nu ies din potrivirea cuvintelor pe douăsprezece mii de semne, ci dintr-un model antrenat anume pentru căutare, pe sute de milioane de perechi de întrebări și texte. Mecanismul e același; ce se schimbă e de unde vine apropierea.</p>
+  <p>Aici iese în evidență rolul bazelor vectoriale avansate. În sistemele comerciale de producție, vectorii nu sunt calculați prin simple medii locale, ci sunt generați de modele neuronale special antrenate pentru căutare pe sute de milioane de interogări reale. Ele înțeleg că „a rămâne fără memorie” și „epuizarea resurselor RAM” vorbesc despre același fenomen, chiar dacă nu împart niciun cuvânt identic.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 22 H50 M14 30 H42" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M14 40 H46" fill="none" stroke="#B5232B" stroke-width="2.5"/><text x="50" y="44" font-family="monospace" font-size="9" fill="#B5232B">?</text></svg></span>Ce rezolvă și ce nu</h2>
 
-  <p>Regăsirea aduce în context text pe care modelul nu-l avea. Ea face cu putință citarea, îngăduie ca sursa să fie arătată și mută răspunsul de la ce a rămas în ponderi la ce scrie în documente.</p>
+  <p>Tehnica RAG oferă avantaje practice uriașe: aduce în discuție informații de ultimă oră sau date private confidențiale, permite citarea exactă a surselor și ancorează răspunsul în documente verificabile, în loc să depindă de memoria vagă a modelului.</p>
 
-  <p>Ea nu schimbă însă nimic din ce s-a spus în lecția despre confabulare. Modelul citește fragmentele lipite ca pe orice alt text și n-are cum să deosebească un fragment potrivit de unul nimerit alături. Dacă în context ajunge ceva care sună a răspuns fără să fie, răspunsul iese la fel de hotărât. Manualul deschis nu vindecă cititorul care crede tot ce citește.</p>
+  <p>Dar este crucial să ne amintim ce nu poate rezolva această metodă: ea nu anulează riscul de confabulare analizat anterior. Modelul parcurge fragmentele primite exact ca pe orice alt șir de jetoane și nu are un filtru infailibil pentru a distinge un fragment cu adevărat relevant de unul care doar pare potrivit la suprafață. Dacă în context se strecoară o informație eronată sau înșelătoare, rețeaua o va sintetiza cu același ton convingător și sigur pe sine. Un manual deschis pe bancă nu este de mare folos unui elev care ia de bun orice zvon scris pe o pagină rătăcită.</p>
 
-  <p>De aici vine și de ce numărul de fragmente lipite nu se mărește la nesfârșit. Fiecare fragment în plus crește șansa ca cel bun să fie acolo, dar și cantitatea de text nepotrivit printre care modelul trebuie să aleagă, pe lângă costul din lecția despre fereastra de context.</p>
+  <p>Din acest motiv, nu putem rezolva problema îndesând zeci de pagini în context: fiecare fragment adăugat mărește riscul de zgomot și confuzie (pe lângă costul substanțial de memorie și calcul explorat anterior).</p>
 
-  <p>Până acum au fost adăugate bucăți în jurul modelului. Lecția următoare se uită înăuntru, la ce se poate tăia din el fără ca răspunsurile să se schimbe.</p>
+  <p>Până acum, am analizat cum putem îmbunătăți performanțele adăugând unelte și arhive în jurul modelului. În lecția următoare, vom deschide capota și ne vom uita în interior: cum putem comprima și optimiza gigantica mașină neuronală — prin cuantizare, distilare și amestec de experți — astfel încât să ruleze rapid și economic fără a-și pierde priceperea.</p>
 </section>
 
 </main>

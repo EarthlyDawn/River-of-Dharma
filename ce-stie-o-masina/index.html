@@ -92,6 +92,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,15 +740,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
 <header>
   <div class="runhead">
-    <div class="l"><span>Pagina de titlu</span><span>48 de lecții · 8 părți</span></div>
+    <div class="l lang"><span class="on">Română</span><a href="en/index.html">English</a></div>
     <div class="r"><button id="sndBtn" class="snd" aria-pressed="true"><span>sunet pornit</span></button></div>
   </div>
   <div class="plate">
     <div class="marble" id="marble" data-seed="99">
       <div class="card">
-        <span class="sub">Un curs, <b>de la bit la limbaj</b></span>
         <h1>Ce știe <i>o mașină</i></h1>
-        <span class="sub">Informație · Calculator · Învățare · Limbaj · Imagini · Întrebări</span>
       </div>
     </div>
   </div>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,36 +740,36 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Ce se întâmplă când <i>răspunde</i></h1>
-    <p class="lede">Un răspuns se scrie jeton cu jeton, iar fiecare jeton cere o trecere prin tot modelul. Ce se poate păstra între treceri hotărăște dacă răspunsul apare în câteva secunde sau în câteva minute, iar ce nu mai încape în față hotărăște ce pare că modelul „uită”.</p>
-    <p class="terms">Termeni: <b>inferență</b> <b>umplere</b> <b>memorie de chei-valori</b> <b>fereastră de context</b></p>
+    <p class="lede">Un răspuns nu apare dintr-o dată, ci se construiește cuvânt cu cuvânt, iar fiecare nou fragment cere o trecere completă prin toate circuitele rețelei. Ceea ce calculatorul reușește să păstreze în memorie între pași hotărăște dacă fraza apare în câteva secunde sau în zeci de minute — iar limita spațiului de lucru explică de ce asistentul pare uneori că „uită” începutul conversației.</p>
+    <p class="terms">Termeni: <b>inferență</b> <b>preumplere (prefill)</b> <b>generare autoregresivă</b> <b>memorie de chei-valori (KV cache)</b> <b>fereastră de context</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="24" width="24" height="16" fill="#2F4BC4"/><rect x="34" y="24" width="6" height="16" fill="#EE5A2F"/><rect x="42" y="24" width="6" height="16" fill="#EE5A2F" opacity=".7"/><rect x="50" y="24" width="6" height="16" fill="#EE5A2F" opacity=".4"/><path d="M6 48 H30" fill="none" stroke="#22252D" stroke-width="2"/><path d="M34 48 H56" fill="none" stroke="#22252D" stroke-width="2" stroke-dasharray="2 2"/></svg></span>Cele două faze</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="24" width="24" height="16" fill="#2F4BC4"/><rect x="34" y="24" width="6" height="16" fill="#EE5A2F"/><rect x="42" y="24" width="6" height="16" fill="#EE5A2F" opacity=".7"/><rect x="50" y="24" width="6" height="16" fill="#EE5A2F" opacity=".4"/><path d="M6 48 H30" fill="none" stroke="#22252D" stroke-width="2"/><path d="M34 48 H56" fill="none" stroke="#22252D" stroke-width="2" stroke-dasharray="2 2"/></svg></span>Cele două faze ale răspunsului</h2>
 
-  <p class="first">Folosirea unui model deja antrenat se numește <dfn>inferență</dfn>, iar ea se desfășoară în două faze cu purtări foarte diferite. Cine a privit un asistent scriind le-a văzut pe amândouă fără să le numească.</p>
+  <p class="first">Rularea unui model deja antrenat pentru a produce un răspuns se numește <dfn>inferență</dfn>. Deși pe ecran totul pare un proces continuu, inferența se desfășoară în două etape distincte, cu un ritm de calcul complet diferit. Oricine a trimis un mesaj unui asistent le-a resimțit pe amândouă:</p>
 
-  <p>Întâi trece prin model tot ce i s-a dat: întrebarea, instrucțiunile dinaintea ei, orice s-a mai lipit acolo. Toate pozițiile pot fi calculate deodată, fiindcă niciuna nu așteaptă rezultatul alteia. Faza aceasta se cheamă <dfn>umplere</dfn>, iar costul ei crește cu lungimea a ceea ce i se dă.</p>
+  <p>Prima etapă este <dfn>preumplerea</dfn> (sau procesarea promptului). Modelul primește tot ce i-ați trimis: întrebarea, instrucțiunile de sistem și replicile anterioare. Deoarece toate aceste cuvinte sunt deja cunoscute, placa grafică le poate procesa pe toate simultan, în paralel, într-o singură trecere uriașă de calcul. De aici vine mica pauză inițială de câteva fracțiuni de secundă după ce apăsați tasta Enter.</p>
 
-  <p>Apoi începe scrisul. Fiecare jeton nou cere o trecere completă prin toate blocurile, iar jetonul următor nu poate fi calculat înainte ca acesta să fie ales. Faza aceasta e strict pas cu pas, iar de aici vine felul în care textul apare pe ecran: o pauză la început, apoi cuvinte care curg regulat.</p>
+  <p>A doua etapă este <dfn>generarea autoregresivă</dfn> (scrierea propriu-zisă). Modelul calculează primul cuvânt al răspunsului. Odată ales, acest cuvânt este lipit la sfârșitul textului, iar rețeaua este rulată din nou pentru a ghici al doilea cuvânt. Aici calculul paralel este imposibil: nu poți ști al cincizecilea cuvânt înainte de a-l alege pe al patruzeci și nouălea! De aceea, cuvintele încep să curgă pe ecran într-un ritm sacadat și constant, unul după altul.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H40 M8 26 H40 M8 36 H40" fill="none" stroke="#BDB9AA" stroke-width="5"/><path d="M8 46 H40" fill="none" stroke="#2F4BC4" stroke-width="5"/><path d="M48 12 C58 20 58 40 48 50" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M50 46 L47 51 L53 52" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce se recalculează degeaba</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H40 M8 26 H40 M8 36 H40" fill="none" stroke="#BDB9AA" stroke-width="5"/><path d="M8 46 H40" fill="none" stroke="#2F4BC4" stroke-width="5"/><path d="M48 12 C58 20 58 40 48 50" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M50 46 L47 51 L53 52" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce se recalculează degeaba și memoria KV</h2>
 
-  <p>Scris fără nicio grijă, pasul al doilea reia totul de la capăt. Ca să scrie al o sutălea jeton, modelul trece încă o dată prin toate cele nouăzeci și nouă dinainte, deși ele nu s-au schimbat cu nimic.</p>
+  <p class="first">Dacă am programa acest proces în modul cel mai naiv, am da peste un dezastru de performanță. Pentru a scrie al o sutălea cuvânt, modelul ar trebui să recitească de la zero toate cele nouăzeci și nouă de cuvinte de dinainte, recalculând aceleași straturi de atenție prin care a trecut deja de nouăzeci și nouă de ori!</p>
 
-  <p>Munca aceasta e risipită, și se vede din ce anume are nevoie atenția. Pentru poziția care se scrie acum sunt necesare interogarea ei și cheile și valorile tuturor pozițiilor dinainte. Interogarea se schimbă la fiecare pas; cheile și valorile de dinainte, nu, fiindcă fiecare poziție se uită numai înapoi, deci nimic din ce vine după n-o mai poate schimba.</p>
+  <p>Această muncă repetitivă este o risipă uriașă de energie. Dacă privim mecanismul atenției, observăm un detaliu salvator: fiecare cuvânt se uită numai înapoi, la termenii care îl preced. Cuvântul numărul cinci nu își schimbă înțelesul, cheia sau valoarea doar pentru că am ajuns noi să scriem cuvântul cincizeci.</p>
 
-  <p>Urmarea e că ele pot fi calculate o dată și ținute deoparte. Colecția aceasta se numește <dfn>memorie de chei-valori</dfn>. Cu ea, un pas de scris cere numai cheia și valoarea poziției noi, plus comparațiile cu cele păstrate. Nu e o scurtătură care aproximează; e refuzul de a face de două ori aceeași socoteală.</p>
+  <p>Prin urmare, cheile și valorile fiecărui cuvânt pot fi calculate o singură dată și păstrate într-un carnețel de lucru ultrarapid. Această memorie tampon se numește <dfn>memorie de chei-valori</dfn> (sau <i>KV cache</i>). La fiecare cuvânt nou, modelul calculează doar interogarea poziției curente, o compară cu cheile deja memorate și adaugă noua pereche în carnețel. Nu vorbim despre o aproximație care scade calitatea, ci despre refuzul inteligent de a repeta la infinit aceeași înmulțire de numere.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="20" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M32 34 L32 20 M32 34 L42 40" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="32" cy="34" r="2.5" fill="#EE5A2F"/><path d="M28 8 H36" fill="none" stroke="#22252D" stroke-width="3"/></svg></span>Cronometrul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="20" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M32 34 L32 20 M32 34 L42 40" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="32" cy="34" r="2.5" fill="#EE5A2F"/><path d="M28 8 H36" fill="none" stroke="#22252D" stroke-width="3"/></svg></span>Cronometrul: măsurarea pe viu</h2>
 
-  <p>Figura de mai jos are un model adevărat, mic dar întreg: două blocuri, vectori de treizeci și doi, atenție care se uită numai înapoi. El scrie același text în amândouă felurile, iar ceasul măsoară cât durează, pe calculatorul care afișează pagina.</p>
+  <p class="first">În fereastra interactivă de mai jos rulează un mic model real de transformator, direct în navigatorul dumneavoastră. El redactează același text în ambele moduri, iar cronometrul măsoară milisecundele consumate pe măsură ce răspunsul devine tot mai lung.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Același text, cu și fără memorie de chei-valori</figcaption>
@@ -784,20 +786,20 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cele două curbe n-au aceeași formă. Fără memorie, munca pentru al <i>n</i>-lea jeton crește odată cu <i>n</i>, deci timpul total crește mai repede decât lungimea. Cu memorie, munca pe jeton rămâne aproape aceeași, iar totalul crește aproape proporțional cu numărul de jetoane. Legenda figurii scoate din măsurători puterea la care crește fiecare drum.</p>
+  <p>Diferența dintre curbe este uimitoare. Fără memorie KV, efortul necesar pentru fiecare nou cuvânt crește odată cu lungimea textului, făcând ca timpul total să explodeze curbându-se abrupt în sus. Cu memorie KV, efortul pentru fiecare cuvânt rămâne constant, iar timpul total crește lin, drept și previzibil.</p>
 
-  <p class="note">Puterile măsurate nu ies rotunde. Cea de sus ar trebui să fie doi și iese mai mică, fiindcă la lungimile care încap într-o pagină o parte însemnată din timp se duce pe cheltuieli fixe, aceleași la orice lungime, care apasă mai tare asupra măsurătorilor scurte și trag panta în jos.</p>
+  <p class="note">Pe texte scurte dintr-o pagină web, panta teoretică este ușor atenuată de operațiunile fixe ale sistemului de operare. Însă pe serverele reale care generează mii de cuvinte, această diferență este cea care separă o conversație fluidă în timp real de o așteptare agonizantă de câteva minute.</p>
 
-  <p>Textul ieșit e identic în amândouă cazurile, jeton cu jeton. Memoria de chei-valori nu e o aproximare care schimbă răspunsul în schimbul vitezei; e aceeași socoteală, făcută o singură dată.</p>
+  <p>Cel mai important aspect: rezultatul final este riguros identic în ambele scenarii, literă cu literă. Memoria KV nu taie colțuri și nu compromite gândirea rețelei; este o optimizare pură de calcul.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#2F4BC4"><rect x="12" y="14" width="8" height="8"/><rect x="22" y="14" width="8" height="8"/><rect x="32" y="14" width="8" height="8"/><rect x="12" y="24" width="8" height="8"/><rect x="22" y="24" width="8" height="8"/><rect x="12" y="34" width="8" height="8"/></g><g fill="#EE5A2F"><rect x="42" y="14" width="8" height="8"/><rect x="32" y="24" width="8" height="8"/><rect x="42" y="24" width="8" height="8"/><rect x="22" y="34" width="8" height="8"/><rect x="32" y="34" width="8" height="8"/><rect x="42" y="34" width="8" height="8"/><rect x="12" y="44" width="8" height="6"/><rect x="22" y="44" width="8" height="6"/><rect x="32" y="44" width="8" height="6"/><rect x="42" y="44" width="8" height="6"/></g></svg></span>Ce costă memoria</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><g fill="#2F4BC4"><rect x="12" y="14" width="8" height="8"/><rect x="22" y="14" width="8" height="8"/><rect x="32" y="14" width="8" height="8"/><rect x="12" y="24" width="8" height="8"/><rect x="22" y="24" width="8" height="8"/><rect x="12" y="34" width="8" height="8"/></g><g fill="#EE5A2F"><rect x="42" y="14" width="8" height="8"/><rect x="32" y="24" width="8" height="8"/><rect x="42" y="24" width="8" height="8"/><rect x="22" y="34" width="8" height="8"/><rect x="32" y="34" width="8" height="8"/><rect x="42" y="34" width="8" height="8"/><rect x="12" y="44" width="8" height="6"/><rect x="22" y="44" width="8" height="6"/><rect x="32" y="44" width="8" height="6"/><rect x="42" y="44" width="8" height="6"/></g></svg></span>Ce costă memoria: lupta pentru spațiu</h2>
 
-  <p>Câștigul se plătește în loc ocupat. Pentru fiecare poziție din context trebuie ținute o cheie și o valoare, la fiecare strat. Numărul acesta crește cu lungimea contextului, cu adâncimea și cu lățimea, și nu depinde deloc de cât de mare e textul scris până acum.</p>
+  <p class="first">În informatică nu există miracole gratuite: am economisit timp de calcul, dar plătim în memorie ocupată. Pentru fiecare poziție din discuție trebuie să păstrăm vectori de chei și valori la fiecare nivel și la fiecare cap de atenție al rețelei.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Pe forme adevărate de model</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Memoria necesară la diferite mărimi de model</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblM"></table></div>
       <div class="readout" id="mRead"></div>
@@ -808,20 +810,20 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Tabelul spune și altceva. Munca pentru un jeton se împarte în două: partea care trece prin ponderi, aceeași oricât ar fi contextul, și partea de atenție, care crește cu lungimea contextului. La contexte scurte ponderile fac aproape tot; la contexte lungi atenția ajunge să coste mai mult decât ele.</p>
+  <p>Pe măsură ce contextul se întinde la zeci de mii de cuvinte, această memorie tampon ajunge să ocupe zeci de gigaocteți de memorie video ultrarapidă (VRAM). La întrebări scurte, greul este dus de parametrii ficși ai rețelei; la conversații lungi sau documente întregi, memoria KV devine adesea mai costisitoare și mai grea decât modelul însuși!</p>
 
-  <p class="note">Numerele din tabel sunt pentru forma cea mai simplă de atenție, cu câte o cheie și o valoare pentru fiecare cap. Modelele de azi micșorează mult această memorie punând mai multe capete să folosească aceleași chei și valori, iar de aici vine o bună parte din contextele lungi care au devenit obișnuite.</p>
+  <p class="note">Pentru a îmblânzi această sete de memorie, modelele moderne folosesc arhitecturi ingenioase precum <i>atenția cu interogări grupate (GQA)</i>, punând mai multe capete de calcul să împartă aceleași chei și valori. Datorită acestor inovații a devenit posibil ca asistenții de astăzi să citească sute de pagini dintr-o singură suflare.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="20" y="12" width="36" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M26 22 H50 M26 30 H50 M26 38 H50 M26 46 H42" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M6 22 H16 M6 30 H16" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="2 2"/><rect x="44" y="44" width="6" height="4" fill="#EE5A2F"/></svg></span>Fereastra de context</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="20" y="12" width="36" height="40" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M26 22 H50 M26 30 H50 M26 38 H50 M26 46 H42" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M6 22 H16 M6 30 H16" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="2 2"/><rect x="44" y="44" width="6" height="4" fill="#EE5A2F"/></svg></span>Fereastra de context și iluzia „uitării”</h2>
 
-  <p>Memoria de chei-valori se construiește pentru un număr de poziții hotărât dinainte. Numărul acesta se numește <dfn>fereastră de context</dfn> și e tot ce poate modelul să aibă în față deodată: instrucțiunile, întrebarea, ce a scris deja și, dacă e vorba de o discuție, tot ce s-a spus mai devreme.</p>
+  <p class="first">Memoria de lucru a unui asistent nu este infinită; ea are o dimensiune maximă stabilită prin construcție, numită <dfn>fereastră de context</dfn>. Această fereastră cuprinde tot ce poate rețeaua să aibă în fața ochilor la un moment dat: instrucțiunile inițiale, întrebarea dumneavoastră, replicile din trecut și textul pe care îl generează acum.</p>
 
-  <p>Când textul întrece fereastra, ceva trebuie să iasă. Cel mai des iese începutul. Nimic nu se rupe și nimeni nu e anunțat: pur și simplu, pozițiile de dinainte nu mai există pentru model, iar el n-are cum să bage de seamă că au existat vreodată.</p>
+  <p>Când o discuție devine prea voluminoasă și depășește această capacitate, primele cuvinte trebuie să iasă din fereastră pentru a face loc celor noi, ca pe o bandă rulantă. Nimic nu se defectează și nu apare niciun mesaj de eroare: pur și simplu, începutul conversației încetează să mai existe în ecuațiile atenției.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Ce mai încape</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Banda rulantă: ce mai încape în fereastră</figcaption>
     <div class="stage">
       <div class="band" id="bBand"></div>
       <div class="readout" id="bRead"></div>
@@ -834,9 +836,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>De aici vine purtarea pe care o observă oricine ține o discuție lungă: la un moment dat modelul nu mai știe ce s-a stabilit la început. N-a uitat, în înțelesul obișnuit al cuvântului. A uita presupune că lucrul a fost cândva al tău; aici, textul acela nu se mai află printre pozițiile pe care modelul le are în față, și atât.</p>
+  <p>De aici se naște fenomenul pe care utilizatorii îl descriu adesea spunând că „inteligența artificială a uitat ce i-am spus acum zece mesaje”. Dar modelul nu a „uitat” în sensul uman. Oamenii uită amintiri pe care le-au avut în minte; pentru un model de limbaj, ceea ce a ieșit din fereastra de context nu a existat niciodată. El trăiește exclusiv în prezentul jetoanelor pe care le are în fața ochilor chiar în acea clipă.</p>
 
-  <p>Modelul are acum tot ce-i trebuie ca să răspundă: o construcție antrenată, o etapă care i-a dat forma unui asistent și un fel de a scrie repede. Rămâne o purtare care nu se explică din nimic din ce s-a spus până aici. El răspunde la fel de hotărât și când știe, și când n-are de unde să știe. Lecția următoare arată de ce.</p>
+  <p>Acum înțelegem cum gândește și cum calculează asistentul: o structură antrenată pe limbaj, modelată prin dialog și accelerată prin memoria chei-valori. Și totuși, rămâne o enigmă tulburătoare: de ce acest sistem atât de sofisticat inventează uneori fapte, date istorice sau cărți inexistente, susținându-le cu o siguranță de neclintit? În lecția următoare, vom descoperi de ce modelele halucinează fără nicio urmă de rea-credință.</p>
 </section>
 
 </main>

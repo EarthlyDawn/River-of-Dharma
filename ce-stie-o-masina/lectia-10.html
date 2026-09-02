@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Algoritmul</i></h1>
-    <p class="lede">Un calculator execută pași, deci orice sarcină dată unui calculator trebuie întâi scrisă ca pași. Câți pași ies și dacă se pot scrie deloc sunt două întrebări cu totul diferite, iar lecția aceasta o ia pe prima.</p>
+    <p class="lede">Un calculator este un executant desăvârșit, dar orb: el nu poate face decât pași simpli și riguroși. Prin urmare, orice sarcină pe care i-o încredințăm trebuie descompusă într-o rețetă mecanică fără cusur. Câți pași cere o astfel de rețetă și ce ne facem când rețeta este imposibil de scris sunt marile întrebări care despart informatica clasică de inteligența artificială.</p>
     <p class="terms">Termeni: <b>algoritm</b> <b>sortare prin selecție</b> <b>sortare prin interclasare</b> <b>complexitate</b></p>
   </div>
 </header>
@@ -748,17 +750,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M18 16 H46 M18 24 H40 M18 32 H46 M18 40 H36" class="o-line"/><g class="o-grid"><circle cx="14" cy="16" r="2"/><circle cx="14" cy="24" r="2"/><circle cx="14" cy="32" r="2"/><circle cx="14" cy="40" r="2"/></g><path d="M18 48 H30" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Rețeta exactă</h2>
 
-  <p class="first">Un <dfn>algoritm</dfn> e o listă finită de pași lipsiți de ambiguitate, care duce de la datele de intrare la răspuns și care se termină întotdeauna. Fiecare pas trebuie să fie ceva ce executantul știe deja să facă, fără să întrebe.</p>
+  <p class="first">Ce este, la urma urmei, un <dfn>algoritm</dfn>? În esență, este o rețetă impecabilă: o succesiune finită de pași limpezi, lipsiți de orice urmă de ambiguitate, care primește niște date de intrare, le prelucrează metodic și produce întotdeauna un răspuns corect, oprindu-se garantat după un număr rezonabil de operații. Fiecare pas individual trebuie să fie atât de elementar încât cel care îl execută să-l poată îndeplini mecanic, fără să ceară lămuriri suplimentare și fără să aibă nevoie de vreo fărâmă de intuiție.</p>
 
-  <p>Condiția aceasta e mai aspră decât pare, și tocmai asprimea ei face din calculator ce este. „Amestecă până se leagă” e o instrucțiune bună într-o rețetă de bucătărie și nu e un pas de algoritm, fiindcă „se leagă” nu se poate verifica de cineva care nu știe deja cum arată. „Adună al treilea număr la primul” e un pas de algoritm, fiindcă nu lasă loc de interpretare. Mașina din lecțiile trecute nu are cum să întrebe; deci tot ce i se cere trebuie spus până la capăt.</p>
+  <p>Această cerință de precizie absolută este mult mai aspră decât pare la prima vedere. Într-o carte de bucate obișnuită, o indicație precum „amestecă până când compoziția se leagă” sau „rumenește la foc potrivit” este perfect utilă pentru un bucătar uman, care vede consistența sosului și simte mirosul din cuptor. Însă pentru un calculator, o asemenea comandă este de neînțeles: el nu are simțuri, nu are experiență de viață și nu poate ghici ce am vrut să spunem. Un pas de algoritm autentic seamănă mai degrabă cu: „adună numărul din cutia A la numărul din cutia B și pune rezultatul în cutia C”. Procesorul pe care l-am construit în lecțiile trecute nu poate pune întrebări; prin urmare, tot ceea ce îi cerem trebuie descris fără rest, până la ultima virgulă.</p>
 
-  <p class="note">Cuvântul vine de la numele lui Muhammad ibn Musa al-Khwarizmi, matematician la Bagdad în jurul anului 825, a cărui carte despre socotitul cu cifre indiene a ajuns în Europa sub numele latinizat al autorului.</p>
+  <p class="note">Numele de „algoritm” este un omagiu istoric adus marelui savant persan Muhammad ibn Musa al-Khwarizmi, care a trăit la Bagdad în jurul anului 825. Tratatul său despre calculul metodic cu cifre indiene a fost tradus în latină în Evul Mediu, iar numele autorului, pronunțat stângaci în Europa, a dat cuvântul „algoritm”, în timp ce un alt termen din titlul cărții sale — <i>al-jabr</i> — a dat naștere cuvântului „algebră”.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="40" width="8" height="16" class="o-bar2"/><rect x="17" y="30" width="8" height="26" class="o-bar2"/><rect x="28" y="20" width="8" height="36" class="o-bar"/><rect x="39" y="36" width="8" height="20" fill="#E9C93B"/><rect x="50" y="12" width="8" height="44" fill="#BDB9AA"/><path d="M4 58 H62" class="o-line"/></svg></span>Sortarea prin selecție</h2>
 
-  <p>Iată un algoritm întreg, în trei rânduri. Caută cel mai mic număr din partea nesortată. Schimbă-l cu cel de pe prima poziție nesortată. Repetă, pornind de la poziția următoare. Nimic mai mult: și totuși, aplicat orbește, aranjează orice șir de numere.</p>
+  <p>Pentru a vedea un algoritm în carne și oase, să luăm o problemă clasică: avem o grămadă de numere amestecate și vrem să le așezăm în ordine crescătoare. Iată o rețetă simplă și intuitivă, în trei pași: parcurge șirul rămas și găsește cel mai mic număr; schimbă-l cu numărul de pe prima poziție liberă; repetă aceeași procedură pornind de la poziția următoare. Această metodă poartă numele de <dfn>sortare prin selecție</dfn>.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Albastru: poziția de umplut · galben: cea privită acum · roșu: cel mai mic găsit · portocaliu: gata</figcaption>
@@ -774,15 +776,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Trei lucruri fac din asta un algoritm, și merită numite. Se termină totdeauna, fiindcă partea nesortată scade cu unu la fiecare rundă. Dă răspunsul corect pentru orice intrare, nu doar pentru cele încercate. Și numărul de pași se poate socoti dinainte, fără să fie rulat.</p>
+  <p>De ce este aceasta un algoritm autentic? Din trei motive fundamentale: în primul rând, se termină întotdeauna, fiindcă la fiecare pas zona nesortată scade cu exact un element; în al doilea rând, dă garantat rezultatul corect pentru absolut orice șir de numere, indiferent cât de haotic ar fi fost amestecat; în al treilea rând, putem socoti cu precizie matematică, înainte de a rula programul, câți pași va avea de făcut mașina.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H58 M8 54 V8" class="o-line"/><path d="M8 52 Q30 48 56 12" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M8 52 Q34 44 56 36" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Câți pași</h2>
 
-  <p>Prima rundă privește toate numerele în afară de primul, a doua le privește pe toate în afară de primele două, și tot așa. Adunate, comparațiile sunt <i>n</i>·(<i>n</i>−1)/2, adică aproape jumătate din pătratul lui <i>n</i>. Numărul nu depinde de date: aceleași comparații se fac și pe un șir deja sortat.</p>
+  <p>Să numărăm efortul: dacă avem <i>n</i> numere, la prima rundă comparăm primul element cu celelalte <i>n</i>−1 numere. La a doua rundă căutăm printre cele <i>n</i>−2 rămase, și tot așa, până când ajungem la ultimul. Adunate, numărul total de comparații este dat de formula <i>n</i>·(<i>n</i>−1)/2 — adică, grosso modo, jumătate din pătratul lui <i>n</i>. Dacă avem 10 numere, facem vreo 45 de comparații; dacă avem 1.000 de numere, facem aproape o jumătate de milion de comparații; iar dacă avem un milion de numere, ajungem la amețitoarea cifră de 500 de miliarde de operații! Acest efort nu depinde de noroc: chiar dacă șirul este deja ordonat, algoritmul va face orbește exact același număr de verificări.</p>
 
-  <p>Există și altă cale. Împarte șirul în două jumătăți, sortează fiecare jumătate în același fel, apoi împletește cele două jumătăți sortate parcurgându-le o dată, umăr la umăr. Metoda se numește <dfn>sortare prin interclasare</dfn>, iar înjumătățirea din prima lecție reapare aici: un șir de <i>n</i> numere se poate înjumătăți de log₂<i>n</i> ori, iar la fiecare nivel de înjumătățire se face aproximativ <i>n</i> muncă. Ies în jur de <i>n</i>·log₂<i>n</i> comparații.</p>
+  <p>Dar oare putem fi mai isteți? Desigur! Gândiți-vă la principiul „dezbină și cucerește”: în loc să căutăm prin tot mormanul, împărțim șirul în două jumătăți egale, sortăm separat fiecare jumătate, iar la sfârșit le împletim (le interclasăm) parcurgându-le în paralel, de la stânga la dreapta, comparând doar elementele din vârf. Aceasta este <dfn>sortarea prin interclasare</dfn> (Merge Sort). Aici reîntâlnim magica înjumătățire binară din prima lecție: un șir de <i>n</i> elemente se poate înjumătăți de cel mult log₂<i>n</i> ori, iar la fiecare nivel de împărțire munca de împletire este proporțională cu <i>n</i>. Volumul total de muncă scade spectaculos la aproximativ <i>n</i>·log₂<i>n</i> comparații.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceleași numere, măsurate cu amândouă metodele</figcaption>
@@ -798,25 +800,25 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>La opt numere deosebirea nu contează. La un milion, contează tot. Un calculator care face un miliard de comparații pe secundă termină interclasarea într-o clipită și are nevoie de vreo opt minute pentru selecție, pe aceleași date, pentru același răspuns.</p>
+  <p>Pentru o mână de 8 numere, diferența dintre cele două metode este neînsemnată. Însă pentru o bază de date cu un milion de înregistrări, diferența înseamnă totul: un procesor modern rezolvă sortarea prin interclasare într-o fracțiune de secundă (câteva zeci de milioane de operații), în vreme ce sortarea prin selecție îl ține ocupat timp de minute bune, făcând sute de miliarde de pași pentru a ajunge exact la același rezultat.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H58 M8 54 V8" class="o-line"/><path d="M8 52 L56 40" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M8 52 Q40 50 56 10" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M30 20 L30 54" fill="none" stroke="#5F6D2E" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Complexitatea</h2>
 
-  <p>Felul în care crește numărul de pași odată cu mărimea intrării se numește <dfn>complexitate</dfn>. Se scrie păstrând numai partea care crește cel mai repede și aruncând factorii constanți: selecția e de ordinul <i>n</i>², interclasarea de ordinul <i>n</i>·log <i>n</i>.</p>
+  <p>Ritmul în care crește numărul de operații pe măsură ce volumul de date de intrare devine tot mai mare poartă numele de <dfn>complexitate computațională</dfn>. În informatică, ignorăm detaliile mărunte și constantele secundare, păstrând doar termenul care dictează explozia efortului: spunem că sortarea prin selecție are o complexitate de ordinul <i>n</i>² (creștere pătratică), în timp ce sortarea prin interclasare are o complexitate de ordinul <i>n</i>·log <i>n</i>.</p>
 
-  <p>Aruncarea constantelor pare o pierdere de precizie și e exact opusul. Un algoritm de ordinul <i>n</i>² rămâne mai lent decât unul de ordinul <i>n</i>·log <i>n</i> pentru <i>n</i> destul de mare, oricât de bine ar fi scris primul și oricât de prost al doilea. Un calculator de o mie de ori mai rapid nu schimbă asta: mută doar pragul de la care diferența se simte. Complexitatea e o proprietate a metodei, nu a mașinii, și de aceea e mai durabilă decât orice progres al siliciului.</p>
+  <p>Renunțarea la constante poate părea o neglijență matematică, dar în realitate este o dovadă de profundă claritate. Oricât de mult am optimiza un algoritm de ordinul <i>n</i>² și oricât de neglijent am programa un algoritm de ordinul <i>n</i>·log <i>n</i>, pentru un volum de date suficient de mare algoritmul <i>n</i>·log <i>n</i> îl va surclasa întotdeauna pe primul fără drept de apel. Nici măcar cumpărarea unui supercomputer de o mie de ori mai puternic nu poate salva un algoritm ineficient: puterea brută a procesorului doar amână puțin momentul în care curba pătratică devine un zid de netrecut. Complexitatea este o trăsătură matematică a ideii în sine, nu a mașinii fizice, și de aceea rămâne adevărată peste secole, indiferent cum evoluează cipurile de siliciu.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><circle cx="12" cy="14" r="4"/><circle cx="50" cy="12" r="4"/><circle cx="54" cy="44" r="4"/><circle cx="22" cy="52" r="4"/><circle cx="34" cy="30" r="4"/></g><path d="M12 14 L50 12 L54 44 L22 52 L34 30 Z" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="4 3"/></svg></span>Probleme fără un algoritm bun</h2>
 
-  <p>Pentru unele probleme se cunoaște un algoritm, dar unul mult prea încet. Drumul cel mai scurt care trece prin o sută de orașe se poate afla încercând toate ordinile cu putință; pașii se pot scrie fără nicio dificultate, numai că ordinile sunt mai multe decât atomii din universul cunoscut.</p>
+  <p>Până aici, toate sarcinile analizate aveau soluții elegante. Dar informaticienii au descoperit curând o întreagă familie de probleme pentru care știm exact ce avem de făcut, dar pentru care efortul de calcul explodează astronomic. Gândiți-vă la un comis-voiajor care trebuie să viziteze o sută de orașe și caută traseul cel mai scurt. Rețeta brută este banal de simplă: testează pe rând toate rutele posibile și alege-o pe cea mai scurtă! Pașii se pot scrie în trei rânduri de cod. Problema este că numărul traseelor posibile pentru o sută de orașe depășește cu mult numărul tuturor atomilor din universul observabil; niciun calculator din lume, oricât ar rula până la sfârșitul timpului, nu ar putea parcurge această listă.</p>
 
-  <p>Pentru astfel de probleme nimeni nu a găsit până acum o metodă rapidă și nimeni nu a demonstrat că nu există. Întrebarea dacă ele au sau nu soluții rapide e cea mai cunoscută întrebare deschisă din informatică. Deocamdată se folosesc metode care dau un răspuns bun fără să promită că e cel mai bun.</p>
+  <p>Pentru asemenea probleme complexe nimeni nu a descoperit încă o scurtătură rapidă și infailibilă — și nimeni nu a reușit să demonstreze că o asemenea scurtătură nu ar putea exista. Această dilemă este cea mai celebră problemă deschisă din informatică și matematică (cunoscută ca problema „P versus NP”). În practică, inginerii se mulțumesc cu metode aproximative, care oferă un răspuns rezonabil de bun într-un timp scurt, fără pretenția perfecțiunii absolute.</p>
 
-  <p>Ce le leagă pe toate acestea e că știm ce trebuie făcut. Pașii se pot scrie fără greutate; doar că sunt prea mulți ca să fie făcuți. Există însă și un al doilea fel de limită, care nu are legătură cu numărul de pași. Sunt sarcini pe care orice om le rezolvă într-o fracțiune de secundă și pentru care nimeni, oricât timp ar avea, nu poate scrie pașii: a recunoaște fața unui prieten într-o mulțime, a spune dacă o propoziție are înțeles, a deosebi un câine de o pisică. Aici nu lipsește viteza, ci rețeta. Lecția următoare încearcă să scrie rețeta, ca să se vadă unde anume se rupe.</p>
+  <p>Totuși, în toate aceste cazuri dificile există o consolare: știm cu certitudine cum arată pașii teoretici, chiar dacă sunt prea mulți pentru a fi executați. Dar există o barieră mult mai profundă și mai tulburătoare, care nu are nicio legătură cu viteza procesoarelor. Este vorba despre acele sarcini cotidiene pe care orice ființă umană le rezolvă fără niciun efort conștient într-o fracțiune de secundă, dar pentru care nimeni pe lume nu poate așterne o rețetă cu pași clari: cum deosebim un câine de o pisică? Cum recunoaștem scrisul de mână al unui prieten? Cum înțelegem ironia dintr-o frază? Aici nu ne lipsește puterea de calcul; ne lipsește însăși rețeta. În lecția următoare vom încerca să scriem o astfel de rețetă mecanică, doar pentru a vedea unde anume se prăbușește logica clasică și de ce avem nevoie de o paradigmă complet nouă: învățarea automată.</p>
 </section>
 
 </main>

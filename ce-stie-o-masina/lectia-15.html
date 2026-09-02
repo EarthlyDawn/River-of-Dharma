@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Neuronul <i>artificial</i></h1>
-    <p class="lede">O familie de reguli care se îmbogățește prin combinarea mai multor mărimi măsurate, nu prin îndoirea tot mai violentă a unei singure curbe. Piesa e modestă, o sumă cu ponderi și un prag, dar din ea se construiește tot ce urmează.</p>
+    <p class="lede">În loc să complicăm o singură linie cu zeci de îndoituri, deschidem o cale mult mai rodnică: combinarea mai multor măsurători diferite. Cărămida de bază este surprinzător de simplă — o adunare cu voturi ponderate urmată de o decizie lină —, dar din conectarea acestor elemente modeste se nasc cele mai uluitoare rețele inteligente de astăzi.</p>
     <p class="terms">Termeni: <b>ponderi</b> <b>deplasare</b> <b>frontieră de decizie</b> <b>funcție logistică</b> <b>sau-exclusiv</b> <b>perceptron</b></p>
   </div>
 </header>
@@ -746,13 +748,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 L34 32 M6 26 L34 32 M6 40 L34 32 M6 54 L34 32 M42 32 H58" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="6" cy="12" r="3.5"/><circle cx="6" cy="26" r="3.5"/><circle cx="6" cy="40" r="3.5"/><circle cx="6" cy="54" r="3.5"/></g><circle cx="36" cy="32" r="8" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Combinarea mai multor mărimi</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 L34 32 M6 26 L34 32 M6 40 L34 32 M6 54 L34 32 M42 32 H58" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="6" cy="12" r="3.5"/><circle cx="6" cy="26" r="3.5"/><circle cx="6" cy="40" r="3.5"/><circle cx="6" cy="54" r="3.5"/></g><circle cx="36" cy="32" r="8" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Un comitet cu vot ponderat</h2>
 
-  <p class="first">Familia din lecția precedentă avea o singură intrare și se îmbogățea într-un singur fel: mai multe îndoituri. Se strica repede, fiindcă îndoiturile nu descriu nimic în afară de ele însele.</p>
+  <p class="first">Curbele contorsionate din lecția precedentă încercau să rezolve totul pe o singură dimensiune și se stricau repede. În realitate, lumea nu este unidimensională: pentru a recunoaște o cifră, un chip sau un animal, avem la dispoziție zeci sau mii de indicii diferite.</p>
 
-  <p>Problemele adevărate arată altfel. Despre un desen se pot măsura zeci de mărimi: cerneala din fiecare zonă, lățimea, numărul de capete de linie, simetria. Fiecare spune ceva puțin, niciuna nu ajunge singură. Ce trebuie construit e o familie care le combină, și cea mai simplă combinare e suma cu ponderi. Fiecare mărime se înmulțește cu un număr al ei și rezultatele se adună. Numerele acelea se numesc <dfn>ponderi</dfn>, iar la sumă se mai adaugă un număr care nu depinde de nicio intrare, numit <dfn>deplasare</dfn>.</p>
+  <p>Despre un desen putem măsura densitatea cernelii în diverse zone, lățimea totală, înălțimea, numărul de bucle închise sau simetria. Niciun indiciu nu este suficient de unul singur, dar împreună pictează o imagine clară. Cum le putem pune să colaboreze? Cel mai natural mod este un <b>vot ponderat</b>: fiecare mărime măsurată este multiplicată cu o importanță proprie, iar rezultatele se adună într-o sumă totală.</p>
 
-  <p>O pondere pozitivă mare înseamnă că mărimea aceea pledează puternic pentru răspunsul „da”. Una negativă înseamnă că pledează împotrivă. Una apropiată de zero înseamnă că mărimea nu contează. E felul în care judecăm și noi, adesea: un vot în care fiecare martor cântărește altfel.</p>
+  <p>Aceste multiplicatoare de importanță se numesc <dfn>ponderi</dfn>. O pondere pozitivă mare înseamnă că acel indiciu pledează cu tărie pentru răspunsul „DA”. O pondere negativă înseamnă că indiciul pledează împotrivă („NU”). O pondere apropiată de zero înseamnă că trăsătura respectivă este ignorată. Peste toate acestea, adăugăm un număr fix numit <dfn>deplasare</dfn> (sau <i>bias</i>), care stabilește nivelul de bază de scepticism al neuronului: cât de exigent este înainte de a da un răspuns afirmativ.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Patru mărimi, patru ponderi, o singură sumă</figcaption>
@@ -770,15 +772,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 52 L58 12" fill="none" stroke="#B58A12" stroke-width="3"/><g class="o-grid"><circle cx="16" cy="18" r="3.5"/><circle cx="26" cy="28" r="3.5"/><circle cx="14" cy="36" r="3.5"/></g><g fill="#6B7A38"><circle cx="46" cy="40" r="3.5"/><circle cx="36" cy="50" r="3.5"/><circle cx="52" cy="26" r="3.5"/></g></svg></span>Pragul și frontiera</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 52 L58 12" fill="none" stroke="#B58A12" stroke-width="3"/><g class="o-grid"><circle cx="16" cy="18" r="3.5"/><circle cx="26" cy="28" r="3.5"/><circle cx="14" cy="36" r="3.5"/></g><g fill="#6B7A38"><circle cx="46" cy="40" r="3.5"/><circle cx="36" cy="50" r="3.5"/><circle cx="52" cy="26" r="3.5"/></g></svg></span>Frontiera care taie spațiul</h2>
 
-  <p>Suma e un singur număr. Pentru o hotărâre cu da sau nu, ea se compară cu zero: peste, răspunsul e da; sub, nu. Deplasarea joacă rolul pragului, mutat de partea cealaltă a semnului egal.</p>
+  <p>Suma ponderată rezultată este un singur număr. Pentru a lua o hotărâre tranșantă („este un 7” sau „nu este un 7”), comparăm această sumă cu zero: dacă rezultatul trece de zero, răspunsul este DA; dacă rămâne sub zero, răspunsul este NU.</p>
 
-  <p>Privit în spațiul mărimilor măsurate, locul în care suma e exact zero formează o dreaptă atunci când mărimile sunt două, un plan când sunt trei, și ceva de aceeași natură când sunt mai multe. Locul acesta se numește <dfn>frontieră de decizie</dfn>, iar ponderile hotărăsc încotro e înclinată.</p>
+  <p>Dacă ne imaginăm toate exemplele așezate pe o suprafață plană în funcție de cele două măsurători ale lor, linia de demarcație unde suma este exact zero formează o dreaptă. Această linie se numește <dfn>frontieră de decizie</dfn>. Ponderile decid înclinația dreptei, iar deplasarea o mută mai aproape sau mai departe de origine.</p>
 
-  <p>Deosebirea față de lecția a unsprezecea merită privită. Regula de acolo tăia cu două praguri, fiecare pe câte o axă, deci frontiera ei era un colț drept. Un neuron taie cu o dreaptă înclinată oricum. Cele două familii nu se cuprind una pe alta: colțul poate face lucruri pe care dreapta nu le poate, și invers. Pe cele patruzeci de desene din figura de mai jos, amândouă ajung, în cel mai bun caz, la exact două greșeli.</p>
-
-  <p>Ce aduce neuronul nu e deci mai multă putere pe două mărimi, ci faptul că aceeași construcție merge la oricâte. Cu douăzeci de mărimi măsurate, o regulă cu praguri pe fiecare axă ar cere douăzeci de numere alese de mână și tot n-ar putea ține seama de felul în care mărimile se compensează între ele. Suma cu ponderi le combină pe toate deodată, iar ponderile se caută singure, cu coborârea pantei.</p>
+  <p>Observă diferența subtilă față de regula din lecția 11: acolo tăiam spațiul cu două praguri rigide paralele cu axele, formând un colț drept. Un neuron artificial poate trasa o dreaptă înclinată sub orice unghi! El poate astfel balansa indiciile: dacă un desen are puțin mai puțină cerneală sus, dar este mult mai îngust, neuronul le poate compensa elegant reciproc. Iar cel mai mare avantaj este că această formulă funcționează identic indiferent dacă avem două, douăzeci sau zece mii de măsurători de intrare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceleași patruzeci de desene, în spațiul a două mărimi</figcaption>
@@ -806,13 +806,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 H32 V14 H58" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M6 50 C22 50 24 14 40 14 S58 14 58 14" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>De la treaptă la pantă lină</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 H32 V14 H58" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M6 50 C22 50 24 14 40 14 S58 14 58 14" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>De la treapta rigidă la panta suplă</h2>
 
-  <p>Hotărârea „peste zero sau sub” nu se poate antrena. Ea sare din 0 în 1 dintr-odată, iar în rest rămâne neclintită oricât s-ar mișca ponderile, așa că nu are pantă și nu spune încotro merită mers. E exact neajunsul semnalat la sfârșitul lecției despre funcția de cost.</p>
+  <p>O decizie rigidă de tipul „totul sau nimic” (0 sau 1 ca o treaptă abruptă) are un defect fatal: nu poate fi antrenată prin coborârea pantei! Pe treaptă, solul este perfect plat la stânga și la dreapta, iar la mijloc există o prăpastie verticală. Panta este fie zero, fie infinită — nu oferă niciun indiciu călătorului încotro să rotească butoanele.</p>
 
-  <p>Treapta se înlocuiește de aceea cu o curbă care urcă lin de la 0 la 1, numită <dfn>funcție logistică</dfn> sau sigmoidă. Ieșirea neuronului încetează să fie da sau nu și devine un număr între 0 și 1, care se citește ca încredere: 0,97 înseamnă aproape sigur da, 0,5 înseamnă nehotărât. Schimbarea pare mică și e una dintre cele mai importante din curs: hotărârea tăioasă e înlocuită cu un grad de încredere, iar gradele de încredere se pot coborî.</p>
+  <p>Soluția genială este înlocuirea treptei cu o curbă lină în formă de S, numită <dfn>funcție logistică</dfn> (sau sigmoidă). Ieșirea neuronului încetează să mai fie un „da/nu” mecanic și devine un grad subtil de încredere între 0 și 1: o valoare de 0,98 înseamnă „foarte probabil da”, 0,10 înseamnă „foarte puțin probabil”, iar 0,50 înseamnă „complet nesigur”.</p>
 
-  <p>Departe de frontieră curba e aproape plată, deci și acolo panta e mică, iar învățarea încetinește. Aproape de frontieră panta e mare și ponderile se mișcă repede. Neuronul se ocupă astfel, de la sine, mai ales de exemplele despre care e nehotărât.</p>
+  <p>Această nuanță transformă totul: acum fiecare schimbare infimă a unei ponderi mișcă lin gradul de încredere, oferind o pantă continuă pe care coborârea o poate simți sub picioare. În plus, pe măsură ce neuronul devine foarte sigur pe un exemplu, panta se domolește, concentrându-și automat eforturile de învățare exact asupra exemplelor neclare de la graniță.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Treapta și înlocuitoarea ei</figcaption>
@@ -829,9 +829,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="#6B7A38"/><circle cx="48" cy="48" r="5" fill="#6B7A38"/><circle cx="48" cy="16" r="5" fill="#2F4BC4"/><circle cx="16" cy="48" r="5" fill="#2F4BC4"/><path d="M8 40 L56 24" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Ce nu poate un singur neuron</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="#6B7A38"/><circle cx="48" cy="48" r="5" fill="#6B7A38"/><circle cx="48" cy="16" r="5" fill="#2F4BC4"/><circle cx="16" cy="48" r="5" fill="#2F4BC4"/><path d="M8 40 L56 24" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Zidul de netrecut al unui singur neuron</h2>
 
-  <p>Frontiera unui neuron e o dreaptă, iar asta îi hotărăște limita. Există aranjări de puncte pe care nicio dreaptă nu le desparte, iar cea mai mică dintre ele are patru puncte.</p>
+  <p>Pentru că frontiera unui singur neuron este întotdeauna o tăietură dreaptă, puterea lui se oprește în fața oricărui tipar care nu poate fi separat printr-o linie. Iar cel mai celebru exemplu are doar patru puncte!</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Patru puncte, două clase pe diagonală</figcaption>
@@ -844,19 +844,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Aranjarea aceasta se numește <dfn>sau-exclusiv</dfn> și e chiar operația din lecția a șasea, cea care dădea suma unei coloane. Un singur neuron nu o poate calcula, iar demonstrarea acestui fapt, publicată în 1969 de Marvin Minsky și Seymour Papert, a oprit cercetarea în domeniu pentru mai bine de un deceniu.</p>
+  <p>Privește figura de mai sus: două puncte albastre pe o diagonală și două puncte verzi pe cealaltă diagonală. Oricum ai roti rigla și oriunde ai așeza-o, este imposibil să separi culorile cu o singură linie dreaptă! Această configurație este faimoasa operație logică <dfn>sau-exclusiv</dfn> (XOR), pe care am întâlnit-o în lecția 6 la adunarea biților.</p>
 
-  <p>Oprirea a fost o neînțelegere. Limita privește un neuron singur, nu mai mulți legați între ei, iar autorii o spuseseră. Ce lipsea atunci era metoda de antrenare a mai multor straturi, iar aceea a apărut abia mai târziu. E o poveste instructivă despre cum o demonstrație corectă poate fi citită greșit de o întreagă comunitate.</p>
+  <p>În 1969, cercetătorii Marvin Minsky și Seymour Papert au demonstrat matematic că un singur neuron nu poate rezolva nici măcar problema XOR. Cartea lor a declanșat o iarnă a inteligenței artificiale: mulți au tras concluzia greșită că rețelele neuronale sunt o fundătură. În realitate, demonstrația arăta doar limitele unui neuron solitar — nu ale unei echipe de neuroni organizați pe straturi!</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 30 Q20 8 32 24 T54 20 M32 24 V50 M22 50 Q32 40 42 50" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="32" cy="24" r="7" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/></svg></span>De unde vine numele</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 30 Q20 8 32 24 T54 20 M32 24 V50 M22 50 Q32 40 42 50" fill="none" stroke="#22252D" stroke-width="2.5"/><circle cx="32" cy="24" r="7" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/></svg></span>De unde vine numele: biologie versus matematică</h2>
 
-  <p>Modelul a fost propus în 1943 de Warren McCulloch și Walter Pitts, ca descriere simplificată a unei celule nervoase: intrări care se adună, un prag care se depășește, un semnal care pleacă mai departe. În 1958 Frank Rosenblatt i-a adăugat o metodă de reglare a ponderilor din exemple și l-a numit <dfn>perceptron</dfn>.</p>
+  <p>Modelul a fost propus în 1943 de Warren McCulloch și Walter Pitts ca o schiță matematică simplificată a celulelor nervoase din creier. În 1958, Frank Rosenblatt i-a adăugat capacitatea de a-și regla ponderile din exemple și l-a botezat <dfn>perceptron</dfn>.</p>
 
-  <p>Asemănarea cu o celulă nervoasă adevărată se oprește repede. Un neuron biologic comunică prin impulsuri scurte, în care momentul contează la fel de mult ca numărul lor; are o chimie proprie, o geometrie complicată, și se schimbă în timp după reguli care nu seamănă cu coborârea pantei. Numele s-a păstrat din motive istorice, iar potrivirea lui nu trebuie luată drept argument: că rețelele „gândesc ca un creier” e o metaforă, nu o descriere.</p>
+  <p>Este important să risipim orice confuzie: neuronul artificial este doar o metaforă inspiratoare, nu o copie fidelă a creierului biologic. Neuronii din capul nostru comunică prin impulsuri electro-chimice pulsatile, depind de ritmuri temporale fine și învață prin procese mult mai bogate decât coborârea matematică a unei pante numerice. A spune că rețelele artificiale „gândesc ca un creier” este o poezie, nu o descriere tehnică.</p>
 
-  <p>Un neuron taie spațiul cu o dreaptă. Mai mulți neuroni pot tăia fiecare cu dreapta lui, iar ieșirile lor pot fi date ca intrări altor neuroni, care taie la rândul lor spațiul deja tăiat. Lecția următoare arată ce se obține astfel și de ce lucrul acesta schimbă tot.</p>
+  <p>Dar iată frumusețea: un singur neuron trage o linie dreaptă. Ce se întâmplă însă dacă punem mai mulți neuroni să tragă fiecare linia lui, iar apoi dăm rezultatele lor unei noi generații de neuroni? În lecția următoare descoperim cum se construiesc <i>straturile</i> și cum o simplă combinare de linii drepte poate învăța orice formă din univers.</p>
 </section>
 
 </main>

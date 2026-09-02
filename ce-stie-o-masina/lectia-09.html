@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Programul <i>stocat</i></h1>
-    <p class="lede">Instrucțiunile mașinii sunt numere, iar numerele stau în memorie. Dacă memoria e aceeași pentru instrucțiuni și pentru date, calculatorul încetează să fie o mașină anume și devine oricare mașină. E ideea care desparte calculatorul de toate uneltele dinaintea lui.</p>
+    <p class="lede">Instrucțiunile unei mașini de calcul sunt numere, iar numerele pot locui pașnic în memorie. Dacă memoria găzduiește laolaltă instrucțiunile și datele, calculatorul încetează să mai fie o unealtă cu un singur scop și devine o mașină universală. Aceasta este ideea genială care desparte calculatorul modern de toate uneltele inventate vreodată de omenire.</p>
     <p class="terms">Termeni: <b>program stocat</b> <b>limbaj de asamblare</b> <b>asamblor</b> <b>compilator</b> <b>scara abstracțiilor</b></p>
   </div>
 </header>
@@ -748,17 +750,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="none" stroke="#22252D" stroke-width="2"/><g class="o-grid"><rect x="12" y="14" width="18" height="8"/><rect x="34" y="14" width="18" height="8"/><rect x="12" y="26" width="18" height="8"/></g><rect x="34" y="26" width="18" height="8" class="o-bar2"/><rect x="12" y="38" width="18" height="8" class="o-bar2"/><rect x="34" y="38" width="18" height="8" class="o-bar2"/></svg></span>O singură memorie</h2>
 
-  <p class="first">Mașinile de calcul dinaintea acestei idei aveau programul în cabluri. Schimbarea a ceea ce făceau însemna mutarea firelor și a comutatoarelor cu mâna, iar la mașinile mari lucrul acesta ținea zile întregi. Programul nu era ceva ce se scria, ci ceva ce se construia.</p>
+  <p class="first">Înainte de nașterea calculatoarelor moderne, mașinile de calcul aveau „programul” turnat direct în cabluri și întrerupătoare fizice. Pentru a schimba sarcina unui colos precum ENIAC — de exemplu, pentru a trece de la calculul traiectoriei unui proiectil la prognoza vremii —, o echipă întreagă de ingineri trebuia să deconecteze sute de cabluri groase, să le rearanjeze pe panouri uriașe și să rotească manual sute de comutatoare, o trudă manuală care dura zile întregi. Pe atunci, programul nu era un text care se tasta, ci o schelărie fizică ce trebuia reclădită la fiecare utilizare.</p>
 
-  <p>Ideea <dfn>programului stocat</dfn>, formulată în 1945 în raportul lui John von Neumann despre mașina EDVAC, e că instrucțiunile pot fi ținute în aceeași memorie ca datele, la adrese de același fel. Schimbarea programului devine atunci scrierea unor numere într-o memorie, o operație pe care mașina însăși o poate face în câteva clipe.</p>
+  <p>Marea cotitură s-a produs în 1945, odată cu faimosul raport al matematicianului John von Neumann despre proiectul mașinii EDVAC. Ideea <dfn>programului stocat</dfn> este de o simplitate dezarmantă: de ce să tratăm comenzile ca pe niște cablaje fixe, când le putem scrie ca simple numere și le putem așeza în aceeași memorie comună în care ținem și datele de calcul? Odată adoptat acest principiu, reconfigurarea mașinii nu mai cere clești și fire, ci doar rescrierea unor octeți în căsuțele de memorie — o operațiune pe care procesorul o poate desăvârși singur într-o clipită.</p>
 
-  <p>Consecința nu e comoditatea, ci ceva mai adânc: o mașină care primește un program se poartă ca mașina descrisă de acel program. Nu mai există o mașină de adunat și o mașină de sortat, ci un singur obiect care le imită pe amândouă, după numerele care se află în el. Un ciocan rămâne ciocan; un calculator devine ce i se scrie în memorie. Din punct de vedere filozofic e un fel nou de obiect: unul a cărui natură e să nu aibă o natură fixă.</p>
+  <p>Consecința acestei unificări depășește cu mult simpla comoditate tehnică; este o revoluție filozofică. Un ciocan rămâne veșnic un ciocan; un strung nu poate fi decât un strung. Dar un calculator cu program stocat nu are o identitate bătută în cuie. Dacă îi încarci în memorie regulile șahului, devine un maestru șahist; dacă îi încarci un registru contabil, devine un contabil neobosit; dacă îi încarci un sintetizator de sunet, devine un instrument muzical. Este primul obiect din istoria civilizației umane a cărui natură intimă este tocmai aceea de a nu avea o natură fixă: el devine orice mașină îi dictează programul stocat în memoria sa.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="20" y="4" width="24" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M32 20 V28 M32 28 L12 40 M32 28 L32 40 M32 28 L52 40" class="o-line"/><rect x="4" y="40" width="16" height="14" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="24" y="40" width="16" height="14" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><rect x="44" y="40" width="16" height="14" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/></svg></span>Același număr, trei citiri</h2>
 
-  <p>Un octet din memorie nu poartă în el niciun semn despre ce este. Aceiași opt biți se pot citi ca număr, ca instrucțiune, ca literă sau ca orice altceva pentru care există o convenție. Citirea nu se află în octet, ci în ce anume îl citește. E aceeași observație din prima lecție, despre nume și adrese, dusă până la capăt.</p>
+  <p>Dacă aruncăm o privire într-un cip de memorie, un octet nu vine însoțit de o etichetă care să spună ce reprezintă. Opt biți de siliciu sunt doar opt tranzistoare aflate sub tensiune sau nu. Același șir de opt biți poate fi privit ca un număr întreg, ca o instrucțiune de adunare, ca o literă dintr-un roman, ca o nuanță de culoare pe ecran sau ca o notă muzicală dintr-un cântec. Înțelesul nu zace prizonier în interiorul octetului; înțelesul depinde în întregime de ochiul care îl citește și de contextul în care este chemat.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Opt octeți, citiți în trei feluri deodată</figcaption>
@@ -773,17 +775,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Când mașina aduce un octet fiindcă contorul de program arată spre el, octetul e o instrucțiune. Când îl aduce fiindcă o instrucțiune a cerut o valoare, e un număr. Nimic din memorie nu se schimbă între cele două cazuri, iar o mașină căreia i se dă un contor de program greșit va executa cu toată seriozitatea un text sau o fotografie.</p>
+  <p>Când contorul de program (PC) se oprește la o adresă, procesorul tratează orbește octetul de acolo ca pe o instrucțiune de executat. Când o operație de adunare citește aceeași adresă, ea tratează octetul ca pe un număr de socotit. În memoria însăși nu se schimbă absolut nimic! De aceea, dacă un program se rătăcește din greșeală și începe să citească o fotografie ca și cum ar fi o listă de instrucțiuni, procesorul va încerca cu toată seriozitatea să execute pixelii imaginii, interpretând culorile ca ordine de calcul până când se va bloca într-o eroare.</p>
 
-  <p class="note">Literele folosesc convenția din lecția a treia: cei cinci biți de jos aleg un semn dintr-un alfabet de treizeci și două. Cei trei biți de sus, care la instrucțiuni sunt codul operației, nu schimbă litera.</p>
+  <p class="note">În figura interactivă de mai sus, literele respectă convenția pe care am stabilit-o în prima parte a cursului: primii cinci biți aleg un caracter dintr-un alfabet de 32 de semne, în timp ce primii trei biți — care la o instrucțiune reprezintă codul operației — rămân invizibili pentru text.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="22" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 22 H24 M10 28 H20 M10 34 H24 M10 40 H18" class="o-line"/><path d="M30 32 H38" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M36 28 L40 32 L36 36" fill="none" stroke="#EE5A2F" stroke-width="3"/><g class="o-grid"><rect x="42" y="18" width="16" height="6"/><rect x="42" y="26" width="16" height="6"/><rect x="42" y="34" width="16" height="6"/><rect x="42" y="42" width="16" height="6"/></g></svg></span>Programe care scriu programe</h2>
 
-  <p>Dacă un program e un șir de numere, atunci producerea unui program e o prelucrare de date ca oricare alta. Prelucrările de date se fac cu programe, deci programele se pot face cu programe. Propoziția pare un joc de cuvinte și e, de fapt, temelia întregii informatici.</p>
+  <p>Iată o concluzie spectaculoasă a arhitecturii von Neumann: dacă programele sunt doar șiruri de numere, iar calculatoarele sunt experte în prelucrarea numerelor, înseamnă că un calculator poate prelucra, genera și modifica alte programe! Această buclă reflexivă — programe care construiesc alte programe — reprezintă motorul secret care a permis dezvoltarea întregii lumi digitale moderne.</p>
 
-  <p>Cel mai simplu asemenea program citește un text în care instrucțiunile sunt scrise cu nume, câte una pe rând, și scoate numerele corespunzătoare. Textul se numește <dfn>limbaj de asamblare</dfn>, iar programul care îl traduce, <dfn>asamblor</dfn>. Traducerea e mecanică și fără alegeri: fiecare rând devine exact un octet.</p>
+  <p>Nimeni nu mai programează astăzi tastând șiruri chinuitoare de 0 și 1. Primul pas de eliberare a fost crearea unui text cu prescurtări omenești ușor de reținut (de pildă <code>PUNE</code>, <code>ADUNA</code>, <code>SARI</code>). Acest text poartă numele de <dfn>limbaj de asamblare</dfn>, iar programul care îl parcurge și îl traduce literă cu literă în codul binar al mașinii se numește <dfn>asamblor</dfn>. Traducerea este directă și riguroasă: fiecărui rând scris de om îi corespunde cu precizie de ceasornic un octet binar înțeles de procesor.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Scrie instrucțiuni cu nume; numerele ies singure</figcaption>
@@ -807,23 +809,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Nimic nu oprește urcarea. Un program care citește un text mai depărtat de mașină, în care se scriu formule și nume proprii, nu instrucțiuni, și scoate tot numere se numește <dfn>compilator</dfn>. Un compilator e el însuși un program, adică tot un șir de numere, adesea produs de un alt compilator.</p>
+  <p>Dar ascensiunea nu se oprește la asamblor. Un pas mai sus găsim <dfn>compilatorul</dfn>: un program mult mai sofisticat, capabil să citească limbaje de nivel înalt (precum Python, C sau JavaScript), unde scriem concepte matematice elegante, condiții logice și formule naturale. Compilatorul descompune aceste idei umane abstracte și le traduce în mii de mici instrucțiuni binare pentru mașină. Iar compilatorul este el însuși un program scris odinioară de un alt compilator, clădind o scară vertiginoasă de inteligență tehnică.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="12" width="44" height="40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M16 20 H48 M16 28 H40 M16 36 H48" class="o-line"/><path d="M16 44 H34" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M54 44 Q60 30 48 22" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="3 3"/><path d="M46 20 L50 24 L45 26 Z" fill="#EE5A2F"/></svg></span>Un program își poate scrie propriile instrucțiuni</h2>
 
-  <p>Dacă instrucțiunile stau într-o memorie în care se poate și scrie, un program poate schimba octeții propriilor instrucțiuni înainte de a ajunge la ei. Tehnica a fost folosită la începuturi, când mașinile nu aveau registre de adresare: ca să se parcurgă o listă, programul își modifica de fiecare dată adresa din propria instrucțiune de citire.</p>
+  <p>Fiindcă instrucțiunile împart aceeași memorie vie cu datele, nimic nu împiedică un program să calculeze o valoare și să o salveze chiar peste propriile sale linii de cod viitoare, modificându-și comportamentul din mers! În zorii informaticii, această tehnică a „codului automodificator” era folosită intens pentru a economisi memoria infimă a acelor vremuri: ca să parcurgi o listă lungă, programul își modifica la fiecare iterație adresa scrisă în propria instrucțiune de citire.</p>
 
-  <p>Astăzi se ocolește, din două motive practice. Procesoarele țin instrucțiunile aduse din memorie într-un depozit propriu, iar o scriere care le schimbă în urmă obligă la golirea lui, ceea ce costă mai mult decât aduce. Iar un program care își poate scrie codul e exact ce caută un atac: sistemele de operare marchează de aceea zonele de instrucțiuni ca nescriibile.</p>
+  <p>În sistemele moderne, practica este privită cu maximă prudență din două motive pragmatice. În primul rând, procesoarele de azi anticipează pașii viitori și preîncarcă instrucțiunile într-un depozit ultrarapid (cache); dacă programul rescrie brusc memoria din urmă, tot depozitul trebuie aruncat la gunoi, ceea ce distruge performanța. În al doilea rând, capacitatea unui program de a-și rescrie propriul cod este visul oricărui virus informatic. Din acest motiv, sistemele de operare moderne separă strict zonele de memorie, interzicând scrierea în spațiul rezervat instrucțiunilor.</p>
 
-  <p>Ideea rămâne însă întreagă în altă formă. Un program care generează un alt program în memorie și apoi îl execută e mecanismul din spatele multor limbaje de azi, unde codul folosit des e tradus în instrucțiuni de mașină chiar în timpul rulării.</p>
+  <p>Totuși, spiritul acestei idei trăiește triumfător în altă haină: compilatoarele „Just-In-Time” (JIT) care dau viață browserelor web contemporane analizează codul JavaScript în timp ce navigăm pe internet, generează instrucțiuni de mașină proaspete chiar în memorie și le execută pe loc la viteze uluitoare.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 58 V6 M50 58 V6" class="o-line"/><path d="M14 14 H50 M14 26 H50 M14 38 H50 M14 50 H50" class="o-line"/><rect x="18" y="42" width="28" height="6" class="o-bar2"/><rect x="18" y="18" width="28" height="6" class="o-bar"/></svg></span>Scara</h2>
 
-  <p>Partea aceasta a cursului a construit nouă niveluri, fiecare făcut în întregime din cel de dedesubt. Ce le leagă e că fiecare nivel ascunde complet nivelul de sub el: cine scrie instrucțiuni nu are nevoie să știe nimic despre tranzistoare, iar cine proiectează un sumator nu are nevoie să știe ce program va rula pe el. Ascunderea aceasta nu e o lipsă, ci condiția de a putea construi ceva mare.</p>
+  <p>Priviți în urmă la traseul pe care l-am parcurs în această a doua parte a cursului: am înălțat o scară impresionantă de nouă trepte conceptuale. Fiecare treaptă este clădită în întregime pe umerii celei de dedesubt, dar are darul minunat de a ascunde complet complexitatea inferioară. Inginerul care scrie un algoritm nu este nevoit să se gândească la tranzistoare, iar cel care proiectează sumatorul nu are nevoie să știe ce program va rula pe el peste zece ani. Această separare în straturi protectoare poartă numele de <dfn>abstracție</dfn> — și este singurul motiv pentru care mintea omenească poate stăpâni sisteme alcătuite din zeci de miliarde de piese.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>De jos în sus; apasă pe orice treaptă</figcaption>
@@ -831,9 +833,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capLadder">Fiecare treaptă e construită din treapta de sub ea și nu are nevoie de nimic de mai jos.</div>
   </figure>
 
-  <p>Scara nu se oprește aici. Peste limbajele de programare se așază biblioteci, peste ele programe întregi, iar peste acelea sisteme care coordonează mii de calculatoare. Fiecare nivel se sprijină pe unul de dedesubt de care nu are nevoie să știe nimic, iar la capătul de jos se află, netulburat, un comutator.</p>
+  <p>Scara continuă să se înalțe mult peste marginile acestei lecții: peste limbajele de asamblare s-au clădit compilatoare, peste ele sisteme de operare, rețele planetare și platforme uriașe de calcul distribuit. O piramidă gigantică de idei, la a cărei bază modestă se află, la fel de liniștit și ascultător ca în prima zi, un simplu comutator care lasă sau nu un curent electric să treacă.</p>
 
-  <p>Mașina construită până aici face exact ce i se spune, pas cu pas, iar tot ce face poate fi urmărit cu degetul pe un tabel. Puterea ei stă în ascultare: dacă știi să scrii pașii, mașina îi execută de un miliard de ori pe secundă și nu greșește niciodată. Rămâne întrebarea ce se întâmplă când pașii nu se pot scrie. Există sarcini pe care orice om le rezolvă fără efort și pentru care nimeni nu poate spune procedura: a recunoaște o față, a înțelege o propoziție. Partea următoare pornește de acolo.</p>
+  <p>Mașina pe care am desăvârșit-o până aici este o minune a logicii deterministe: este ascultătoare, rapidă și nu greșește niciodată dacă rețeta este corectă. Însă întreaga ei forță depinde de o condiție uriașă: ca un om inteligent să fi scris în prealabil, pas cu pas, algoritmul necesar. Dar ce ne facem atunci când ne lovim de probleme pe care orice copil le rezolvă într-o fracțiune de secundă, dar pentru care niciun matematician nu poate așterne o rețetă mecanică — cum ar fi recunoașterea chipului mamei într-o fotografie sau înțelegerea unei glume? Înainte de a trece la această mare enigmă a inteligenței artificiale, trebuie să lămurim ultimul mare concept al lumii clasice: ce este, de fapt, un algoritm.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Comutatorul</i></h1>
-    <p class="lede">Un bit are nevoie de un obiect care stă în două stări. Cel mai simplu asemenea obiect oprește sau lasă să treacă un curent electric. Din câteva bucăți de acest fel, legate în serie sau în paralel, ies toate operațiile logice, iar dintr-un comutator comandat electric iese posibilitatea de a le înlănțui fără sfârșit.</p>
+    <p class="lede">Un bit are nevoie de un suport fizic concret: un lucru capabil să stea în două stări limpezi și stabile. Cel mai simplu dispozitiv de acest fel este comutatorul, care lasă sau nu un curent electric să treacă. Legând câteva asemenea punți în serie sau în paralel, descoperim că legile naturii compun de la sine operațiile logicii. Iar când comutatorul ajunge să fie manevrat nu de degetul omului, ci de un semnal electric, lanțul calculelor devine nesfârșit.</p>
     <p class="terms">Termeni: <b>comutator</b> <b>în serie</b> <b>în paralel</b> <b>poartă logică</b> <b>tabel de adevăr</b> <b>tranzistor</b> <b>poartă · canal</b> <b>rezistență</b> <b>ȘI-NU</b></p>
   </div>
 </header>
@@ -748,11 +750,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 40 H22 M42 40 H58 M58 40 V54 H6 V40" class="o-line"/><path d="M22 40 L40 26" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="40" r="3" class="o-dot"/><circle cx="42" cy="40" r="3" class="o-dot"/><circle cx="32" cy="54" r="6" class="o-fill"/></svg></span>Curent, tensiune, comutator</h2>
 
-  <p class="first">Prima lecție a lăsat o întrebare deschisă: informația se măsoară în biți, dar ce anume, în lumea fizică, poate ține un bit? Răspunsul e orice obiect care stă în două stări deosebite și care poate fi trecut dintr-una în alta. O monedă cu două fețe, un bec, o ușă. Calculatoarele au ales curentul electric, și merită să vedem de ce.</p>
+  <p class="first">În prima parte a cursului am descoperit că informația se măsoară în biți. Dar un bit nu poate pluti suspendat în aer; el are nevoie de o ancoră în lumea materială. Fizic vorbind, orice lucru care poate adopta două stări perfect distincte și stabile poate păstra un bit: o monedă așezată pe cap sau pe pajură, un bec aprins sau stins, o poartă deschisă ori zăvorâtă. De ce au ales însă calculatoarele noastre tocmai electricitatea? Pentru că semnalele electrice călătoresc aproape cu viteza luminii, circuitele pot fi micșorate până la dimensiuni microscopice, iar firele nu obosesc și nu se tocesc mecanic.</p>
 
-  <p>Un curent electric este o mișcare ordonată de sarcini electrice printr-un material care le lasă să treacă. Două mărimi îl descriu: <dfn>tensiunea</dfn>, cât de tare sunt împinse sarcinile, și <dfn>intensitatea</dfn>, câte trec într-o secundă. Într-o țeavă cu apă, tensiunea ar fi presiunea, iar intensitatea, debitul.</p>
+  <p>Să ne amintim ce este un curent electric: o deplasare ordonată de mici sarcini electrice, electronii, printr-un fir conductor. Îl putem înțelege foarte ușor gândindu-ne la apa care curge printr-o rețea de țevi. Acolo unde vorbim despre <dfn>tensiune</dfn>, ne imaginăm presiunea apei, adică forța cu care sunt împinși electronii la drum de către baterie. Acolo unde vorbim despre <dfn>intensitate</dfn>, ne gândim la debit: câte sarcini străbat secțiunea firului în fiecare secundă.</p>
 
-  <p>Un <dfn>comutator</dfn> este o întrerupere a drumului care se poate închide și deschide. Închis, lasă curentul să treacă; deschis, îl oprește. Are exact două stări și nimic între ele, deci ține exact un bit. De aici înainte, o convenție care va rămâne valabilă tot cursul: comutator închis înseamnă 1, comutator deschis înseamnă 0.</p>
+  <p>Pe acest traseu, cel mai simplu element de control este un <dfn>comutator</dfn>: o întrerupere voită a firului, asemenea unui pod mobil peste un canal. Când podul este coborât — spunem că circuitul este închis —, drumul e continuu și curentul curge liber spre lampă. Când podul este ridicat — circuitul este deschis —, legătura este ruptă, iar curentul se oprește instantaneu. Comutatorul nu cunoaște nuanțe de mijloc: fie lasă totul să treacă, fie oprește totul. Are două stări limpezi, așadar găzduiește exact un bit. Convenția firească pe care o vom păstra pe tot parcursul călătoriei noastre este simplă: comutator închis înseamnă 1 (prezență, curent), iar comutator deschis înseamnă 0 (absență, repaus).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un comutator, o baterie, o lampă; apasă pe comutator</figcaption>
@@ -765,7 +767,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 H58 M6 44 H58" class="o-line"/><path d="M18 20 L28 12 M38 20 L48 12" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><path d="M18 44 L28 36" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><path d="M38 44 H48" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><g class="o-grid"><circle cx="18" cy="20" r="2.5"/><circle cx="28" cy="20" r="2.5"/><circle cx="38" cy="20" r="2.5"/><circle cx="48" cy="20" r="2.5"/></g></svg></span>Serie și paralel</h2>
 
-  <p>Cu un singur comutator nu se calculează nimic; cu două, deja da. Două comutatoare puse unul după altul pe același drum sunt legate <dfn>în serie</dfn>: curentul trece numai dacă amândouă sunt închise, fiindcă oricare dintre ele rupe singur drumul. Puse pe două drumuri care pornesc din același loc și se întâlnesc din nou, sunt legate <dfn>în paralel</dfn>: curentul trece dacă cel puțin unul e închis, fiindcă îi ajunge un singur drum.</p>
+  <p>Un singur comutator nu poate face mare lucru: doar aprinde sau stinge o lumină. Adevărata magie începe în clipa în care așezăm două comutatoare pe același circuit. Avem două moduri fundamentale de a le îmbina, iar din această geometrie elementară răsare spontan logica.</p>
+
+  <p>Dacă așezăm două comutatoare unul după altul pe același fir unic, spunem că le legăm <dfn>în serie</dfn>. Gândiți-vă la două bariere succesive pe o șosea îngustă: mașina poate trece numai și numai dacă ambele bariere sunt ridicate. Dacă măcar una singură rămâne coborâtă, drumul este blocat. Curentul trece exclusiv atunci când primul comutator este închis ȘI al doilea este închis.</p>
+
+  <p>Dacă în schimb despicăm firul în două brațe ocolitoare și punem câte un comutator pe fiecare braț înainte de a le reuni, le legăm <dfn>în paralel</dfn>. Aici avem două rute alternative: este de ajuns ca măcar o singură cale să fie deschisă pentru ca electronii să găsească drumul spre lampă. Curentul trece dacă este închis primul comutator SAU al doilea comutator (sau amândouă deodată).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Aceleași două comutatoare, legate în două feluri</figcaption>
@@ -788,25 +794,25 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cele două legături se comportă ca două operații logice, și aceasta e observația care leagă electricitatea de gândire. Seria dă 1 numai când a și b sunt amândouă 1, adică <dfn>ȘI</dfn>. Paralelul dă 1 când măcar unul dintre ele e 1, adică <dfn>SAU</dfn>. Nimeni n-a „programat” comutatoarele să facă logică; logica e felul în care se compun drumurile.</p>
+  <p>Acesta este momentul de grație în care materia se întâlnește cu rațiunea. Nimeni nu a „programat” firele de cupru să gândească; legătura în serie realizează din fire operația logică <dfn>ȘI</dfn>, iar legătura în paralel realizează operația <dfn>SAU</dfn>. Regulile logicii formale nu sunt născociri abstracte, ci însăși dinamica prin care curg fluxurile de materie și energie când le oferim căi alternative.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="8" y="8" width="10" height="10"/><rect x="22" y="8" width="10" height="10"/><rect x="8" y="22" width="10" height="10"/><rect x="22" y="36" width="10" height="10"/><rect x="8" y="50" width="10" height="10"/><rect x="22" y="50" width="10" height="10"/></g><rect x="44" y="8" width="10" height="10" fill="#BDB9AA"/><rect x="44" y="22" width="10" height="10" fill="#BDB9AA"/><rect x="44" y="36" width="10" height="10" class="o-bar2"/><rect x="44" y="50" width="10" height="10" class="o-bar2"/><path d="M38 6 V62" class="o-line"/></svg></span>Poarta logică și tabelul de adevăr</h2>
 
-  <p>Un circuit a cărui ieșire depinde numai de starea intrărilor, nu și de trecut, se numește <dfn>poartă logică</dfn>. Comportarea lui se scrie complet într-un <dfn>tabel de adevăr</dfn>: câte un rând pentru fiecare combinație de intrări și ieșirea corespunzătoare.</p>
+  <p>Un mic ansamblu de circuite a cărui stare de ieșire depinde strict de ceea ce primește la intrări în acea clipă — fără să fie influențat de trecut — poartă numele de <dfn>poartă logică</dfn>. Comportamentul oricărei porți poate fi descris complet, fără nicio ambiguitate, printr-un <dfn>tabel de adevăr</dfn>: o listă care trece în revistă toate combinațiile posibile ale intrărilor și arată ce valoare va apărea la ieșire pentru fiecare dintre ele.</p>
 
-  <p>Tabelul e descrierea completă, și asta merită subliniat: două porți cu același tabel sunt de nedeosebit din afară, oricât de diferit ar fi făcute înăuntru. Cu două intrări sunt patru rânduri, deci patru ieșiri de ales, deci șaisprezece porți cu două intrări cu putință, nici una mai mult. Printre ele ȘI, SAU și cea care spune mereu 1.</p>
+  <p>Frumusețea acestui tabel constă în faptul că ne permite să privim poarta din exterior, ca pe o „cutie neagră”. Două circuite care produc exact același tabel de adevăr sunt complet echivalente funcțional, oricât de deosebite ar fi piesele din interiorul lor. Dacă avem două intrări, fiecare putând fi 0 sau 1, există doar patru combinații posibile (00, 01, 10, 11). Pentru patru rânduri, putem imagina exact 16 tabele de adevăr distincte — adică există doar șaisprezece porți logice cu două intrări posibile în întregul univers, printre care se numără ȘI, SAU sau poarta banală care dă mereu 1.</p>
 
-  <p>Mai lipsește o operație, cea mai simplă dintre toate. <dfn>NU</dfn> are o singură intrare și întoarce valoarea: dă 1 când intrarea e 0 și 0 când intrarea e 1. Din comutatoare apăsate cu degetul nu iese, fiindcă un comutator lasă să treacă atunci când e apăsat, nu invers. Ca s-o obținem avem nevoie de altceva.</p>
+  <p>Dar ne lipsește încă o operație fundamentală, poate cea mai intuitivă dintre toate: negația, adică poarta <dfn>NU</dfn>. Ea are o singură intrare și întoarce pe dos starea semnalului: când intrarea este 0, ieșirea devine 1; când intrarea este 1, ieșirea devine 0. Cu un simplu comutator mecanic apăsat cu degetul, negația este greu de obținut elegant, fiindcă apăsarea conectează contactul, nu îl desface. Pentru a inversa semnalul cu ușurință și a trece mai departe, avem nevoie de un salt tehnologic decisiv.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6 V22 M32 42 V58 M20 32 H6" class="o-line"/><path d="M20 22 V42" class="o-line"/><path d="M32 22 V42" fill="none" stroke="#EE5A2F" stroke-width="4" stroke-linecap="round"/><path d="M22 32 H30" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="48" cy="32" r="8" class="o-fill"/></svg></span>Tranzistorul</h2>
 
-  <p>Un comutator apăsat cu degetul nu poate fi apăsat de un alt comutator. Cât timp comanda vine de la o mână, un circuit face un singur pas: cineva apasă, ceva se aprinde, și povestea se termină. Ca să calculeze mai mult de un pas, comanda trebuie să fie de aceeași natură cu rezultatul: electrică. Ne trebuie un comutator pe care să-l închidă și să-l deschidă un curent.</p>
+  <p>Să ne oprim o clipă și să remarcăm o limitare uriașă: un întrerupător de pe perete trebuie acționat cu degetul. O mână omenească apasă, o lampă se aprinde, și lanțul se oprește acolo. Nu putem construi un calculator dacă fiecare pas are nevoie de un om care să apese următoarea tastă! Pentru ca o mașină să calculeze singură milioane de pași succesivi, ieșirea primului comutator trebuie să poată acționa nemijlocit intrarea celui de-al doilea. Cu alte cuvinte, comanda trebuie să fie de aceeași natură cu rezultatul: un semnal electric. Ne trebuie un comutator manevrat nu de mușchi, ci de electricitate.</p>
 
-  <p>Un <dfn>tranzistor</dfn> este exact acest lucru: un comutator comandat de tensiune. Are trei capete. Două dintre ele, numite <dfn>sursă</dfn> și <dfn>drenă</dfn>, sunt capetele drumului: între ele curentul poate trece sau nu, ca între cele două contacte ale unui comutator obișnuit. Al treilea capăt, <dfn>poarta</dfn>, e clapa care hotărăște. Ea nu atinge drumul; e despărțită de el printr-un strat izolator subțire. Când poarta e pusă la tensiune, adică la 1, câmpul ei electric adună sarcini în materialul de dedesubt și îl face conductor: se formează un <dfn>canal</dfn>, iar drumul se închide. Când poarta e la 0, canalul dispare și drumul se deschide. Nimic nu se mișcă mecanic; e un robinet întors nu de o mână, ci de presiunea apei dintr-o altă țeavă.</p>
+  <p>Acest comutator miraculos este <dfn>tranzistorul</dfn>. El are trei borne. Două dintre ele — numite convențional <dfn>sursă</dfn> și <dfn>drenă</dfn> — reprezintă capetele drumului principal, între care curentul poate să treacă sau să fie oprit, exact ca la contactele unui întrerupător clasic. Al treilea capăt, numit <dfn>poartă</dfn>, este clapa de comandă. Poarta nici măcar nu atinge direct drumul de curgere; este izolată de el printr-un strat minuscul de sticlă de siliciu. Când aplicăm o tensiune pe poartă (starea 1), câmpul electric creat atrage sarcini libere în materialul semiconductor de dedesubt, deschizând o punte conductoare numită <dfn>canal</dfn>: drumul se închide și curentul trece. Când tensiunea de pe poartă scade la 0, puntea dispare instantaneu și drumul este barat. Nu există nicio piesă în mișcare; este un robinet acționat nu mecanic, ci prin simpla prezență a unui câmp electric.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Tranzistorul singur: poarta închide sau deschide drumul; apasă pe intrare</figcaption>
@@ -815,11 +821,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="ctrl"><button id="b3t">intrarea (poarta)</button></div>
   </figure>
 
-  <p>Circuitul de mai sus e același cu primul din lecție: o baterie, un drum, o lampă. Singura deosebire e cine închide drumul: nu degetul, ci tensiunea de pe poartă. Iar tensiunea aceea poate veni de la ieșirea unui alt circuit. Aici se face saltul: ieșirea unei porți poate acum comanda intrarea alteia. Compunerea devine posibilă, iar tot restul acestei părți a cursului e compunere: din tranzistoare porți, din porți sumatoare, din sumatoare și memorie un procesor. Un tranzistor comută de miliarde de ori pe secundă și e atât de mic încât într-un procesor de azi încap zeci de miliarde.</p>
+  <p>Priviți desenul de mai sus: avem din nou o baterie, un traseu și o lampă. Singura schimbare este că drumul nu mai este închis de un deget, ci de tensiunea aplicată pe poarta tranzistorului. Iar această tensiune poate proveni chiar din ieșirea unui alt tranzistor! În acest punct se produce marea revoluție: circuitele pot fi legate în cascadă fără sfârșit. Tranzistoarele formează porți, porțile formează sumatoare, iar sumatoarele împletite cu memorii formează procesorul. În plus, un tranzistor minuscul poate comuta de miliarde de ori pe secundă, iar dimensiunile lui atomice permit așezarea a zeci de miliarde de astfel de comutatoare pe o pastilă de siliciu de mărimea unei unghii.</p>
 
-  <p>Cu tranzistorul, poarta NU iese dintr-o idee simplă: două „mâini” trag de ieșire în direcții opuse, una slab și una tare, iar ieșirea ascultă de cea care trage mai tare. Mâna slabă e o <dfn>rezistență</dfn>, legată între ieșire și tensiunea de alimentare, adică 1: ea trage ieșirea mereu spre 1, dar lasă curentul să treacă doar cu greutate. Mâna tare e tranzistorul, legat între ieșire și masă, adică 0: când conduce, leagă ieșirea de masă aproape direct și o trage la 0, mai tare decât o poate ține rezistența sus.</p>
+  <p>Având tranzistorul la dispoziție, poarta NU se naște dintr-un joc elegant de forțe opuse, asemenea unui meci de tras la sfoară între doi competitori: unul slab, dar stăruitor, și unul uriaș, dar intermitent. Rolul concurentului slab este jucat de o <dfn>rezistență</dfn> legată direct la sursa de tensiune (valoarea 1): ea încearcă mereu să ridice ieșirea la 1, dar o face blând, lăsând curentul să se strecoare doar cu greutate. Rolul concurentului puternic este jucat de tranzistor, legat între ieșire și masă (valoarea 0): când este deschis, el oferă o cale directă spre 0, mult mai largă decât rezistența, copleșind-o fără drept de apel.</p>
 
-  <p>Merită urmărite cele două cazuri în figura de mai jos. Intrarea 0: poarta e la 0, tranzistorul nu conduce, nimic nu trage ieșirea în jos; rezistența o ține la 1, iar curentul curge prin ea spre lampă, care se aprinde. Intrarea 1: tranzistorul conduce, ieșirea e legată de masă și cade la 0; curentul curge prin rezistență și prin tranzistor, ocolind lampa, care se stinge. Ieșirea e mereu opusul intrării, adică exact tabelul lui NU.</p>
+  <p>Urmăriți cele două stări în figura următoare. Când intrarea este 0, poarta tranzistorului este inactivă, tranzistorul nu conduce și nu trage deloc în jos; rezistența blândă câștigă meciul nestingherită, ridicând ieșirea la 1, iar lampa strălucește. Când intrarea devine 1, tranzistorul intră în acțiune, leagă ieșirea direct la masă și o prăbușește la 0; curentul ocolește lampa și se scurge prin tranzistor, iar lampa se stinge. Ieșirea este întotdeauna contrariul fidel al intrării: iată poarta NU în toată splendoarea ei.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Poarta NU: rezistența trage ieșirea în sus, tranzistorul o trage în jos</figcaption>
@@ -828,15 +834,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="ctrl"><button id="b4">intrarea</button></div>
   </figure>
 
-  <p class="note">Procesoarele de azi nu folosesc rezistența, ci o pereche de tranzistoare care se completează: unul trage în sus exact când celălalt nu trage în jos. Circuitul consumă atunci curent aproape numai în clipa comutării, ceea ce face posibile miliardele de tranzistoare de pe o pastilă.</p>
+  <p class="note">Procesoarele moderne perfecționează această idee: în locul rezistenței pasive, folosesc un al doilea tranzistor de tip opus. Unul trage în sus exact atunci când celălalt eliberează drumul în jos. Circuitul consumă energie aproape exclusiv în clipa scurtă a comutării, permițând miliardelor de comutatoare să lucreze împreună fără să topească cipul.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 16 H20 M6 32 H20 M6 48 H20 M36 24 H44 M36 40 H44 M56 32 H62" class="o-line"/><path d="M20 10 H28 A8 8 0 0 1 28 26 H20 Z M20 34 H28 A8 8 0 0 1 28 50 H20 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M44 22 Q52 32 44 42 Q56 40 60 32 Q56 24 44 22 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Orice funcție, din trei porți</h2>
 
-  <p>Cu ȘI, SAU și NU se poate construi orice tabel de adevăr, iar construcția e mecanică; asta înseamnă că orice comportare descrisă complet printr-un tabel poate fi turnată în siliciu. Pentru fiecare rând a cărui ieșire e 1 se scrie o combinație prin ȘI care e adevărată numai pe acel rând: fiecare intrare intră așa cum e dacă rândul o cere 1, și negată dacă rândul o cere 0. Combinațiile astfel scrise se leagă între ele prin SAU.</p>
+  <p>Avem acum la îndemână o trusă de unelte completă: porțile ȘI, SAU și NU. Vestea uluitoare este că, îmbinând doar aceste trei porți elementare, putem fabrica absolut orice tabel de adevăr imaginabil. Procedeul este atât de riguros și mecanic încât orice comportament logic, oricât de sofisticat, poate fi transpus nemijlocit în circuite integrate.</p>
 
-  <p>Rezultatul e adevărat exact pe rândurile alese și fals pe toate celelalte, fiindcă fiecare termen se aprinde pe un singur rând.</p>
+  <p>Rețeta este intuitivă: privim tabelul de adevăr și ne oprim doar la rândurile unde dorim ca ieșirea să fie 1. Pentru fiecare astfel de rând, construim o rețea de porți ȘI care să se activeze exclusiv pentru acea combinație specifică de semnale (folosind intrarea directă dacă rândul cere 1, sau trecând-o printr-un NU dacă rândul cere 0). În final, adunăm toate aceste condiții printr-o poartă mare SAU. Circuitul se va aprinde atunci când oricare dintre situațiile dorite devine realitate și va rămâne mut în toate celelalte cazuri.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="V" data-a="5"></span>Alege ieșirile; circuitul se scrie singur</figcaption>
@@ -858,9 +864,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Construcția nu dă cel mai mic circuit cu putință, ci doar unul care merge. Găsirea celui mai mic circuit pentru un tabel dat e o problemă grea în sine, iar programele care proiectează pastile de siliciu se ocupă tocmai cu asta.</p>
+  <p>Această metodă universală garantează un circuit perfect funcțional, chiar dacă nu întotdeauna cel mai economic. Arta proiectării de cipuri constă tocmai în simplificarea acestor rețele, eliminând tranzistoarele redundante pentru a economisi spațiu și consum de curent.</p>
 
-  <p>Trei feluri de porți sunt, de altfel, mai multe decât e nevoie. Poarta <dfn>ȘI-NU</dfn>, un ȘI urmat de un NU, ajunge singură: legată cu ambele intrări împreună dă NU, două la rând dau ȘI, iar cu intrările negate dinainte dă SAU. Fabricile fac de aceea, cu precădere, un singur fel de poartă. Un tabel de adevăr spune ce trebuie să facă un circuit, construcția de mai sus îl produce din porți, porțile sunt făcute din tranzistoare, iar tranzistoarele sunt comutatoare. Nimic din drumul acesta nu mai are goluri; rămâne de ales ce tabele merită construite, și lecția următoare începe cu adunarea.</p>
+  <p>Mai mult decât atât, cele trei porți pot fi reduse la una singură! Poarta <dfn>ȘI-NU</dfn> (o poartă ȘI urmată de un inversor NU) este universală: legându-i ambele intrări împreună obținem un NU, două porți la rând refac un ȘI, iar combinată inteligent produce un SAU. În fabricile de semiconductoare, un singur tipar geometric de bază, repetat disciplinat de miliarde de ori, este suficient pentru a da viață oricărui gând logic. Drumul de la comutatorul fizic la logica pură este acum deschis și fără cusur; rămâne doar să vedem ce merită să construim mai întâi. Iar lecția următoare începe cu inima oricărei socoteli: adunarea.</p>
 </section>
 
 </main>

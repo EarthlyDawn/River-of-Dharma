@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Cât <i>costă</i> un răspuns</h1>
-    <p class="lede">Un model antrenat costă la fiecare folosire, iar folosirile sunt nenumărate. Trei feluri de a plăti mai puțin, măsurate pe aceeași sarcină: mai puține ponderi puse în lucru, mai puține cifre pentru fiecare, sau un model mai mic care a învățat de la unul mare.</p>
+    <p class="lede">Antrenarea unui model gigantic este o investiție uriașă, însă costul adevărat se plătește zi de zi, la fiecare răspuns generat pentru milioane de utilizatori. Cum putem face aceste sisteme să ruleze rapid, ieftin și pe echipamente obișnuite fără a le știrbi din deșteptăciune? Există trei mari strategii inginerești pe care le comparăm aici pe aceeași sarcină: activarea doar a unei fracțiuni din rețea (clinica experților), comprimarea cifrelor cu care memorăm ponderile (cuantizarea) sau transferarea cunoștințelor într-un model compact ucenic (distilarea).</p>
     <p class="terms">Termeni: <b>amestec de experți</b> <b>cuantizare</b> <b>distilare</b></p>
   </div>
 </header>
@@ -747,7 +749,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 8 V56 M8 32 H56" fill="none" stroke="#22252D" stroke-width="1.5"/><path d="M32 8 A24 24 0 0 1 56 32 L44 32 A12 12 0 0 0 32 20 Z" fill="#2F4BC4"/><path d="M32 56 A24 24 0 0 1 8 32 L20 32 A12 12 0 0 0 32 44 Z" fill="#EE5A2F"/></svg></span>Sarcina de încercare</h2>
 
-  <p class="first">Toate cele trei economii se măsoară aici pe același lucru: împărțirea planului în patru feluri de locuri, după o tăietură deopotrivă în raze și în unghiuri. E o sarcină destul de încâlcită încât un model prea mic să n-o poată, dar destul de mică încât totul să se antreneze în pagină.</p>
+  <p class="first">Pentru a compara corect cele trei tehnici de eficientizare, le punem la treabă pe o aceeași problemă geometrică: împărțirea planului în patru regiuni distincte, delimitate atât prin distanța față de centru (raze), cât și prin orientare (unghiuri). Este o frontieră suficient de curbă și sinuoasă încât o rețea minusculă să nu o poată descurca dintr-o dată, dar suficient de compactă încât toate antrenamentele să poată rula direct în browserul dumneavoastră.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ce trebuie învățat</figcaption>
@@ -769,11 +771,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"><rect x="8" y="8" width="14" height="14"/><rect x="25" y="8" width="14" height="14"/><rect x="42" y="8" width="14" height="14"/><rect x="8" y="25" width="14" height="14"/><rect x="42" y="25" width="14" height="14"/><rect x="8" y="42" width="14" height="14"/><rect x="25" y="42" width="14" height="14"/><rect x="42" y="42" width="14" height="14"/></g><rect x="25" y="25" width="14" height="14" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/><rect x="42" y="8" width="14" height="14" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Nu toate ponderile la fiecare răspuns</h2>
 
-  <p>Un model obișnuit trece fiecare intrare prin toate ponderile lui. Nimic nu obligă la asta.</p>
+  <p>Într-un model lingvistic clasic dens, fiecare cuvânt parcurge absolut toate straturile și toate miliardele de ponderi ale rețelei. Dar oare este cu adevărat necesar ca fiecare circuit să se aprindă pentru fiecare silabă?</p>
 
-  <p>Se poate în schimb ține o mulțime de bucăți mici, iar pentru fiecare intrare să se aleagă doar câteva. Alegerea o face o parte mică numită rutare, care se antrenează odată cu restul; bucățile se numesc experți, iar întregul se numește <dfn>amestec de experți</dfn>. Numărul de ponderi ținute rămâne mare, dar numărul de ponderi puse în lucru pentru un răspuns e mic.</p>
+  <p>O alternativă mult mai inteligentă este arhitectura cu <dfn>amestec de experți</dfn> (Mixture of Experts sau MoE). Rețeaua este compusă din zeci de sub-modele specializate (numite „experți”), iar la intrare se află un mic modul de decizie (un ruter). Pentru fiecare jeton de text, ruterul alege doar doi experți potriviți și direcționează calculul exclusiv către ei. Capacitatea totală a modelului rămâne gigantică în memorie, însă efortul de calcul activ pentru fiecare cuvânt scade de câteva ori.</p>
 
-  <p>O clinică unde nu te văd toți medicii, ci doi. Clinica are toate specialitățile; consultația ta le folosește pe cele de care e nevoie.</p>
+  <p>Gândiți-vă la o policlinică modernă cu zeci de medici specialiști: când intrați cu o problemă la genunchi, la recepție sunteți îndrumat doar către ortoped și radiolog. Nu este nevoie să vă consulte toți cei cincizeci de doctori din spital pentru a primi diagnosticul corect!</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Cât se folosește din ce se ține</figcaption>
@@ -784,15 +786,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capE"></div>
   </figure>
 
-  <p>Rândul evidențiat e cel cu care a fost antrenată rutarea. Sub el se vede ce se pierde tăind și mai mult, iar deasupra, că a pune la lucru mai mult decât s-a antrenat nu ajută: experții au învățat să lucreze în echipe de doi, iar chemați toți deodată se încurcă unii pe alții.</p>
+  <p>Priviți tabelul interactiv: rândul evidențiat corespunde exact configurației pentru care a fost instruit ruterul (doi experți activi). Dacă încercăm să folosim mai puțini experți decât optimul, precizia scade vizibil; dacă însă forțăm apelarea tuturor experților simultan, performanța nu crește, ci se degradează — experții au învățat să colaboreze în echipe mici și complementare, iar dacă vorbesc toți deodată, semnalele lor se bruiază reciproc.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 40 C16 20 24 20 32 40 S48 60 56 24" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M8 40 H20 V28 H32 V40 H44 V28 H56" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M6 52 H58" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Mai puține cifre pentru fiecare pondere</h2>
 
-  <p>O pondere e un număr, iar numerele se țin cu o precizie aleasă. Antrenarea se face de obicei cu numere de mai mulți octeți, dar nimic nu spune că răspunsul are nevoie de toate cifrele lor.</p>
+  <p>Fiecare dintre miile de miliarde de parametri ai unui model este, la origine, un număr zecimal stocat cu o precizie matematică înaltă (pe 16 sau 32 de biți, adică 2 până la 4 octeți per număr). În timpul antrenamentului, această finețe milimetrică este indispensabilă pentru a ajusta minusculele pante ale învățării. Însă odată ce modelul e gata și doar răspunde la întrebări, oare chiar avem nevoie de atâtea zecimale?</p>
 
-  <p>Rotunjirea ponderilor la puține valori cu putință se numește <dfn>cuantizare</dfn>. Ea nu schimbă nimic din construcție: aceleași ponderi, aceeași socoteală, doar scrise mai grosolan. E cuantizarea din lecția a treia, întoarsă de la semnal spre model.</p>
+  <p>Tehnica de rotunjire inteligentă a numerelor se numește <dfn>cuantizare</dfn>. Arhitectura rămâne neatinsă — aceleași conexiuni, aceleași înmulțiri —, dar fiecare număr este comprimat la 8 biți, 4 biți sau chiar mai puțin. Este exact același principiu pe care l-am întâlnit în primele lecții la eșantionarea sunetului: transformarea unei scări fine și costisitoare într-o scară cu trepte mai late.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Ponderile, rotunjite din ce în ce mai tare</figcaption>
@@ -803,15 +805,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capQ"></div>
   </figure>
 
-  <p>O fotografie cu mai puține culori arată la fel de la distanță. Deosebirea se vede abia când numărul de culori scade sub o margine, iar atunci se vede dintr-odată.</p>
+  <p>Analogia cu o imagine digitală este perfectă: dacă reduceți o paletă foto de la 16 milioane de culori la 256 de nuanțe alese cu grijă, ochiul uman de la distanță abia va sesiza diferența, în timp ce fișierul devine de patru ori mai ușor. Doar dacă tăiem prea adânc — coborând sub pragul critic de 3 sau 2 biți — imaginea se destramă brusc în pete inestetice de culoare. La fel și modelul: comprimat moderat, el își păstrează aproape intactă fluența, economisind uriaș din memoria plăcii grafice.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="22" cy="26" r="16" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="48" cy="42" r="8" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><path d="M34 34 L42 38" fill="none" stroke="#22252D" stroke-width="2"/><path d="M38 33 L43 38 L37 40" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Un model mic care învață de la unul mare</h2>
 
-  <p>A treia economie nu micșorează modelul mare, ci îl folosește ca să facă unul mic mai bun decât ar fi ieșit singur. Modelul mic e antrenat nu pe răspunsurile adevărate, ci pe ce scoate cel mare, cu tot cu șovăiala lui. Metoda se numește <dfn>distilare</dfn>.</p>
+  <p>A treia strategie nu modifică modelul gigant existent, ci îl pune în rolul de dascăl pentru a instrui un model compact ucenic. Această metodă poartă numele de <dfn>distilare</dfn> a cunoașterii.</p>
 
-  <p>Câștigul nu vine de acolo de unde s-ar crede. Dacă etichetele sunt din belșug, distilarea nu aduce nimic: modelul mic învață la fel de bine din ele. Ea folosește atunci când etichetele sunt puține și scumpe, iar intrările nemarcate sunt multe și ieftine, fiindcă modelul mare poate fi întrebat despre oricâte dintre ele, iar răspunsurile lui țin loc de etichete. Profesorul nu știe mai mult decât cartea; el poate doar să fie întrebat de oricâte ori.</p>
+  <p>Interesant este că modelul ucenic nu este pus să memoreze doar răspunsurile seci (adevărat sau fals), ci învață din nuanțele fine și probabilitățile pe care le emite modelul profesor — inclusiv din ezitările și asocierile lui subtile. Totuși, marele secret practic al distilării nu stă într-o formulă magică de predare: dacă am avea etichete perfecte din belșug, modelul mic ar învăța la fel de bine direct din date. Distilarea strălucește atunci când exemplele etichetate de oameni sunt rare și extrem de costisitoare, în timp ce textele brute neetichetate sunt nelimitate. Putem interoga profesorul digital de miliarde de ori pe date noi, iar explicațiile lui devin manualul de studiu al ucenicului.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Același model mic, antrenat în trei feluri</figcaption>
@@ -826,13 +828,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="24" width="12" height="16" fill="#2F4BC4"/><rect x="24" y="24" width="8" height="16" fill="#2F4BC4"/><rect x="36" y="24" width="4" height="16" fill="#2F4BC4"/><path d="M8 50 H58" fill="none" stroke="#EE5A2F" stroke-width="4"/></svg></span>Ce nu se micșorează</h2>
 
-  <p>Cele trei economii ating ponderile: câte se pun în lucru, cât de fin sunt scrise, câte sunt cu totul. Niciuna nu atinge contextul.</p>
+  <p>Toate aceste trei mari optimizări vizează exclusiv parametrii interni ai rețelei (ponderile): câți dintre ei activează simultan, cu câte zecimale îi reprezentăm sau câți parametri păstrăm în total. Există însă o componentă pe care niciuna dintre ele nu o poate micșora de la sine: contextul discuției.</p>
 
-  <p>Memoria de chei-valori din lecția despre ce se întâmplă când răspunde crește cu lungimea discuției și n-are legătură cu mărimea modelului. Un model de câteva ori mai mic nu ține un context de câteva ori mai lung, iar la discuții lungi tocmai partea aceasta ajunge să hotărască ce încape pe o mașină.</p>
+  <p>Memoria temporară a conversației (cunoscută drept KV cache) se umflă direct proporțional cu numărul de replici și pagini schimbate cu utilizatorul. Chiar dacă alegeți un model de patru ori mai mic ca număr de parametri, dacă dialogul se întinde pe sute de mii de cuvinte, consumul de memorie video va fi dominat covârșitor de această arhivă a conversației curente.</p>
 
   <p class="note">Cuantizarea se aplică și cheilor și valorilor păstrate, cu același fel de rezultat: mult loc câștigat până la un prag, apoi o cădere bruscă. Ea e singura dintre cele trei care ajută pe amândouă părțile.</p>
 
-  <p>Toate numerele de aici sunt exactități măsurate pe o sarcină cu răspuns cunoscut. Pentru un asistent care scrie text, nimic nu e atât de limpede. Lecția următoare arată cum se măsoară asemenea modele și de ce clasamentele se bat cap în cap.</p>
+  <p>În acest experiment am putut măsura erorile cu o riglă matematică precisă, deoarece granițele geometrice erau cunoscute exact dinainte. Dar când vine vorba despre un asistent lingvistic care compune eseuri, sintetizează rapoarte sau glumește, calitatea unui răspuns devine o chestiune mult mai alunecoasă. În lecția următoare, vom descoperi cum se măsoară performanța modelelor moderne de limbaj și de ce testele standardizate din industrie nasc atâtea controverse.</p>
 </section>
 
 </main>

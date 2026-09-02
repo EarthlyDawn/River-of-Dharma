@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,8 +740,8 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Eșantionare și <i>cuantizare</i></h1>
-    <p class="lede">Sunetul și lumina variază fără întrerupere, iar un calculator ține numai numere. Trecerea de la una la alta cere două tăieturi, fiecare cu urmarea ei: una taie timpul sau spațiul în puncte, cealaltă taie valorile în trepte. Cu ele, orice mărime din lume devine un șir de biți.</p>
-    <p class="terms">Termeni: <b>eșantionare</b> <b>cuantizare</b> <b>rată de eșantionare</b> <b>alias</b> <b>rată Nyquist</b> <b>pixel</b> <b>compresie cu pierderi</b></p>
+    <p class="lede">Sunetul unei viori și lumina unui apus curg neîntrerupt în natură, în timp ce un calculator nu poate adăposti decât numere discrete. Trecerea de la realitatea vie la lumea digitală cere două tăieturi fundamentale: una decupează timpul sau spațiul în puncte izolate, iar cealaltă rotunjește valorile pe trepte bine stabilite. Prin aceste două punți ingenioase, orice vibrație din univers poate fi transpusă curat într-un șir de biți.</p>
+    <p class="terms">Termeni-cheie: <b>eșantionare</b> <b>cuantizare</b> <b>rată de eșantionare</b> <b>alias</b> <b>rată Nyquist</b> <b>pixel</b> <b>compresie cu pierderi</b></p>
   </div>
 </header>
 
@@ -748,17 +750,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 32 C12 10 20 10 28 32 S44 54 52 32 60 20 62 24" class="o-wave"/><g class="o-grid"><circle cx="8" cy="20" r="3"/><circle cx="20" cy="18" r="3"/><circle cx="32" cy="38" r="3"/><circle cx="44" cy="46" r="3"/><circle cx="56" cy="28" r="3"/></g></svg></span>Două continuități</h2>
 
-  <p class="first">Până acum am vorbit despre mesaje care erau deja făcute din semne: litere, cutii numerotate, biți. Lumea nu ni se dă însă așa. Un sunet este presiunea aerului, care variază fără întrerupere în timp. O imagine este lumina, care variază fără întrerupere pe o suprafață. Amândouă sunt continue în două feluri deodată: continue în loc, fiindcă între două momente încap o infinitate de momente și între două puncte o infinitate de puncte, și continue în valoare, fiindcă între două intensități încap o infinitate de intensități.</p>
+  <p class="first">Până acum, am lucrat comod cu mesaje care erau deja alcătuite din cărămizi separate: litere dintr-un alfabet, cutii numerotate sau șiruri curate de biți. Natura însă nu ni se dezvăluie gata împachetată în cuburi digitale. Un cântec este o undă de presiune a aerului care vibrează lin și neîntrerupt în timp. O pictură sau un peisaj este o revărsare de lumină ale cărei nuanțe alunecă continuu pe o pânză. Ambele sunt fenomene continue în două moduri simultane: sunt continue în spațiu sau timp (între oricare două clipe există o infinitate de momente intermediare) și sunt continue în intensitate (între o șoaptă și un strigăt, sau între două tonuri de albastru, există o infinitate de nuanțe intermediare).</p>
 
-  <p>Un șir de biți este finit în amândouă felurile, așa că trecerea cere două tăieturi. <dfn>Eșantionarea</dfn> taie locul: mărimea se măsoară numai în anumite momente sau puncte, iar între ele nu se măsoară nimic. <dfn>Cuantizarea</dfn> taie valoarea: fiecare măsurătoare se rotunjește la una dintr-un număr finit de trepte. Fiecare fotografie și fiecare înregistrare din lume e rezultatul acestor două tăieturi, hotărâte de cineva, cândva.</p>
+  <p>Un calculator este însă o mașină finită: memoria lui nu poate cuprinde o infinitate de clipe și nici o infinitate de nuanțe. Pentru a aduce natura în circuitele de siliciu, suntem nevoiți să facem două tăieturi limpezi. Prima tăietură, numită <dfn>eșantionare</dfn>, secționează timpul sau spațiul: măsurăm semnalul doar din loc în loc, la intervale regulate de ceas, ignorând complet ce se petrece între măsurători. A doua tăietură, numită <dfn>cuantizare</dfn>, secționează valorile măsurate: fiecare valoare continuă este rotunjită la cea mai apropiată treaptă dintr-o scară finită de valori prestabilite. Orice fotografie din telefonul dumneavoastră și orice melodie ascultată la căști reprezintă rodul acestor două tăieturi.</p>
 
-  <p>Cele două tăieturi sunt independente. Se pot face multe măsurători grosolane sau puține măsurători fine, iar urmele lăsate arată complet diferit. Merită să le luăm pe rând.</p>
+  <p>Cele două operațiuni sunt complet independente una de cealaltă. Putem alege să măsurăm de foarte multe ori pe secundă, dar folosind o riglă cu trepte grosolane, sau putem măsura de puține ori, dar cu o precizie microscopică pe fiecare treaptă. Urmele lăsate de fiecare tăietură sunt total diferite și merită să le deslușim pe rând, cu răbdare.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 Q16 8 32 32 T60 24" class="o-wave"/><path d="M8 52 V36 M20 52 V22 M32 52 V32 M44 52 V44 M56 52 V26" class="o-line"/><path d="M4 52 H60" class="o-line"/></svg></span>Eșantionarea</h2>
 
-  <p>Un <dfn>eșantion</dfn> este o măsurătoare făcută la un moment dat. Numărul de măsurători pe secundă se numește <dfn>rata de eșantionare</dfn>. Între două eșantioane nu se păstrează nimic, iar cel care reface semnalul trebuie să presupună ce s-a întâmplat acolo. Presupunerea cea mai simplă, folosită în figura de mai jos, e că semnalul a mers în linie dreaptă de la un eșantion la următorul.</p>
+  <p>Un <dfn>eșantion</dfn> este pur și simplu o „fotografie instantanee” a semnalului luată la un moment precis de timp: o citire a înălțimii undei sonore în acea microsecundă. Frecvența cu care facem aceste măsurători într-o secundă se numește <dfn>rată de eșantionare</dfn>. Între două măsurători succesive nu păstrăm absolut nimic, iar la redare aparatul trebuie să reconstituie forma undei originale. Cea mai naivă și directă metodă de refacere — pe care o puteți încerca în figura de mai jos — este să unim punctele măsurate prin linii drepte, ca într-un desen pentru copii.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un semnal, măsurat din loc în loc</figcaption>
@@ -775,13 +777,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cu multe eșantioane, refacerea urmează semnalul îndeaproape. Cu puține, ea taie colțurile și pierde oscilațiile rapide. Până aici pierderea pare treptată, un preț plătit pe măsură. Dar nu este, și aici stă surpriza lecției.</p>
+  <p>Dacă așezăm punctele foarte des, linia frântă urmărește curbura originală atât de fidel încât ochiul și urechea nu mai pot distinge nicio abatere. Dacă însă rărim eșantioanele, unghiurile devin ascuțite, iar oscilațiile rapide se pierd complet. Până aici, totul pare o pierdere graduală și previzibilă: cu cât măsurăm mai rar, cu atât sunetul devine mai șters. Dar dacă scădem rata sub o anumită limită, se produce un fenomen spectaculos și profund neliniștitor.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 32 Q8 8 12 32 T20 32 T28 32 T36 32 T44 32 T52 32 T60 32" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M4 32 Q20 6 32 32 T60 32" fill="none" stroke="#B5232B" stroke-width="3" stroke-dasharray="5 3"/><g class="o-grid"><circle cx="8" cy="22" r="3"/><circle cx="24" cy="14" r="3"/><circle cx="40" cy="42" r="3"/><circle cx="56" cy="50" r="3"/></g></svg></span>Aliasul și rata Nyquist</h2>
 
-  <p>Când eșantioanele sunt prea rare, o oscilație rapidă trece prin exact aceleași puncte ca una lentă. Cele două devin de nedeosebit: măsurătorile nu conțin nimic care să le separe. Fenomenul se numește <dfn>alias</dfn>, adică „nume fals”, iar la refacere oscilația rapidă apare ca una lentă care nu a existat niciodată. Nu e o eroare de măsurare; măsurătorile sunt perfecte. E o ambiguitate: același șir de numere se potrivește la două lumi diferite, iar cine reface alege lumea mai lentă.</p>
+  <p>Ați văzut vreodată într-un film western cum roțile unei căruțe care accelerează par la un moment dat să încetinească, să se oprească pe loc sau chiar să se rotească bizar înapoi? Sau elicoptere filmate ale căror pale par împietrite în aer? Aceasta este o iluzie optică provocată de faptul că o cameră de filmat eșantionează lumea în cadre discrete (de pildă, 24 de cadre pe secundă). Când mișcarea este prea iute în raport cu frecvența cadrelor, o mișcare rapidă devine absolut identică, punct cu punct, cu o mișcare lentă falsă!</p>
+
+  <p>În teoria semnalelor, această mască înșelătoare se numește <dfn>alias</dfn> (din latinescul pentru „sub un alt nume”). Când eșantionăm prea rar o undă rapidă, punctele măsurate se nimeresc exact pe traseul unei unde lente care nu a existat niciodată în realitate! Nu este o greșeală a aparatului de măsură — măsurătorile sunt milimetric corecte —, ci o ambiguitate matematică fatală: același șir de numere se potrivește deopotrivă unei vibrații înalte reale și unei fantome joase. La redare, aparatul va alege întotdeauna varianta mai lentă, inventând sunete false care murdăresc muzica.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Douăzeci de eșantioane pe secundă, oricare ar fi semnalul</figcaption>
@@ -798,15 +802,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Limita e exactă, și acesta e unul dintre rezultatele cele mai curate din toată teoria. Un semnal care nu conține oscilații mai rapide decât <i>f</i> pe secundă se reface întocmai, nu aproximativ, din 2<i>f</i> eșantioane pe secundă; iar din mai puține nu se reface. Pragul se numește <dfn>rata Nyquist</dfn>, după Harry Nyquist, care l-a intuit, și a fost demonstrat riguros tot de Claude Shannon. Cu alte cuvinte, un semnal continuu, cu infinitatea lui de momente, încape fără rest într-un șir finit de numere, cu condiția să nu fie mai „agitat” decât permite rata.</p>
+  <p>Unde se află granița salvatoare? Răspunsul este o bijuterie a științei moderne, numită <dfn>rata Nyquist</dfn>, formulată de Harry Nyquist și demonstrată fără cusur de Claude Shannon: <b>pentru a captura și reconstrui o undă cu fidelitate perfectă, trebuie să o măsurăm cu o frecvență strict mai mare decât dublul celei mai rapide oscilații din compoziția ei!</b> Dacă o undă conține frecvențe de până la <i>f</i> oscilații pe secundă, avem nevoie de cel puțin 2<i>f</i> eșantioane pe secundă. Respectând această regulă de aur, miracolul se produce: o undă continuă, cu infinitatea ei de clipe, este păstrată fără nicio pierdere de informație într-un șir discret de numere!</p>
 
-  <p>Sunetul de pe un compact disc are 44100 de eșantioane pe secundă fiindcă auzul omenesc se oprește puțin peste 20000 de oscilații pe secundă. Înaintea eșantionării, semnalul trece printr-un filtru care taie tot ce e mai rapid decât jumătate din rată. Ce se pierde în filtru se pierde intenționat; ce ar trece nefiltrat ar reapărea mai târziu ca oscilație lentă falsă, imposibil de scos.</p>
+  <p>De aceea, muzica de pe un compact disc (CD) este înregistrată la exact 44.100 de măsurători pe secundă: auzul omenesc poate percepe sunete până la aproximativ 20.000 de vibrații pe secundă (Hertzi). Dublul acestei limite este 40.000, iar cei 44.100 oferă o marjă confortabilă pentru ca un filtru electronic să taie dinainte orice zgomot ultrasonic prea rapid. Ceea ce este tăiat deliberat la intrare nu se mai poate întoarce niciodată sub forma unui alias parazit.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 44 Q20 8 36 36 T60 20" fill="none" stroke="#BDB9AA" stroke-width="2.5"/><path d="M4 44 H14 V32 H26 V20 H38 V32 H50 V20 H60" class="o-wave"/><path d="M4 20 H60 M4 32 H60 M4 44 H60" fill="none" stroke="#5F6D2E" stroke-width="1" stroke-dasharray="2 3"/></svg></span>Cuantizarea</h2>
 
-  <p>A doua tăietură privește valoarea. Fiecare eșantion se rotunjește la una dintre trepte, iar numărul de trepte e dat de câți biți i se dau: <i>b</i> biți înseamnă 2<sup>b</sup> trepte, cum am văzut în prima lecție. Diferența dintre valoarea adevărată și treapta cea mai apropiată este <dfn>eroarea de cuantizare</dfn> și nu trece niciodată de o jumătate de treaptă. Fiecare bit în plus dublează numărul de trepte și înjumătățește eroarea.</p>
+  <p>Dacă eșantionarea a rezolvat problema timpului, a doua tăietură rezolvă problema mărimii valorilor. În natură, o coardă de chitară poate vibra cu orice intensitate dintr-un continuum fără trepte. Însă memoria unui calculator lucrează cu biți: dacă alocăm <i>b</i> biți pentru fiecare măsurătoare, avem la dispoziție o scară cu exact 2<sup>b</sup> trepte posibile (așa cum am învățat în prima lecție). A cuantiza înseamnă a lua valoarea reală a undei și a o rotunji la cea mai apropiată treaptă permisă.</p>
+
+  <p>Diferența dintre înălțimea adevărată a undei și treapta pe care a fost așezată forțat se numește <dfn>eroare de cuantizare</dfn>. Această eroare este mereu ținută sub control: ea nu depășește niciodată o jumătate de treaptă. Iar frumusețea sistemului binar este că fiecare bit suplimentar adăugat dublează numărul treptelor disponibile, tăind eroarea exact în două!</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Patruzeci de eșantioane, rotunjite la trepte</figcaption>
@@ -824,13 +830,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Spre deosebire de alias, eroarea aceasta e blândă și previzibilă. La ureche se aude ca un fâsâit slab așezat peste sunet, numit <dfn>zgomot de cuantizare</dfn>. Cu opt biți fâsâitul se aude în pasajele liniștite; cu șaisprezece, cât are compact discul, nu se mai aude. E prima întâlnire cu zgomotul ca preț al scrierii, nu al transmiterii; lecția precedentă a arătat ce se face cu el.</p>
+  <p>Spre deosebire de monștrii amăgitori ai aliasului, eroarea de cuantizare este prietenoasă și blândă. La ureche, ea nu creează melodii fantomă, ci se aude ca un fâsâit discret și uniform de fundal, numit <dfn>zgomot de cuantizare</dfn>. Dacă folosim doar 8 biți pe eșantion (256 de trepte), fâsâitul este încă sesizabil în pasajele muzicale foarte liniștite. Dar dacă trecem la 16 biți (calitatea standard de CD, cu peste 65.000 de trepte fine), treptele devin atât de mărunte încât zgomotul de fond coboară mult sub pragul biologic de sensibilitate al timpanului uman. Muzica sună pur și simplu cristalin.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="6" width="12" height="12"/><rect x="20" y="6" width="12" height="12"/><rect x="34" y="6" width="12" height="12"/><rect x="6" y="20" width="12" height="12"/><rect x="34" y="20" width="12" height="12"/><rect x="48" y="20" width="12" height="12"/><rect x="20" y="34" width="12" height="12"/><rect x="48" y="34" width="12" height="12"/><rect x="6" y="48" width="12" height="12"/><rect x="34" y="48" width="12" height="12"/></g><rect x="20" y="20" width="12" height="12" class="o-bar2"/><rect x="48" y="6" width="12" height="12" class="o-bar2"/><rect x="6" y="34" width="12" height="12" class="o-bar2"/><rect x="34" y="34" width="12" height="12" class="o-bar2"/></svg></span>Imagini</h2>
 
-  <p>La imagini cele două tăieturi se fac la fel, doar că locul are două dimensiuni. Eșantionarea dă <dfn>pixelii</dfn>, iar numărul lor se numește rezoluție. Cuantizarea dă numărul de trepte de intensitate ale fiecărui pixel, numit <dfn>adâncime de culoare</dfn>. Scena de mai jos e desenată din formule, ca să poată fi măsurată oricât de des sau de rar.</p>
+  <p>Exact aceleași două tăieturi guvernează și lumea vizuală, cu singura diferență că spațiul unei imagini are două dimensiuni — lățime și înălțime. Eșantionarea spațială decupează tabloul într-o rețea fină de mici pătrățele numite <dfn>pixeli</dfn>, iar densitatea lor formează rezoluția ecranului. Cuantizarea stabilește câte trepte de luminozitate și culoare poate lua fiecare pixel în parte, mărime cunoscută drept <dfn>adâncime de culoare</dfn>.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Aceeași scenă, măsurată în două feluri</figcaption>
@@ -845,27 +851,27 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fiecare tăietură își lasă urma în alt fel, și cu puțin exercițiu urmele se recunosc. Cuantizarea prea aspră produce <dfn>benzi</dfn>: cerul, care trece lin de la un albastru la altul, se rupe în fâșii cu margini vizibile, fiindcă multe nuanțe vecine cad pe aceeași treaptă.</p>
+  <p>Fiecare tăietură își lasă amprenta distinctă în imagine, iar un ochi atent învață repede să le deosebească. Când cuantizarea este prea săracă (prea puțini biți de culoare), apare fenomenul de <dfn>benzi de culoare</dfn>: o boltă senină de cer, care în natură trece imperceptibil de la azuriu la albastru închis, se rupe brusc în dungi grosolane cu muchii vizibile, fiindcă zeci de nuanțe fine sunt înghesuite pe aceeași treaptă.</p>
 
-  <p>Eșantionarea prea rară produce, acolo unde originalul are dungi fine, desene largi care nu se află în original: dungi mai groase, înclinate altfel, uneori în evantai. E același alias de la sunet, văzut cu ochiul, și se numește <dfn>moar</dfn>. Ca și acolo, remediul e netezirea imaginii înainte de măsurare, nu după: ce a devenit ambiguu nu mai poate fi dezambiguizat.</p>
+  <p>Dacă, dimpotrivă, eșantionarea este prea rară (rezoluție insuficientă), iar imaginea conține detalii fine și dese — cum ar fi dungile unei cămăși sau cărămizile unei clădiri —, apare aliasul bidimensional, cunoscut sub numele de efect de <dfn>moar</dfn> (moiré): apar dintr-o dată valuri ciudate, evantaie sau rețele mari care nu există pe cămașa reală! La fel ca la sunet, singurul leac este netezirea optică a imaginii înainte de a fi captată de senzor; odată ce aliasul a fost înregistrat, el s-a contopit cu datele și nu mai poate fi separat niciodată.</p>
 </section>
 
 <section id="s6">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="12" class="o-bar"/><rect x="6" y="30" width="30" height="12" class="o-bar"/><rect x="6" y="46" width="12" height="12" class="o-bar2"/><path d="M4 8 V62" class="o-line"/></svg></span>Cât ocupă</h2>
 
-  <p>Odată făcute tăieturile, se poate număra. Un minut de sunet de calitatea compact discului: 44100 de eșantioane pe secundă, 16 biți fiecare, două canale, șaizeci de secunde, adică aproape 85 de milioane de biți, vreo zece megaocteți. O fotografie de 4000 pe 3000 de pixeli, cu 8 biți pentru fiecare dintre cele trei culori de bază: 288 de milioane de biți, vreo 36 de megaocteți.</p>
+  <p>După ce am stabilit regulile jocului, putem calcula cu ușurință costul real al lumii digitale. Să luăm un minut de muzică stereo la calitatea unui compact disc: 44.100 de eșantioane pe secundă, înmulțite cu 16 biți pe eșantion, înmulțite cu 2 canale (stânga și dreapta), timp de 60 de secunde. Rezultatul este amețitor: aproape 85 de milioane de biți, adică în jur de 10 megaocteți (megabytes) pentru un singur minut de audiție! O fotografie modernă de 12 megapixeli (4000 pe 3000 de puncte), cu câte 8 biți pentru fiecare dintre cele trei culori primare (roșu, verde, albastru), adună dintr-o singură declanșare peste 288 de milioane de biți — aproximativ 36 de megaocteți de date brute.</p>
 
-  <p>Codurile din lecția a doua micșorează numerele acestea fără să piardă nimic, dar nu foarte mult: eșantioanele vecine seamănă între ele, însă nu se repetă. Ce le micșorează cu adevărat este <dfn>compresia cu pierderi</dfn>, care aruncă anume ceea ce ochiul sau urechea nu observă, nuanțe pe care ochiul nu le separă, sunete acoperite de altele mai tari, și abia apoi codifică ce a rămas prin metodele din lecția a doua. Raportul ajunge astfel la zece la unu sau mai mult, cu prețul că originalul nu se mai poate reface.</p>
+  <p>Metodele de compresie fără pierderi pe care le-am studiat în lecția a doua (precum algoritmul Huffman) pot strânge aceste numere, dar doar într-o măsură modestă: pixelii vecini seamănă între ei, dar rareori sunt perfect identici. Salvarea spectaculoasă care a făcut posibil internetul modern al imaginilor și al muzicii în flux se numește <dfn>compresie cu pierderi</dfn> (așa cum funcționează formatele celebre JPEG sau MP3). Această compresie îndrăzneață aruncă la coș cu bună știință exact acele detalii microscopice pe care biologia ochiului sau a urechii umane oricum nu le poate sesiza — sunete foarte slabe mascate de un tunet de tobă sau nuanțe imperceptibile dintr-o umbră —, iar abia apoi comprimă ceea ce a rămas. Astfel, fișierele se micșorează de zece ori sau chiar de douăzeci de ori, fără ca experiența noastră de ascultare sau vizionare să aibă de suferit!</p>
 
-  <p>Deosebirea merită ținută minte, fiindcă e de natură filozofică, nu doar tehnică. Compresia din lecția a doua e reversibilă și nu privește conținutul: îi e indiferent dacă șirul e muzică sau zgomot. Compresia cu pierderi e ireversibilă și presupune un model al celui care privește sau ascultă. Ea nu păstrează lumea, ci ceea ce contează pentru un anumit fel de ochi. Modelele de mai târziu din curs, care învață ce contează, sunt rude apropiate ale acestei idei.</p>
+  <p>Această distincție ascunde o perspectivă filosofică profundă: compresia fără pierderi este o metodă strict fizică și matematică, complet neutră — ei nu-i pasă dacă datele reprezintă simfonia a noua sau zgomot de motor. În schimb, compresia cu pierderi presupune întotdeauna un <i>model al observatorului uman</i>. Ea nu încearcă să conserve lumea exterioară în sine, ci doar ceea ce are relevanță pentru simțurile noastre. Iar marile modele de inteligență artificială pe care le vom explora mai târziu în curs duc această idee la apogeu: ele învață să rețină nu fiecare detaliu mecanic, ci esența cu sens a lumii.</p>
 </section>
 
 <section id="s7">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 32 H26" class="o-line"/><circle cx="34" cy="32" r="8" class="o-fill2"/><path d="M42 32 H58" class="o-line"/><path d="M42 32 L52 20 M42 32 L52 44" fill="none" stroke="#22252D" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Lumea, ca șir de biți</h2>
 
-  <p>Cu asta, partea despre informație se încheie. Orice mărime din lume, sunet, lumină, temperatură, poziție, apăsarea unei taste, a devenit un șir de biți, iar teoria spune cât de scurt poate fi șirul și cât de bine poate fi apărat de stricăciuni. Nimic din lume nu a fost pierdut fără ca cineva să fi hotărât pierderea: eșantionarea sub rata Nyquist și cuantizarea sunt singurele locuri unde se pierde ceva, iar amândouă se aleg.</p>
+  <p>Odată ajunși aici, prima mare parte a cursului nostru dedicată Informației își încheie cercul. Am văzut cum orice fenomen din natură — o șoaptă, o rază de soare, căldura unei amiezi, poziția unei planete sau apăsarea unei taste — poate fi tradus fără rest într-un șir curat de biți. Teoria informației ne-a arătat cu o precizie uluitoare cât de scurt poate fi făcut acest șir prin compresie și cât de trainic poate fi îmbrăcat împotriva furtunilor de zgomot prin coduri corectoare. Nimic din bogăția lumii nu se pierde la voia întâmplării: eșantionarea sub rata Nyquist și cuantizarea sunt singurele porți unde se plătește un tribut, iar ambele sunt alese cu deplină conștiință de către noi.</p>
 
-  <p>Rămâne întrebarea fizică, lăsată deoparte încă din prima lecție: ce fel de obiect ține un bit și ce fel de obiect îl poate schimba? De acolo începe partea următoare, cu un comutator.</p>
+  <p>Rămâne însă marea întrebare fizică pe care am lăsat-o în așteptare încă din prima pagină: ce fel de obiect material poate adăposti un bit și ce fel de forță din univers îl poate comuta de la 0 la 1? Cu această curiozitate în suflet pășim în Partea a II-a a călătoriei noastre, deschizând ușa către lumea fascinantă a materiei și a comutatorului electronic.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,30 +740,32 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Scopul și <i>măsura</i> lui</h1>
-    <p class="lede">Unei mașini nu i se poate da un scop, ci numai o măsură a lui. Cât timp mașina e slabă, deosebirea nu se vede. Cu cât optimizează mai tare, cu atât urmărește mai bine măsura și, de la un punct încolo, tot mai prost scopul. Aici stă, în forma ei măsurabilă, grija numită „superinteligență”.</p>
+    <p class="lede">Unei mașini nu îi putem transmite direct „intenția” sau „înțelepciunea” noastră, ci doar o formulă numerică — o notă sau un scor care încearcă să măsoare ceea ce dorim. Cât timp mașina este modestă, nota obținută și calitatea reală merg mână în mână. Însă pe măsură ce sistemul devine extrem de puternic, el descoperă portițe de scăpare pentru a obține o notă uriașă chiar cu prețul sacrificării scopului real. În această discrepanță măsurabilă stă miezul marii provocări numite „alinierea inteligenței artificiale”.</p>
     <p class="terms">Termeni: <b>scop și măsură</b> <b>cel mai bun din k</b> <b>presiune de optimizare</b> <b>legea lui Goodhart</b> <b>aliniere</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="10" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="3" fill="#EE5A2F"/><circle cx="44" cy="22" r="3" fill="#2F4BC4"/></svg></span>O măsură în locul unui scop</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="10" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="3" fill="#EE5A2F"/><circle cx="44" cy="22" r="3" fill="#2F4BC4"/></svg></span>O notă în locul unei dorințe reale</h2>
 
-  <p class="first">Tot ce s-a antrenat în cursul acesta a fost antrenat pe un număr: o funcție de cost, o recompensă, un scor pe un test. Numărul n-a fost niciodată scopul. Scopul era „să recunoască cifre”, „să răspundă bine”, „să fie de folos”, iar numărul era ce s-a putut scrie din el.</p>
+  <p class="first">De-a lungul întregului curs am antrenat rețele folosind întotdeauna o cifră: o funcție de cost pe care am vrut să o coborâm, o recompensă pe care am vrut să o mărim sau un scor pe un set de teste. Dar acea cifră nu a fost niciodată dorința noastră adevărată. Dorința noastră reală era ca mașina „să recunoască cifre scrise de mână”, „să răspundă politicos și util” sau „să deseneze o imagine convingătoare”. Cifra a fost doar o aproximare — ceea ce am reușit noi să formulăm matematic dintr-o intenție umană bogată și nuanțată.</p>
 
-  <p>Lecția despre asistent a arătat ce învață recompensa: nu motivul din mintea celui care alege, ci ce se schimbă odată cu alegerile lui. Lecția despre cum se măsoară a arătat că un test spune cât de bine merge modelul pe <i>acel</i> fel de întrebări. De fiecare dată a existat o distanță între ce se voia și ce s-a măsurat, și de fiecare dată distanța a fost mică, fiindcă nimeni nu apăsa prea tare.</p>
+  <p>În lecțiile despre asistenți am observat deja această distanță: modelul de recompensă nu învață neapărat gândurile subtile ale omului, ci doar tiparele din răspunsurile pe care acesta le-a preferat. Dacă evaluatorii umani tind să prefere răspunsuri puțin mai detaliate, mașina reține rapid că lungimea aduce puncte în plus. Cât timp presiunea de căutare este moderată, diferența dintre nota obținută și calitatea reală a răspunsului rămâne mică și inofensivă.</p>
 
-  <p>Întrebarea lecției e ce se întâmplă cu distanța aceea când cineva apasă foarte tare. Ea se poate pune cu numere, fiindcă „a apăsa” are aici un înțeles precis, din lecția despre asistent: a alege cel mai bun din <i>k</i>.</p>
+  <p>Întrebarea esențială a acestei lecții este: ce se întâmplă atunci când construim un motor de căutare extrem de puternic, care forțează la maximum obținerea acelei note? Această presiune de optimizare poate fi studiată cu precizie printr-o metodă simplă și intuitivă: selectarea celui mai bun răspuns dintr-un număr de <i>k</i> variante posibile.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 50 C22 30 36 16 54 12" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 50 C22 32 32 26 40 30 C46 34 50 44 54 52" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Cel mai bun din k</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 50 C22 30 36 16 54 12" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 50 C22 32 32 26 40 30 C46 34 50 44 54 52" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Alegerea celui mai bun din k variante</h2>
 
-  <p>Să ne închipuim răspunsuri la o întrebare. Fiecare are trei însușiri, luate la întâmplare: cât e de corect, cât e de limpede și cât e de lung. Scopul, ce vrea de fapt cine a întrebat, e corectitudinea plus limpezimea, plus un pic de lungime, dar nu prea multă: un răspuns ceva mai lung decât media ajută, unul mult prea lung strică.</p>
+  <p>Să ne imaginăm că punem o întrebare unui model și îi cerem să genereze un grup de <i>k</i> răspunsuri diferite. Fiecare răspuns are trei calități independente, alese la întâmplare: cât de <i>corect</i> este, cât de <i>limpede</i> este formulat și cât de <i>lung</i> a ieșit textul.</p>
 
-  <p>Măsura e ce a putut nota cineva grăbit: corect, limpede și lung, cu lungimea socotită mereu ca un bine. E o măsură bună. Se potrivește cu scopul pe două însușiri din trei și, pe a treia, greșește numai la capete.</p>
+  <p>Scopul nostru real — ceea ce își dorește un utilizator rațional — este corectitudinea, claritatea și o lungime echilibrată: un răspuns puțin mai elaborat este de ajutor, însă un răspuns mult prea lung devine obositor, redundant și își pierde utilitatea.</p>
 
-  <p>Se scot <i>k</i> răspunsuri și se păstrează cel cu măsura cea mai mare. Apoi se întreabă ce scop are, de fapt, răspunsul păstrat. Cu <i>k</i> = 1 nu se alege nimic; cu <i>k</i> = 4096 se alege foarte tare.</p>
+  <p>Măsura automată (nota pe care o primește) este însă calculată de o formulă simplificată: corectitudinea și claritatea aduc puncte, iar lungimea este socotită <i>întotdeauna</i> ca un plus. La prima vedere, pare o notă destul de corectă: se potrivește cu dorința noastră pe două criterii din trei, iar la lungime greșește doar atunci când textul depășește o anumită limită.</p>
+
+  <p>Să vedem ce se întâmplă când mașina alege răspunsul cu cea mai mare notă dintr-un eșantion de <i>k</i> variante. Când <i>k</i> = 1, mașina ia primul răspuns fără nicio selecție. Când mărim <i>k</i> până la 4096, mașina caută neobosit cel mai bine notat răspuns din mii de posibilități.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Măsura și scopul răspunsului ales, după cât de tare se alege</figcaption>
@@ -776,27 +780,31 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Măsura urcă neîncetat: cu cât se alege mai tare, cu atât răspunsul ales notează mai bine. Scopul urcă și el la început, fiindcă măsura și scopul merg împreună pe corectitudine și limpezime. Apoi se desparte și coboară. De la un punct încolo, singurul fel de a mai urca măsura e lungimea, iar lungimea, împinsă destul, strică ce voia cine a întrebat.</p>
+  <p>Graficul de mai sus arată un fenomen fascinant. Curba albastră (nota oficială) urcă neîncetat: cu cât mașina caută printre mai multe variante, cu atât găsește un răspuns cu o notă mai mare. Curba portocalie (calitatea reală dorită) crește și ea la început: la valori mici ale lui <i>k</i>, nota și utilitatea merg mână în mână, pentru că mașina alege răspunsuri mai corecte și mai clare.</p>
 
-  <p>Maneta arată că mărimea greșelii din măsură hotărăște unde cade vârful, nu dacă există. Chiar cu o măsură care greșește puțin, o alegere destul de puternică găsește greșeala și o exploatează, fiindcă asta e tot ce vede.</p>
+  <p>Însă priviți ce se întâmplă de la un punct încolo: cele două curbe se despart dramatic! Calitatea reală atinge un vârf, după care începe să se prăbușească. De ce? Pentru că răspunsurile găsite sunt deja destul de corecte și clare, iar singurul mod prin care mașina mai poate stoarce puncte suplimentare este să găsească răspunsul cel mai lung și stufos posibil. Fără să-și dea seama, sistemul a început să sacrifice calitatea reală pentru a „trișa” grila de notare.</p>
+
+  <p>Glisorul demonstrează că mărimea erorii din formula de notare dictează doar momentul în care apare prăbușirea, nu dacă ea va avea loc. Chiar și cu o formulă care greșește foarte puțin, o căutare suficient de puternică va descoperi acea mică imperfecțiune și o va exploata la extrem.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="18" cy="32" r="10" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M30 32 H50" fill="none" stroke="#EE5A2F" stroke-width="4"/><path d="M46 26 L52 32 L46 38" fill="none" stroke="#EE5A2F" stroke-width="4"/><path d="M8 52 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/></svg></span>De ce crește paguba cu puterea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="18" cy="32" r="10" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M30 32 H50" fill="none" stroke="#EE5A2F" stroke-width="4"/><path d="M46 26 L52 32 L46 38" fill="none" stroke="#EE5A2F" stroke-width="4"/><path d="M8 52 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/></svg></span>De ce paguba crește odată cu puterea mașinii</h2>
 
-  <p>Optimizatorul nu vede scopul. Vede numai măsura, fiindcă numai ea a putut fi scrisă. Pentru el, răspunsul ales la <i>k</i> = 4096 e cel mai bun răspuns pe care l-a găsit vreodată, și are dreptate: pe măsură, este. Distanța dintre măsură și scop nu apare nicăieri în ce vede el. Ea se vede numai din afară, de la cineva care știe scopul, și numai dacă acel cineva se uită.</p>
+  <p>Sistemul de optimizare nu are acces la dorința noastră reală. El vede exclusiv cifra pe care i-am cerut să o maximizeze. Pentru el, răspunsul selectat la <i>k</i> = 4096 este o reușită absolută — cel mai mare scor obținut vreodată! Faptul că răspunsul a devenit o compunere interminabilă și greu de citit nu este vizibil în formula lui matematică. Această discrepanță se vede doar din exterior, de un om care știe ce își dorea cu adevărat.</p>
 
-  <p>Aceasta e forma matematică a unei observații vechi, cunoscută ca <dfn>legea lui Goodhart</dfn>: o măsură încetează să fie bună din clipa în care devine țintă. Cursul a întâlnit-o de două ori fără s-o numească: recompensa care învață lungimea în locul folosului, testul care ajunge în antrenare. De fiecare dată leacul a fost același: apăsare puțină, martori și o măsură ținută curată.</p>
+  <p>Aceasta este demonstrația vie a unui principiu celebru din științele sociale, cunoscut ca <dfn>legea lui Goodhart</dfn>: <i>„Atunci când o măsură devine o țintă, ea încetează să mai fie o măsură bună.”</i> Dacă evaluezi o clinică medicală după timpul scurt de așteptare, medicii ar putea expedia pacienții; dacă evaluezi o școală după notele la un test standardizat, profesorii vor preda exclusiv rezolvarea acelui test; dacă ceri unui model AI să maximizeze o notă superficială, el va găsi cele mai neașteptate căi de a fenta spiritul cerinței.</p>
 
-  <p>Cuvântul „superinteligență” numește, în cadrul acesta, un optimizator cu <i>k</i> foarte mare: un sistem care găsește, dintre răspunsurile sau planurile cu putință, pe cele care notează cel mai bine pe măsura ce i s-a dat, mult mai bine decât ar putea un om. Grija nu e că un asemenea sistem ar vrea ceva rău. E că nimeni nu știe să scrie un scop ca măsură fără rest, iar un optimizator destul de puternic găsește restul. Cu cât e mai puternic, cu atât îl găsește mai sigur. Curba de mai sus e grija aceasta, desenată.</p>
+  <p>În această perspectivă, noțiunea de „superinteligență” desemnează un optimizator cu un <i>k</i> uriaș: un sistem capabil să exploreze milioane de opțiuni pentru a maximiza formula dată, mult mai eficient decât ar putea un om. Riscul nu vine din faptul că mașina ar deveni conștientă sau rău-intenționată, ci din faptul că este <i>prea eficientă</i> în a urmări o țintă imperfectă. Nimeni nu știe cum să descrie o valoare umană complexă printr-o formulă fără scăpări, iar un sistem destul de puternic va exploata întotdeauna scăpările.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H30" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M34 32 H56" fill="none" stroke="#6B7A38" stroke-width="3"/><rect x="28" y="24" width="8" height="16" fill="#EE5A2F"/><path d="M8 48 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Ce se poate face</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H30" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M34 32 H56" fill="none" stroke="#6B7A38" stroke-width="3"/><rect x="28" y="24" width="8" height="16" fill="#EE5A2F"/><path d="M8 48 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Cum ne protejăm: instrumentele alinierii</h2>
 
-  <p>Problema n-are o soluție, dar are îngrijiri, iar ele se pot pune la încercare pe aceeași curbă. Trei sunt la îndemână și toate au apărut deja în curs.</p>
+  <p>Problema nu are o soluție magică simplă, dar dispune de măsuri de protecție inginerești clare. Trei dintre ele sunt testate în tabelul de mai jos:</p>
 
-  <p>Prima e să nu se apese prea tare: se alege dintre puține răspunsuri, sau modelul e ținut aproape de cel dinainte, cum făcea învățarea din preferințe. A doua e să se folosească mai multe măsuri care greșesc altfel, cerând ca răspunsul să fie bun pe toate: două rigle strâmbe în direcții opuse se corectează una pe alta. A treia e o limită: răspunsurile care ies din marginile obișnuite pe vreo însușire se resping înainte de a fi notate, ca o măsură de siguranță pusă înaintea măsurii de calitate.</p>
+  <p>1. <i>Temperarea presiunii de căutare</i>: nu lăsăm mașina să caute printre mii de variante extreme, ci o constrângem să rămână aproape de comportamentul demonstrat de oameni în exemplele inițiale.<br>
+  2. <i>Arbitri multipli</i>: în loc de o singură notă, folosim mai multe formule de evaluare independente; două rigle care au slăbiciuni diferite se compensează și se corectează reciproc.<br>
+  3. <i>Bariere și praguri de bun-simț</i>: înainte de a nota răspunsul, respingem din start orice variantă care depășește limite firești (de exemplu, un text excesiv de lung sau agresiv), ca o verificare de siguranță aplicată înainte de notare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Scopul răspunsului ales, cu trei feluri de îngrijire</figcaption>
@@ -807,17 +815,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capM"></div>
   </figure>
 
-  <p>Niciuna dintre îngrijiri nu ajunge la măsura perfectă, fiindcă măsura perfectă nu există. Toate însă țin scopul sus acolo unde măsura singură îl lasă să cadă, și toate au același preț: renunță la o parte din puterea de a alege. Aceasta e forma pe care o ia, la scară, munca numită <dfn>aliniere</dfn>: nu găsirea măsurii fără rest, ci construirea de rigle multiple, martori și limite în jurul unei măsuri despre care se știe că are rest.</p>
+  <p>Niciuna dintre aceste măsuri nu oferă o formulă perfectă, pentru că o formulă perfectă pentru valorile umane nu există. Însă toate mențin calitatea reală sus acolo unde nota simplă ar fi lăsat-o să se prăbușească. Prețul plătit este același: renunțăm voluntar la o parte din forța brută de optimizare în favoarea siguranței.</p>
+
+  <p>Aceasta este forma practică pe care o îmbracă disciplina numită <dfn>alinierea inteligenței artificiale</dfn> (AI alignment): nu căutarea iluzorie a unei definiții matematice absolute a binelui, ci construirea atentă de rigle multiple, filtre de protecție și limite de bun-simț în jurul unor formule despre care știm din start că sunt imperfecte.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M24 40 Q32 30 40 40" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="25" cy="26" r="2.5" fill="#22252D"/><circle cx="39" cy="26" r="2.5" fill="#22252D"/></svg></span>Ce rămâne părere</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M24 40 Q32 30 40 40" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="25" cy="26" r="2.5" fill="#22252D"/><circle cx="39" cy="26" r="2.5" fill="#22252D"/></svg></span>Ce este certitudine și ce rămâne o dezbatere deschisă</h2>
 
-  <p>Ce s-a arătat aici e o formă, nu o prezicere. Curba spune că, pentru orice măsură cu rest, există o putere de optimizare de la care scopul suferă, și că puterea aceea e cu atât mai mică cu cât restul e mai mare. Nu spune dacă vor exista sisteme cu <i>k</i> destul de mare, când, nici cât de mare e restul din măsurile cu care sunt antrenate cele de azi.</p>
+  <p>Simularea pe care am explorat-o descrie o certitudine matematică: pentru orice grilă de notare imperfectă, există o intensitate a optimizării dincolo de care utilitatea reală are de suferit, iar acest punct critic este atins cu atât mai repede cu cât grila este mai lacunară. Ceea ce nu ne poate spune simularea este cât de repede vor atinge sistemele din lumea reală acest nivel de forță și cât de bine vor rezista măsurile noastre de protecție.</p>
 
-  <p>Aici se despart oamenii serioși, și cursul nu are cum să-i împace. Unii cred că sistemele vor rămâne unelte cu <i>k</i> moderat, sub ochiul unor oameni care se uită la scop, iar îngrijirile de mai sus sunt de ajuns. Alții cred că presiunea de a construi optimizatoare tot mai puternice e mare, iar măsurile nu vor ține pasul. Amândouă taberele desenează, în fond, aceeași curbă; se deosebesc la întrebarea unde suntem pe ea.</p>
+  <p>Aici se despart opiniile cercetătorilor: o parte consideră că sistemele viitoare vor rămâne unelte docile sub control uman atent, unde filtrele de bun-simț vor fi suficiente. O altă parte avertizează că presiunea economică de a construi agenți tot mai autonomi și mai rapizi va forța optimizarea dincolo de capacitatea noastră de a o supraveghea. Ambele perspective recunosc aceeași curbă; diferența stă în aprecierea locului în care ne aflăm astăzi pe ea.</p>
 
-  <p>Ce se poate spune cu siguranță e mai puțin, dar nu e puțin: că deosebirea dintre scop și măsura lui e o proprietate a oricărei antrenări, nu a unui sistem anume; că ea nu se vede dinăuntrul optimizatorului; și că se poate măsura, cu martori, de către cineva care stă în afară și știe ce voia. Ultima lecție ia tot drumul cursului de la capăt, și-l parcurge într-o singură figură.</p>
+  <p>Ceea ce putem reține ca o învățătură limpede este că distanța dintre ceea ce dorim și ceea ce măsurăm nu este un defect temporar al calculatoarelor, ci o proprietate a oricărui proces de optimizare. În ultima lecție a cursului, vom relua tot acest drum fascinant de la capăt, parcurgându-l de jos în sus într-o singură privire de ansamblu.</p>
 </section>
 
 </main>

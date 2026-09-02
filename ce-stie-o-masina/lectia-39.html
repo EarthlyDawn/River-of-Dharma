@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Un singur spațiu pentru <i>imagine și text</i></h1>
-    <p class="lede">Două rețele deosebite, una pentru poze și una pentru cuvinte, antrenate să scoată vectori în același loc. Ce se potrivește ajunge aproape, iar de aici se pot căuta imagini cu text și recunoaște lucruri fără nicio antrenare anume.</p>
+    <p class="lede">Cum poate un calculator să înțeleagă că fotografia unui cățeluș și propoziția „un cățel zburdând pe iarbă” vorbesc despre același lucru? Două rețele neuronale diferite — una pentru imagini și cealaltă pentru cuvinte — sunt învățate să așeze lumea vizuală și limbajul pe aceeași hartă. Când ideile se potrivesc, punctele lor devin vecine apropiate, permițându-ne să căutăm imagini prin simple cuvinte și să recunoaștem obiecte noi fără vreun antrenament special.</p>
     <p class="terms">Termeni: <b>spațiu comun</b> <b>multimodal</b> <b>învățare prin contrast</b> <b>recunoaștere fără antrenare anume</b></p>
   </div>
 </header>
@@ -747,23 +749,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="12" width="18" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M8 24 L14 17 L18 21 L22 16 L24 24" fill="#6B7A38"/><path d="M40 14 H58 M40 20 H54 M40 26 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M15 30 L30 46 M49 30 L34 46" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="32" cy="50" r="6" fill="#EE5A2F"/></svg></span>Două limbi, un singur dicționar</h2>
 
-  <p class="first">Vectorii de cuvinte din lecția despre reprezentarea vectorială așezau cuvintele într-un spațiu, iar apropierea dintre ele însemna ceva. Nimic nu oprește ca în același spațiu să fie așezat și altceva.</p>
+  <p class="first">În lecțiile dedicate limbajului am văzut o idee remarcabilă: cuvintele pot fi transformate în vectori — liste de numere ce funcționează ca niște coordonate pe o vastă hartă geometrică a sensului. Acolo, noțiunile apropiate ca înțeles, cum ar fi „pisică” și „motan”, ajung firesc vecine. Dar de ce ne-am opri doar la text? Oare nu am putea așeza pe aceeași hartă și imaginile?</p>
 
-  <p>Construcția are două jumătăți care nu seamănă între ele. Una primește o imagine și scoate un vector; cealaltă primește o descriere și scoate tot un vector, de aceeași lungime. Antrenarea le cere un singur lucru: perechea potrivită să ajungă aproape, iar perechile nepotrivite departe. Locul unde se întâlnesc se numește <dfn>spațiu comun</dfn>, iar un model care lucrează cu mai multe feluri de intrări se numește <dfn>multimodal</dfn>.</p>
+  <p>Această punte elegantă (modelul CLIP) este construită din două brațe complet diferite, care lucrează mână în mână. Un braț privește o imagine și o rezumă într-un vector de coordonate; celălalt braț citește un text și produce un vector de exact aceeași lungime. Misiunea lor este simplă și firească: o fotografie și descrierea ei corectă trebuie să cadă cât mai aproape pe hartă, în timp ce imaginile și textele fără legătură sunt împinse departe. Locul geometric unde cele două lumi se întâlnesc se numește <dfn>spațiu comun</dfn>, iar un sistem capabil să combine astfel văzul și cuvântul poartă numele de model <dfn>multimodal</dfn>.</p>
 
-  <p>Antrenarea n-are nevoie de etichete scrise anume. E de ajuns o grămadă de poze cu descrierile lor, iar acestea se găsesc pe internet cu milioanele.</p>
+  <p>Marele avantaj practic este că nu avem nevoie de etichetări minuțioase făcute de mână de oameni. Internetul este deja plin de sute de milioane de fotografii însoțite de legende, titluri sau descrieri naturale — o materie primă gata oferită.</p>
 
-  <p>Două limbi cu același dicționar de destinație. Nu se traduce una în cealaltă; amândouă se traduc într-a treia, iar acolo se pot compara.</p>
+  <p>Gândiți-vă la doi oameni care vorbesc limbi diferite: unul gândește doar în imagini, celălalt doar în fraze. În loc să încercăm o traducere mecanică directă între ei, amândoi învață să-și exprime ideile într-o a treia „limbă universală a sensurilor pure” (vectorii din spațiul comun). Iar acolo, a vedea dacă spun același lucru devine o simplă măsurare a apropierii.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#C9D1F1" stroke="#22252D" stroke-width="1"><rect x="8" y="8" width="11" height="11"/><rect x="20" y="8" width="11" height="11"/><rect x="32" y="8" width="11" height="11"/><rect x="44" y="8" width="11" height="11"/><rect x="8" y="20" width="11" height="11"/><rect x="32" y="20" width="11" height="11"/><rect x="44" y="20" width="11" height="11"/><rect x="8" y="32" width="11" height="11"/><rect x="20" y="32" width="11" height="11"/><rect x="44" y="32" width="11" height="11"/><rect x="8" y="44" width="11" height="11"/><rect x="20" y="44" width="11" height="11"/><rect x="32" y="44" width="11" height="11"/></g><g fill="#EE5A2F"><rect x="8" y="8" width="11" height="11"/><rect x="20" y="20" width="11" height="11"/><rect x="32" y="32" width="11" height="11"/><rect x="44" y="44" width="11" height="11"/></g></svg></span>Cum se învață apropierea</h2>
 
-  <p>Se ia un pachet de perechi, să zicem douăzeci și patru. Se socotesc toți vectorii, apoi toate potrivirile dintre fiecare imagine și fiecare descriere: un tablou de douăzeci și patru pe douăzeci și patru. Antrenarea cere ca, pe fiecare rând, potrivirea cea mai bună să fie cea de pe diagonală, și la fel pe fiecare coloană.</p>
+  <p>Cum învață rețelele să facă această potrivire fină? Metoda poartă numele de <dfn>învățare prin contrast</dfn>. La fiecare pas, modelul primește un grup de exemple — să spunem 24 de perechi potrivite de imagini și texte. Se calculează vectorii tuturor imaginilor și tuturor descrierilor, formând o tablă de șah de 24 pe 24 de comparații. Regula jocului este clară: pe fiecare rând și pe fiecare coloană, cea mai mare potrivire trebuie să fie perechea adevărată (aflată pe diagonală), iar toate celelalte asocieri greșite trebuie respinse.</p>
 
-  <p>Nimeni nu spune cât de aproape trebuie să ajungă o pereche. Se cere doar ca ea să fie mai aproape decât celelalte din pachet, iar din această cerere repetată iese aranjarea. E o învățare prin contrast: nu „așa arată o pisică”, ci „asta seamănă mai mult cu asta decât cu celelalte”.</p>
+  <p>Nimeni nu impune de la început unde anume pe hartă ar trebui să stea fiecare concept. Se cere doar ca perechea potrivită să fie mereu <i>mai aproape</i> decât variantele nepotrivite. Din această simplă comparație continuă se naște o organizare organică: nu predăm definiții rigide, ci modelul învață prin diferențiere — „această imagine seamănă mai mult cu această descriere decât cu oricare alta”.</p>
 
-  <p>Modelul din pagină lucrează cu imagini mici de zece pe zece, în trei culori, și cu descrieri din trei cuvinte: forma, culoarea și mărimea.</p>
+  <p>Modelul demonstrativ din această pagină lucrează cu imagini miniaturale de zece pe zece pixeli în trei nuanțe și cu descrieri formate din trei proprietăți clare: forma geometrică, culoarea și dimensiunea.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Harta comună, după antrenare</figcaption>
@@ -781,13 +783,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Harta e o umbră în două dimensiuni a unui spațiu cu șaisprezece. Ce contează e că punctele imaginilor și pătratele descrierilor cad împreună acolo unde se potrivesc, deși au venit pe drumuri cu totul deosebite.</p>
+  <p>Harta pe care o vedeți este o proiecție plană, bidimensională, a unui spațiu matematic mai bogat, cu șaisprezece dimensiuni. Esențial este că punctele (care reprezintă imagini) și pătratele (care reprezintă descrieri scrise) gravitează treptat împreună și se așază în aceleași cartiere de sens, deși au fost procesate prin mecanisme complet distincte.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="26" cy="26" r="14" fill="none" stroke="#22252D" stroke-width="2.5"/><path d="M36 36 L52 52" fill="none" stroke="#22252D" stroke-width="3.5"/><path d="M18 26 H34 M20 21 H32 M20 31 H32" fill="none" stroke="#2F4BC4" stroke-width="2"/></svg></span>Căutarea cu text</h2>
 
-  <p>Odată ce amândouă felurile stau în același loc, căutarea devine o socoteală de apropiere: se face vectorul descrierii, se compară cu vectorii tuturor imaginilor și se aleg cele mai apropiate.</p>
+  <p>Odată ce imaginile și cuvintele conviețuiesc în același spațiu, căutarea vizuală devine o simplă măsurare a apropierii pe hartă. Când introduceți o descriere, rețeaua lingvistică o plasează într-un punct anume; calculatorul calculează apoi distanța până la toate imaginile stocate și le alege pe cele mai apropiate de destinație.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Cele mai apropiate douăsprezece imagini</figcaption>
@@ -806,9 +808,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="20" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><circle cx="18" cy="22" r="6" fill="#EE5A2F"/><path d="M36 16 H56 M36 22 H52 M36 28 H50" fill="none" stroke="#BDB9AA" stroke-width="2"/><path d="M36 22 H52" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M8 44 H56" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="2 2"/></svg></span>Recunoaștere fără antrenare anume</h2>
 
-  <p>Aceeași socoteală dă și altceva. Ca să se afle ce e într-o imagine, se scriu toate răspunsurile cu putință ca descrieri, se socotesc vectorii lor și se ia cel mai apropiat. Nu se antrenează nimic pentru sarcina asta: ea iese din spațiul comun.</p>
+  <p>Același mecanism aduce un beneficiu uimitor: <dfn>recunoașterea fără antrenare anume</dfn> (deseori numită „zero-shot”). În loc să construim un detector separat specializat pe un anumit tip de obiecte, formulăm toate răspunsurile posibile ca fraze descriptive, le calculăm pozițiile pe hartă și verificăm care dintre ele se află cel mai aproape de vectorul imaginii misterioase. Fără niciun antrenament suplimentar dedicat, sistemul identifică obiectul dintr-o privire.</p>
 
-  <p>Măsurătoarea de mai jos face exact asta, cu toate cele douăzeci și patru de descrieri. Ea desparte însă imaginile în două: cele ale căror îmbinări de formă, culoare și mărime au fost arătate la antrenare, și patru îmbinări care n-au fost arătate niciodată.</p>
+  <p>Tabelul de mai jos analizează această performanță pe toate cele 24 de descrieri posibile. Pentru un test veritabil, am împărțit imaginile în două tabere: combinații de formă, culoare și mărime prezente la antrenament și patru combinații inedite, pe care modelul nu le-a întâlnit niciodată înainte.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Descrierea găsită dintre toate douăzeci și patru</figcaption>
@@ -819,11 +821,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capZ"></div>
   </figure>
 
-  <p>Coloanele de pe urmă arată de unde vine deosebirea. Fiecare însușire luată în parte se recunoaște aproape la fel de bine pe îmbinările nemaivăzute; ce se pierde e punerea lor la un loc.</p>
+  <p>Ultimele coloane arată o nuanță subtilă a modului în care funcționează aceste rețele. Fiecare însușire privită separat (forma, culoarea sau mărimea) este recunoscută remarcabil de bine, chiar și pe combinațiile nemaivăzute. Ceea ce se pierde uneori este tocmai legătura strânsă dintre ele.</p>
 
-  <p>Aceasta nu e o slăbiciune a modelului din pagină. E cusurul cel mai bine cunoscut al construcțiilor de acest fel: ele știu că într-o imagine se află lucrurile pomenite, dar se descurcă prost cu întrebarea care lucru e cum. Un sac de cuvinte și un sac de forme, cu legăturile dintre ele slăbite.</p>
+  <p>Aceasta nu este o greșeală a modelului nostru simplificat, ci o particularitate bine cunoscută a întregii familii de arhitecturi multimodale: efectul de „sac de noțiuni”. Modelul știe cu certitudine că în imagine există un cerc, că există culoarea galbenă și o mărime mică, dar uneori îi este greu să decidă dacă tocmai cercul este cel galben și mic sau o altă figură din compoziție.</p>
 
-  <p>Spațiul comun e piesa care leagă felurile de date între ele. Pe ea se sprijină căutarea de imagini după text, condiționarea din lecția despre textul care trage imaginea și partea care citește imagini a asistenților de azi. Lecția următoare arată ce se schimbă când modelului i se dă voie să ceară ceva din afară și să primească răspunsul înapoi în text.</p>
+  <p>Cu toate acestea, spațiul comun rămâne piesa de rezistență ce leagă astăzi textul de universul vizual. Pe el se sprijină căutarea intuitivă de fotografii, ghidarea modelelor de difuzie prin descrieri scrise și ochii asistenților inteligenți pe care îi folosim zilnic. În lecția următoare, vom explora ce se întâmplă atunci când modelul iese din pasivitate și primește libertatea de a apela unelte exterioare pentru a rezolva probleme pas cu pas.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,33 +740,31 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Învățarea din <i>context</i></h1>
-    <p class="lede">Câteva exemple puse chiar în textul dat modelului îi schimbă purtarea, deși nicio pondere nu se mișcă. Ce se întâmplă atunci nu e antrenare, dar seamănă cu ea până la a fi greu de deosebit. Lecția aceasta încheie partea despre limbaj cu întrebarea ce anume a fost învățat, de fapt, în ponderi.</p>
-    <p class="terms">Termeni: <b>prompt</b> <b>învățare în context</b> <b>cele mai mici pătrate</b> <b>o metodă în ponderi, datele în față</b></p>
+    <p class="lede">Dacă îi arătați unui model câteva exemple rezolvate chiar în textul întrebării, el își adaptează comportamentul pe loc, fără ca vreun parametru intern să fie modificat. Deși seamănă izbitor cu o nouă antrenare, ceea ce se petrece sub ochii noștri este o deducție din mers. Încheiem această călătorie prin lumea limbajului descoperind ce s-a întipărit, de fapt, în circuitele rețelei.</p>
+    <p class="terms">Termeni: <b>prompt</b> <b>învățare din context (few-shot)</b> <b>regresie în context</b> <b>algoritmul în ponderi, datele în fereastră</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H34 M14 28 H30 M14 36 H36" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M14 46 H44" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><rect x="40" y="16" width="10" height="22" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/></svg></span>Ce se schimbă și ce nu</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H34 M14 28 H30 M14 36 H36" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M14 46 H44" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><rect x="40" y="16" width="10" height="22" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/></svg></span>Ce se schimbă și ce nu: miracolul din fața ochilor</h2>
 
-  <p class="first">Textul dat unui model înainte de a-l lăsa să scrie se numește <dfn>prompt</dfn>. În el încape orice: o instrucțiune, o întrebare, o discuție de dinainte și, ce ne interesează aici, o mână de exemple rezolvate.</p>
+  <p class="first">Textul pe care îl furnizăm unui asistent înainte ca el să înceapă să scrie se numește <dfn>prompt</dfn>. În el putem pune orice: o cerință directă, un rol pe care să-l adopte, o conversație anterioară sau — lucrul cel mai spectaculos — două sau trei exemple rezolvate despre cum dorim să arate răspunsul.</p>
 
-  <p>Purtarea unui model se schimbă mult când exemplele sunt de față. El începe să facă ceva ce nu făcea înainte, potrivit cu exemplele arătate, deși ponderile lui sunt exact cele dinainte, până la ultima cifră. Purtarea aceasta se numește <dfn>învățare în context</dfn>, iar numele e puțin înșelător: nu se învață nimic în înțelesul din lecțiile precedente, fiindcă nimic nu se schimbă în model.</p>
+  <p>Când îi arătăm aceste exemple în prompt (tehnică numită <i>few-shot prompting</i>), comportamentul modelului se transformă ca prin farmec. El preia instantaneu stilul, formatul și logica sarcinii cerute, rezolvând următorul exercițiu exact după tiparul oferit. Și totuși, pe parcursul acestui proces, niciunul dintre miliardele de parametri ai rețelei nu a fost modificat nici măcar cu o zecimală! Purtarea aceasta uimitoare se numește <dfn>învățare din context</dfn>, deși numele este oarecum paradoxal: nu vorbim despre o învățare clasică prin schimbarea circuitelor, ci despre o adaptare din zbor.</p>
 
-  <p>Un instrumentist care prinde stilul piesei după două măsuri. N-a exersat piesa; ceea ce a exersat e să prindă stiluri.</p>
+  <p>Modelul seamănă cu un muzician de jazz genial care ascultă primele două măsuri dintr-o melodie nouă și se alătură imediat orchestrei, cântând impecabil în tonalitatea și ritmul piesei. El nu a mers acasă să exerseze luni de zile piesa respectivă; ceea ce posedă este o capacitate superioară de a recunoaște și prelua tipare în timp real.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 46 L52 18" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="18" cy="42" r="3" fill="#2F4BC4"/><circle cx="30" cy="34" r="3" fill="#2F4BC4"/><circle cx="40" cy="27" r="3" fill="#2F4BC4"/><circle cx="50" cy="20" r="3" fill="none" stroke="#2F4BC4" stroke-width="1.5"/></svg></span>O regulă nouă la fiecare șir</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 46 L52 18" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="18" cy="42" r="3" fill="#2F4BC4"/><circle cx="30" cy="34" r="3" fill="#2F4BC4"/><circle cx="40" cy="27" r="3" fill="#2F4BC4"/><circle cx="50" cy="20" r="3" fill="none" stroke="#2F4BC4" stroke-width="1.5"/></svg></span>O regulă nouă la fiecare șir: experimentul matematic</h2>
 
-  <p>Ca lucrul să se vadă limpede, sarcina din pagină e făcută anume pentru asta. Un model mic e antrenat pe șiruri în care regula se schimbă de fiecare dată.</p>
+  <p class="first">Pentru a vedea acest mecanism în stare pură, am pregătit un experiment matematic interactiv: antrenăm un mic transformator pe o sarcină unde regula se schimbă la fiecare încercare.</p>
 
-  <p>Fiecare șir are o pantă a lui, aleasă la întâmplare și nespusă nimănui. Modelul primește câteva perechi de numere care ascultă de acea pantă, cu o abatere mică peste ele, apoi un ultim număr singur, și trebuie să spună ce-i corespunde. Panta se schimbă la fiecare șir, deci nu poate fi ținută minte în ponderi; ea trebuie citită de fiecare dată din exemplele de față.</p>
-
-  <p>La antrenare, modelul a văzut între unul și opt exemple în prompt. Nicio pantă anume nu i-a fost arătată de două ori, fiindcă pantele sunt luate dintr-o mulțime continuă.</p>
+  <p>Fiecare problemă are o pantă secretă (o dreaptă matematică), aleasă la întâmplare. Modelul primește câteva puncte de pe acea dreaptă, afectate de un mic zgomot de măsurare, urmate de o coordonată nouă pentru care trebuie să ghicească valoarea corespunzătoare. Deoarece panta este mereu alta, rețeaua nu o poate stoca în memoria ei permanentă; este obligată să o deducă de fiecare dată exclusiv din punctele pe care i le oferim în context.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ce crede modelul, pe măsură ce i se arată exemple</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Ce crede modelul, pe măsură ce îi arătăm exemple</figcaption>
     <div class="stage">
       <canvas id="cvSq" class="cv-sqm"></canvas>
       <div class="key" id="sKey"></div>
@@ -779,20 +779,20 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Linia albastră e ce ar răspunde modelul pentru orice număr i s-ar da, adică regula pe care o are în cap în clipa aceea. Fără niciun exemplu ea e aproape orizontală: n-are de unde să știe panta, iar cel mai bun lucru de făcut e să nu se abată de la zero. Cu fiecare exemplu adăugat, linia se apropie de cea adevărată.</p>
+  <p>Linia albastră reprezintă predicția modelului. Fără niciun exemplu, linia este aproape orizontală: neavând niciun indiciu, cea mai sigură decizie este să rămână în jur de zero. Pe măsură ce apăsați butonul și adăugați exemple, linia albastră se rotește și se mulează tot mai fidel pe dreapta portocalie ascunsă.</p>
 
-  <p>Suma pătratelor tuturor ponderilor e scrisă alături și nu se schimbă niciodată. Nimic din model n-a fost atins; s-a schimbat numai ce se afla scris în față.</p>
+  <p>Urmăriți suma ponderilor afișată în panou: ea rămâne strict neschimbată! Niciun număr din creierul matematic al rețelei nu a suferit vreo ajustare; tot ce s-a schimbat a fost informația așezată în fața privirii sale.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 C18 40 30 46 54 48" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 20 C20 44 32 48 54 50" fill="none" stroke="#6B7A38" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Cât de bine se descurcă</h2>
 
-  <p>Curba de mai jos măsoară greșeala medie pe patru sute de șiruri noi, la fiecare număr de exemple. Alături sunt puse două repere.</p>
+  <p class="first">Graficul de mai jos măsoară eroarea medie pe sute de probleme noi, în funcție de numărul de exemple puse în prompt. Pentru comparație, am alăturat două repere statistice clasice:</p>
 
-  <p>Primul e metoda celor mai mici pătrate, care caută panta ce se potrivește cel mai bine cu exemplele și nu presupune nimic despre ea. Al doilea ține seama și de faptul că pantele sunt luate dintr-un interval mărginit, ceea ce îl face reperul cel mai bun cu putință pentru sarcina aceasta.</p>
+  <p>Primul reper este metoda tradițională a celor mai mici pătrate (regresia liniară clasică). Al doilea reper este estimatorul optim, care știe dinainte limitele posibile ale pantelor.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Greșeala, după câte exemple sunt în prompt</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Scăderea erorii odată cu numărul de exemple din prompt</figcaption>
     <div class="stage">
       <canvas id="cvPlot" class="cv-plot"></canvas>
       <div class="key" id="pKey"></div>
@@ -802,29 +802,29 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capP"></div>
   </figure>
 
-  <p>Greșeala modelului scade cu fiecare exemplu adăugat, deși ponderile stau pe loc. Aceasta e toată dovada de care e nevoie: purtarea se schimbă, iar singurul lucru care s-a schimbat e textul din față.</p>
+  <p>Eroarea modelului coboară spectaculos cu fiecare nou exemplu arătat, deși ponderile sunt înghețate. Iată dovada de netăgăduit: modelul își îmbunătățește performanța în timp real doar pe baza textului din fereastra de lucru.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="14" width="44" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 24 H48 M16 32 H48 M16 40 H36" fill="none" stroke="#BDB9AA" stroke-width="2"/><circle cx="46" cy="40" r="6" fill="#EE5A2F"/><path d="M43 40 L45 42 L49 38" fill="none" stroke="#F7F3E6" stroke-width="1.5"/></svg></span>Ce a învățat antrenarea de fapt</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="14" width="44" height="36" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 24 H48 M16 32 H48 M16 40 H36" fill="none" stroke="#BDB9AA" stroke-width="2"/><circle cx="46" cy="40" r="6" fill="#EE5A2F"/><path d="M43 40 L45 42 L49 38" fill="none" stroke="#F7F3E6" stroke-width="1.5"/></svg></span>Ce a învățat antrenarea de fapt: algoritmul din ponderi</h2>
 
-  <p>Rândul cel dintâi al tabelului spune mai mult decât restul. Cu un singur exemplu, metoda celor mai mici pătrate dă o greșeală uriașă: dacă numărul din acel exemplu se nimerește aproape de zero, panta calculată din el o ia în sus fără margine. Modelul nu face asta.</p>
+  <p class="first">Priviți cu atenție primul rând al tabelului: când dispune de un singur punct de reper, metoda clasică a celor mai mici pătrate suferă o eroare uriașă, deoarece un singur punct apropiat de zero poate arunca panta calculată spre infinit. Modelul nostru neural, în schimb, nu își pierde cumpătul!</p>
 
-  <p>El se poartă ca reperul al doilea, cel care știe că pantele sunt mărginite: când datele sunt puține, se ține aproape de mijloc; când sunt multe, le urmează. Nimeni nu i-a spus intervalul din care se iau pantele. El a ieșit din antrenare, fiindcă acolo s-au perindat mii de pante luate din el.</p>
+  <p>El acționează asemenea unui statistician experimentat: când datele sunt puține, rămâne precaut și se ancorează în medie; pe măsură ce adăugăm date solide, începe să aibă încredere în ele și le urmează direcția. Nimeni nu i-a programat aceste formule explicit. Comportamentul a izvorât spontan din sutele de mii de exerciții parcurse în timpul antrenării.</p>
 
-  <p>De aici se vede ce anume a fost învățat în ponderi. Nu o pantă și nici o listă de pante, ci un <i>fel de a citi exemplele</i>. Ponderile țin o metodă; contextul aduce datele pe care metoda se aplică. E o împărțire a muncii pe care merită s-o ținem minte: ce e stabil trăiește în ponderi, ce e de moment trăiește în text.</p>
+  <p>Aici se află una dintre cele mai profunde revelații ale inteligenței artificiale moderne: ponderile rețelei nu memorează o simplă enciclopedie de răspunsuri fixe, ci <i>un algoritm intern de procesare și învățare</i>. Ponderile întruchipează metoda și raționamentul general, în timp ce contextul aduce datele specifice ale problemei de moment. Aceasta este marea împărțire a muncii: ceea ce este universal și permanent trăiește în ponderi, iar ceea ce este particular și provizoriu trăiește în prompt.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H24 M8 24 H28 M8 32 H22" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M36 16 H56 M36 24 H52 M36 32 H56" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 44 H26 M36 44 H56" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="32" cy="52" r="4" fill="#EE5A2F"/></svg></span>De ce apare</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 16 H24 M8 24 H28 M8 32 H22" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M36 16 H56 M36 24 H52 M36 32 H56" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 44 H26 M36 44 H56" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="32" cy="52" r="4" fill="#EE5A2F"/></svg></span>De ce apare această proprietate: ecoul structurii umane</h2>
 
-  <p>Nimeni n-a construit modelul ca să facă asta, și nimic din arhitectură n-are o parte anume pentru așa ceva. Purtarea apare fiindcă e cel mai ieftin fel de a te descurca bine pe date de felul acelora.</p>
+  <p class="first">Niciun inginer nu a proiectat o piesă anume din transformator cu scopul de a face învățare în context. Această abilitate a apărut de la sine ca fiind cea mai eficientă strategie matematică de a prezice textele scrise de oameni.</p>
 
-  <p>Când textul de antrenare cuprinde nenumărate sarcini mici, fiecare cu regula ei, un model care ar încerca să învețe o singură regulă bună pentru toate ar merge prost peste tot. Un model care învață în schimb să deducă regula din ce are în față merge bine peste tot. Coborârea pantei găsește a doua soluție fiindcă ea are pierderea mai mică, nu fiindcă ar fi fost căutată.</p>
+  <p>Limbajul uman abundă în tipare structurate: tabele, traduceri puse față în față, cod sursă cu exemple, explicații urmate de rezumate. Dacă o rețea ar fi încercat să memoreze o regulă rigidă unică pentru toate situațiile, ar fi eșuat lamentabil pe o mare parte dintre texte. Algoritmul de optimizare a descoperit o cale mult mai suplă: a modelat circuitele de atenție astfel încât ele să citească tiparul local din primele rânduri și să îl extindă în mod firesc mai departe.</p>
 
-  <p>Textele scrise de oameni sunt pline de asemenea sarcini: liste care urmează un tipar, tabele, traduceri așezate una sub alta, întrebări cu răspunsuri. Un model antrenat pe ele ajunge, din același motiv, să prindă tipare din câteva rânduri.</p>
+  <p>Aici se încheie marea noastră călătorie prin tărâmul limbajului: am pornit de la un singur bit binar, am văzut cum se nasc tranzistorii și porțile logice, am clădit procesoare și rețele neuronale, am înțeles atenția și antrenarea la scară, până când am ajuns la asistenții capabili să converseze și să învețe din context.</p>
 
-  <p>Cu aceasta se încheie drumul de la un bit până la un model de limbaj care răspunde. Partea următoare pornește de la același zgomot despre care s-a vorbit la începutul cursului și arată cum se naște din el o imagine.</p>
+  <p>Însă universul mașinilor inteligente nu se oprește la cuvinte. În partea următoare a cursului părăsim universul textului și pătrundem în lumea formelor vizuale: vom descoperi cum, pornind de la un haos de zgomot static și puncte oarbe, o rețea poate sculpta treptat o imagine de o frumusețe uluitoare.</p>
 </section>
 
 </main>

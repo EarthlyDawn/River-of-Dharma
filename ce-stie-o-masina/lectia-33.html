@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,32 +740,32 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Zgomotul ca <i>material</i></h1>
-    <p class="lede">Ca să înveți ceva, îți trebuie perechi de întrebări și răspunsuri. Pentru desen nu există așa ceva. Dar dacă strici o imagine în felul potrivit, perechile se fac singure, oricâte, din orice fotografie. Zgomotul, dușmanul din prima parte a cursului, devine aici materia primă.</p>
-    <p class="terms">Termeni: <b>proces direct</b> <b>nivel de zgomot</b> <b>programul zgomotului</b> <b>saltul la pasul t</b></p>
+    <p class="lede">Ca să înveți o rețea neuronală să deseneze, ai nevoie de exerciții clare: o problemă și răspunsul ei corect. Pentru text a fost simplu — ascundeai cuvântul următor dintr-o carte și puneai modelul să-l ghicească. Dar cum înveți o mașină să deseneze o imagine întreagă din nimic? Răspunsul genial al modelelor de difuzie a fost să răstoarne problema: dacă nu știm cum să creăm o imagine de la zero, știm cu siguranță cum s-o distrugem. Zgomotul aleatoriu, vechiul inamic din transmisiile de date, devine aici lutul curat din care se naște orice formă.</p>
+    <p class="terms">Termeni cheie: <b>proces direct (difuzie înainte)</b> <b>nivel de zgomot</b> <b>programul zgomotului (noise schedule)</b> <b>saltul direct la pasul t</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="24" cy="28" r="7" fill="#E9C93B"/><path d="M8 52 L26 36 L38 44 L56 30 V52 Z" fill="#6B7A38"/><g fill="#22252D"><rect x="12" y="16" width="2" height="2"/><rect x="40" y="20" width="2" height="2"/><rect x="50" y="16" width="2" height="2"/><rect x="30" y="24" width="2" height="2"/><rect x="18" y="44" width="2" height="2"/><rect x="46" y="40" width="2" height="2"/></g></svg></span>Sarcina care se poate face din nimic</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="24" cy="28" r="7" fill="#E9C93B"/><path d="M8 52 L26 36 L38 44 L56 30 V52 Z" fill="#6B7A38"/><g fill="#22252D"><rect x="12" y="16" width="2" height="2"/><rect x="40" y="20" width="2" height="2"/><rect x="50" y="16" width="2" height="2"/><rect x="30" y="24" width="2" height="2"/><rect x="18" y="44" width="2" height="2"/><rect x="46" y="40" width="2" height="2"/></g></svg></span>O sarcină care se naște din propria distrugere</h2>
 
-  <p class="first">Un model de limbaj are noroc: textul își dă singur răspunsurile, fiindcă bucata următoare se află chiar acolo. Pentru imagini nu există nimic asemănător. Nimeni nu ține un catalog de imagini pe jumătate desenate cu urmarea lor.</p>
+  <p class="first">Când antrenăm un model de limbaj, natura textului ne oferă un dar nesperat: fiecare propoziție își conține propriul profesor. Luăm orice articol sau carte din lume, acoperim cuvântul de la final și întrebăm rețeaua: <i>„ce urmează?”</i>. Pentru lumea vizuală nu există însă un astfel de catalog. Un pictor nu așază vopseaua doar de la stânga la dreapta, pixel cu pixel, iar nimeni nu a fotografiat miliarde de tablouri pe jumătate terminate alături de varianta lor finală.</p>
 
-  <p>Ideea care a dezlegat lucrurile e să se strice imaginile în mod hotărât și cunoscut. Se ia o fotografie și i se adaugă puțin zgomot; apoi încă puțin; și tot așa, până când nu mai rămâne nimic din ea. Șirul acesta se numește <dfn>proces direct</dfn> și n-are în el nimic de învățat: se face după o formulă.</p>
+  <p>Marea deblocare a venit dintr-o idee împrumutată din fizica statistică: în loc să încercăm să pictăm o capodoperă dintr-un foc, luăm o fotografie clară și o degradăm treptat, după un plan riguros. Îi adăugăm o pulbere minusculă de purici digitali (zgomot aleatoriu), apoi încă puțin, și încă puțin, pas cu pas, până când orice urmă din imaginea inițială se șterge complet. Această călătorie controlată spre haos se numește <dfn>proces direct</dfn> (sau difuzie înainte) și nu cere nicio inteligență: este o simplă rețetă matematică.</p>
 
-  <p>Din el ies însă perechile care lipseau. Pentru orice pas, se știe atât imaginea murdărită, cât și zgomotul care a murdărit-o. Cine învață să spună, privind imaginea murdărită, ce zgomot i s-a adăugat, învață tocmai lucrul din care se poate reface drumul înapoi.</p>
+  <p>Magia acestei distrugeri deliberate este că produce automat miliarde de exerciții perfecte, fără niciun efort omenesc. La fiecare pas intermediar cunoaștem două lucruri sigure: cum arată imaginea parțial mâncată de purici și exact ce cantitate de zgomot tocmai i-am presărat deasupra. Cine învață o rețea neuronală să privească imaginea murdărită și să ghicească zgomotul adăugat îi oferă tocmai cheia cu care se va putea reface, mai târziu, drumul înapoi.</p>
 
-  <p>Praf care se așază peste un tablou, un fir la fiecare secundă. Nimeni nu-l împrăștie anume; el se așază după o regulă știută, iar tocmai fiindcă regula e știută se poate socoti cum arăta tabloul cu o secundă înainte.</p>
+  <p>Imaginați-vă un tablou lăsat într-o încăpere veche, peste care se așază în fiecare secundă un fir microscopic de praf. Nimeni nu împrăștie praful anume; el se depune după o regulă fizică știută. Și tocmai fiindcă regula este precisă, putem socoti cum arăta pânza cu doar o secundă înainte.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="26" width="10" height="12" fill="#2F4BC4"/><rect x="21" y="26" width="10" height="12" fill="#2F4BC4" opacity=".7"/><rect x="34" y="26" width="10" height="12" fill="#2F4BC4" opacity=".4"/><rect x="47" y="26" width="10" height="12" fill="#2F4BC4" opacity=".15"/><path d="M18 32 H21 M31 32 H34 M44 32 H47" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cum se adaugă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="26" width="10" height="12" fill="#2F4BC4"/><rect x="21" y="26" width="10" height="12" fill="#2F4BC4" opacity=".7"/><rect x="34" y="26" width="10" height="12" fill="#2F4BC4" opacity=".4"/><rect x="47" y="26" width="10" height="12" fill="#2F4BC4" opacity=".15"/><path d="M18 32 H21 M31 32 H34 M44 32 H47" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cum se adaugă praful: rețeta unei diluții atente</h2>
 
-  <p>Fiecare pas nu adaugă pur și simplu zgomot peste ce era; el întâi micșorează puțin imaginea, apoi adaugă zgomot cât să umple locul rămas. Din pricina asta valorile nu cresc pe măsură ce se merge, iar la sfârșit nu se obține o imagine tot mai stridentă, ci una care nu se mai deosebește de zgomot curat.</p>
+  <p>Dacă am arunca pur și simplu pixeli luminoși peste o fotografie la fiecare pas, valorile ar crește necontrolat, iar pânza ar deveni curând un alb orbitor. Pentru a păstra totul în frâu, procesul direct funcționează ca o diluție atentă: la fiecare pas, imaginea existentă este mai întâi estompată puțin (micșorată cu o fracțiune), iar apoi i se adaugă o cantitate de zgomot proaspăt calculată la milimetru, cât să umple exact locul lăsat liber.</p>
 
-  <p class="note">Socoteala e așezată pentru imagini a căror împrăștiere a valorilor e unu. Imaginea desenată aici e mai domoală de atât, așa că împrăștierea ei urcă spre unu pe măsură ce zgomotul ia locul conținutului, în loc să stea pe loc. Cifrele de sub figură arată drumul acesta.</p>
+  <p class="note">Calculele sunt gândite pentru imagini a căror variație (împrăștiere a valorilor) este egală cu unu. Imaginea simplă din desenul de mai jos este mai domoală la plecare, așa că variația ei urcă treptat spre unu pe măsură ce zgomotul ia locul conținutului util, în loc să rămână fixă. Cifrele de sub figură arată limpede această predare treptată de ștafetă.</p>
 
-  <p>Partea care rămâne din imaginea de la început, la pasul <i>t</i>, se numește <dfn>nivel de zgomot</dfn> și se scrie de obicei ca o singură mărime care scade de la unu la zero. Imaginea murdărită e imaginea de plecare micșorată cu rădăcina acestei mărimi, plus zgomot cu rădăcina a ceea ce lipsește până la unu.</p>
+  <p>Partea care mai supraviețuiește din imaginea de la început la pasul <i>t</i> definește așa-numitul <dfn>nivel de zgomot</dfn>. La pasul zero, semnalul util este 100%, iar zgomotul este inexistent. Pe măsură ce pașii curg, imaginea de plecare se subțiază continuu, până când la pasul o mie nu mai rămâne din ea decât o fantomă matematică: întregul ecran e ocupat de zgomot pur, standard.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Praful care se așază</figcaption>
@@ -789,11 +791,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 12 C30 12 34 50 54 52" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 52 C30 52 34 14 54 12" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#22252D"/></svg></span>Programul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 12 C30 12 34 50 54 52" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M10 52 C30 52 34 14 54 12" fill="none" stroke="#EE5A2F" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#22252D"/></svg></span>Programul zgomotului: tempoul destrămării</h2>
 
-  <p>Cât zgomot se adaugă la fiecare pas nu e lăsat la voia întâmplării. Șirul de valori se alege dinainte și se cheamă <dfn>programul zgomotului</dfn>; de la el atârnă unde anume se petrece destrămarea.</p>
+  <p>Cât zgomot se adaugă la fiecare pas nu este lăsat la întâmplare. Șirul acestor proporții se stabilește dinainte și se numește <dfn>programul zgomotului</dfn> (sau <i>noise schedule</i>). De acest ritm depinde unde anume pe parcurs se produce marea destrămare a formelor.</p>
 
-  <p>Mărimea care contează cu adevărat e raportul dintre cât a rămas din imagine și cât zgomot s-a adunat. Locul unde acest raport trece prin unu e mijlocul destrămării: până acolo imaginea cântărește mai mult decât zgomotul, după aceea invers.</p>
+  <p>Ceea ce contează cu adevărat pentru recunoaștere este raportul dintre cât a rămas din imagine și cât zgomot s-a adunat. Locul în care acest raport trece prin unu marchează cumpăna procesului: până acolo imaginea cântărește mai greu decât praful; după aceea, haosul preia comanda. Un program bine alcătuit oferă rețelei destui pași atât pentru a descurca formele mari, cât și pentru a învăța texturile fine.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Cât rămâne din imagine, pas cu pas</figcaption>
@@ -807,11 +809,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="44" r="4" fill="#2F4BC4"/><circle cx="54" cy="44" r="4" fill="#EE5A2F"/><path d="M14 44 H50" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="2 3"/><path d="M12 40 C20 8 44 8 52 40" fill="none" stroke="#22252D" stroke-width="2.5"/><path d="M48 34 L52 40 L46 41" fill="none" stroke="#22252D" stroke-width="2.5"/></svg></span>Un salt în loc de o mie de pași</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="44" r="4" fill="#2F4BC4"/><circle cx="54" cy="44" r="4" fill="#EE5A2F"/><path d="M14 44 H50" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="2 3"/><path d="M12 40 C20 8 44 8 52 40" fill="none" stroke="#22252D" stroke-width="2.5"/><path d="M48 34 L52 40 L46 41" fill="none" stroke="#22252D" stroke-width="2.5"/></svg></span>Saltul direct: o mie de pași într-o singură clipită</h2>
 
-  <p>Procesul direct are o însușire care îl face folositor la antrenare. Ca să se ajungă la pasul opt sute nu trebuie făcuți opt sute de pași: zgomotul adăugat de multe ori la rând se adună într-un singur zgomot, iar imaginea de la pasul <i>t</i> se poate scrie de-a dreptul din cea de la început.</p>
+  <p>Procesul direct ascunde o însușire matematică remarcabilă, fără de care antrenarea ar fi impracticabil de lentă. Ca să ajungem la pasul opt sute, nu trebuie să simulăm anevoios opt sute de adăugiri succesive. Deoarece zgomotul gaussian adunat de mai multe ori rămâne tot un zgomot gaussian, praful acumulat se poate comprima într-un singur pas uriaș.</p>
 
-  <p>Fără această însușire, antrenarea ar fi de neatins. Cu ea, pentru fiecare imagine se alege un pas la întâmplare, se sare direct acolo și se cere modelului să spună ce zgomot s-a adăugat.</p>
+  <p>Putem scrie direct imaginea murdărită de la orice pas <i>t</i> printr-o simplă formulă ce leagă fotografia de plecare de un eșantion proaspăt de zgomot. Pentru fiecare exercițiu de antrenare, calculatorul alege un pas <i>t</i> la întâmplare, sare instantaneu acolo și îi cere rețelei să ghicească zgomotul ascuns în amestec.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Drumul lung și saltul, comparate</figcaption>
@@ -827,13 +829,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14 C20 30 20 40 32 50" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M54 14 C44 30 44 40 32 50" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="32" cy="52" r="5" fill="#22252D"/><circle cx="10" cy="12" r="4" fill="#2F4BC4"/><circle cx="54" cy="12" r="4" fill="#EE5A2F"/></svg></span>De ce se oprește în zgomot curat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14 C20 30 20 40 32 50" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M54 14 C44 30 44 40 32 50" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="32" cy="52" r="5" fill="#22252D"/><circle cx="10" cy="12" r="4" fill="#2F4BC4"/><circle cx="54" cy="12" r="4" fill="#EE5A2F"/></svg></span>De ce ne oprim în zgomot curat: poarta universală</h2>
 
-  <p>La capătul procesului nu rămâne o imagine foarte stricată, ci ceva care nu se mai deosebește cu nimic de zgomot luat de-a gata. Aceasta nu e o pierdere, ci exact ce trebuie.</p>
+  <p>La capătul celor o mie de pași nu obținem o imagine doar ușor blurată sau parțial distrusă, ci ceva ce nu se mai deosebește cu absolut nimic de un ecran de zgomot pur, generat de la zero. Această pierdere desăvârșită nu este un eșec, ci însăși cheia de boltă a generării.</p>
 
-  <p>Dacă la sfârșit toate imaginile ajung în același loc, atunci drumul înapoi poate porni de oriunde: se ia zgomot proaspăt, fără nicio legătură cu vreo fotografie anume, și se merge înapoi pe cărarea învățată. Capătul comun e cel care face generarea cu putință. Toate drumurile duc în același nimic, deci din acel nimic se poate pleca spre oricare dintre ele.</p>
+  <p>Dacă împinse până la capăt toate imaginile din lume ajung în exact același punct statistic — o mare uniformă de purici — atunci drumul înapoi poate începe de oriunde! Putem lua o coală proaspătă de zgomot aleatoriu, fără nicio legătură cu vreo fotografie din trecut, și coborî pe cărarea învățată către o imagine coerentă, cu totul nouă. Toate drumurile s-au dizolvat în același haos universal, așa că din acel haos se poate pleca spre oricare dintre ele.</p>
 
-  <p>Măsurătoarea de mai jos ia două imagini care nu seamănă deloc, le duce pe amândouă până la capăt și întreabă cât de mult se mai aseamănă rezultatele.</p>
+  <p>Experimentul de mai jos ia două imagini complet diferite, le conduce pe amândouă până la capătul procesului direct și măsoară dacă rezultatele se mai deosebesc în vreun fel. La sfârșit, originea lor este complet ștearsă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="V" data-a="5"></span>Două imagini, același capăt</figcaption>
@@ -847,7 +849,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Drumul înainte e cunoscut și nu cere nicio învățare. Cel înapoi nu se poate socoti: din zgomot se poate ajunge la nenumărate imagini, iar care dintre ele e cea de plecare nu scrie nicăieri. Lecția următoare arată ce anume se învață în locul lui și cum, dintr-un furnicar, iese o formă.</p>
+  <p>Drumul înainte este pură aritmetică mecanică: degradarea se face după o formulă simplă și nu cere nicio învățare. În schimb, drumul înapoi nu poate fi dedus direct: din zgomot curat s-ar putea naște miliarde de imagini posibile, iar pe ecran nu scrie de unde s-a plecat. Lecția următoare dezvăluie ce anume învață rețeaua în locul certitudinii și cum, dintr-un simplu furnicar, începe să se contureze o formă.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Sumatorul</i></h1>
-    <p class="lede">Adunarea în binar are aceleași reguli ca adunarea în coloană învățată la școală, doar cu două cifre în loc de zece. Regulile încap într-un tabel de adevăr, iar de acolo, cu porțile lecției trecute, devin circuit. E primul lucru cu adevărat util pe care îl fac comutatoarele.</p>
+    <p class="lede">Adunarea în binar urmează exact aceleași reguli ca adunarea în coloană pe care am învățat-o în școala primară, doar că folosim două cifre în loc de zece. Regulile încap firesc într-un tabel de adevăr, iar de acolo, folosind porțile din lecția precedentă, se preschimbă într-un circuit viu. Este primul pas cu adevărat util prin care simplele comutatoare electrice încep să socotească.</p>
     <p class="terms">Termeni: <b>transport</b> <b>semisumator</b> <b>SAU-EXCLUSIV</b> <b>sumator complet</b> <b>transport succesiv</b> <b>complement față de doi</b> <b>depășire</b></p>
   </div>
 </header>
@@ -748,17 +750,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="14" y="10" width="10" height="10"/><rect x="40" y="10" width="10" height="10"/><rect x="27" y="24" width="10" height="10"/><rect x="40" y="24" width="10" height="10"/></g><path d="M8 40 H56" class="o-line"/><rect x="14" y="46" width="10" height="10" class="o-bar2"/><rect x="27" y="46" width="10" height="10" fill="#BDB9AA"/><rect x="40" y="46" width="10" height="10" class="o-bar2"/><circle cx="19" cy="6" r="2.5" fill="#5F6D2E"/></svg></span>Adunarea în coloană</h2>
 
-  <p class="first">Două numere se adună cifră cu cifră, de la dreapta la stânga. Când suma unei coloane nu încape într-o cifră, ce prisosește trece în coloana următoare, ca <dfn>transport</dfn>. În zecimal, 7 plus 5 dă 12: scrii 2 și treci 1 mai departe. Procedeul e atât de familiar încât nu-l mai vedem ca procedeu; și totuși e un algoritm, poate primul pe care l-am învățat vreodată.</p>
+  <p class="first">Gândiți-vă cum adunăm două numere mari pe o foaie de hârtie: le așezăm frumos unul sub altul, aliniate la dreapta, și adunăm cifră cu cifră, pornind de la unități spre stânga. Când suma unei coloane depășește o singură cifră — de pildă 7 + 5 = 12 —, scriem unitățile jos (2) și „ținem minte” cifra zecilor (1), pe care o trecem mai departe ca <dfn>transport</dfn> la coloana vecină. Suntem atât de obișnuiți cu acest dans al creionului pe hârtie încât îi uităm natura profundă: este un algoritm mecanic infailibil, probabil cel dintâi pe care l-am deprins în copilărie.</p>
 
-  <p>În binar cifrele sunt doar 0 și 1, iar situațiile sunt puține. 0 plus 0 dă 0. 0 plus 1 dă 1. 1 plus 1 dă 2, care în binar se scrie 10: scrii 0 și treci 1 mai departe. Toată aritmetica adunării ține în aceste trei rânduri, și tocmai puținătatea lor face ca ea să încapă într-un circuit.</p>
+  <p>În lumea binară, regulile sunt aceleași, însă considerabil mai simple, fiindcă nu avem la dispoziție decât două cifre: 0 și 1. Situațiile posibile pot fi numărate pe degete. 0 plus 0 dă 0. 0 plus 1 dă 1. Iar 1 plus 1 dă 2. Dar cum numărul doi nu poate fi scris cu o singură cifră binară, el devine 10: scriem 0 în coloana curentă și trimitem 1 ca transport în coloana din stânga. Dacă se întâlnesc trei de 1 (doi adunați plus un transport venit de dinainte), obținem 3, adică 11 binar: scriem 1 și trecem 1 mai departe. Întreaga aritmetică a adunării încape în aceste câteva reguli clare, iar această simplitate este exact ceea ce face posibilă construirea ei din circuite electrice.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 H18 M6 32 H18 M40 20 H58 M40 40 H58" class="o-line"/><path d="M18 12 Q30 26 18 40 Q36 38 40 26 Q36 14 18 12 Z" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M14 12 Q26 26 14 40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M22 44 H30 A6 6 0 0 1 30 56 H22 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Semisumatorul</h2>
 
-  <p>O coloană care nu primește transport de la vecina din dreapta are două intrări și două ieșiri: suma coloanei și transportul care pleacă mai departe. Circuitul care le calculează se numește <dfn>semisumator</dfn>, „semi” fiindcă îi lipsește tocmai intrarea pentru transportul primit.</p>
+  <p>Să privim mai întâi cea mai simplă coloană posibilă: prima din dreapta, coloana unităților, care nu primește niciun transport din urmă. Ea are nevoie de două intrări (cei doi biți de adunat) și oferă două ieșiri: cifra care rămâne pe loc (suma) și cifra care pleacă spre stânga (transportul). Circuitul capabil să facă această operație se numește <dfn>semisumator</dfn> — „semi” pentru că este pregătit să rezolve doar o jumătate de problemă, lipsindu-i o a treia intrare pentru un eventual transport primit.</p>
 
-  <p>Transportul iese 1 numai când amândouă intrările sunt 1, deci e poarta ȘI. Suma iese 1 când exact una dintre intrări e 1: nu când amândouă, fiindcă atunci coloana dă zero și transport. Operația aceasta se numește <dfn>SAU-EXCLUSIV</dfn>: „unul sau altul, dar nu amândoi”.</p>
+  <p>Dacă analizăm ieșirile, recunoaștem imediat porțile logice: transportul trebuie să fie 1 numai atunci când ambele intrări sunt 1 (adică 1 + 1 = 10), ceea ce corespunde perfect porții ȘI. Cifra sumei este 1 atunci când exact una dintre intrări este 1 (0+1 sau 1+0), dar devine 0 când ambele sunt 1 (caz în care suma este 10, deci unitatea e 0). Această comportare poartă numele de <dfn>SAU-EXCLUSIV</dfn> (deseori prescurtat XOR): adică „fie una, fie cealaltă, dar niciodată amândouă deodată”.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Semisumatorul: o poartă SAU-EXCLUSIV și o poartă ȘI</figcaption>
@@ -773,17 +775,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">SAU-EXCLUSIV nu este o poartă nouă în sens strict: se scrie ca (a SAU b) ȘI NU (a ȘI b), deci iese din cele trei porți ale lecției precedente. Se desenează totuși aparte, fiindcă apare peste tot.</p>
+  <p class="note">Poarta SAU-EXCLUSIV nu este o piesă exotică de sine stătătoare: ea poate fi asamblată ușor din porțile ȘI, SAU și NU pe care le știm deja: (a SAU b) ȘI NU (a ȘI b). Fiind însă omniprezentă în aritmetică și criptografie, inginerii îi dau un simbol grafic propriu.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="20" height="18" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="36" y="26" width="20" height="18" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M28 19 H32 V35 H36 M4 14 H8 M4 24 H8 M4 40 H36 M56 35 H60" class="o-line"/><path d="M18 46 H26 A6 6 0 0 1 26 58 H18 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/></svg></span>Sumatorul complet</h2>
 
-  <p>O coloană din mijlocul unui număr primește și transportul coloanei din dreapta, deci are trei intrări. Circuitul cu trei intrări se numește <dfn>sumator complet</dfn>.</p>
+  <p>Toate celelalte coloane ale unui număr, aflate la stânga primei poziții, sunt mai exigente: ele trebuie să adune nu doar cei doi biți proprii (a și b), ci și transportul sosit de la coloana vecină din dreapta. Avem așadar trei intrări de adunat. Circuitul care rezolvă această sarcină întreagă se numește <dfn>sumator complet</dfn>.</p>
 
-  <p>Suma iese 1 când numărul de intrări egale cu 1 e impar. Transportul iese 1 când cel puțin două dintre cele trei intrări sunt 1. Cele două funcții au fost deja construite în ultima figură a lecției precedente, sub numele de paritate și majoritate; nimic nou nu trebuie inventat, doar recunoscut.</p>
+  <p>Privit logic, răspunsul este armonios: cifra sumei trebuie să fie 1 atunci când avem un număr impar de intrări egale cu 1 (un singur 1 sau toți trei de 1). Transportul care pleacă mai departe trebuie să fie 1 dacă cel puțin două intrări din cele trei sunt active. Sunt exact funcțiile de „paritate” și „majoritate” pe care le-am observat în exercițiile din lecția trecută. Nu trebuie să inventăm nimic din neant: logica pură se mulează pe aritmetică.</p>
 
-  <p>Așezarea obișnuită folosește două semisumatoare: primul adună a cu b, al doilea adaugă transportul primit. Fiecare poate produce un transport, dar nu amândouă deodată, așa că o poartă SAU le adună.</p>
+  <p>În practică, un sumator complet este construit elegant prin înlănțuirea a două semisumatoare: primul adună a cu b, iar cel de-al doilea adaugă transportul venit din dreapta la rezultatul parțial. Dacă oricare dintre aceste două adunări produce un transport (nu se poate întâmpla la ambele deodată), un simplu SAU trimite acel transport către coloana următoare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Sumatorul complet: două semisumatoare și o poartă SAU</figcaption>
@@ -803,7 +805,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="4" y="24" width="12" height="16"/><rect x="20" y="24" width="12" height="16"/><rect x="36" y="24" width="12" height="16"/><rect x="52" y="24" width="8" height="16"/></g><path d="M20 20 Q14 12 8 20 M36 20 Q30 12 24 20 M52 20 Q46 12 40 20" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Legarea în lanț</h2>
 
-  <p>Un sumator complet rezolvă o coloană. Opt așezate unul lângă altul, cu transportul fiecăruia legat la intrarea vecinului din stânga, adună două numere de câte opt biți. Așezarea se numește <dfn>transport succesiv</dfn>, și e exact adunarea în coloană de la școală, turnată în cupru.</p>
+  <p>Un sumator complet se ocupă de o singură coloană. Dacă așezăm opt asemenea blocuri unul lângă altul și conectăm transportul ieșit din fiecare la intrarea vecinului din stânga, obținem un dispozitiv capabil să adune două numere de câte opt biți (adică doi octeți). Această configurație poartă numele de <dfn>transport succesiv</dfn> — este întruparea fizică, în siliciu și cupru, a adunării pe hârtie din școală.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Opt coloane; apasă pe biții lui a și b</figcaption>
@@ -821,27 +823,27 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fiecare coloană trebuie să aștepte transportul de la vecina din dreapta, așa că rezultatul nu e gata până când transportul nu a străbătut tot lanțul. La 64 de biți, așteptarea aceasta ar fi mai lungă decât toate celelalte operații ale procesorului. Circuitele reale calculează de aceea transporturile în paralel, printr-o schemă care se uită dinainte la toate coloanele deodată, cu prețul unui număr mult mai mare de porți. E prima întâlnire cu un schimb care revine mereu în calcul: timp contra spațiu.</p>
+  <p>Priviți însă ce constrângere ascunsă apare aici: coloana a doua nu își poate cunoaște rezultatul final până când prima coloană nu termină de calculat transportul; coloana a treia trebuie să o aștepte pe a doua, și tot așa, ca un șir de piese de domino care cad una după alta. Pentru numere mari, de 64 de biți, această undă de așteptare ar fi mult prea lentă. În procesoarele reale, inginerii folosesc scheme ingenioase de „anticipare a transportului”, care ghicesc transporturile tuturor coloanelor în paralel, sacrificând spațiu pe cip (mai multe tranzistoare) pentru a câștiga viteză. Este primul exemplu dintr-un compromis etern în calculatoare: schimbul între timp și spațiu.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" class="o-line"/><g class="o-grid"><circle cx="32" cy="10" r="2.5"/><circle cx="50" cy="20" r="2.5"/><circle cx="50" cy="44" r="2.5"/><circle cx="32" cy="54" r="2.5"/><circle cx="14" cy="44" r="2.5"/><circle cx="14" cy="20" r="2.5"/></g><path d="M32 32 L32 12" fill="none" stroke="#EE5A2F" stroke-width="3" stroke-linecap="round"/><path d="M32 32 L46 40" fill="none" stroke="#22252D" stroke-width="2.5" stroke-linecap="round"/></svg></span>Scăderea, cu același circuit</h2>
 
-  <p>Scăderea nu are nevoie de un circuit propriu, și motivul e frumos. Cu opt biți se pot scrie 256 de valori, iar dacă numărătoarea se face în cerc, scăderea unui număr dă același rezultat ca adunarea a ceea ce lipsește până la 256. Ceasul cu douăsprezece ore face la fel: cu trei ore înainte de ora nouă ajungi la ora șase, exact ca atunci când dai ceasul cu nouă ore înapoi.</p>
+  <p>Am putea crede că pentru a scădea numere avem nevoie de un circuit complet diferit. Din fericire, matematica ne oferă o scăpare sclipitoare: scăderea poate fi transformată într-o adunare! Gândiți-vă la un cadran de ceas cu 12 ore: dacă este ora 9 și vreți să aflați ce oră a fost acum 3 ore, puteți da limba înapoi cu 3 ore, ajungând la ora 6. Dar puteți la fel de bine să dați limba înainte cu 9 ore (fiindcă 12 − 3 = 9) și veți ajunge exact în același punct, la ora 6! Într-un sistem circular, a scădea o valoare este identic cu a adăuga diferența până la capătul ciclului.</p>
 
-  <p>Numărul care completează până la 256 se obține răsturnând toți biții și adunând 1. Scrierea aceasta se numește <dfn>complement față de doi</dfn>, iar în ea biții de sus înseamnă numere negative: cu opt biți se acoperă valorile de la −128 la 127. Nu există un semn „minus” în circuit; există doar o convenție despre cum se citesc aceleași opt biți.</p>
+  <p>Pe opt biți putem reprezenta 256 de valori diferite (de la 0 la 255). A scădea un număr este așadar echivalent cu a adăuga ceea ce îi lipsește până la 256. Acest număr complementar se obține uimitor de ușor în binar: inversăm pur și simplu toți biții (0 devine 1, iar 1 devine 0) și adunăm 1 la sfârșit. Tehnica se numește <dfn>complement față de doi</dfn>. Cu această convenție simplă, numerele care încep cu 1 sunt interpretate ca negative, permițându-ne să acoperim intervalul de la −128 până la +127 fără să fie nevoie de vreun semn fizic de minus în fire.</p>
 
-  <p>Circuitul devine astfel: pentru scădere, biții lui b intră răsturnați, iar transportul care intră în prima coloană se pune pe 1. Butonul din figura de mai sus face exact asta, iar rândul cu linie întreruptă arată biții care ajung de fapt la sumatoare.</p>
+  <p>Sumatorul nostru poate acum să scadă fără nicio piesă nouă: când vrem scădere, inversăm biții celui de-al doilea termen prin simple porți NU și injectăm un 1 la transportul inițial al primei coloane. Apăsați pe butonul „scădere” din figura de mai sus: circuitul rămâne neschimbat, dar calculează scăderi perfecte!</p>
 </section>
 
 <section id="s6">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="12" y="24" width="8" height="16"/><rect x="23" y="24" width="8" height="16"/><rect x="34" y="24" width="8" height="16"/><rect x="45" y="24" width="8" height="16"/></g><rect x="2" y="24" width="8" height="16" class="o-bad"/><path d="M2 20 Q0 10 8 8" fill="none" stroke="#B5232B" stroke-width="2.5"/><path d="M56 22 V42" class="o-line"/></svg></span>Depășirea</h2>
 
-  <p>Opt biți dau 256 de valori și nimic mai mult. Când suma trece de 255, transportul care iese din ultima coloană nu mai are unde să meargă, iar rezultatul păstrat e cel adevărat minus 256. Situația se numește <dfn>depășire</dfn> și nu e o greșeală de circuit, ci urmarea faptului că numărul de biți s-a ales dinainte. Lumea finită a comutatoarelor are margini, iar aritmetica lor se îndoaie la margini.</p>
+  <p>Opt biți oferă exact 256 de combinații posibile și niciuna în plus. Când adunăm două numere mari și rezultatul depășește 255, cel de-al nouălea bit — transportul ieșit din ultima coloană din stânga — pur și simplu nu mai are loc în octet și cade în gol, asemenea kilometrajului unei mașini care se resetează la 00000 după 99999. Această situație poartă numele de <dfn>depășire</dfn> (overflow). Ea nu reprezintă un defect de fabricație, ci o consecință inevitabilă a faptului că lucrăm cu o lățime fixă de biți. La marginea oricărui sistem finit, aritmetica se curbează în cerc.</p>
 
-  <p>Procesoarele păstrează transportul ieșit într-un bit separat, pe care programul îl poate citi. Ce se face cu el e treaba programului: uneori e o eroare, alteori e chiar rezultatul dorit, ca la ceasornic.</p>
+  <p>Procesoarele nu ignoră însă acest eveniment: ele prind bitul căzut într-un indicator special (un „flag”), pe care programatorul îl poate inspecta. În funcție de intenție, depășirea poate semnala o eroare gravă sau poate fi folosită deliberat, exact ca rotirea unui ceasornic.</p>
 
-  <p>Un sumator calculează, dar nu ține minte. Scoate-i intrările și ieșirea dispare, fiindcă ea depinde numai de ce se află pe fire în clipa aceea. Toate circuitele de până acum sunt astfel: fără trecut. Un calculator are nevoie și de circuite care păstrează o valoare după ce cauza ei a dispărut. Lecția următoare construiește unul, dintr-o buclă în care ieșirea se întoarce la intrare.</p>
+  <p>Sumatorul pe care l-am construit socotește cu viteza luminii, dar suferă de o slăbiciune majoră: este complet lipsit de memorie. Dacă îi întrerupem intrările, rezultatul de la ieșire se evaporă într-o clipă. Circuitele de până acum trăiesc exclusiv în prezentul imediat, fără nicio amintire a trecutului. Pentru a construi un calculator adevărat, avem neapărat nevoie de circuite capabile să țină minte un rezultat chiar și după ce cauza care l-a produs a dispărut. În lecția următoare vom da viață memoriei printr-o idee surprinzătoare: o buclă în care ieșirea unui circuit se întoarce la propria sa intrare.</p>
 </section>
 
 </main>

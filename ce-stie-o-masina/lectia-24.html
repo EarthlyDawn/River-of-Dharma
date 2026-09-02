@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,39 +740,39 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Atenția</i></h1>
-    <p class="lede">În loc ca informația să fie purtată pas cu pas printr-un rezumat de mărime fixă, fiecare poziție se uită direct la toate celelalte și ia de la fiecare atât cât are nevoie. E o idee de o simplitate aproape stânjenitoare, și pe ea stau modelele de azi.</p>
-    <p class="terms">Termeni: <b>interogare</b> <b>cheie</b> <b>valoare</b> <b>produs scalar</b> <b>capete de atenție</b> <b>cost pătratic</b></p>
+    <p class="lede">În loc să înghesuim tot trecutul într-un carnețel îngust purtat cu greu din mână în mână, ce-ar fi dacă fiecare cuvânt ar putea privi direct spre toate celelalte? Mecanismul de atenție funcționează ca un strigăt într-o sală aglomerată: întrebi ce ai nevoie, cei potriviți îți răspund, iar informația călătorește instantaneu peste orice distanță.</p>
+    <p class="terms">Termeni: <b>interogare (Query)</b> <b>cheie (Key)</b> <b>valoare (Value)</b> <b>produs scalar</b> <b>atenție multi-cap</b> <b>cost pătratic (O(N²))</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="14" cy="46" r="5" fill="#2F4BC4"/><circle cx="30" cy="46" r="5" fill="#2F4BC4"/><circle cx="46" cy="46" r="5" fill="#2F4BC4"/><circle cx="52" cy="16" r="6" fill="#EE5A2F"/><path d="M14 41 L50 20 M30 41 L51 21 M46 41 L52 22" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Ce se caută</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="14" cy="46" r="5" fill="#2F4BC4"/><circle cx="30" cy="46" r="5" fill="#2F4BC4"/><circle cx="46" cy="46" r="5" fill="#2F4BC4"/><circle cx="52" cy="16" r="6" fill="#EE5A2F"/><path d="M14 41 L50 20 M30 41 L51 21 M46 41 L52 22" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Privirea directă: de ce nu mai facem rezumate</h2>
 
-  <p class="first">Lecția trecută a lăsat două cerințe. Prima: informația de la începutul textului să ajungă la sfârșit fără să treacă printr-un rezumat care se umple. A doua: pașii să nu depindă unul de altul, ca să poată fi calculați deodată.</p>
+  <p class="first">Lecția precedentă ne-a lăsat în fața a două obstacole majore. În primul rând, aveam nevoie ca o informație aflată la începutul textului să ajungă intactă la final, fără a fi strivită într-un rezumat intermediar care se umple rapid. În al doilea rând, voiam să scăpăm de calculul pas cu pas, pentru ca procesarea cuvintelor să poată rula simultan pe miile de nuclee ale cipurilor grafice.</p>
 
-  <p>Amândouă se rezolvă cu aceeași idee. Dacă poziția care are nevoie de o informație se poate uita <i>direct</i> la poziția care o conține, atunci nu mai e nevoie nici de rezumat, nici de așteptare. Rămâne o singură întrebare, și e cea grea: cum știe o poziție unde să se uite, de vreme ce nimeni nu i-a spus?</p>
+  <p>Ambele dileme se rezolvă spectaculos printr-o singură idee îndrăzneață: dacă o poziție din frază are nevoie de lămuriri, îi dăm voie să privească <i>direct</i> către cuvintele care dețin acele lămuriri! Nu mai purtăm carnețele de notițe și nu mai așteptăm la coadă. Dar cum poate o rețea să știe spre ce cuvinte anume să-și îndrepte atenția, dacă nimeni nu i-a lăsat instrucțiuni scrise de mână?</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="26" width="48" height="12" fill="#E9C93B" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="42" width="48" height="12" fill="#DDA6B0" stroke="#22252D" stroke-width="1.5"/><text x="14" y="20" font-family="monospace" font-size="9" fill="#22252D">Q</text><text x="14" y="36" font-family="monospace" font-size="9" fill="#22252D">K</text><text x="14" y="52" font-family="monospace" font-size="9" fill="#22252D">V</text></svg></span>Întrebare, etichetă, conținut</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="26" width="48" height="12" fill="#E9C93B" stroke="#22252D" stroke-width="1.5"/><rect x="8" y="42" width="48" height="12" fill="#DDA6B0" stroke="#22252D" stroke-width="1.5"/><text x="14" y="20" font-family="monospace" font-size="9" fill="#22252D">Q</text><text x="14" y="36" font-family="monospace" font-size="9" fill="#22252D">K</text><text x="14" y="52" font-family="monospace" font-size="9" fill="#22252D">V</text></svg></span>Dialogul din sală: Întrebare, Etichetă și Conținut</h2>
 
-  <p>Mecanismul folosește trei roluri, toate obținute din vectorul fiecărui cuvânt prin înmulțire cu câte o matrice de ponderi învățate.</p>
+  <p>Pentru a stabili cine cu cine stă de vorbă, fiecare cuvânt primește trei roluri distincte (trei vectori derivați prin învățare):</p>
 
-  <p><dfn>Interogarea</dfn> e ce caută poziția de acum: un vector care descrie felul de informație de care are nevoie. <dfn>Cheia</dfn> e eticheta pe care fiecare poziție o pune la vedere: un vector care descrie ce fel de informație oferă. <dfn>Valoarea</dfn> e ce anume dă poziția aceea, dacă e aleasă.</p>
+  <p><dfn>Interogarea</dfn> (sau <i>Query</i>) reprezintă întrebarea pe care o lansează cuvântul curent: un vector care specifică exact ce piesă de puzzle îi lipsește. <dfn>Cheia</dfn> (sau <i>Key</i>) este ecusonul pe care fiecare cuvânt îl poartă la vedere: o descriere a tipului de cunoaștere pe care îl poate oferi. <dfn>Valoarea</dfn> (sau <i>Value</i>) este conținutul informațional propriu-zis pe care cuvântul îl livrează dacă a fost ales.</p>
 
-  <p>Potrivirea dintre o interogare și o cheie se măsoară prin <dfn>produsul lor scalar</dfn>: cu cât cei doi vectori arată mai mult în aceeași direcție, cu atât potrivirea e mai bună. Notele astfel obținute trec printr-o funcție care le aduce la un total de unu, iar rezultatul spune ce parte din atenție merge către fiecare poziție. Ieșirea e suma valorilor, fiecare cântărită cu partea ei.</p>
+  <p>Potrivirea dintre o întrebare și un ecuson se calculează printr-o operație simplă: <dfn>produsul scalar</dfn>. Cu cât cei doi vectori arată mai aliniați în aceeași direcție pe harta semantică, cu atât potrivirea este mai puternică. Scorurile rezultate sunt transformate în ponderi procentuale a căror sumă dă 100%. Rezultatul final este un amestec armonios din valorile oferite de celelalte cuvinte, fiecare cântărită proporțional cu interesul stârnit.</p>
 
-  <p>Într-o sală în care cineva întreabă cu voce tare, răspund cei pe care îi privește întrebarea, iar restul tac. Nimeni n-a hotărât dinainte cine răspunde: potrivirea dintre întrebare și ceea ce știe fiecare o hotărăște de fiecare dată, pe loc.</p>
+  <p>Imaginați-vă o sală mare și plină de lume unde cineva strigă: <i>„Cine are o trusă medicală?”</i>. Toți cei din încăpere își verifică ecusonul; cei care nu se pricep tac mâlc, iar persoanele calificate răspund și își oferă ajutorul. Nimeni nu a dictat dinainte cine va interveni: dialogul se leagă dinamic și instantaneu pe baza potrivirii dintre cerere și ofertă.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="26" width="8" height="12" fill="#EE5A2F"/><rect x="17" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="28" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="39" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="50" y="26" width="8" height="12" fill="#2F4BC4"/><path d="M54 24 C50 10 20 10 10 24" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 20 L10 25 L14 22" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Socoteala, cu numere adevărate</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="26" width="8" height="12" fill="#EE5A2F"/><rect x="17" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="28" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="39" y="26" width="8" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="50" y="26" width="8" height="12" fill="#2F4BC4"/><path d="M54 24 C50 10 20 10 10 24" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 20 L10 25 L14 22" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Atenția la lucru: un fascicul călăuzitor</h2>
 
-  <p>Mai jos se află o atenție antrenată în pagină pe sarcina din lecția trecută: șirul începe cu un semn, urmează umplutură, iar la sfârșit se cere primul semn. Se văd toate mărimile: potrivirea dintre interogarea de la ultima poziție și cheia fiecărei poziții, apoi ponderile care ies din ele.</p>
+  <p>În panoul de mai jos puteți urmări un mecanism de atenție instruit în direct pe sarcina memoriei: secvența începe cu un simbol („A” sau „B”), continuă cu o zonă neutră de umplutură, iar la final i se cere să identifice primul caracter. Puteți citi concret potrivirile dintre interogarea ultimului pas și cheile tuturor pozițiilor anterioare.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Cât se uită ultima poziție la fiecare dintre celelalte</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Unde își ațintește privirea ultima poziție: distribuția atenției</figcaption>
     <div class="stage">
       <canvas id="cvAtt" class="cv-att"></canvas>
       <div class="steps" id="steps"></div>
@@ -784,18 +786,18 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Ponderea cea mai mare cade pe poziția zero, unde se află semnul cerut, oricât de lungă ar fi umplutura. Nimeni nu i-a spus modelului să se uite acolo; potrivirea dintre interogare și chei a ieșit așa din antrenare, fiindcă asta era singura potrivire care făcea sarcina să reușească.</p>
+  <p>Observați cum reflectorul atenției luminează cu maximă intensitate poziția zero, unde se află simbolul căutat, ignorând complet caracterele sterile de la mijloc. Nimeni nu i-a programat această căutare: rețeaua a descoperit singură prin antrenament că aceasta este singura strategie care rezolvă cu succes problema.</p>
 
-  <p class="note">Privirea nu e la fel de ascuțită în cele două cazuri. Pentru șirurile care încep cu A, poziția zero primește peste nouă zecimi din atenție; pentru cele care încep cu B, mai puțin, fiindcă modelului îi ajunge și lipsa dovezilor pentru A, împrăștiată peste celelalte poziții. Răspunsul iese corect în amândouă cazurile, dar pe drumuri diferite. E ceva obișnuit la modelele antrenate: ele n-au niciun motiv să fie simetrice, ci doar să reușească.</p>
+  <p class="note">Observați și o asimetrie curioasă: pentru secvențele care debutează cu „A”, poziția inițială captează peste nouăzeci la sută din privire. Pentru cele cu „B”, atenția este mai dispersată, deoarece absența indiciilor pentru „A” este un indiciu suficient pentru deducerea lui „B”. În rețelele neuronale nu există o cerință de simetrie abstractă; modelele adoptă orice scurtătură matematică eficientă care le asigură victoria.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 H56 M8 52 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 16 H30 C34 16 34 46 40 46 H54" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 20 H54" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Același test, alt rezultat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 H56 M8 52 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 16 H30 C34 16 34 46 40 46 H54" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 20 H54" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Testul comparativ: memoria care nu se mai stinge</h2>
 
-  <p>Sarcina e cea la care rețeaua recurentă s-a prăbușit după douăzeci de pași. Tabelul de mai jos antrenează, pentru fiecare depărtare, câte un model de fiecare fel și le măsoară pe șiruri nemaivăzute.</p>
+  <p>Să supunem mecanismul de atenție aceluiași test dur la care rețeaua recurentă a cedat după doar cincisprezece pași. Rulăm antrenamentul pe lungimi crescătoare și măsurăm precizia pe șiruri complet noi.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Rețea recurentă și atenție, aceeași sarcină</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Comparație directă: rețeaua recurentă versus mecanismul de atenție</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblCmp"></table></div>
       <div class="readout" id="cRead"></div>
@@ -806,51 +808,51 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Atenția nu se degradează cu depărtarea, fiindcă depărtarea nu intră nicăieri în socoteală. Poziția zero și poziția douăzeci sunt la fel de accesibile: amândouă sunt la un singur produs scalar distanță de întrebare.</p>
+  <p>Rezultatul este categoric: atenția rămâne imbatabilă și nu dă niciun semn de oboseală odată cu distanța! Pentru ea, noțiunea de depărtare fizică nu există: poziția 1 și poziția 100 se află la exact același efort de calcul — o singură comparație directă între întrebare și cheie.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="6" fill="#2F4BC4"/><circle cx="52" cy="32" r="6" fill="#EE5A2F"/><path d="M18 32 H46" fill="none" stroke="#22252D" stroke-width="3"/><path d="M42 28 L46 32 L42 36" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>De ce nu se stinge panta</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="32" r="6" fill="#2F4BC4"/><circle cx="52" cy="32" r="6" fill="#EE5A2F"/><path d="M18 32 H46" fill="none" stroke="#22252D" stroke-width="3"/><path d="M42 28 L46 32 L42 36" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Puntea directă: de ce nu mai moare semnalul</h2>
 
-  <p>În rețeaua recurentă, vina de la ultimul pas ajungea la primul după ce era înmulțită cu aceleași ponderi de zeci de ori, iar produsul se stingea.</p>
+  <p>În rețelele recurente, semnalul de corectare a erorilor trebuia să traverseze un șir nesfârșit de înmulțiri succesive până se tocea de tot.</p>
 
-  <p>Aici drumul e de o singură verigă. Ieșirea de la ultima poziție depinde direct de valoarea de la poziția zero, cu ponderea de atenție drept factor. Vina trece pe acest drum fără să fie înmulțită de zeci de ori cu nimic, deci ajunge întreagă. Lanțul lung a fost înlocuit cu o punte.</p>
+  <p>În mecanismul de atenție, drumul are o singură treaptă. Ieșirea finală este legată printr-o punte directă de poziția inițială, factorul de legătură fiind chiar coeficientul de atenție. Semnalul de gradient curge nestingherit pe această pasarelă fără să fie strivit, ajungând curat și puternic la destinație. Lanțul fragil de telefonul fără fir a fost înlocuit cu o linie telefonică directă.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2F4BC4"><rect x="8" y="8" width="10" height="10"/><rect x="22" y="8" width="10" height="10"/><rect x="36" y="8" width="10" height="10"/><rect x="50" y="8" width="8" height="10"/><rect x="8" y="22" width="10" height="10"/><rect x="22" y="22" width="10" height="10"/><rect x="36" y="22" width="10" height="10"/><rect x="50" y="22" width="8" height="10"/><rect x="8" y="36" width="10" height="10"/><rect x="22" y="36" width="10" height="10"/><rect x="36" y="36" width="10" height="10"/><rect x="50" y="36" width="8" height="10"/><rect x="8" y="50" width="10" height="8"/><rect x="22" y="50" width="10" height="8"/><rect x="36" y="50" width="10" height="8"/></g><rect x="50" y="50" width="8" height="8" fill="#EE5A2F"/></svg></span>Toate pozițiile deodată</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2F4BC4"><rect x="8" y="8" width="10" height="10"/><rect x="22" y="8" width="10" height="10"/><rect x="36" y="8" width="10" height="10"/><rect x="50" y="8" width="8" height="10"/><rect x="8" y="22" width="10" height="10"/><rect x="22" y="22" width="10" height="10"/><rect x="36" y="22" width="10" height="10"/><rect x="50" y="22" width="8" height="10"/><rect x="8" y="36" width="10" height="10"/><rect x="22" y="36" width="10" height="10"/><rect x="36" y="36" width="10" height="10"/><rect x="50" y="36" width="8" height="10"/><rect x="8" y="50" width="10" height="8"/><rect x="22" y="50" width="10" height="8"/><rect x="36" y="50" width="10" height="8"/></g><rect x="50" y="50" width="8" height="8" fill="#EE5A2F"/></svg></span>Marea deblocare: totul calculat simultan</h2>
 
-  <p>A doua urmare n-are legătură cu învățarea, și s-a dovedit hotărâtoare.</p>
+  <p>Al doilea triumf al atenției nu ține de teorie, ci de ingineria pură a cipurilor — și el a schimbat soarta întregii industrii.</p>
 
-  <p>Potrivirea dintre poziția a treia și poziția a douăzecea n-are nevoie de nimic calculat înainte: se poate face în același timp cu toate celelalte potriviri. Toate interogările, toate cheile și toate produsele scalare se calculează într-o singură înmulțire de matrice mari, adică exact ceea ce fac repede plăcile grafice.</p>
+  <p>Calculul legăturii dintre cuvântul 3 și cuvântul 20 nu mai depinde de etapele intermediare: el poate fi efectuat în exact aceeași milisecundă cu toate celelalte perechi posibile. Toate întrebările și toate cheile întregii fraze sunt grupate în două matrici uriașe, iar potrivirile se află printr-o singură înmulțire matricială masivă — exact operațiunea pentru care au fost proiectate plăcile video moderne.</p>
 
-  <p>Aici s-a deblocat creșterea. Nu fiindcă atenția ar fi mai deșteaptă decât recurența, ci fiindcă se poate antrena pe mașini de o mie de ori mai mari. E o lecție care merită ținută minte despre felul în care înaintează domeniul acesta: de multe ori nu câștigă ideea cea mai fină, ci ideea care se lasă cel mai bine înmulțită.</p>
+  <p>Aici s-a produs marea explozie a inteligenței artificiale. Atenția a învins nu neapărat pentru că ar fi un model mai filozofic decât recurența, ci fiindcă a putut fi instruită pe supercalculatoare de mii de ori mai rapide. În tehnologie, adesea nu triumfă ideea cea mai complicată, ci aceea care se pretează cel mai bine la paralelizare pe scară uriașă.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="50" r="6" fill="#22252D"/><path d="M32 44 L14 18 M32 44 L26 14 M32 44 L38 14 M32 44 L50 18" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="14" cy="18" r="5" fill="#2F4BC4"/><circle cx="26" cy="14" r="5" fill="#EE5A2F"/><circle cx="38" cy="14" r="5" fill="#6B7A38"/><circle cx="50" cy="18" r="5" fill="#E9C93B"/></svg></span>Mai multe capete</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="50" r="6" fill="#22252D"/><path d="M32 44 L14 18 M32 44 L26 14 M32 44 L38 14 M32 44 L50 18" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="14" cy="18" r="5" fill="#2F4BC4"/><circle cx="26" cy="14" r="5" fill="#EE5A2F"/><circle cx="38" cy="14" r="5" fill="#6B7A38"/><circle cx="50" cy="18" r="5" fill="#E9C93B"/></svg></span>Priviri multiple: atenția cu mai multe capete</h2>
 
-  <p>O singură atenție produce, pentru fiecare poziție, o singură repartizare a privirii. Într-o propoziție sunt însă mai multe lucruri de urmărit deodată: acordul cu subiectul, la ce se referă un pronume, care e verbul principal.</p>
+  <p>Un singur fascicul de atenție poate urmări o singură legătură la un moment dat. Într-o frază umană se petrec însă nenumărate fenomene simultane: trebuie să urmărim acordul subiectului cu verbul, să deslușim la cine se referă un pronume și să sesizăm complementul direct.</p>
 
-  <p>Soluția e să se pună mai multe atenții în paralel, fiecare cu matricele ei de interogări, chei și valori. Ele se numesc <dfn>capete</dfn>, lucrează pe aceleași intrări fără să se vadă între ele, iar ieșirile lor se pun cap la cap. Fiecare cap ajunge să urmărească altceva, fără ca cineva să-i fi împărțit sarcinile.</p>
+  <p>Soluția arhitecturală este simplă: antrenăm mai multe mecanisme de atenție în paralel, numite <dfn>capete de atenție</dfn> (<i>attention heads</i>). Fiecare cap deține propriile matrici de întrebări, chei și valori. Fără vreo directivă impusă din exterior, capetele se specializează spontan prin diviziunea muncii: unul urmărește relațiile sintactice, altul legăturile temporale, iar un altul acordul de gen.</p>
 
-  <p class="note">Un singur strat de atenție are și el o limită. El poate găsi o poziție după cheia ei, dar nu poate lua valoarea de la poziția <i>următoare</i> celei potrivite, o operație de care limba are nevoie des. Pentru asta e nevoie de două straturi puse unul peste altul, iar de aici vine stivuirea din lecția următoare.</p>
+  <p class="note">Un singur strat de atenție are totuși o limită logică: el poate localiza un cuvânt după ecusonul său, dar nu poate extrage direct ceea ce se află imediat <i>după</i> acel cuvânt. Pentru a realiza raționamente compuse, este nevoie să așezăm mai multe asemenea straturi unul peste altul — pasul decisiv spre arhitectura Transformer din lecția următoare.</p>
 </section>
 
 <section id="s8">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 Q30 50 40 34 T54 10" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M10 52 L54 30" fill="none" stroke="#2F4BC4" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Ce costă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 Q30 50 40 34 T54 10" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M10 52 L54 30" fill="none" stroke="#2F4BC4" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Prețul libertății: costul pătratic</h2>
 
-  <p>Fiecare poziție se uită la toate celelalte, deci numărul de potriviri e pătratul numărului de poziții. Costul acesta e limita adevărată a lungimii contextului.</p>
+  <p>Nimic nu vine pe gratis în inginerie. Pentru ca fiecare cuvânt să poată privi spre absolut toate celelalte cuvinte dintr-o frază de lungime N, rețeaua trebuie să evalueze o grilă de N înmulțit cu N conexiuni. Acest efort crește cu pătratul lungimii textului: dacă dublăm numărul de cuvinte, numărul de calcule se multiplică de patru ori!</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Câte potriviri se calculează</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Creșterea pătratică a numărului de conexiuni evaluate</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblCost"></table></div>
     </div>
-    <div class="cap">Dublarea contextului împătrește munca. De aceea ferestrele lungi au fost, ani la rând, scumpe, iar micșorarea acestui cost e unul dintre subiectele vii de cercetare.</div>
+    <div class="cap">Dublarea ferestrei de context cvadruplează volumul de calcul. Din acest motiv, procesarea unor cărți întregi a fost mult timp extrem de costisitoare, iar optimizarea atenției pătratice rămâne una dintre cele mai fierbinți frontiere de cercetare.</div>
   </figure>
 
-  <p>Atenția mută informația dintr-un loc în altul, fără s-o prelucreze. Un model are nevoie și de prelucrare: de straturi care iau ce s-a adunat la o poziție și scot ceva nou din el. Lecția următoare pune atenția și prelucrarea într-un singur bloc, apoi stivuiește blocul de câteva zeci de ori și obține construcția pe care se sprijină modelele de azi.</p>
+  <p>Mai există un amănunt esențial: atenția este un extraordinar sistem de dirijare și rutare, dar ea doar mută informația dintr-un loc în altul fără a o transforma profund. Un creier are nevoie nu doar să adune indicii, ci și să le digere și să tragă concluzii. În lecția următoare, vom asambla atenția alături de un bloc dens de procesare neuronală, dând naștere celebrei cărămizi Transformer.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,36 +740,36 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Rude <i>apropiate</i></h1>
-    <p class="lede">Difuzia nu e singurul fel de a face lucruri noi dintr-o mulțime de exemple, și n-a fost nici primul. Trei metode duc în același loc, iar ce le deosebește se poate măsura: câți pași cer și cât de sigur ajung.</p>
-    <p class="terms">Termeni: <b>rețea adversarială</b> <b>potrivire de flux</b> <b>acoperire</b></p>
+    <p class="lede">Modelele de difuzie au cucerit lumea prin stabilitatea lor, dar nu sunt singurele mașinării capabile să creeze imagini noi din exemple trecute — și cu siguranță n-au fost primele. Trei mari familii generative încearcă să ajungă în același vârf de munte. Ceea ce le deosebește profund se poate măsura cu precizie: cât de sinuos este drumul, câți pași de calcul cer și cât de sigure sunt că nu se vor prăbuși pe parcurs.</p>
+    <p class="terms">Termeni cheie: <b>rețea adversarială (GAN)</b> <b>potrivire de flux (Flow Matching)</b> <b>acoperirea diversității (mode coverage)</b> <b>colapsul modurilor</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="52" cy="32" r="6" fill="#EE5A2F"/><path d="M10 12 C30 12 40 24 46 30" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M10 32 H46" fill="none" stroke="#6B7A38" stroke-width="2.5"/><path d="M10 52 C30 52 40 40 46 34" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Aceeași țintă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="52" cy="32" r="6" fill="#EE5A2F"/><path d="M10 12 C30 12 40 24 46 30" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M10 32 H46" fill="none" stroke="#6B7A38" stroke-width="2.5"/><path d="M10 52 C30 52 40 40 46 34" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Aceeași țintă, filosofii complet diferite</h2>
 
-  <p class="first">Toate trei încearcă același lucru: să prefacă zgomot luat la întâmplare în ceva ce ar fi putut face parte din exemplele arătate. Toate pornesc de la aceeași materie și toate trebuie judecate după aceleași două întrebări: cât de bune sunt lucrurile scoase și cât de mult din mulțimea țintă acoperă ele.</p>
+  <p class="first">Toate cele trei mari abordări încearcă același lucru: să primească o mână de zgomot aleatoriu și să-l transforme într-o formă coerentă, ce ar fi putut foarte bine să facă parte din datele reale ale lumii. Toate pornesc din aceeași materie primă — hazardul pur — și toate trebuie judecate după aceleași două mari întrebări: cât de convingătoare sunt mostrele produse și cât de mult din bogăția întregului set de date reușesc să acopere?</p>
 
-  <p>Ținta din pagină e spirala din lecția despre difuzia pe puncte, cu aceleași șase sute de exemple. Cele trei metode se antrenează în pagină, una câte una.</p>
+  <p>Poligonul nostru de încercare rămâne aceeași spirală elegantă din lecția despre difuzie, cu cele șase sute de puncte ale sale. Vom antrena pe rând fiecare dintre cele trei metode, chiar în această pagină, urmărind diferențele lor intime de caracter.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="18" width="20" height="28" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="36" y="18" width="20" height="28" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/><path d="M28 26 H36 M36 38 H28" fill="none" stroke="#22252D" stroke-width="2"/><path d="M33 23 L37 26 L33 29 M31 35 L27 38 L31 41" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Falsificatorul și expertul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="18" width="20" height="28" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="36" y="18" width="20" height="28" fill="#DDA6B0" stroke="#22252D" stroke-width="2"/><path d="M28 26 H36 M36 38 H28" fill="none" stroke="#22252D" stroke-width="2"/><path d="M33 23 L37 26 L33 29 M31 35 L27 38 L31 41" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Falsificatorul și expertul: rețelele adversariale (GAN)</h2>
 
-  <p>Cea mai veche dintre cele trei pune două rețele una împotriva alteia. Prima, pornind de la zgomot, scoate un punct și încearcă să pară adevărat. A doua primește când un exemplu adevărat, când unul făcut, și încearcă să spună care e care. Fiecare se antrenează pe greșelile celeilalte. Perechea se numește <dfn>rețea adversarială</dfn>.</p>
+  <p class="first">Cea mai veche și mai spectaculoasă dintre cele trei metode este <dfn>rețeaua adversarială</dfn> (GAN). Ea pune în scenă un duel captivant între două rețele rivale: <i>falsificatorul</i> (generatorul) și <i>detectivul de artă</i> (discriminatorul). Falsificatorul pornește de la zgomot și încearcă să fabrice un punct plauzibil; detectivul primește când un punct autentic din spirală, când unul plăsmuit, și încearcă să spună fără greșeală care e care.</p>
 
-  <p>Are o însușire pe care celelalte n-o au: de la zgomot la rezultat e o singură trecere prin rețea. Nu există pași, nu există drum, nu există nimic de repetat.</p>
+  <p>Cele două se antrenează într-o competiție nemiloasă: fiecare greșeală a detectivului îl învață să devină mai vigilent, iar fiecare demascare îl forțează pe falsificator să devină mai rafinat. Această luptă are o trăsătură unică pe care celelalte metode o invidiază: generarea se produce instantaneu, <i>dintr-o singură trecere</i> prin rețea! Nu există pași intermediari, nu există developare treptată și nimic de repetat.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="50" r="4" fill="#BDB9AA"/><circle cx="54" cy="14" r="4" fill="#EE5A2F"/><path d="M14 46 C20 48 22 30 30 34 S40 22 50 18" fill="none" stroke="#2F4BC4" stroke-width="2"/><path d="M14 46 L50 18" fill="none" stroke="#6B7A38" stroke-width="2.5"/></svg></span>Difuzia și potrivirea de flux</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="50" r="4" fill="#BDB9AA"/><circle cx="54" cy="14" r="4" fill="#EE5A2F"/><path d="M14 46 C20 48 22 30 30 34 S40 22 50 18" fill="none" stroke="#2F4BC4" stroke-width="2"/><path d="M14 46 L50 18" fill="none" stroke="#6B7A38" stroke-width="2.5"/></svg></span>Serpentinele și linia dreaptă: difuzie vs. potrivire de flux</h2>
 
-  <p>Difuzia, așa cum a fost văzută în lecțiile precedente, învață să numească zgomotul la fiecare nivel și merge înapoi cu mulți pași mărunți.</p>
+  <p class="first">Difuzia, așa cum am explorat-o în detaliu, refuză saltul dintr-o bucată: ea curăță zgomotul cu răbdare benedictină, în zeci sau sute de pași mărunți, adăugând și scăzând praf la fiecare cotitură. Este un drum sinuos pe serpentine, ghidat de un câmp curbat de forțe.</p>
 
-  <p>A treia metodă schimbă ce anume se învață. În loc de zgomot la niveluri, ea trage o linie dreaptă între un punct de zgomot și un exemplu, ia un loc oarecare de pe linia aceea și cere rețelei să spună viteza cu care se merge de-a lungul ei. La generare, se pornește din zgomot și se merge pe direcția arătată, cu pași egali. Metoda se numește <dfn>potrivire de flux</dfn>.</p>
+  <p>Cea mai nouă dintre abordări — devenită fundamentul noilor modele de vârf din industrie — este <dfn>potrivirea de flux</dfn> (<i>Flow Matching</i>). Ea își pune o întrebare dezarmant de simplă: <i>„dacă vrem să călătorim de la un punct de zgomot la un punct real din date, de ce să facem ocoluri complicate și curbate? De ce să nu trasăm o linie perfect dreaptă între zgomot și imagine?”</i>.</p>
 
-  <p>Deosebirea se vede la numărul de pași. Drumul difuziei e ocolit, fiindcă la fiecare pas se adaugă și se scoate zgomot; drumul fluxului a fost învățat drept, deci poate fi străbătut din câțiva pași fără să se piardă mult.</p>
+  <p>Rețeaua de flux învață viteza constantă cu care trebuie să ne deplasăm de-a lungul acestor linii drepte. La generare, calculatorul pornește din zgomot și înaintează drept, cu pas hotărât, pe traiectoria indicată. Deoarece cărarea este dreaptă și previzibilă, ea poate fi parcursă într-un număr mult mai mic de pași, fără să piardă din fidelitate.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Cele trei, antrenate aici</figcaption>
@@ -778,13 +780,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capT"></div>
   </figure>
 
-  <p class="note">Ele nu pornesc singure: fiecare panou are butonul lui. Difuzia și fluxul se antrenează în câteva secunde, perechea adversarială în vreo cincisprezece, fiindcă la fiecare pas se mișcă două rețele în loc de una.</p>
+  <p class="note">Panourile se antrenează independent, prin butonul fiecăruia. Difuzia și fluxul învață în câteva secunde, în timp ce perechea adversarială cere mai multă răbdare, deoarece la fiecare iterație trebuie sincronizate două rețele rivale.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="32" r="4" fill="#2F4BC4"/><circle cx="24" cy="32" r="4" fill="#2F4BC4"/><circle cx="38" cy="32" r="4" fill="#2F4BC4"/><circle cx="52" cy="32" r="4" fill="#2F4BC4"/><path d="M14 32 H20 M28 32 H34 M42 32 H48" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="10" cy="50" r="4" fill="#6B7A38"/><circle cx="52" cy="50" r="4" fill="#6B7A38"/><path d="M14 50 H48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>De câți pași e nevoie</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="10" cy="32" r="4" fill="#2F4BC4"/><circle cx="24" cy="32" r="4" fill="#2F4BC4"/><circle cx="38" cy="32" r="4" fill="#2F4BC4"/><circle cx="52" cy="32" r="4" fill="#2F4BC4"/><path d="M14 32 H20 M28 32 H34 M42 32 H48" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="10" cy="50" r="4" fill="#6B7A38"/><circle cx="52" cy="50" r="4" fill="#6B7A38"/><path d="M14 50 H48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Viteza pe ceas: de câți pași e cu adevărat nevoie?</h2>
 
-  <p>Aceeași rețea, odată antrenată, poate fi folosită cu oricâți pași. Tabelul măsoară ce iese la fiecare număr, pentru difuzie și pentru flux.</p>
+  <p class="first">Odată ce o rețea a fost antrenată, o putem ruga să deseneze alocându-i bugete diferite de timp: de la doar 2 sau 5 pași rapizi, până la 20 sau 50 de pași meticuloși. Tabelul compară performanțele difuziei și ale fluxului la diferite viteze de eșantionare.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Calitatea, după numărul de pași</figcaption>
@@ -798,15 +800,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Acoperirea numără în câte dintre cele douăzeci și patru de bucăți ale spiralei cad puncte. Ea spune dacă metoda scoate din toată mulțimea sau doar dintr-o parte a ei. O metodă care scoate numai lucruri frumoase, dar mereu aceleași, a învățat mai puțin decât pare.</p>
+  <p><dfn>Acoperirea</dfn> măsoară în câte dintre cele 24 de sectoare ale spiralei reușesc să ajungă punctele generate. Ea arată dacă modelul stăpânește întreaga diversitate a formei sau doar un colț confortabil. O metodă care generează doar câteva puncte frumoase, dar aglomerate obsesiv în același loc (fenomenul de <i>colaps al modurilor</i>), seamănă cu un pictor care a învățat să picteze impecabil doar un măr și refuză să deseneze orice altceva. Adevărata inteligență generativă cere acoperire completă.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 L32 10 L56 52 Z" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 50 L32 14" fill="none" stroke="#B5232B" stroke-width="2.5"/><path d="M52 50 C40 46 44 30 32 14" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M32 50 V14" fill="none" stroke="#6B7A38" stroke-width="2.5"/></svg></span>Când merge și când nu</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 L32 10 L56 52 Z" fill="none" stroke="#22252D" stroke-width="2"/><path d="M12 50 L32 14" fill="none" stroke="#B5232B" stroke-width="2.5"/><path d="M52 50 C40 46 44 30 32 14" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M32 50 V14" fill="none" stroke="#6B7A38" stroke-width="2.5"/></svg></span>Trei poteci spre același vârf: stabilitate versus viteză</h2>
 
-  <p>Rețeaua adversarială are o purtare care nu se vede dintr-o singură antrenare. Antrenată din nou, de la alte ponderi de pornire, ea poate ieși foarte bine sau se poate prăbuși cu totul, fără ca ceva să anunțe dinainte care dintre ele.</p>
+  <p class="first">Rețeaua adversarială ascunde un mare secret, care nu se vede dintr-o singură încercare norocoasă: este teribil de instabilă la antrenare. Dacă o antrenați din nou, pornind de la alte valori numerice de start, ea poate atinge o formă splendidă sau se poate prăbuși catastrofal, blocându-se într-un punct mort în care desenează doar mâzgălituri fără sens.</p>
 
-  <p>Butonul de mai jos antrenează o pereche nouă de fiecare dată și adaugă rezultatul în tabel.</p>
+  <p>Apăsați butonul de mai jos pentru a antrena perechi noi de GAN și priviți variația rezultatelor: nesiguranța este prețul plătit pentru saltul dintr-un singur pas.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceeași metodă, alte porniri</figcaption>
@@ -820,11 +822,14 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Trei trasee spre același vârf. Unul pe muchie: cel mai scurt, dar cu porțiuni pe care se poate cădea. Unul pe serpentine: lung, dar fără surprize. Unul aproape drept, croit anume ca să nu ocolească.</p>
+  <p>Iată tabloul complet al celor trei poteci montane spre același vârf:
+    traseul pe creastă ascuțită (GAN-ul), care este cel mai scurt și direct, dar cu riscul uriaș de prăbușire;
+    traseul pe serpentine largi (Difuzia), lung și răbdător, dar complet lipsit de surprize neplăcute;
+    și drumul drept, curățat și eficient (Flow Matching), croit anume ca să îmbine siguranța cu viteza.</p>
 
-  <p>De aici vine și cum s-au schimbat lucrurile în ultimii ani. Prima metodă a fost mult timp singura care dădea rezultate bune, iar nesiguranța ei era prețul plătit. Celelalte două au fost preferate fiindcă merg de fiecare dată, chiar dacă cer mai mult calcul la generare, iar munca de atunci încoace s-a dus tocmai în a scurta acest drum.</p>
+  <p>Această comparație explică istoria ultimilor ani: multă vreme, GAN-urile au fost singurele capabile de imagini clare, iar cercetătorii le-au îndurat capriciile. Apoi, difuzia a cucerit lumea fiindcă funcționa de fiecare dată, fără eșecuri neașteptate. Iar astăzi, potrivirea de flux oferă ce este mai bun din ambele lumi: traiectorii drepte, stabile și rapide.</p>
 
-  <p>Cu aceasta se încheie partea despre imagini. Ce urmează nu mai adaugă mecanisme noi, ci arată cum se pun cele știute la un loc în lucrurile care se folosesc astăzi.</p>
+  <p>Cu această privire de ansamblu se încheie călătoria noastră prin universul imaginilor. În partea următoare a cursului nu vom mai privi textul și imaginea ca pe două lumi separate, ci le vom aduce laolaltă într-un singur spațiu comun de gândire.</p>
 </section>
 
 </main>

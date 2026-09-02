@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,30 +740,30 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Drumul <i>înapoi</i></h1>
-    <p class="lede">Din zgomot nu se poate afla ce imagine a fost stricată, fiindcă multe imagini duc la același zgomot. Se poate afla însă media lor, iar din medii repetate iese, pas cu pas, o singură formă. Întrebarea fără răspuns e înlocuită cu una vecină, care are.</p>
-    <p class="terms">Termeni: <b>media ponderată</b> <b>pas de eșantionare</b> <b>difuzie</b> <b>formula exactă și copierea</b></p>
+    <p class="lede">Privind un ecran plin de purici aleatorii, este imposibil să ghicești ce imagine anume a fost distrusă, fiindcă o infinitate de fotografii diferite ar fi putut ajunge la exact același haos. Dar dacă întrebarea tranșantă n-are răspuns, putem pune o întrebare mult mai înțeleaptă: care este media tuturor imaginilor plauzibile? Curățând zgomotul pas cu pas, ca o fotografie alb-negru care se developează lent într-o tavă de laborator, din ceață se limpezește o singură siluetă clară.</p>
+    <p class="terms">Termeni cheie: <b>proces invers (denoising)</b> <b>media ponderată</b> <b>pas de eșantionare</b> <b>developare treptată</b> <b>generalizare vs. copiere</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="14" r="4" fill="#2F4BC4"/><circle cx="12" cy="32" r="4" fill="#EE5A2F"/><circle cx="12" cy="50" r="4" fill="#6B7A38"/><path d="M16 14 L44 32 M16 32 L44 32 M16 50 L44 32" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="50" cy="32" r="6" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M47 32 H53" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ce se poate și ce nu se poate socoti</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="12" cy="14" r="4" fill="#2F4BC4"/><circle cx="12" cy="32" r="4" fill="#EE5A2F"/><circle cx="12" cy="50" r="4" fill="#6B7A38"/><path d="M16 14 L44 32 M16 32 L44 32 M16 50 L44 32" fill="none" stroke="#22252D" stroke-width="1.5"/><circle cx="50" cy="32" r="6" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M47 32 H53" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>O întrebare fără răspuns și salvarea prin probabilități</h2>
 
-  <p class="first">Procesul direct e o funcție: din imagine și din zgomot iese imaginea murdărită. Înapoi nu merge. Aceeași imagine murdărită se putea naște din nenumărate imagini de plecare, fiecare cu alt zgomot potrivit, deci întrebarea „care a fost?” n-are un răspuns.</p>
+  <p class="first">Procesul direct din lecția trecută este o stradă cu sens unic, ușor de parcurs: iei o fotografie, îi adaugi zgomot după o rețetă și obții un cadru mâncat de purici. Însă drumul invers ascunde o barieră uriașă. O aceeași imagine murdărită ar fi putut proveni dintr-o pisică, dintr-un castel sau dintr-un ceasornic, fiecare combinată cu un alt zgomot potrivit. Prin urmare, întrebarea tranșantă <i>„care anume a fost imaginea inițială?”</i> nu are un răspuns matematic unic.</p>
 
-  <p>Are însă răspuns o întrebare vecină: dintre toate imaginile care ar fi putut duce aici, care e media lor, fiecare cântărită cu cât de bine se potrivește? Media aceasta se poate socoti, iar pe ea se sprijină tot ce urmează.</p>
+  <p>Salvarea vine printr-o schimbare subtilă de perspectivă: în loc să căutăm un adevăr absolut ascuns în ceață, ne întrebăm: <i>„dintre toate imaginile posibile din lume, care este media celor compatibile cu ceea ce se zărește acum?”</i>. Fiecare variantă plauzibilă primește o pondere proporțională cu cât de bine se potrivește cu restul de semnal. Această medie ponderată se poate calcula — iar ea devine busola care ne călăuzește la fiecare pas al reconstrucției.</p>
 
-  <p>Un pas înapoi arată așa: se cere media, se scade din imaginea murdărită o parte din zgomotul care o desparte de acea medie, apoi se adaugă înapoi puțin zgomot proaspăt, mai puțin decât s-a scos. Se numește <dfn>pas de eșantionare</dfn>, iar șirul lor se numește <dfn>difuzie</dfn>.</p>
+  <p>Un pas de întoarcere funcționează astfel: calculăm această imagine medie estimată, scădem din cadrul murdărit o parte din zgomotul care ne desparte de ea, iar apoi adăugăm înapoi un strop minuscul de zgomot proaspăt, dar ceva mai puțin decât am scos. Acest gest repetat se numește <dfn>pas de eșantionare</dfn>, iar întregul marș invers este <dfn>difuzia inversă</dfn>.</p>
 
-  <p class="note">Zgomotul adăugat înapoi la fiecare pas pare o risipă. Fără el, drumul ar merge de fiecare dată spre aceeași medie și ar scoate mereu același lucru. El e cel care face ca din același punct de plecare să poată ieși rezultate diferite.</p>
+  <p class="note">De ce am adăuga zgomot înapoi într-o imagine pe care tocmai încercăm s-o curățăm? Pare o risipă, dar este secretul vital al diversității! Fără această infuzie minusculă de hazard la fiecare pas, drumul ar aluneca mecanic spre aceeași medie matematică ștearsă — un gri uniform. Zgomotul proaspăt injectat este cel care scutură ușor sistemul, permițându-i să aleagă la fiecare rulare o compoziție nouă și distinctă.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#22252D"><rect x="8" y="8" width="6" height="6"/><rect x="20" y="8" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/><rect x="26" y="20" width="6" height="6"/><rect x="8" y="26" width="6" height="6"/><rect x="20" y="26" width="6" height="6"/></g><path d="M36 20 H44" fill="none" stroke="#22252D" stroke-width="2"/><path d="M41 16 L45 20 L41 24" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="52" cy="20" r="6" fill="#EE5A2F"/><path d="M8 44 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Un caz în care media se scrie exact</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#22252D"><rect x="8" y="8" width="6" height="6"/><rect x="20" y="8" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/><rect x="26" y="20" width="6" height="6"/><rect x="8" y="26" width="6" height="6"/><rect x="20" y="26" width="6" height="6"/></g><path d="M36 20 H44" fill="none" stroke="#22252D" stroke-width="2"/><path d="M41 16 L45 20 L41 24" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="52" cy="20" r="6" fill="#EE5A2F"/><path d="M8 44 H56" fill="none" stroke="#BDB9AA" stroke-width="2"/></svg></span>Un laborator în miniatură: când formula se scrie exact</h2>
 
-  <p>De obicei media aceea nu se poate socoti, și tocmai de aceea e învățată de o rețea. Există însă un caz în care ea se scrie pe hârtie: când mulțimea imaginilor cu putință e cunoscută și mică.</p>
+  <p>În viața de zi cu zi, mulțimea tuturor fotografiilor posibile este infinită și imposibil de închis într-o rețetă simplă — de aceea vom lăsa o rețea neuronală să aproximeze această medie. Dar pentru a vedea mecanismul în acțiune, putem construi un univers în miniatură, în care cunoaștem dinainte toate formele posibile: doar șase pictograme geometrice.</p>
 
-  <p>Pagina folosește șase forme. Dintr-o imagine murdărită se socotește, pentru fiecare formă, cât de bine se potrivește ea cu ce se vede, iar media cerută e amestecul celor șase cu aceste ponderi. Nimic nu e antrenat aici; formula e exactă.</p>
+  <p>Privind o imagine invadată de purici, calculatorul calculează instantaneu cât de bine se potrivește ea cu fiecare dintre cele șase forme. Media căutată nu este altceva decât un amestec al celor șase desene, ponderat cu aceste scoruri de potrivire. Aici nu există nicio ghicire oarbă și nicio învățare automată: formula matematică este perfect exactă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Cele șase forme cu putință</figcaption>
@@ -790,15 +792,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Panoul din dreapta e partea care contează. La început el nu arată o formă, ci o suprapunere a tuturor șase: media lor, fiindcă niciuna nu se potrivește mai bine decât celelalte. Pe măsură ce zgomotul scade, ponderile se despart, iar media devine tot mai mult o singură formă.</p>
+  <p>Priviți cu atenție panoul din dreapta (<i>„ce crede că era”</i>). La începutul călătoriei, când zgomotul e dens, el nu arată o siluetă distinctă, ci o suprapunere fantomatică a tuturor celor șase: media lor colectivă, fiindcă nicio formă nu e favorizată. Pe măsură ce zgomotul scade, balanța se înclină vertiginos: ponderile se despart, iar media se limpezește spectaculos într-o singură formă bine definită.</p>
 
-  <p>O fotografie care se developează în tavă. Contururile mari apar înaintea detaliilor, fiindcă tocmai ele deosebesc între ele lucrurile cu putință.</p>
+  <p>Fenomenul amintește leit de developarea unei fotografii într-o cameră obscură: când scufunzi hârtia albă în soluție, nu apar întâi firele de păr sau textura pielii, ci marile contraste de masă. Contururile mari se ivesc primele, iar detaliile fine se așază cuminți abia la final.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H56" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 32 H24" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="24" cy="32" r="5" fill="#EE5A2F"/><path d="M24 20 V26 M24 38 V44" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Când se hotărăște</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 32 H56" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M8 32 H24" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="24" cy="32" r="5" fill="#EE5A2F"/><path d="M24 20 V26 M24 38 V44" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Marea decizie: când se alege forma</h2>
 
-  <p>Merită întrebat cât de devreme se decide ce formă va ieși. Măsurătoarea de mai jos pornește drumul de mai multe ori, de la zgomot proaspăt, și notează pasul de la care forma cea mai bine cotată nu se mai schimbă până la capăt.</p>
+  <p>O întrebare firească este: cât de devreme în acest proces se pecetluiește soarta imaginii? Se decide forma pe la jumătatea drumului sau chiar din primii pași? Măsurătoarea de mai jos rulează procesul de douăzeci de ori pornind din semințe diferite de zgomot și notează pasul exact dincolo de care forma favorită nu se mai schimbă niciodată.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Pasul de la care nu se mai schimbă nimic</figcaption>
@@ -812,15 +814,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Hotărârea cade devreme, în vreme ce imaginea încă arată ca zgomot curat. Restul drumului nu mai alege nimic: el desenează forma pe care a ales-o deja. Ochiul vede furnicar; socoteala a decis de mult.</p>
+  <p>Hotărârea se ia uimitor de repede, în vreme ce pentru ochiul nostru imaginea arată încă drept purici fără noimă! Deși privirea umană distinge doar un furnicar cenușiu, calculul matematic a ales deja definitiv câștigătorul. Restul drumului nu mai deliberează nimic: el desenează cu răbdare forma pe care hazardul inițial a stabilit-o de la bun început.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="20" height="20" fill="#2F4BC4"/><rect x="36" y="12" width="20" height="20" fill="#2F4BC4"/><rect x="8" y="36" width="20" height="20" fill="#2F4BC4"/><rect x="36" y="36" width="20" height="20" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Ce se pierde când răspunsul e exact</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="20" height="20" fill="#2F4BC4"/><rect x="36" y="12" width="20" height="20" fill="#2F4BC4"/><rect x="8" y="36" width="20" height="20" fill="#2F4BC4"/><rect x="36" y="36" width="20" height="20" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Copiere versus creație: de ce imperfecțiunea e o virtute</h2>
 
-  <p>Aici iese la iveală motivul pentru care mediile acestea se învață, în loc să fie socotite.</p>
+  <p>Aici iese la iveală motivul profund pentru care într-un sistem real preferăm o rețea neuronală aproximativă în locul unei formule matematice exacte.</p>
 
-  <p>Formula exactă e exactă față de mulțimea din care s-a plecat. Ea nu poate scoate decât ceea ce se află deja în ea: la capăt, rezultatul nu seamănă cu una dintre cele șase forme, ci <i>este</i> una dintre ele.</p>
+  <p>Formula exactă pe care am folosit-o este captivă în micul ei univers: ea nu poate produce decât ceea ce se află deja în cele șase exemple. La sfârșit, imaginea obținută nu doar că seamănă cu una dintre forme, ci <i>este</i> copia identică a uneia dintre ele.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Ce iese la capăt</figcaption>
@@ -831,11 +833,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capM"></div>
   </figure>
 
-  <p>O rețea antrenată pe imagini nu învață niciodată media exactă. Ea învață una apropiată, cu greșelile ei, iar din pricina acestor greșeli drumul înapoi nu mai cade neapărat pe o imagine văzută. Lucrul care pare un cusur e chiar ce face generarea cu putință: noul vine din imperfecțiunea cu care a fost reținut vechiul.</p>
+  <p>O rețea neuronală antrenată pe milioane de imagini nu va învăța niciodată o medie exactă. Ea reține o aproximare intuitivă, presărată cu mici devieri și sinteze. Datorită acestor imperfecțiuni, drumul invers nu reproduce o fotografie văzută la antrenare, ci creează o compoziție inedită, plauzibilă. Ceea ce ar părea o scăpare tehnică este tocmai scânteia creației: noutatea autentică se naște din aproximarea vie a trecutului.</p>
 
-  <p>De aceea o rețea prea încăpătoare pentru câte imagini a văzut se apropie de formula exactă și începe să scoată copii ale exemplelor de antrenare. E supraînvățarea din lecția despre ea, în forma pe care o ia aici.</p>
+  <p>Dacă am folosi o rețea uriașă pentru un set minuscul de date, ea ar tinde spre formula exactă și ar începe să debiteze copii fidele ale exemplelor — fenomenul de supraînvățare (<i>overfitting</i>) pe care l-am întâlnit în părțile anterioare.</p>
 
-  <p>Până acum media a fost dată de o formulă, fiindcă mulțimea era cunoscută. Lecția următoare pune în locul formulei o rețea mică, antrenată în pagină pe niște puncte, și arată tot mecanismul cu calcul adevărat: antrenarea, apoi generarea.</p>
+  <p>Până acum ne-am sprijinit pe o formulă matematică rigidă. În lecția următoare vom înlocui această formulă cu o rețea neuronală veritabilă, pe care o vom antrena în timp real, chiar în această pagină, pe o mână de puncte 2D.</p>
 </section>
 
 </main>

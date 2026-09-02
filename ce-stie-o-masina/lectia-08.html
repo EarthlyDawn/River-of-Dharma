@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Procesorul</i></h1>
-    <p class="lede">Porți care calculează, registre care țin minte și un ceas care le dă tuturor aceeași clipă. Din ele iese o mașină care nu face un singur lucru, ci ce i se spune: execută, tact după tact, o listă de instrucțiuni scrise ca numere.</p>
+    <p class="lede">Avem acum la dispoziție toate ingredientele esențiale: porți logice care calculează, registre care țin minte și un ceas care le sincronizează bătăile. Punându-le la un loc, dăm naștere unei mașini uluitoare: un procesor care nu este ferecat într-o singură menire fixă, ci execută docil, pas cu pas, orice listă de instrucțiuni codificate sub formă de numere.</p>
     <p class="terms">Termeni: <b>cale de date</b> <b>selector</b> <b>unitate aritmetică și logică</b> <b>instrucțiune</b> <b>cod al operației</b> <b>contor de program</b> <b>aducere · decodificare · execuție</b> <b>frecvență</b></p>
   </div>
 </header>
@@ -748,25 +750,25 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="20" width="14" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="44" y="20" width="14" height="24" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><path d="M24 26 H30 A6 6 0 0 1 30 38 H24 Z" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M20 32 H24 M36 32 H44 M51 44 V54 H13 V44" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Calea datelor</h2>
 
-  <p class="first">Până aici am construit piese: porți, un sumator, un registru. Acum le legăm într-o mașină. Între două fronturi de ceas se petrece mereu același lucru. Registrele își scot valorile pe fire, valorile trec prin porți, iar rezultatele ajung la intrările altor registre și așteaptă acolo. La frontul următor, registrele de destinație prind ce găsesc la intrare, și totul reîncepe. Drumul pe care umblă valorile se numește <dfn>cale de date</dfn>.</p>
+  <p class="first">Până în acest punct am făurit piese izolate: porți logice, un sumator capabil de adunări și scăderi, precum și registre care păstrează octeți. Acum a venit momentul să le conectăm într-un mecanism viu. Între două bătăi succesive ale ceasului, în interiorul cipului se derulează o coregrafie neîntreruptă: valorile ies din registrele-sursă, călătoresc pe magistrale de cupru, străbat porțile de calcul ale sumatorului și ajung, transformate, la porțile registrelor-destinație. Acolo se așază cuminți și așteaptă. La următorul front de ceas, noul rezultat este absorbit înăuntru, iar ciclul reîncepe. Această autostradă internă pe care circulă semnalele electrice se numește <dfn>cale de date</dfn> (datapath).</p>
 
-  <p>De aici iese o constrângere directă, și ea leagă timpul de spațiu: perioada ceasului trebuie să fie mai lungă decât drumul cel mai lent din tot circuitul. Dacă transportul unui sumator are nevoie de o clipă ca să străbată toate coloanele, ceasul nu poate bate mai des decât atât, fiindcă altfel registrul ar prinde un rezultat neterminat.</p>
+  <p>De aici decurge o regulă de fier a fizicii, care leagă spațiul de timp: ceasul procesorului nu poate bate mai repede decât durata necesară semnalului pentru a străbate cel mai anevoios și mai lung traseu din circuit. Dacă transportul binar are nevoie de o fracțiune de nanosecundă pentru a se propaga prin toate cele opt coloane ale sumatorului, ceasul trebuie să lase timp suficient ca apele să se liniștească. Dacă am grăbi ritmul peste măsură, registrele ar captura rezultate incomplete — o adunătură de biți încă neterminați.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 14 H22 M8 24 H22 M8 34 H22 M8 44 H22" class="o-line"/><path d="M22 10 L40 20 L40 38 L22 48 Z" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><path d="M40 29 H58" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M31 48 V56" fill="none" stroke="#2F4BC4" stroke-width="2.5"/></svg></span>Unitatea aritmetică</h2>
 
-  <p>Sumatorul din lecția a șasea nu stă singur. Lângă el se pun circuitele celorlalte operații, scăderea, care folosește același sumator, și operațiile logice pe biți, iar la ieșire se așază un <dfn>selector</dfn>: un circuit cu mai multe intrări de date și câteva intrări de comandă, care lasă să treacă exact intrarea aleasă de comandă. Ansamblul se numește <dfn>unitate aritmetică și logică</dfn>.</p>
+  <p>Sumatorul pe care l-am studiat nu trăiește izolat. Alături de el se află așezate circuitele celorlalte operații de bază: modulul de scădere, precum și porțile logice care fac operații bit cu bit (ȘI, SAU, inversare). La ieșirea lor comună stă un fel de macaz feroviar numit <dfn>selector</dfn> (sau multiplexor): un circuit care primește rezultatele tuturor operațiilor deodată, dar lasă să treacă mai departe doar rezultatul cerut de semnalul de comandă. Întregul ansamblu poartă numele de <dfn>unitate aritmetică și logică</dfn> (ALU — Arithmetic Logic Unit).</p>
 
-  <p>Toate operațiile se calculează de fiecare dată, deodată, iar selectorul aruncă rezultatele nefolosite. Risipa e voită: a aștepta să se pornească numai circuitul dorit ar dura mai mult decât a le lăsa pe toate să lucreze în paralel. E un fel de a gândi pe care circuitele îl impun și care va reveni: când timpul e scump și porțile ieftine, se calculează tot și se alege după.</p>
+  <p>Observați o strategie fascinantă a lumii digitale: când sosesc două numere, ALU calculează simultan toate operațiile posibile — adunarea, scăderea, conjuncția logică —, iar selectorul pur și simplu alege rezultatul dorit și le aruncă pe celelalte la coș! Această aparență de risipă este perfect deliberată: în electronică, tranzistoarele sunt ieftine și minuscule, dar timpul este extrem de prețios. A aștepta să pornești doar circuitul necesar ar dura mai mult decât a le lăsa pe toate să calculeze în paralel. În hardware, este adesea mult mai rapid să calculezi totul și să alegi după.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g><rect x="4" y="22" width="8" height="18" fill="#5F6D2E"/><rect x="13" y="22" width="8" height="18" fill="#5F6D2E"/><rect x="22" y="22" width="8" height="18" fill="#5F6D2E"/><rect x="33" y="22" width="8" height="18" fill="#EE5A2F"/><rect x="42" y="22" width="8" height="18" fill="#EE5A2F"/><rect x="53" y="22" width="8" height="18" fill="#2F4BC4"/></g><path d="M4 46 H30 M33 46 H50 M53 46 H61" class="o-line"/></svg></span>Instrucțiunea este un număr</h2>
 
-  <p>Ce anume face mașina la un moment dat trebuie și el să vină de undeva, iar singurul lucru pe care circuitele îl pot citi e un șir de biți. O <dfn>instrucțiune</dfn> e un număr ale cărui grupuri de biți spun, fiecare, altceva: unul alege operația, celelalte aleg asupra cui se face. Nu e nimic misterios în „a înțelege o comandă”: câțiva biți deschid și închid selectoare.</p>
+  <p>Cum știe mașina ce anume are de făcut la fiecare pas? Ordinul trebuie să fie exprimat tot în singura limbă pe care o înțeleg circuitele: șirurile de biți. O <dfn>instrucțiune</dfn> nu este o vrajă abstractă, ci un simplu număr binar împărțit în căsuțe prestabilite. Fiecare grup de biți acționează ca o cheie mecanică: câțiva biți orientează macazurile selectorului spre operația dorită, iar ceilalți biți selectează registrele care trimit sau primesc datele.</p>
 
-  <p>Mașina de mai jos folosește instrucțiuni de opt biți, împărțite în trei câmpuri. Primii trei biți sunt <dfn>codul operației</dfn> și aleg dintre opt operații cu putință. Următorii doi aleg registrul asupra căruia se lucrează. Ultimii trei sunt operandul: după caz, un număr mic, o adresă din program sau al doilea registru.</p>
+  <p>În micul nostru calculator demonstrativ de mai jos, fiecare instrucțiune are lungimea de un octet (8 biți), împărțit în trei câmpuri logice. Primii trei biți reprezintă <dfn>codul operației</dfn> (opcode): cu trei biți putem alege una din opt comenzi posibile (pune o valoare, adună, scade, sari etc.). Următorii doi biți desemnează registrul de destinație. Ultimii trei biți alcătuiesc operandul: o valoare numerică directă, o adresă de memorie sau codul unui al doilea registru.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Opt biți, trei câmpuri; apasă pe oricare bit</figcaption>
@@ -785,23 +787,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Pentru operațiile care lucrează cu două registre, din cei trei biți ai operandului se folosesc numai ultimii doi, fiindcă registrele sunt patru. Bitul rămas nu înseamnă nimic acolo, iar mașina îl trece cu vederea. Seturile de instrucțiuni reale sunt pline de asemenea colțuri.</p>
+  <p class="note">Când o operație lucrează cu două registre, din cei trei biți ai operandului sunt suficienți doar ultimii doi (fiindcă avem doar patru registre de deosebit). Bitul rămas liber este pur și simplu ignorat de decodificator. Asemenea mici compromisuri și spații nefolosite se regăsesc în toate procesoarele reale din istorie.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" class="o-line"/><g class="o-grid"><circle cx="32" cy="10" r="4"/><circle cx="51" cy="43" r="4"/><circle cx="13" cy="43" r="4"/></g><path d="M38 12 A22 22 0 0 1 52 36" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M50 40 L46 34 L53 33 Z" fill="#EE5A2F"/></svg></span>Ciclul de execuție</h2>
 
-  <p>Mașinii îi mai trebuie un registru care ține minte unde a ajuns în listă. Se numește <dfn>contor de program</dfn> și păstrează adresa instrucțiunii următoare.</p>
+  <p>Pentru a parcurge un program fără să se rătăcească, mașina are nevoie de un indicator de pagină: un registru special numit <dfn>contor de program</dfn> (PC — Program Counter). El păstrează în permanență adresa de memorie a instrucțiunii care urmează să fie executată.</p>
 
-  <p>De aici încolo, mașina repetă la nesfârșit trei pași. <dfn>Aducerea</dfn>: contorul de program arată o adresă, iar din memorie iese instrucțiunea de acolo. <dfn>Decodificarea</dfn>: cele trei câmpuri se despart, iar codul operației se transformă în semnale care deschid și închid selectoarele căii de date. <dfn>Execuția</dfn>: valorile trec prin unitatea aritmetică, rezultatul se scrie într-un registru, iar contorul de program înaintează cu unu, sau sare în altă parte, dacă instrucțiunea a cerut asta.</p>
+  <p>Odată pornit, procesorul repetă neobosit o buclă în trei timpi, numită ciclul de instrucțiune. Primul pas este <dfn>aducerea</dfn> (Fetch): contorul de program arată o căsuță de memorie, iar octetul aflat acolo este citit și adus în procesor. Al doilea pas este <dfn>decodificarea</dfn> (Decode): octetul este desfăcut în câmpurile sale, iar codul operației trimite impulsuri electrice spre selectoarele căii de date, pregătind circuitele potrivite. Al treilea pas este <dfn>execuția</dfn> (Execute): valorile trec prin unitatea aritmetică, rezultatul este salvat în registrul țintă, iar contorul de program avansează cu 1 către instrucțiunea următoare (sau face un salt la o cu totul altă adresă, dacă instrucțiunea a cerut acest lucru).</p>
 
-  <p>Saltul e singurul lucru din toată partea aceasta a cursului care lasă mașina să facă altceva în funcție de ce a calculat. Fără el, o listă de instrucțiuni s-ar executa o dată, de sus în jos. Cu el apar repetiția și decizia, iar dintr-un circuit care socotește se naște ceva ce merită numit comportament.</p>
+  <p>Acest mecanism de <dfn>salt condiționat</dfn> este scânteia magică a calculatoarelor. Fără el, un procesor ar fi doar o cutie muzicală rigidă, care derulează o listă fixă de comenzi de la cap la coadă o singură dată. Datorită saltului condiționat („dacă ultimul rezultat nu este zero, sari înapoi la pasul 2”), mașina poate lua decizii, poate relua bucle de calcul și poate reacționa flexibil la datele pe care le prelucrează. Din îmbinarea aritmeticii cu saltul se naște ceea ce numim, pe bună dreptate, comportament autonom.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="8" width="20" height="14" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="38" y="8" width="20" height="14" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="6" y="40" width="20" height="16" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="38" y="40" width="20" height="16" fill="#F9D3C2" stroke="#22252D" stroke-width="2"/><path d="M26 15 H38 M48 22 V40 M38 48 H26 M16 40 V22" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Mașina, la lucru</h2>
 
-  <p>Mai jos se află toată partea aceasta a cursului, pusă la un loc: memorie, contor, decodificator, registre și unitate aritmetică. Programul încărcat adună numerele de la 1 la 5. Un tact înseamnă un pas al ciclului, deci o instrucțiune se termină în trei tacte.</p>
+  <p>Priviți panoul de mai jos: aici avem întregul calculator asamblat și gata de drum — memoria cu programul, contorul de adrese, decodificatorul, registrele interne și calea de date. Programul preîncărcat are o sarcină limpede: adună numerele de la 1 la 5. Fiecare apăsare pe „Un tact” parcurge o fază a ciclului (aducere, decodificare sau execuție), așa încât o instrucțiune completă se împlinește la fiecare trei tacte.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Calea datelor; partea aprinsă este cea folosită în pasul curent</figcaption>
@@ -835,17 +837,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Programul al doilea înmulțește 3 cu 4, fiindcă mașina nu are instrucțiune de înmulțire: adună pe 3 de patru ori, numărând descrescător într-un registru. Așa arată, în mic, tot ce face un calculator cu operațiile care îi lipsesc: le compune din cele pe care le are.</p>
+  <p>Încercați și al doilea program din meniu: el realizează înmulțirea numerelor 3 și 4. Mașina noastră nu are o poartă specială de înmulțire; în schimb, programul adună numărul 3 de patru ori la rând, scăzând câte 1 dintr-un registru-contor până ajunge la zero. Iată lecția centrală a informaticii: orice operație complexă care lipsește din hardware poate fi construită prin compunerea inteligentă a câtorva instrucțiuni elementare.</p>
 </section>
 
 <section id="s6">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 H10 V24 H16 V40 H22 V24 H28 V40 H34 V24 H40 V40 H46 V24 H52 V40 H58" fill="none" stroke="#5F6D2E" stroke-width="2.5"/><path d="M4 52 H58" class="o-line"/></svg></span>Frecvența</h2>
 
-  <p>Numărul de fronturi de ceas dintr-o secundă se numește <dfn>frecvență</dfn> și se măsoară în herți. Trei gigaherți înseamnă trei miliarde de tacte pe secundă, adică o perioadă de ceas de o treime de nanosecundă, răstimpul în care lumina străbate zece centimetri.</p>
+  <p>Viteza cu care bate inima procesorului se numește <dfn>frecvență de ceas</dfn> și se măsoară în herți. O frecvență de trei gigaherți (3 GHz) înseamnă că ceasul ticăie de trei miliarde de ori pe secundă! La această scară amețitoare, un tact durează doar o treime de nanosecundă — răstimpul infim în care lumina abia apucă să înainteze zece centimetri prin spațiu.</p>
 
-  <p>O instrucțiune nu se termină însă într-un tact, așa cum nu se termină nici în mașina de mai sus. Procesoarele reale câștigă timpul înapoi lucrând la mai multe instrucțiuni deodată, fiecare într-o altă fază: cât una se execută, următoarea se decodifică și a treia se aduce din memorie. Așezarea se numește bandă de asamblare, iar rezultatul e că se termină aproape o instrucțiune pe tact, deși fiecare, luată singură, are nevoie de mai multe.</p>
+  <p>Așa cum am văzut, o instrucțiune are nevoie de mai multe tacte pentru a se finaliza. Cum reușesc atunci calculatoarele de astăzi să fie atât de rapide? Printr-o tehnică numită <dfn>bandă de asamblare</dfn> (pipelining), asemănătoare unei spălătorii automate: în timp ce o haină se usucă în uscător (faza de execuție), următoarea este spălată în mașină (decodificarea), iar o a treia este sortată în coș (aducerea). Fiecare haină stă trei ore în total, dar la fiecare oră iese o haină curată! Lucrând la mai multe comenzi aflate în faze diferite, procesoarele moderne finalizează în medie aproape o instrucțiune la fiecare bătaie de ceas.</p>
 
-  <p>Programul mașinii de mai sus stă într-o memorie, scris ca numere de opt biți, exact ca datele din registre. Nimic din el nu arată altfel decât un număr oarecare, iar ce îl face program e numai faptul că e citit de contorul de program. Urmarea acestei observații e mai mare decât pare, și e subiectul lecției următoare.</p>
+  <p>Să facem un ultim pas înapoi și să privim cu atenție: programul pe care l-a executat mașina noastră stătea scris în memorie sub formă de octeți obișnuiți, exact ca numerele adunate. Nimic din structura fizică a memoriei nu deosebește o instrucțiune de o dată numerică oarecare. Ce anume transformă un număr inert într-o comandă vie este doar faptul că spre el a arătat contorul de program. Această realizare epocală — contopirea programului cu datele în aceeași memorie — deschide o lume cu totul nouă, pe care o vom explora în lecția următoare.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,8 +740,8 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Corectarea <i>erorilor</i></h1>
-    <p class="lede">Un mesaj care trece printr-un fir, prin aer sau prin ani de așteptare ajunge uneori schimbat. Redundanța, scoasă în lecția trecută ca să scurteze mesajul, se pune acum la loc, de data aceasta construită anume ca să repare. Iar zgomotul, oricât de mare, are un preț precis.</p>
-    <p class="terms">Termeni: <b>canal</b> <b>rată de eroare</b> <b>bit de paritate</b> <b>cuvânt de cod</b> <b>distanță Hamming</b> <b>rată a codului</b> <b>capacitate</b></p>
+    <p class="lede">Orice mesaj care călătorește prin lume — printr-un cablu de cupru, prin undele radio invizibile sau prin anii de tăcere de pe un disc magnetic — riscă să fie atins de zgomot și denaturat. Redundanța pe care am înlăturat-o cu grijă în lecția trecută pentru a economisi spațiu este acum readusă în scenă, însă de această dată croită cu o precizie geometrică pentru a repara stricăciunile. Iar marea descoperire a teoriei este că zgomotul, oricât de supărător, are un preț bine definit și poate fi învins.</p>
+    <p class="terms">Termeni-cheie: <b>canal cu zgomot</b> <b>rată de eroare</b> <b>bit de paritate</b> <b>cuvânt de cod</b> <b>distanță Hamming</b> <b>rată a codului</b> <b>capacitate</b></p>
   </div>
 </header>
 
@@ -748,11 +750,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="26" width="6" height="12"/><rect x="15" y="26" width="6" height="12"/><rect x="33" y="26" width="6" height="12"/><rect x="42" y="26" width="6" height="12"/><rect x="51" y="26" width="6" height="12"/></g><rect x="24" y="26" width="6" height="12" class="o-bad"/><path d="M2 20 H62 M2 44 H62" class="o-line"/></svg></span>Canalul cu zgomot</h2>
 
-  <p class="first">Până acum mesajul a călătorit fără să pățească nimic: ce s-a scris s-a și citit. În lumea reală, un mesaj trece printr-un fir, prin aer, prin ani de așteptare pe un disc, și ajunge uneori schimbat. Lecția aceasta pornește de la stricăciune și o ia în serios: nu ca pe un accident, ci ca pe o proprietate a lumii, care se poate măsura și, surprinzător, învinge.</p>
+  <p class="first">Până în acest punct, am presupus că mesajele noastre călătoresc printr-un univers ideal și aseptic: orice caracter expediat de emițător ajungea la destinație curat și neatins. Lumea fizică reală este însă mult mai aspră și mai agitată. Fie că semnalul trece printr-un fir de cupru străbătut de căldură, printr-o rază de lumină într-o fibră optică, prin văzduh ca undă radio sau așteaptă răbdător ani la rând pe suprafața unui disc dur, el este permanent pândit de imperfecțiuni. Lecția de față privește această degradare drept în ochi: nu ca pe un accident regretabil, ci ca pe o lege fundamentală a naturii, care poate fi măsurată, stăpânită și, în cele din urmă, biruită.</p>
 
-  <p>Un <dfn>canal</dfn> este orice duce biți dintr-un loc în altul sau dintr-un moment în altul: un fir, o undă radio, suprafața unui disc, o celulă de memorie care trebuie să țină minte până mâine. Niciun canal nu e perfect. Din când în când, bitul care iese e opusul celui care a intrat.</p>
+  <p>Numim <dfn>canal</dfn> orice mediu fizic care transportă biți dintr-un punct în altul al spațiului sau dintr-un moment în altul al timpului: un cablu de rețea, un canal Wi-Fi, o celulă minusculă de memorie RAM sau chiar o bucățică de siliciu dintr-un cip. Niciun canal din univers nu funcționează perfect. Din când în când, o fluctuație de tensiune sau o interferență rătăcită face ca un 0 să fie citit ca 1, sau un 1 ca 0.</p>
 
-  <p>Cel mai simplu model al defectului este <dfn>canalul binar simetric</dfn>: fiecare bit are, independent de ceilalți, aceeași probabilitate <i>p</i> de a fi răsturnat. Mărimea <i>p</i> se numește <dfn>rata de eroare</dfn> și e de obicei mică; dar un mesaj are mulți biți, iar erorile se adună. La o rată de un procent, un mesaj de o mie de biți ajunge, în medie, cu zece biți stricați.</p>
+  <p>Cel mai simplu și intuitiv model pentru un astfel de canal imperfect se numește <dfn>canal binar simetric</dfn>: ne imaginăm că fiecare bit expediat are, absolut independent de vecinii săi, o mică probabilitate <i>p</i> de a fi răsturnat pe drum. Această probabilitate poartă numele de <dfn>rată de eroare</dfn>. În mod obișnuit, ea este mică — de pildă un procent (1%) —, dar mesajele din viața digitală conțin milioane sau miliarde de biți, astfel că micile greșeli se adună inevitabil. La o rată de un procent, un text modest de o mie de biți va sosi la destinație cu vreo zece biți stricați, destul pentru a transforma cuvintele într-un talmeș-balmeș greu de recunoscut.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Un mesaj trecut prin canal</figcaption>
@@ -768,15 +770,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Fiecare literă este scrisă cu cinci biți, într-un alfabet de treizeci și două de semne: cele douăzeci și șase de litere, cinci litere cu diacritice și spațiul. Orice răsturnare produce tot o literă din alfabet, așa că stricăciunea se citește direct.</p>
+  <p class="note">În exemplul interactiv de mai sus, fiecare caracter este codificat pe 5 biți dintr-un alfabet de 32 de semne (literele uzuale, literele românești cu diacritice și spațiul). Orice răsturnare a unui bit transformă caracterul inițial într-o altă literă validă din alfabet, astfel încât efectul zgomotului se poate citi cu ochiul liber în textul primit.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="6" y="22" width="8" height="20"/><rect x="17" y="22" width="8" height="20"/><rect x="28" y="22" width="8" height="20"/><rect x="39" y="22" width="8" height="20"/></g><rect x="50" y="22" width="8" height="20" fill="none" stroke="#22252D" stroke-width="2" stroke-dasharray="3 2"/><circle cx="54" cy="32" r="3" class="o-fill2"/></svg></span>Detectarea unei erori</h2>
 
-  <p>Cel mai ieftin lucru care se poate face e să adăugăm un singur bit, ales astfel încât numărul total de biți egali cu 1 să fie par. Bitul acesta se numește <dfn>bit de paritate</dfn>. El nu duce mesaj; duce o promisiune despre mesaj.</p>
+  <p>Care este cel mai simplu și mai ieftin truc prin care putem afla dacă un mesaj s-a stricat pe drum? Răspunsul este adăugarea unui singur bit de veghe la capătul mesajului, numit <dfn>bit de paritate</dfn>. Valoarea lui este aleasă astfel încât numărul total de cifre 1 din întregul grup să fie întotdeauna un număr par. Acest bit suplimentar nu adaugă nicio noutate despre conținut; el funcționează ca o garanție matematică, ca un sigiliu de ceară aplicat pe scrisoare.</p>
 
-  <p>Dacă un bit se răstoarnă pe drum, numărul de 1 devine impar, iar cel care primește mesajul știe că ceva s-a stricat. Nu știe însă ce anume: toate pozițiile sunt la fel de suspecte. Iar dacă se răstoarnă doi biți, numărul de 1 redevine par și eroarea trece nevăzută. Paritatea detectează, dar nu repară, și detectează numai erorile în număr impar.</p>
+  <p>Dacă un singur bit este lovit de zgomot și își schimbă valoarea pe traseu, numărul total de cifre 1 devine impar. Destinatarul numără biții de 1, observă neregula și trage imediat alarma: ceva s-a stricat! Totuși, acest mecanism simplu are două mari limite: în primul rând, ne spune că există o eroare, dar nu ne poate spune <i>unde</i> se află ea (toate pozițiile rămân la fel de suspecte); în al doilea rând, dacă zgomotul lovește nefericit doi biți deodată, numărul cifrelor 1 redevine par, iar eroarea dublă se strecoară complet neobservată. Bitul de paritate este așadar un paznic modest: detectează doar numărul impar de greșeli și nu poate repara nimic de la sine.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Opt biți de mesaj și unul de paritate; apasă pe oricare</figcaption>
@@ -793,13 +795,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="14" cy="32" r="9" class="o-fill2"/><circle cx="50" cy="32" r="9" class="o-dot"/><circle cx="32" cy="32" r="4" class="o-line"/><path d="M23 32 H28 M36 32 H41" class="o-line"/></svg></span>Distanța dintre cuvinte</h2>
 
-  <p>Detectarea și corectarea vin amândouă din aceeași idee, pe care merită s-o vedem în general înainte de orice cod anume: dintre toate șirurile de biți care se pot scrie, numai unele sunt declarate valide. Un șir valid se numește <dfn>cuvânt de cod</dfn>, iar celelalte n-ar trebui să apară niciodată. Dacă totuși apar, știm că s-a întâmplat ceva; și, dacă cuvintele valide sunt destul de depărtate între ele, știm și ce.</p>
+  <p>Pentru a trece de la simpla detectare la <i>repararea</i> automată a greșelilor, avem nevoie de o viziune geometrică intuitivă. Dintre toate combinațiile teoretice de biți care se pot scrie, noi vom conveni să declarăm valide doar o mică parte dintre ele. Un astfel de șir autorizat se numește <dfn>cuvânt de cod</dfn>. Toate celelalte combinații sunt considerate ilegale și nu ar trebui să apară niciodată într-o transmisie normală. Dacă destinatarul primește o combinație ilegală, el știe că a intervenit o eroare; iar dacă cuvintele valide au fost așezate suficient de departe unele de altele, el poate ghici fără greș de unde a plecat mesajul!</p>
 
-  <p><dfn>Distanța Hamming</dfn> dintre două șiruri este numărul de poziții în care ele diferă. O eroare mută șirul primit la distanța 1 de cel trimis, două erori la distanța 2, și așa mai departe.</p>
+  <p>Cât de „depărtate” sunt două șiruri de biți? Numărul de poziții în care două secvențe diferă între ele se numește <dfn>distanță Hamming</dfn>. O singură eroare pe fir deplasează cuvântul primit la distanța 1 față de original; două erori îl împing la distanța 2, și așa mai departe.</p>
 
-  <p>Dacă oricare două cuvinte de cod stau la distanța cel puțin 3, atunci un șir stricat de o singură eroare rămâne mai aproape de cuvântul din care a venit decât de oricare altul. Cel care primește alege cuvântul de cod cel mai apropiat și nimerește. Distanța minimă <i>d</i> dintre cuvintele unui cod hotărăște totul: se pot detecta <i>d</i>−1 erori și corecta jumătate din atâtea.</p>
+  <p>Gândiți-vă la cuvintele valide ca la niște insule într-un ocean de biți. Dacă oricare două insule se află la o distanță de cel puțin 3 pași una de alta, atunci o barcă deviată de o singură greșeală (1 pas) va rămâne mult mai aproape de insula de unde a plecat decât de oricare alta! Destinatarul nu are altceva de făcut decât să aleagă cea mai apropiată insulă validă și va nimeri exact mesajul original. Această distanță minimă <i>d</i> dintre cuvintele unui cod dictează întreaga sa putere protectoare: putem detecta întotdeauna <i>d</i>−1 erori și putem repara complet jumătate din acest număr.</p>
 
-  <p>Cel mai simplu cod cu distanța 3 repetă fiecare bit de trei ori: 0 devine 000, iar 1 devine 111. Cele două cuvinte diferă în toate cele trei poziții. Corectarea se face prin vot: se ia cifra care apare de cel puțin două ori.</p>
+  <p>Cea mai naivă și directă metodă de a obține o distanță de 3 pași este repetiția triplă: în loc de un singur bit, trimitem fiecare bit de trei ori (0 devine 000, iar 1 devine 111). Dacă pe drum un bit se răstoarnă și primim 101, facem un vot democratic simplu: avem doi de 1 și un singur 0, deci decidem că mesajul a fost 1! Corectarea prin vot rezolvă admirabil orice eroare izolată.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Toate cele opt șiruri de trei biți</figcaption>
@@ -813,15 +815,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Prețul e mare: doi biți în plus pentru fiecare bit util, adică un mesaj de trei ori mai lung. Întrebarea devine cât de puțină redundanță ajunge.</p>
+  <p>Prețul plătit pentru repetiție este însă uriaș: adăugăm doi biți de pază pentru fiecare bit util, ceea ce triplează lungimea întregului mesaj și congestionează rețeaua. Întrebarea genială pe care și-au pus-o inginerii a fost: oare nu putem construi o plasă de siguranță la fel de puternică, dar cu mult mai puțini biți de prisos?</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><rect x="4" y="24" width="6" height="16"/><rect x="20" y="24" width="6" height="16"/><rect x="36" y="24" width="6" height="16"/><rect x="44" y="24" width="6" height="16"/><rect x="52" y="24" width="6" height="16"/></g><rect x="12" y="24" width="6" height="16" class="o-bar2"/><rect x="28" y="24" width="6" height="16" class="o-bar2"/><path d="M7 20 V12 H23 V20 M23 12 H39 V20 M39 12 H55 V20" class="o-line"/></svg></span>Codul Hamming</h2>
 
-  <p>Șapte biți pot duce patru biți de mesaj și trei de verificare. Ideea lui Richard Hamming, din 1950, e ca fiecare bit de verificare să se uite la o altă submulțime de poziții, iar submulțimile să fie alese astfel încât cele trei rezultate, citite ca un număr binar, să dea chiar poziția bitului stricat. Rezultatul 0 înseamnă că nimic nu s-a stricat.</p>
+  <p>Răspunsul a venit în anul 1950 de la matematicianul Richard Hamming de la laboratoarele Bell. El a demonstrat că într-un pachet de 7 biți putem transporta 4 biți de date utile protejați impecabil de doar 3 biți de verificare. În loc să repete mecanic biții de mesaj, Hamming a împletit verificările într-un mod sclipitor: fiecare dintre cei trei biți de control supraveghează un grup diferit de poziții, astfel încât combinația celor trei rezultate de control (0 sau 1), citită ca un număr binar, indică direct numărul de ordine al bitului stricat!</p>
 
-  <p>Cele trei verificări acoperă pozițiile astfel: prima se uită la pozițiile al căror număr are ultima cifră binară 1, a doua la cele cu penultima cifră 1, a treia la cele cu a treia cifră 1. O poziție stricată pică exact în acele verificări care o conțin, iar tiparul căderilor o numește. E, dacă privim bine, același joc cu întrebări din prima lecție: trei răspunsuri cu da sau nu deosebesc opt cazuri, adică „nimic stricat” plus cele șapte poziții.</p>
+  <p>Cum lucrează această magie? Prima verificare supraveghează pozițiile a căror scriere binară se termină cu 1 (pozițiile 1, 3, 5, 7); a doua verificare supraveghează pozițiile care au 1 pe a doua poziție binară (pozițiile 2, 3, 6, 7); iar a treia verificare privește pozițiile care au 1 pe al treilea rang (pozițiile 4, 5, 6, 7). Dacă o poziție oarecare — să zicem poziția 5 — este avariată de zgomot, ea va declanșa alarma exact în prima și în a treia verificare (fiindcă 5 se scrie în binar 101). Citind cele trei alarme ca un număr, obținem chiar 101, adică 5! Am arătat cu degetul spre vinovat și îl putem inversa pe loc la starea corectă. Recunoașteți aici jocul de întrebări din prima noastră lecție: trei întrebări binare de tip da/nu disting perfect între cele opt situații posibile (starea „fără erori” plus cele șapte poziții potențial defecte).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Șapte biți: patru de mesaj, trei de verificare; apasă pe oricare</figcaption>
@@ -837,25 +839,25 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Prețul a scăzut de la doi biți adăugați pentru fiecare bit util la trei pentru patru. Când se răstoarnă doi biți deodată, tiparul verificărilor arată tot o poziție, dar una greșită, iar „corectarea” strică un al treilea bit: codul acesta repară o eroare și nu se apără de două.</p>
+  <p>Economia este spectaculoasă: nu mai adăugăm opt biți de pază la patru biți utili (cum cerea codul de repetiție), ci doar trei biți de verificare pentru patru biți de mesaj! Dacă însă pe fir se produc două erori simultane, verificările se păcălesc reciproc și indică o a treia poziție, inocentă, iar corecția automată va strica încă un bit. Codul Hamming clasic este proiectat să corecteze garantat o singură eroare, dar principiul său deschide poarta către coduri moderne capabile să repare sute de erori simultane.</p>
 </section>
 
 <section id="s5">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 40 Q20 10 32 32 T56 24" class="o-line"/><g class="o-grid"><circle cx="8" cy="40" r="4"/><circle cx="32" cy="32" r="4"/><circle cx="56" cy="24" r="4"/></g><circle cx="20" cy="22" r="4" class="o-fill2"/><circle cx="44" cy="30" r="4" class="o-fill2"/></svg></span>Redundanță scoasă și redundanță pusă</h2>
 
-  <p>Lecția precedentă a scos redundanța din mesaj ca să-l scurteze. Aici redundanța se pune la loc, iar mesajul se lungește. Pare o contradicție și nu e; diferența stă în felul redundanței.</p>
+  <p>Privite una lângă alta, ultimele două lecții par să se contrazică: în lecția a doua am muncit din greu să curățăm redundanța dintr-un mesaj pentru a-l face cât mai scurt și mai suplu, iar acum, în lecția a treia, adăugăm de bunăvoie biți suplimentari pentru a lungi mesajul la loc! Este oare un pas înainte și unul înapoi? Nicidecum. Secretul constă în <i>calitatea</i> și <i>structura</i> redundanței folosite.</p>
 
-  <p>Redundanța limbii naturale e întâmplătoare: apare fiindcă literele nu sunt egal de probabile și fiindcă unele perechi nu se folosesc. Ea ajută uneori la ghicirea unei litere lipsă, dar nu spune care literă lipsește și nici unde. Redundanța adăugată de un cod corector e construită: fiecare bit în plus răspunde la o întrebare anume, iar răspunsurile împreună arată cu degetul spre locul stricat.</p>
+  <p>Redundanța naturală a unei limbi este haotică și ineficientă: ea există doar pentru că anumite litere se întâmplă să apară des, fără a urmări un plan de protecție. Ea ne poate ajuta uneori să ghicim o literă ștearsă, dar nu ne poate indica cu precizie matematică unde s-a produs greșeala și nici nu ne garantează că o putem repara. În schimb, redundanța adăugată de un cod corector este o capodoperă inginerească: fiecare bit adăugat are o misiune precisă, răspunde la o întrebare specifică și cooperează cu ceilalți pentru a localiza eroarea.</p>
 
-  <p>De aceea ordinea contează. Se comprimă întâi, ca să se scoată redundanța nefolositoare, și abia apoi se adaugă redundanța folositoare. Un fișier comprimat și apoi protejat este mai scurt și mai rezistent decât unul lăsat ca atare. Cele două lecții nu se contrazic: sunt două jumătăți ale aceleiași meserii, aceea de a hotărî ce anume din mesaj merită plătit.</p>
+  <p>De aceea, ordinea operațiunilor într-un calculator este sacră: <b>mai întâi comprimăm datele</b> pentru a elimina toată risipa inutilă și balastul haotic, <b>iar abia apoi le protejăm</b> adăugând o armură fină de redundanță controlată. Un fișier comprimat inteligent și apoi protejat printr-un cod corector este deopotrivă mai suplu și incomparabil mai rezistent la intemperii decât fișierul brut original. Cele două lecții nu se bat cap în cap; ele reprezintă cele două brațe ale aceleiași discipline nobile: arta de a decide ce merită plătit dintr-un mesaj.</p>
 </section>
 
 <section id="s6">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 52 H56 M8 52 V8" class="o-line"/><path d="M8 12 Q28 14 40 34 T56 52" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="30" cy="22" r="4" class="o-fill2"/></svg></span>Capacitatea canalului</h2>
 
-  <p>Rămâne întrebarea cât de departe se poate merge. Fiecare bit adăugat pentru siguranță e un bit care nu duce mesaj, așa că apare un raport: câți biți de mesaj revin la un bit trimis. Raportul se numește <dfn>rata codului</dfn>: codul cu repetiție are rata 1/3, codul Hamming de mai sus are 4/7.</p>
+  <p>Rămâne o ultimă și măreață întrebare: cât de departe putem împinge această eficiență? Fiecare bit dedicat verificării este un bit care nu transportă mesaj propriu-zis. Se naște astfel un raport esențial, numit <dfn>rata codului</dfn>: raportul dintre numărul de biți utili și numărul total de biți transmiși pe fir. Codul cu repetiție triplă are o rată modestă de 1/3 (doar 33% e mesaj util), în timp ce codul Hamming atinge 4/7 (peste 57%). Putem oare să transmitem mesaje aproape 100% utile și totuși să fim pe deplin ocrotiți de zgomot?</p>
 
-  <p>Claude Shannon a arătat, în aceeași lucrare din 1948, că fiecare canal are o <dfn>capacitate</dfn>: o rată sub care se poate transmite cu erori oricât de rare, și peste care nu se poate transmite sigur, oricât de ingenios ar fi codul. Rezultatul e uluitor dacă îl privim de la principii: zgomotul nu impune un preț nesfârșit, ci unul precis. Pentru canalul binar simetric, capacitatea este 1 minus entropia unei singure răsturnări, adică exact mărimea din lecția precedentă, calculată pe probabilitățile <i>p</i> și 1−<i>p</i>.</p>
+  <p>Răspunsul oferit de Claude Shannon în 1948 a uimit întreaga comunitate științifică mondială. El a demonstrat că fiecare canal de comunicație posedă o barieră precisă numită <dfn>capacitate</dfn>. Dacă rata noastră de transmisie este sub această capacitate, există întotdeauna coduri matematice care pot garanta o transmisie practic fără nicio eroare, oricât de lung ar fi mesajul! În schimb, dacă încercăm să transmitem peste capacitatea canalului, nicio minte omenească nu poate scăpa de erori. Zgomotul fizic nu ne cere un sacrificiu infinit; el impune o taxă fixă și măsurabilă, egală cu entropia erorii.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="V" data-a="5"></span>Capacitatea, în funcție de rata de eroare</figcaption>
@@ -868,9 +870,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Capacitatea scade la zero când <i>p</i> ajunge la 1/2, fiindcă atunci ce iese din canal nu mai are nicio legătură cu ce a intrat: bitul primit e la fel de probabil corect sau greșit, iar mesajul se poate la fel de bine ghici fără să fie trimis. Peste 1/2 capacitatea crește din nou, fiindcă un canal care greșește aproape întotdeauna e un canal bun cu firele inversate.</p>
+  <p>Priviți graficul interactiv: capacitatea scade treptat până când atinge zero la o rată de eroare de 50%. De ce tocmai la 50%? Pentru că atunci când fiecare bit are șanse egale de a fi corect sau inversat, canalul devine o simplă monedă aruncată în aer: ieșirea nu mai are nicio legătură cu intrarea, iar informația s-a evaporat complet. Dacă rata depășește 50%, capacitatea începe curios să crească din nou: un fir care inversează aproape totul este de fapt un canal excelent, căruia trebuie doar să-i inversăm convenția la celălalt capăt!</p>
 
-  <p>Teorema spune că astfel de coduri există, fără să spună cum arată. Găsirea lor a fost munca următoarei jumătăți de secol, iar codurile folosite azi în telefoane, în transmisiile din spațiu și pe discuri se apropie de capacitate până la o fracțiune de procent.</p>
+  <p>Teorema lui Shannon a demonstrat că aceste coduri ideale există în mod cert, dar fără a lăsa o rețetă mecanică pentru construirea lor. Oamenii de știință au trudit mai bine de jumătate de secol pentru a le proiecta, iar codurile moderne care echipează astăzi telefoanele 5G, transmisiunile sondelor spațiale de la marginea sistemului solar și hard-discurile din centrele de date ating 99% din această limită teoretică supremă.</p>
 </section>
 
 </main>

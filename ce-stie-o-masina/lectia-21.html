@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,38 +740,38 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Cuvântul <i>următor</i></h1>
-    <p class="lede">Toată partea despre limbaj se sprijină pe o singură sarcină, atât de simplă încât pare fără miză: dându-se începutul unui text, să se ghicească ce urmează. Jucată destul de bine, sarcina aceasta cere aproape tot ce înseamnă a înțelege.</p>
-    <p class="terms">Termeni: <b>model de limbaj</b> <b>distribuție de probabilitate</b> <b>auto-supervizare</b> <b>ordin</b> <b>temperatură</b> <b>perplexitate</b></p>
+    <p class="lede">Toată revoluția inteligenței artificiale moderne se sprijină pe un joc uimitor de simplu: primind începutul unei fraze, mașina trebuie să ghicească ce cuvânt urmează. La prima vedere pare un exercițiu mecanic de completat spații libere; în realitate, pentru a excela la acest joc, o rețea este silită să înțeleagă gramatica, logica, faptele lumii și natura gândirii umane.</p>
+    <p class="terms">Termeni: <b>model de limbaj</b> <b>distribuție de probabilitate</b> <b>auto-supervizare</b> <b>istoric de context (n-grame)</b> <b>temperatură</b> <b>perplexitate</b></p>
   </div>
 </header>
 
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="21" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="36" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="51" y="26" width="8" height="12" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M55 20 V14 M55 44 V50" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Sarcina</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="21" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="36" y="26" width="12" height="12" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="51" y="26" width="8" height="12" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M55 20 V14 M55 44 V50" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Misiunea: continuarea unei fraze</h2>
 
-  <p class="first">Se dă un șir de cuvinte și se cere următorul. Răspunsul nu e un cuvânt, ci o notă pentru fiecare cuvânt din dicționar: cât de potrivit ar fi fiecare în locul acela. Notele se aduc la un total de unu și se citesc ca probabilități.</p>
+  <p class="first">Imaginați-vă că ascultați o melodie cunoscută și cineva se oprește brusc în mijlocul refrenului: mintea dumneavoastră aude deja nota următoare înainte ca ea să fie cântată. Exact așa funcționează predicția de limbaj. I se prezintă un șir de cuvinte — de pildă: „Cerul senin era de un albastru...” — și i se cere să anticipeze continuarea firească.</p>
 
-  <p>Un program care face asta se numește <dfn>model de limbaj</dfn>. Ieșirea lui nu e o hotărâre, ci o <dfn>distribuție de probabilitate</dfn> peste tot dicționarul, iar hotărârea se ia abia după aceea, dintre variantele propuse. Deosebirea aceasta, între a ști ce e probabil și a alege, va reveni de multe ori.</p>
+  <p>Răspunsul modelului nu este un singur cuvânt categoric aruncat pe masă, ci o listă completă de scoruri pentru fiecare termen din vocabular: „intens” primește 60%, „deschis” 25%, „strălucitor” 10%, în timp ce cuvinte absurde precum „furculiță” primesc o șansă infimă, aproape de zero. Când adunăm toate aceste scoruri, suma lor dă exact 100% (sau 1). Un sistem care calculează aceste șanse se numește <dfn>model de limbaj</dfn>, iar tabelul complet de note poartă numele de <dfn>distribuție de probabilitate</dfn>. Rețeaua doar evaluează posibilitățile; decizia finală privind cuvântul rostit se ia abia într-un pas următor.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H50 M14 28 H44 M14 36 H50 M14 44 H36" fill="none" stroke="#22252D" stroke-width="2"/><rect x="38" y="41" width="12" height="6" fill="#EE5A2F"/></svg></span>Exemplele sunt gratuite</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H50 M14 28 H44 M14 36 H50 M14 44 H36" fill="none" stroke="#22252D" stroke-width="2"/><rect x="38" y="41" width="12" height="6" fill="#EE5A2F"/></svg></span>Marele secret: datele de antrenament sunt gratuite</h2>
 
-  <p>Aici se află lucrul care a făcut posibilă scara de azi, și el e ușor de trecut cu vederea.</p>
+  <p>Aici se află revelația esențială care a propulsat inteligența artificială la scara gigantică din prezent — un detaliu economic adesea trecut cu vederea.</p>
 
-  <p>Pentru a recunoaște cifre scrise de mână, cineva trebuie să scrie lângă fiecare imagine ce cifră este. Munca aceasta costă, iar cantitatea de exemple e mărginită de cât e cineva dispus să plătească. Pentru ghicirea cuvântului următor nu are cine să plătească, fiindcă răspunsul se află deja în text: el e chiar cuvântul care urmează.</p>
+  <p>Pentru a învăța un calculator să recunoască semne de circulație sau cifre scrise de mână, este nevoie ca mii de oameni să eticheteze manual fiecare imagine în parte: „aceasta este o curbă”, „aceasta este cifra 7”. Această muncă manuală este colosal de scumpă, lentă și limitată de buget. În schimb, pentru sarcina de a ghici cuvântul următor, nu este nevoie de niciun profesor plătit care să adauge etichete! Răspunsul corect se află deja chiar acolo, în textul pe care îl citește mașina: este cuvântul care urmează în mod natural pe pagină.</p>
 
-  <p>Orice text scris vreodată e astfel, fără nicio pregătire, o mulțime de exemple etichetate. Un text de un milion de cuvinte dă un milion de exemple, câte unul pentru fiecare poziție. Procedeul se numește <dfn>auto-supervizare</dfn>, iar el schimbă cantitatea disponibilă de la cât se poate eticheta la cât s-a scris. Toată biblioteca omenirii devine, dintr-odată, material de antrenare.</p>
+  <p>Orice carte, articol de presă, enciclopedie sau pagină web din istoria omenirii devine instantaneu un set perfect de exerciții rezolvate. O carte de o sută de mii de cuvinte oferă o sută de mii de întrebări cu răspunsul garantat inclus. Acest miracol metodologic se numește <dfn>auto-supervizare</dfn>. Prin el, bariera etichetării manuale a dispărut: întreaga bibliotecă a civilizației noastre s-a transformat peste noapte într-un ocean inepuizabil de învățare.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 14 H40 M8 26 H52 M8 38 H24 M8 50 H32" fill="none" stroke="#2F4BC4" stroke-width="6"/><path d="M8 26 H52" fill="none" stroke="#EE5A2F" stroke-width="6"/></svg></span>Un model care chiar prezice</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 14 H40 M8 26 H52 M8 38 H24 M8 50 H32" fill="none" stroke="#2F4BC4" stroke-width="6"/><path d="M8 26 H52" fill="none" stroke="#EE5A2F" stroke-width="6"/></svg></span>Cel mai simplu prezicător: metoda statisticii oarbe</h2>
 
-  <p>Cel mai simplu model de limbaj numără. Se ia un text, se rețin toate perechile de cuvinte alăturate, iar pentru a prezice ce urmează după un cuvânt se privește ce a urmat după el în text și în ce proporție. Se pot număra și grupuri mai lungi: două cuvinte dinainte, trei, patru. Numărul de cuvinte privite înapoi se numește <dfn>ordinul</dfn> modelului.</p>
+  <p>Cum putem construi cel mai primitiv model de limbaj? Pur și simplu numărând aparițiile! Citim un text mare și ținem o evidență riguroasă: de câte ori după „cafenea” a urmat cuvântul „aglomerată” și de câte ori „veche”? Când vrem să prezicem ce urmează după un termen, ne uităm în catastif și alegem proporțiile observate în trecut. Putem privi în urmă doar un singur cuvânt, sau grupuri de două, trei ori patru cuvinte consecutive. Numărul de termeni luați în considerare ca punct de plecare se numește <dfn>ordinul</dfn> modelului (sau contextul de <i>n-grame</i>).</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Model prin numărare, antrenat pe un text românesc</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Model statistic prin numărare antrenat pe un text românesc</figcaption>
     <div class="stage">
       <input type="text" id="prefix" value="copiii care veneau cu" aria-label="începutul textului">
       <div class="pbars" id="bars"></div>
@@ -784,18 +786,18 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cu un singur cuvânt privit înapoi, notele sunt împrăștiate: după „cu” poate veni aproape orice. Cu trei sau patru, distribuția se strânge adesea pe un singur cuvânt, fiindcă acea înșiruire apare o singură dată în text.</p>
+  <p>Dacă privim în urmă doar un singur cuvânt (ordinul 1), opțiunile sunt risipite și confuze: după o prepoziție precum „cu” poate urma aproape orice substantiv din dicționar. Dacă mărim fereastra la trei sau patru cuvinte, predicția devine foarte sigură pe frazele cunoscute, deoarece acea secvență exactă a apărut poate o singură dată în textul citit.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 H30 M6 32 H42 M6 44 H24" fill="none" stroke="#BDB9AA" stroke-width="5"/><path d="M34 20 H56 M46 32 H58 M28 44 H50" fill="none" stroke="#2F4BC4" stroke-width="5"/></svg></span>Generarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 20 H30 M6 32 H42 M6 44 H24" fill="none" stroke="#BDB9AA" stroke-width="5"/><path d="M34 20 H56 M46 32 H58 M28 44 H50" fill="none" stroke="#2F4BC4" stroke-width="5"/></svg></span>De la predicție la creație: generarea de text</h2>
 
-  <p>Un model care dă probabilități poate și să scrie. Se alege un cuvânt dintre cele propuse, se adaugă la text, iar textul mărit devine noua întrebare. Repetat, procedeul produce text. Un lucru merită subliniat: modelul nu a fost antrenat să scrie, ci să ghicească; scrisul e ghicitul întors spre viitor.</p>
+  <p>Un sistem capabil să evalueze probabilități poate fi transformat numaidecât într-un autor automat. Îi dăm un impuls de pornire (un „prompt”), modelul calculează probabilitățile, alege un cuvânt și îl adaugă la frază. Noua frază extinsă devine întrebarea pentru pasul următor. Repetând acest ciclu cuvânt cu cuvânt, se naște un text cursiv. Să observăm frumusețea mecanismului: mașina nu a fost instruită să fie scriitor creativ, ci doar să ghicească veriga lipsă; generarea de povestiri este doar jocul predicției derulat pas cu pas spre viitor.</p>
 
-  <p>Alegerea nu trebuie să cadă mereu pe cel mai probabil. Un buton hotărăște cât de mult contează notele: la valori mici se alege aproape întotdeauna vârful, iar textul iese previzibil și repetitiv; la valori mari se aleg și variante puțin probabile, iar textul iese variat și tot mai puțin coerent. Butonul se numește <dfn>temperatură</dfn>.</p>
+  <p>Cum alegem însă cuvântul din lista de probabilități? Nu suntem obligați să-l luăm mereu pe cel de pe primul loc. Putem introduce un parametru de reglaj intuitiv numit <dfn>temperatură</dfn>. La o temperatură scăzută (aproape de zero), modelul alege strict cele mai probabile cuvinte: textul rezultat este foarte logic, corect și previzibil, dar devine rapid repetitiv și monoton. La o temperatură ridicată, mașina acordă șanse și variantelor mai surprinzătoare: textul capătă vioiciune, metaforă și originalitate, dar dacă exagerăm, începe să aiureze și pierde firul logic.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Text scris de model; albastru e ce a adăugat</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Text compus de modelul statistic; cu albastru sunt marcate cuvintele adăugate</figcaption>
     <div class="stage">
       <div class="gen" id="genOut"></div>
       <div class="readout" id="genRead"></div>
@@ -808,37 +810,35 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Galben sunt marcate bucățile de cel puțin cinci cuvinte care se găsesc ca atare în textul de antrenare. Cu ordin mare și temperatură mică, modelul acesta nu compune, ci copiază: fiecare grup lung apare o singură dată în text, deci continuarea lui e unică. Slăbiciunea e a modelului prin numărare, nu a sarcinii.</p>
+  <p>Porțiunile evidențiate cu galben reprezintă pasaje copiate identic din textul pe care a fost antrenat modelul. Dacă setăm un ordin mare de context și o temperatură mică, un model pur statistic nu creează nimic nou, ci doar reproduce mecanic fragmente memorate. Dar această limitare aparține modelului primitiv prin tabele de numărare, nu sarcinii în sine!</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><path d="M20 30 Q32 18 44 30 M22 40 Q32 48 42 40" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="34" r="3" fill="#EE5A2F"/></svg></span>De ce sarcina cere aproape tot</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><path d="M20 30 Q32 18 44 30 M22 40 Q32 48 42 40" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="34" r="3" fill="#EE5A2F"/></svg></span>De ce o sarcină atât de simplă cere aproape totul</h2>
 
-  <p>Enunțul sarcinii nu spune nimic despre înțelegere, iar tocmai asta o face interesantă. Pentru a ghici bine, un model trebuie să fi învățat lucruri pe care nimeni nu i le-a cerut anume.</p>
+  <p>Misiunea de a ghici cuvântul următor nu menționează nicăieri cuvinte mari precum „inteligență”, „conștiință” sau „gândire”. Și totuși, tocmai această modestie aparentă o face atotcuprinzătoare. Pentru a ghici cu adevărat bine în orice context posibil, un model este constrâns să acumuleze o sumă colosală de competențe cognitive.</p>
 
-  <p>În „fetele care au venit ieri ___” trebuie potrivit acordul cu un cuvânt aflat cu patru poziții mai devreme. În „capitala Franței este ___” trebuie știut un fapt despre lume. În „doi plus doi fac ___” trebuie socotit. În „a deschis ușa, a intrat și a ___” trebuie urmărit firul unei povestiri. Iar în „profesorul i-a spus elevului că ___” trebuie ghicit cine ar putea spune ce, cui.</p>
+  <p>Priviți câteva exemple cotidiene: în propoziția <i>„Păsările care zburau deasupra lacului ___”</i>, pentru a alege corect „erau” în loc de „era”, modelul trebuie să stăpânească acordul gramatical peste o paranteză de câteva cuvinte. În <i>„Capitala Franței este ___”</i>, trebuie să dețină cunoștințe geografice solide despre lume. În <i>„Trei plus patru fac ___”</i>, trebuie să știe să calculeze. În <i>„A băgat cheia în broască, a răsucit-o și a ___”</i>, trebuie să înțeleagă fizica obiectelor cotidiene și succesiunea acțiunilor umane. Iar în <i>„Medicul i-a explicat pacientului îngrijorat că operația a fost o reușită, de aceea el s-a simțit ___”</i>, trebuie să înțeleagă empatia, psihologia și trăirile oamenilor.</p>
 
-  <p>Niciuna dintre aceste capacități nu apare în enunț. Toate sunt însă cerute de el, fiindcă un model care nu le are va ghici mai prost decât unul care le are. Sarcina e simplă de spus și aproape nemărginită de îndeplinit bine. E o idee veche în altă haină: a prezice bine ce urmează într-un text înseamnă a avea un model al lumii despre care vorbește textul, fie el și unul strâmb.</p>
+  <p>Niciuna dintre aceste deprinderi nu i-a fost impusă explicit prin reguli scrise de programatori. Toate decurg firesc din ambiția de a prezice bine: orice model care ignoră logica sau faptele lumii va comite erori mari la ghicire. A prezice fidel următorul cuvânt dintr-un text înseamnă, în profunzime, a construi o simulare internă a universului descris de acel text.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 20 Q30 26 54 48" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M8 30 Q30 36 54 14" fill="none" stroke="#7A4E9C" stroke-width="3"/></svg></span>Cât de bine ghicește</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V10" fill="none" stroke="#22252D" stroke-width="2"/><path d="M8 20 Q30 26 54 48" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M8 30 Q30 36 54 14" fill="none" stroke="#7A4E9C" stroke-width="3"/></svg></span>Cum măsurăm performanța: busola perplexității</h2>
 
-  <p>Măsura folosită e cea din a doua lecție. Costul unui model de limbaj e numărul mediu de biți de care ar fi nevoie ca să se scrie textul folosind probabilitățile date de model, adică entropia din lecția despre compresie, socotită pe predicțiile lui. Cercul cursului se închide aici: a comprima și a prezice sunt aceeași pricepere, cum spunea lecția a doua.</p>
+  <p>Cum știm dacă un model ghicește bine sau doar bâjbâie la întâmplare? Ne întoarcem la principiile din a doua lecție. Calitatea unui model de limbaj este strâns legată de cantitatea medie de biți de informație necesară pentru a descrie textul folosind probabilitățile oferite de model — adică exact entropia din teoria compresiei de date. Aici cercul se închide fascinant: capacitatea de a comprima și capacitatea de a prezice sunt două fețe ale aceleiași monede.</p>
 
-  <p>Cifra se raportează de obicei altfel, ca <dfn>perplexitate</dfn>: numărul de variante egal de probabile între care modelul ar ezita, dacă ar ezita uniform. O perplexitate de 20 înseamnă că modelul e la fel de nehotărât ca cineva care ar alege la întâmplare dintre douăzeci de cuvinte. Măsurarea se face, ca întotdeauna, pe text nevăzut la antrenare.</p>
+  <p>În practică, această măsură se exprimă adesea printr-un indicator numit <dfn>perplexitate</dfn>. Intuitiv, perplexitatea reprezintă numărul de opțiuni egal probabile între care modelul ezită atunci când trebuie să aleagă. Dacă un model are o perplexitate de 20 la o anumită propoziție, înseamnă că este la fel de nehotărât ca o persoană care ar trage la sorți cu ochii închiși dintre douăzeci de cuvinte diferite. Cu cât perplexitatea este mai mică, cu atât modelul este mai sigur pe el și mai precis. Esențial este ca măsurătoarea să se facă mereu pe texte proaspete, pe care modelul nu le-a văzut niciodată în faza de instruire.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Perplexitatea, pe textul de antrenare și pe unul păstrat deoparte</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Evoluția perplexității pe textul de învățare comparativ cu un text nou</figcaption>
     <div class="stage"><div class="tblwrap"><table class="tbl numeric" id="tblPP"></table></div></div>
     <div class="cap" id="capPP"></div>
   </figure>
 
-  <p>Tiparul din lecția despre supraînvățare apare din nou, în altă haină. Pe textul de antrenare, perplexitatea scade când modelul privește mai mult înapoi: el potrivește tot mai bine ceea ce a văzut. Pe textul nevăzut ea crește, fiindcă înșiruirile lungi din textul nou nu au mai fost întâlnite niciodată, iar modelul nu are ce să spună despre ele.</p>
+  <p>În tabelul de mai sus redescoperim capcana clasică a supraînvățării (<i>overfitting</i>). Pe textele deja memorate, perplexitatea scade spectaculos pe măsură ce mărim ordinul de context: modelul recunoaște pe de rost fiecare frază. În schimb, pe un text nou-nouț, perplexitatea explodează! De ce? Deoarece înșiruirile lungi de cuvinte noi nu au apărut niciodată în baza sa de date, iar modelul prin simplă numărare rămâne complet mut și neajutorat.</p>
 
-  <p>Ultima coloană arată ce aduce retragerea la contexte mai scurte. Când înșiruirea lungă lipsește, modelul se folosește de una mai scurtă în loc să rămână fără nimic. Paguba nu dispare, perplexitatea tot nu scade, dar se oprește din creștere, iar asta e singura apărare a unui model prin numărare.</p>
-
-  <p>Modelul prin numărare se blochează repede și din cauza aritmeticii. Cu un dicționar de cincizeci de mii de cuvinte, șirurile de trei cuvinte cu putință sunt o sută douăzeci și cinci de mii de miliarde, iar cele mai multe nu apar în niciun text scris vreodată. Nu există destul text în lume ca tabelul să fie umplut. E nevoie de altceva decât de un tabel: de un model care să nu ceară să fi văzut exact înșiruirea de față, ci să se poată folosi de asemănarea ei cu altele. Lecția următoare arată prima încercare serioasă în direcția asta și de ce nici ea nu ajunge.</p>
+  <p>De ce eșuează fatal modelele pur statistice bazate pe tabele? Din cauza unei explozii combinatorii nemiloase. Într-un vocabular modest de cincizeci de mii de cuvinte, numărul secvențelor posibile de doar trei cuvinte depășește o sută douăzeci și cinci de mii de miliarde! Nici dacă am aduna toate textele scrise vreodată pe Pământ nu am putea completa un asemenea tabel. Avem nevoie urgentă de o arhitectură superioară: un model capabil nu doar să caute potriviri literale, ci să generalizeze prin analogie și rudenie de sens. În lecția următoare, vom descoperi cum rețelele neuronale realizează acest salt calitativ decisiv.</p>
 </section>
 
 </main>

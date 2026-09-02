@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -514,13 +516,14 @@ canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
 .kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
 .three{display:grid;gap:.7rem}
+.three.enc3{grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
 @media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
 
 /* vectori (lecția 19) */
 select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
-.enc{display:flex;flex-direction:column;gap:.35rem}
-.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
-.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.7rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.18rem .26rem;white-space:nowrap}
 .enc .tbl th{position:static;font-size:.58rem}
 .neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
 .neigh b{color:var(--orange)}
@@ -738,46 +741,46 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Reprezentarea <i>vectorială</i></h1>
-    <p class="lede">O rețea primește numere. Un cuvânt nu e un număr, iar felul în care i se dă unul hotărăște tot ce se poate învăța despre el. Răspunsul care s-a impus e surprinzător: nu hotărâm noi numerele, ci lăsăm cuvântul să și le câștige din tovărășia pe care o ține.</p>
-    <p class="terms">Termeni: <b>reprezentare unară</b> <b>vector</b> <b>reprezentare vectorială</b> <b>similaritate cosinus</b> <b>direcții cu înțeles</b></p>
+    <p class="lede">O rețea neuronală nu știe ce este o literă sau o idee: ea lucrează exclusiv cu numere, adunări și înmulțiri. Cum putem transforma un cuvânt într-un pachet de cifre fără să-i pierdem sensul? Soluția modernă e surprinzătoare și elegantă: nu inventăm noi definiții matematice rigide, ci lăsăm cuvintele să-și găsească singure locul pe o hartă a înțelesurilor, ghidate doar de tovărășia în care apar zi de zi.</p>
+    <p class="terms">Termeni: <b>reprezentare unară (one-hot)</b> <b>vector de trăsături</b> <b>hartă semantică</b> <b>similaritate cosinus</b> <b>aritmetică a direcțiilor</b></p>
   </div>
 </header>
 
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#BDB9AA"><rect x="6" y="28" width="8" height="8"/><rect x="16" y="28" width="8" height="8"/><rect x="36" y="28" width="8" height="8"/><rect x="46" y="28" width="8" height="8"/></g><rect x="26" y="28" width="8" height="8" fill="#2F4BC4"/><path d="M6 46 H54" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cuvântul nu e un număr</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#BDB9AA"><rect x="6" y="28" width="8" height="8"/><rect x="16" y="28" width="8" height="8"/><rect x="36" y="28" width="8" height="8"/><rect x="46" y="28" width="8" height="8"/></g><rect x="26" y="28" width="8" height="8" fill="#2F4BC4"/><path d="M6 46 H54" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cuvântul nu este un simplu număr</h2>
 
-  <p class="first">Prima idee e numerotarea: fiecare cuvânt din dicționar primește un număr de ordine. Ea strecoară însă în date o structură care nu există. Dacă „câine” primește 17 și „pisică” 18, orice socoteală va trata cele două cuvinte ca vecine și pe „câine” ca aflat la mijloc între 16 și 18, lucruri fără niciun înțeles. Am spus în prima lecție că un nume binar e o adresă, nu o descriere; aici, adresa ar fi luată drept descriere.</p>
+  <p class="first">Prima idee care ne vine în minte pare la îndemână: ce-ar fi să numerotăm pur și simplu cuvintele din dicționar? „Câine” primește numărul 17, „pisică” primește 18, iar „măr” primește 19. Această abordare naivă strecoară însă în date o ordine falsă, care induce rețeaua în eroare. Pentru o formulă matematică, 17 și 18 sunt vecini imediați, iar 18 se află exact la mijloc între 17 și 19. Dar „pisica” nu este o medie între un câine și un măr! Am văzut în primele lecții că o etichetă binară e doar o adresă de catalog, nu o descriere a conținutului. Dacă luăm adresa drept înțeles, calculele își pierd orice noimă.</p>
 
-  <p>A doua idee înlătură structura falsă. Fiecare cuvânt devine un șir lung de zerouri cu un singur 1, pus în dreptul lui. Scrierea se numește <dfn>reprezentare unară</dfn> și nu mai presupune nimic: niciun cuvânt nu e mai aproape de altul.</p>
+  <p>A doua idee încearcă să elimine această apropiere artificială. În loc de un singur număr, îi dăm fiecărui cuvânt o listă lungă de zerouri, cu o singură poziție de 1 activată la căsuța lui. Această abordare se numește <dfn>reprezentare unară</dfn> (sau, în engleză, <i>one-hot encoding</i>). Avantajul ei este că este perfect imparțială: nu mai presupune nicio rudenie forțată între cuvinte.</p>
 
-  <p>Tocmai asta e neajunsul ei. Oricare două cuvinte diferite sunt la aceeași depărtare unul de altul, deci reprezentarea nu conține nicio informație despre înțeles. Pe deasupra, are o valoare pentru fiecare cuvânt din dicționar: la o sută de mii de cuvinte, fiecare are o sută de mii de numere.</p>
+  <p>Dar tocmai această neutralitate o face neputincioasă. În reprezentarea unară, oricare două cuvinte diferite se află la exact aceeași distanță matematică unul de altul. Pentru rețea, „pisică” este la fel de străină de „câine” pe cât este de „submarin” sau „filosofie” — nu există nicio urmă de semnificație. În plus, lista devine uriașă: pentru un vocabular obișnuit de o sută de mii de cuvinte, fiecare cuvânt ar fi un șir gigantic de o sută de mii de zerouri și un singur 1.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Trei feluri de a scrie cinci cuvinte, și depărtările care ies</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Trei moduri de a reprezenta cuvintele și distanțele dintre ele</figcaption>
     <div class="stage">
-      <div class="three">
-        <div class="enc"><span class="lbl">numerotare</span><div class="tblwrap" id="encIdx"></div></div>
+      <div class="three enc3">
+        <div class="enc"><span class="lbl">numerotare simplă</span><div class="tblwrap" id="encIdx"></div></div>
         <div class="enc"><span class="lbl">reprezentare unară</span><div class="tblwrap" id="encOne"></div></div>
         <div class="enc"><span class="lbl">vectori învățați</span><div class="tblwrap" id="encVec"></div></div>
       </div>
     </div>
-    <div class="cap">La numerotare, „mărul” iese vecin cu „câinele” fiindcă au numere alăturate. La reprezentarea unară, toate perechile sunt la fel de depărtate. Numai a treia scriere așază fructele lângă fructe.</div>
+    <div class="cap">La numerotarea arbitrară, „para” iese vecină cu „câinele”, iar „pisica” cu „Clujul”, doar fiindcă au primit numere alăturate. La reprezentarea unară, toate cuvintele sunt la fel de străine între ele. Numai vectorii învățați reușesc să așeze fructele lângă fructe și animalele lângă animale.</div>
   </figure>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 L52 14 M32 32 L10 20 M32 32 L40 56" fill="none" stroke="#22252D" stroke-width="1.5"/><g fill="#EE5A2F"><circle cx="52" cy="14" r="4"/><circle cx="56" cy="22" r="4"/><circle cx="46" cy="10" r="4"/></g><g fill="#2F4BC4"><circle cx="10" cy="20" r="4"/><circle cx="8" cy="28" r="4"/></g><g fill="#6B7A38"><circle cx="40" cy="56" r="4"/><circle cx="34" cy="54" r="4"/></g><circle cx="32" cy="32" r="2.5" fill="#22252D"/></svg></span>Înțelesul din vecinătăți</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 32 L52 14 M32 32 L10 20 M32 32 L40 56" fill="none" stroke="#22252D" stroke-width="1.5"/><g fill="#EE5A2F"><circle cx="52" cy="14" r="4"/><circle cx="56" cy="22" r="4"/><circle cx="46" cy="10" r="4"/></g><g fill="#2F4BC4"><circle cx="10" cy="20" r="4"/><circle cx="8" cy="28" r="4"/></g><g fill="#6B7A38"><circle cx="40" cy="56" r="4"/><circle cx="34" cy="54" r="4"/></g><circle cx="32" cy="32" r="2.5" fill="#22252D"/></svg></span>Harta semantică: înțelesul născut din vecinătăți</h2>
 
-  <p>A treia idee e să nu se hotărască nimic dinainte. Fiecare cuvânt primește o listă scurtă de numere, zece, trei sute, o mie, iar valorile lor nu se aleg, ci se învață, ca orice altă pondere. Lista se numește <dfn>vector</dfn>, iar ansamblul lor, <dfn>reprezentare vectorială</dfn>.</p>
+  <p>Adevărata revoluție a venit dintr-o a treia abordare: să nu hotărâm noi manual valorile numerice, ci să le lăsăm pe seama învățării automate. Fiecare cuvânt primește o listă compactă de numere reale — câteva zeci, trei sute sau o mie — care funcționează exact ca niște coordonate GPS într-un spațiu cu multe dimensiuni. Această listă ordonată de numere se numește <dfn>vector</dfn>, iar plasarea conceptelor pe această hartă multidimensională poartă numele de <dfn>reprezentare vectorială</dfn> (sau <i>embedding</i>).</p>
 
-  <p>Rămâne întrebarea din ce se învață. Răspunsul folosit peste tot pornește de la o observație despre limbă, formulată de lingvistul John Firth în 1957: un cuvânt se cunoaște după tovărășia pe care o ține. Cuvintele care apar în aceleași contexte înseamnă, de regulă, lucruri înrudite. E o idee cu miză filozofică: înțelesul nu e definit, ci arătat prin folosire, iar folosirea se poate număra.</p>
+  <p>Dar cum poate o mașină să afle coordonatele potrivite pentru fiecare cuvânt? Secretul a fost formulat inspirat de lingvistul John Firth încă din 1957: <i>„un cuvânt se cunoaște după tovărășia pe care o ține”</i>. Cuvintele care exprimă noțiuni înrudite tind să apară în contexte similare. Spunem adesea „am băut un ceai fierbinte” sau „am băut o cafea fierbinte”, dar rareori „am băut un tractor fierbinte”. Înțelesul nu este o definiție abstractă dintr-un dicționar imobil, ci un tipar viu de utilizare în limba de zi cu zi — iar aparițiile în text pot fi numărate și măsurate matematic.</p>
 
-  <p>Observația se transformă direct în sarcină de antrenare. Se ia un text, iar rețelei i se cere, pentru fiecare cuvânt, să ghicească ce cuvinte îl înconjoară. Ghicirea e doar un pretext: nimeni nu are nevoie de ea. Ce se păstrează la sfârșit sunt vectorii, iar ei ajung să pună aproape unele de altele cuvintele care apar în aceeași tovărășie.</p>
+  <p>Această intuiție devine un joc ingenios de antrenare. Dintr-o bibliotecă uriașă de texte, alegem un cuvânt și îi cerem rețelei să ghicească ce termeni se află în imediata lui vecinătate. Ghicirea în sine este doar un antrenament utilitar: ceea ce ne interesează cu adevărat sunt coordonatele care se ajustează treptat în acest proces. Pentru a prezice corect contextele, modelul este obligat să împingă în aceeași zonă a hărții cuvintele care împart aceiași tovarăși de frază.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>O reprezentare antrenată în pagină, pe un text mic</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>O hartă a cuvintelor antrenată în direct pe un text restrâns</figcaption>
     <div class="stage">
       <canvas id="cvMap" class="cv-map"></canvas>
       <div class="readout" id="mapRead"></div>
@@ -792,28 +795,28 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Textul folosit are patruzeci și opt de propoziții scurte și treizeci și opt de cuvinte, iar vectorii au numai două numere fiecare, ca să încapă într-un desen. Nimeni nu i-a spus rețelei că există fructe, animale și orașe. Grupurile ies din faptul că membrii fiecăruia apar în aceleași tovărășii.</p>
+  <p>În exemplul interactiv de mai sus, am pregătit patruzeci și opt de propoziții scurte formate din treizeci și opt de cuvinte. Fiecare cuvânt primește doar două coordonate, pentru a putea fi desenat ca un punct pe un ecran plan. Fără ca cineva să fi programat categorii de tipul „fructe”, „animale” sau „orașe”, punctele migrează singure și formează insule distincte, pur și simplu pentru că apar în propoziții asemănătoare.</p>
 
-  <p class="note">Cuvintele care apar într-un singur fel de context sunt trase în grupul acelui context. „Din” ajunge lângă fructe fiindcă în textul acesta apare numai în „cumpăr mărul din piață”. Într-un text adevărat el apare peste tot și se așază la mijloc.</p>
+  <p class="note">Atenție la capcanele contextelor prea înguste: dacă un cuvânt apare într-un singur tip de frază, el este atras cu forța în acel cerc restrâns. În micul nostru text didactic, „din” ajunge lipit de fructe fiindcă apare exclusiv în „cumpăr mărul din piață”. Într-un corpus amplu de limbă naturală, el este folosit în mii de contexte diferite și migrează firesc spre centrul neutru al hărții.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 52 L52 14 M12 52 L56 40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M28 36 A18 18 0 0 1 30 47" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="12" cy="52" r="3" fill="#22252D"/></svg></span>Depărtarea și direcția</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 52 L52 14 M12 52 L56 40" fill="none" stroke="#22252D" stroke-width="2"/><path d="M28 36 A18 18 0 0 1 30 47" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><circle cx="12" cy="52" r="3" fill="#22252D"/></svg></span>Distanța și orientarea pe busola semantică</h2>
 
-  <p>Într-o hartă ca aceasta, ce contează nu e distanța până la origine, ci unghiul dintre doi vectori. Doi vectori care arată în aceeași direcție descriu cuvinte care apar în aceleași contexte, indiferent cât de lungi sunt.</p>
+  <p>Pe o astfel de hartă a înțelesurilor, ceea ce contează nu este lungimea vectorului (distanța de la centrul diagramei până la cuvânt), ci unghiul format de săgețile celor doi vectori. Dacă privim fiecare cuvânt ca pe un ac de busolă îndreptat din origine, două cuvinte cu sensuri apropiate vor arăta aproape în aceeași direcție, indiferent cât de des sau de rar au fost întâlnite în text.</p>
 
-  <p>Măsura folosită se numește <dfn>similaritate cosinus</dfn> și e cosinusul unghiului dintre cei doi vectori: 1 pentru aceeași direcție, 0 pentru direcții perpendiculare, −1 pentru direcții opuse. Ea e numărul afișat lângă fiecare vecin în figura de mai sus.</p>
+  <p>Instrumentul matematic standard pentru această comparație poartă numele de <dfn>similaritate cosinus</dfn>. El măsoară cât de aliniate sunt cele două direcții: primește valoarea 1 dacă săgețile indică exact aceeași direcție, coboară la 0 dacă ele sunt perpendiculare (fără nicio legătură de sens) și ajunge la −1 dacă indică direcții complet opuse. Aceasta este nota de proximitate afișată lângă fiecare vecin în diagrama de mai sus.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2F4BC4"><circle cx="12" cy="44" r="4"/><circle cx="32" cy="48" r="4"/></g><g fill="#EE5A2F"><circle cx="26" cy="18" r="4"/><circle cx="46" cy="22" r="4"/></g><path d="M12 44 L26 18 M32 48 L46 22" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Direcții cu înțeles</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g fill="#2F4BC4"><circle cx="12" cy="44" r="4"/><circle cx="32" cy="48" r="4"/></g><g fill="#EE5A2F"><circle cx="26" cy="18" r="4"/><circle cx="46" cy="22" r="4"/></g><path d="M12 44 L26 18 M32 48 L46 22" fill="none" stroke="#B58A12" stroke-width="2.5"/></svg></span>Geometria sensului: direcții cu înțeles</h2>
 
-  <p>Într-o reprezentare antrenată pe cantități mari de text apare ceva ce nimeni nu a cerut. Deplasarea de la vectorul lui „rege” la cel al lui „regină” seamănă cu deplasarea de la „actor” la „actriță” și de la „bunic” la „bunică”. O anumită direcție din spațiu ajunge să însemne schimbarea genului, alta trecerea de la singular la plural, alta legătura dintre o țară și capitala ei.</p>
+  <p>Când o astfel de reprezentare este antrenată pe miliarde de cuvinte de pe internet, se produce un fenomen spectaculos pe care nimeni nu l-a programat anume. Spațiul căpătă o geometrie plină de logică: deplasarea de la vectorul „rege” la vectorul „regină” este aproape paralelă cu deplasarea de la „bărbat” la „femeie”, de la „actor” la „actriță” sau de la „bunic” la „bunică”. O anumită axă din spațiu ajunge să codifice genul gramatical, o altă axă codifică trecerea de la singular la plural, iar o alta leagă țările de capitalele lor.</p>
 
-  <p>Urmarea e că întrebările se pot pune prin scădere și adunare: pornind de la „rege”, scăzând „bărbat” și adunând „femeie”, se ajunge într-un loc apropiat de „regină”. Efectul a fost observat în 2013 și a impresionat mult, fiindcă nimic din sarcina de antrenare nu îl cere. Pe reprezentarea de mai sus el nu se poate arăta, iar motivul merită privit.</p>
+  <p>Consecința este fascinantă: putem rezolva analogii lingvistice prin simple adunări și scăderi de vectori. Dacă luăm coordonatele cuvântului „rege”, scădem vectorul „bărbat” și adunăm vectorul „femeie”, ajungem matematic într-un punct extrem de apropiat de „regină”. Această proprietate, evidențiată în 2013 odată cu modelul Word2Vec, a stârnit o adevărată senzație în lumea științei, arătând că relațiile de gândire umană pot fi cartografiate geometric.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceeași socoteală, pe un text prea mic</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aritmetica analogiilor pe un set de date prea mic</figcaption>
     <div class="stage">
       <div class="readout" id="anRead"></div>
       <div class="neigh" id="anOut">—</div>
@@ -825,19 +828,19 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Socoteala nimerește grupul potrivit, toate cuvintele feminine ies deodată, dar nu deosebește între ele. Toate trei primesc aceeași notă, iar ordinea dintre ele e întâmplătoare. Cauza e că în textul acesta „regina”, „actrița” și „bunica” apar în exact aceleași contexte, deci nimic nu le poate despărți.</p>
+  <p>Dacă testăm această operație pe micul nostru exemplu didactic, observăm că modelul identifică zona corectă — toate cuvintele feminine apar simultan pe primele locuri —, însă nu le poate departaja fin între ele. „Regina”, „actrița” și „bunica” primesc scoruri aproape identice, iar ordinea lor este pur întâmplătoare. De ce se întâmplă asta? Deoarece în cele câteva propoziții din exercițiu, cele trei cuvinte apar în exact aceleași tipare de frază, fără suficiente nuanțe care să le distingă.</p>
 
-  <p>Aici se vede, în mic, ce cumpără cantitatea de text. Nu mecanismul, care e același; ci numărul de contexte diferite, singurul lucru care poate deosebi două cuvinte între ele. Un cuvânt înseamnă atât cât îl deosebesc contextele lui de ale altora; cu puțin text, multe cuvinte sunt, pentru model, același cuvânt.</p>
+  <p>Aici înțelegem rolul decisiv al volumului uriaș de date. Algoritmul de învățare este identic; ceea ce aduce o bibliotecă gigantică este varietatea infinită de contexte particulare, singurul lucru care poate separa un concept de celălalt. Un cuvânt are o identitate bine definită doar în măsura în care situațiile în care este folosit diferă de ale semenilor săi. Cu date puține, concepte distincte rămân contopite în același punct.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="10" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><circle cx="44" cy="32" r="10" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="4" fill="#B5232B"/></svg></span>Ce nu încape într-un vector</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="10" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><circle cx="44" cy="32" r="10" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="4" fill="#B5232B"/></svg></span>Marea limitare: cuvintele cu mai multe fețe</h2>
 
-  <p>Reprezentarea de felul acesta dă fiecărui cuvânt un singur vector, deci un singur înțeles. Cuvântul „broască” are însă cel puțin două înțelesuri fără legătură între ele, iar vectorul lui ajunge un compromis între ele, potrivit pentru niciunul.</p>
+  <p>Oricât de ingenioasă este această metodă, ea ascunde o slăbiciune fundamentală: asociază fiecărui cuvânt un singur vector fix, ca o etichetă lipită o dată pentru totdeauna. Ce facem însă cu omofonele și polisemantismele? Cuvântul „broască” poate fi o vietate de pe malul apei sau mecanismul de încuiere al unei uși. Neavând voie să aibă două poziții distincte, vectorul său este tras simultan în două direcții opuse și sfârșește într-un compromis bizar la mijlocul hărții — un punct care nu se potrivește cumsecade cu niciunul dintre cele două sensuri.</p>
 
-  <p>Neajunsul e de principiu, nu de mărime: nicio cantitate de text nu îl repară, fiindcă vine din hotărârea de a da câte un vector fiecărui cuvânt, o dată pentru totdeauna. Repararea cere ca vectorul unui cuvânt să se schimbe după propoziția în care se află, iar asta schimbă natura întregii construcții. E drumul care duce la lecțiile despre atenție.</p>
+  <p>Această piedică nu ține de cantitatea de text citit, ci de principiul de bază al sistemului: nu poți reduce un cuvânt la un vector static, rupt de contextul clipei. Pentru a înțelege limba vie, vectorul unui termen trebuie să fie fluid, modelat dinamic de propoziția în care trăiește la un moment dat. Această nevoie profundă va deschide drumul către mecanismele de atenție și marile modele de limbaj de astăzi.</p>
 
-  <p>În tot ce s-a spus mai sus, unitatea a fost cuvântul. Un dicționar de cuvinte are însă o problemă practică: oricât ar fi de mare, va exista mereu un cuvânt din afara lui, un nume propriu, o formă rară, un cuvânt inventat ieri. Lecția următoare arată ce se folosește în locul cuvintelor.</p>
+  <p>Mai există o dificultate practică: am presupus până acum că unitatea de lucru este cuvântul întreg. Dar oricât de voluminos ar fi un dicționar, vor apărea necontenit cuvinte noi, nume proprii, greșeli de tipar, termeni tehnici sau flexiuni neașteptate. În lecția următoare, vom descoperi cum rezolvă inteligența artificială această dilemă, descompunând cuvintele în piese flexibile de Lego.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,23 +740,23 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Ordinea <i>cuvintelor</i></h1>
-    <p class="lede">În socoteala atenției nu intră nicăieri locul unui cuvânt. Fără o piesă adăugată anume, mecanismul dă exact același răspuns pentru orice rearanjare a textului: vede o grămadă, nu un șir. Piesa aceea e mică, iar felul în care e aleasă spune mult despre ce înseamnă „loc” pentru o mașină.</p>
-    <p class="terms">Termeni: <b>marcaj de poziție</b> <b>codificare pozițională</b> <b>codificare sinusoidală</b> <b>poziție relativă</b> <b>codificare rotativă</b></p>
+    <p class="lede">În mecanismul pur de atenție nu există noțiunea de timp sau spațiu: fără un ghid suplimentar, modelul consideră identice frazele „câinele a mușcat omul” și „omul a mușcat câinele”. Pentru a deosebi ordinea firească a gândurilor, fiecare cuvânt primește un număr de loc sau o amprentă temporală — de la acele unui ceasornic sinusoidal până la rotația geometrică modernă a vectorilor.</p>
+    <p class="terms">Termeni: <b>invarianță la permutare</b> <b>codificare pozițională</b> <b>unde sinusoidale (ceasornic cu frecvențe)</b> <b>distanță relativă</b> <b>codificare rotativă (RoPE)</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="30" width="10" height="10" fill="#2F4BC4"/><rect x="30" y="18" width="10" height="10" fill="#EE5A2F"/><rect x="44" y="36" width="10" height="10" fill="#6B7A38"/><rect x="20" y="42" width="10" height="10" fill="#E9C93B" stroke="#22252D" stroke-width="1"/><path d="M6 56 H58" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ce nu vede atenția</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="30" width="10" height="10" fill="#2F4BC4"/><rect x="30" y="18" width="10" height="10" fill="#EE5A2F"/><rect x="44" y="36" width="10" height="10" fill="#6B7A38"/><rect x="20" y="42" width="10" height="10" fill="#E9C93B" stroke="#22252D" stroke-width="1"/><path d="M6 56 H58" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Marea slăbiciune a atenției: sacul de cuvinte dezordonate</h2>
 
-  <p class="first">Atenția compară o interogare cu fiecare cheie, aduce notele la un total de unu și adună valorile cântărite cu ele. Nicio mărime din lanțul acesta nu spune unde se află un cuvânt: cheile și valorile ies din vectorii cuvintelor, iar suma nu ține minte în ce ordine au venit termenii ei.</p>
+  <p class="first">Atenția calculează potrivirea dintre o întrebare și toate cheile disponibile, convertește scorurile în ponderi și adună valorile rezultate. Observați însă un detaliu surprinzător: în toată această înlănțuire de operații nu apare nicăieri poziția fizică a cuvântului în frază! Întrucât adunarea este o operație comutativă (2 + 3 este egal cu 3 + 2), suma valorilor dă exact același rezultat, indiferent de ordinea în care au sosit termenii.</p>
 
-  <p>Urmarea e exactă, nu aproximativă. Dacă pozițiile de dinaintea celei care întreabă sunt rearanjate oricum, ieșirea nu se schimbă cu nimic. Nu puțin, ci deloc.</p>
+  <p>Consecința este radicală: dacă amestecăm cuvintele unei propoziții ca pe niște zaruri într-un pahar, ieșirea atenției rămâne neschimbată. Nu aproape aceeași, ci identică până la ultima zecimală!</p>
 
-  <p>Cărți scoase din raft și puse pe masă. Sunt toate acolo și se vede ce scrie pe fiecare, dar până nu le numerotezi nu mai știi ce urmează după ce.</p>
+  <p>Este ca o grămadă de cărți vărsate de-a valma pe o masă: recunoști titlul fiecăreia, dar fără numerele de pagină tipărite pe colț nu ai nicio cale să știi ce capitol vine după ce.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceleași cuvinte, altă ordine</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceleași cuvinte aranjate în altă ordine: răspunsul atenției pure rămâne neschimbat</figcaption>
     <div class="stage">
       <div class="striprow" id="mStrip"></div>
       <div class="readout" id="mRead"></div>
@@ -769,16 +771,18 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Modelul din figură are ponderi luate la întâmplare. Egalitatea nu ține de antrenare: ea vine din forma socotelii, deci se vede la fel de bine pe un model neantrenat.</p>
+  <p class="note">În experimentul interactiv de mai sus, ponderile sunt alese aleatoriu pentru a demonstra că această orbire nu ține de calitatea antrenării, ci este o proprietate matematică intrinsecă a formulei de atenție.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="22" width="18" height="20" fill="#2F4BC4"/><rect x="38" y="22" width="18" height="20" fill="#EE5A2F"/><text x="17" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">A</text><text x="47" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">B</text><path d="M28 32 H36" fill="none" stroke="#22252D" stroke-width="2"/><text x="32" y="56" text-anchor="middle" font-family="monospace" font-size="10" fill="#22252D">?</text></svg></span>Sarcina care cere ordinea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="22" width="18" height="20" fill="#2F4BC4"/><rect x="38" y="22" width="18" height="20" fill="#EE5A2F"/><text x="17" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">A</text><text x="47" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">B</text><path d="M28 32 H36" fill="none" stroke="#22252D" stroke-width="2"/><text x="32" y="56" text-anchor="middle" font-family="monospace" font-size="10" fill="#22252D">?</text></svg></span>Testul cronologic: când ordinea este totul</h2>
 
-  <p>O sarcină în care ordinea hotărăște răspunsul arată cât costă lipsa ei. Șirul are un A și un B la început, în ordine aleasă prin aruncarea unei monede, iar la sfârșit se cere care dintre ele a fost primul. Conținutul e de fiecare dată același; numai ordinea diferă.</p>
+  <p>Pentru limba umană, ordinea este vitală: una este să spui „pisica vânează șoarecele” și cu totul altceva „șoarecele vânează pisica”.</p>
+
+  <p>Putem ilustra acest impas printr-un experiment simplu: generăm un șir care începe cu literele A și B într-o ordine aleasă la întâmplare (AB sau BA), urmate de caractere neutre, iar la final întrebăm rețeaua care literă a apărut prima. Vocabularul este identic în ambele situații; doar cronologia diferă.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Care semn a fost primul</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Identificarea primului simbol apărut în șir</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblT"></table></div>
       <div class="readout" id="tRead"></div>
@@ -789,34 +793,34 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Fără marcaj de poziție rezultatul nu e slab, ci exact cel al monedei. Modelul dă aceeași ieșire pentru amândouă ordinile, deci alege mereu același răspuns și nimerește jumătate din cazuri, oricât ar fi antrenat. Nu e o problemă de învățare. Informația cerută nu există nicăieri în ce vede modelul.</p>
+  <p>Fără un marcaj explicit al ordinii, precizia modelului este de exact 50%, la fel ca aruncarea la noroc a unei monede. Modelul produce exact același vector matematic pentru ambele variante, așa că este silit să ghicească orbește. Nu este o slăbiciune de optimizare: informația despre ordine pur și simplu nu există în datele primite!</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="26" width="22" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><text x="38" y="37" font-family="monospace" font-size="11" fill="#22252D">+</text><rect x="46" y="26" width="10" height="14" fill="#EE5A2F"/><text x="21" y="18" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">cuvânt</text><text x="51" y="54" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">loc</text></svg></span>Marcajul de poziție</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="26" width="22" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><text x="38" y="37" font-family="monospace" font-size="11" fill="#22252D">+</text><rect x="46" y="26" width="10" height="14" fill="#EE5A2F"/><text x="21" y="18" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">cuvânt</text><text x="51" y="54" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">loc</text></svg></span>Biletul cu numărul de loc: marcajul de poziție</h2>
 
-  <p>Reparația se face o singură dată, înainte de primul bloc. Fiecare poziție primește un vector care depinde numai de locul ei, iar acesta se adună la vectorul cuvântului. Vectorul acesta se numește <dfn>marcaj de poziție</dfn>, iar felul în care se alege, <dfn>codificare pozițională</dfn>.</p>
+  <p>Soluția este simplă și ingenioasă: înainte de a intra în primul etaj Transformer, fiecare cuvânt primește un mic supliment numeric — un vector special care reflectă exclusiv poziția sa în frază (locul 1, locul 2, locul 3 etc.). Acest pachet poartă numele de <dfn>marcaj de poziție</dfn>, iar procedura de atribuire se numește <dfn>codificare pozițională</dfn>.</p>
 
-  <p>Din acel moment, două apariții ale aceluiași cuvânt în locuri diferite au vectori diferiți, deci chei diferite și interogări diferite. Ordinea intră în comparații fără ca mecanismul atenției să fie schimbat cu ceva.</p>
+  <p>Odată adăugat acest timbru, două apariții ale aceluiași substantiv în locuri diferite vor avea vectori de start ușor diferiți, generând chei și întrebări distincte. Atenția recapătă astfel capacitatea de a diferenția ordinea fără ca formula ei internă să sufere vreo modificare.</p>
 
-  <p>Marcajul se <i>adună</i>, nu se pune alături. Banda pe care scriu blocurile are o lățime fixă, iar tot ce urmează citește de pe ea; o coadă adăugată la fiecare vector ar lăți toată construcția. Adunarea încape în ce există deja, cu prețul că informația de poziție și cea de conținut împart aceleași componente. E un compromis, și a fost făcut cu bună știință.</p>
+  <p>De ce marcajul se <i>adună</i> prin sumă în loc să fie atașat la coada vectorului? Deoarece banda transportoare are o lățime fixă calibrată în avans; adăugarea unei extensii ar fi mărit inutil toate matricile din toate straturile. Prin adunare, nuanța de sens a cuvântului și coordonata poziției sale se întrepătrund armonios în același vector.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 20 H54 M10 32 H54 M10 44 H54 M24 8 V56" fill="none" stroke="#22252D" stroke-width="1.5"/><rect x="25" y="9" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="21" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="33" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="45" width="28" height="10" fill="none" stroke="#EE5A2F" stroke-width="1.5" stroke-dasharray="2 2"/></svg></span>Tabelul învățat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 20 H54 M10 32 H54 M10 44 H54 M24 8 V56" fill="none" stroke="#22252D" stroke-width="1.5"/><rect x="25" y="9" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="21" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="33" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="45" width="28" height="10" fill="none" stroke="#EE5A2F" stroke-width="1.5" stroke-dasharray="2 2"/></svg></span>Soluția tabelară: etichete învățate din practică</h2>
 
-  <p>Cea mai simplă alegere e un tabel de vectori antrenabili, câte unul pentru fiecare poziție, învățați odată cu restul modelului exact ca vectorii cuvintelor din lecția despre reprezentarea vectorială.</p>
+  <p>Cea mai directă metodă de a atribui aceste marcaje este crearea unui tabel de vectori învățați: rezervăm un vector ajustabil pentru poziția 0, altul pentru poziția 1 și așa mai departe, lăsând rețeaua să le descopere valorile optime în timpul antrenamentului, la fel ca pentru cuvintele din vocabular.</p>
 
-  <p>Are un capăt: tabelul are atâtea rânduri câte poziții a văzut modelul la antrenare. Pentru un text mai lung decât atât nu există nimic de căutat în el, iar modelul n-are ce adăuga la pozițiile de dincolo de margine. Un model care a învățat ce înseamnă „locul 500” n-are nicio idee ce înseamnă „locul 501”.</p>
+  <p>Deși funcționează bine, această abordare se lovește de o barieră rigidă: dimensiunea tabelului este fixată de la bun început. Dacă modelul a fost instruit cu un catalog de 512 poziții, el nu va ști absolut deloc ce să facă dacă îi dăm un text de 513 cuvinte! Pentru poziția 513 nu există niciun rând în tabel, iar rețeaua rămâne blocată.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 32 C10 12 16 12 22 32 S34 52 40 32 S52 12 58 32" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M4 32 C16 8 28 8 40 32 S58 56 62 32" fill="none" stroke="#EE5A2F" stroke-width="2" opacity=".8"/></svg></span>Codificarea sinusoidală</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 32 C10 12 16 12 22 32 S34 52 40 32 S52 12 58 32" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M4 32 C16 8 28 8 40 32 S58 56 62 32" fill="none" stroke="#EE5A2F" stroke-width="2" opacity=".8"/></svg></span>Ceasornicul armonic: codificarea sinusoidală</h2>
 
-  <p>A doua alegere nu se învață: marcajul se calculează dintr-o formulă. Componentele vectorului se iau două câte două, iar fiecare pereche poartă un sinus și un cosinus de aceeași frecvență, calculate în poziția respectivă. Frecvențele scad geometric de la o pereche la alta. Aceasta e <dfn>codificarea sinusoidală</dfn>.</p>
+  <p>Pentru a depăși această limitare, autorii arhitecturii Transformer originale (2017) au apelat la o formulă matematică universală: <dfn>codificarea sinusoidală</dfn>. În loc să stocheze valori statice într-un catalog, fiecare poziție își calculează marcajul folosind funcțiile trigonometrice sinus și cosinus la frecvențe diferite.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Marcajul, poziție cu poziție</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Amprenta sinusoidală calculată pe fiecare poziție a secvenței</figcaption>
     <div class="stage">
       <canvas id="cvSin" class="cv-sin"></canvas>
       <div class="readout" id="sRead"></div>
@@ -828,38 +832,37 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Primele perechi se rotesc repede și deosebesc poziții vecine; ultimele se rotesc atât de încet încât pe un text obișnuit nu apucă să facă nici un sfert de tur, și deosebesc începutul de sfârșit. Sunt acele unui ceas, așezate de la secundar până la cel care ar arăta anii.</p>
+  <p>Imaginați-vă mecanismul unui orologiu cu multe ace: primele componente ale vectorului oscilează rapid, ca un secundar agil, diferențiind limpede cuvintele imediat învecinate; componentele următoare se mișcă precum minutarul, iar ultimele se deplasează extrem de lent, ca acul orelor, ajutând rețeaua să distingă începutul unui capitol de deznodământul său.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 32 L50 20" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M32 32 L44 48" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M46 26 A14 14 0 0 1 42 42" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="32" cy="32" r="3" fill="#22252D"/></svg></span>Ce păstrează sinusoidele</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 32 L50 20" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M32 32 L44 48" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M46 26 A14 14 0 0 1 42 42" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="32" cy="32" r="3" fill="#22252D"/></svg></span>Magia relativă: de ce contează distanța, nu adresa</h2>
 
-  <p>Alegerea nu e arbitrară. Produsul scalar dintre marcajele a două poziții depinde numai de distanța dintre ele, nu și de locul unde se află perechea în text.</p>
+  <p>Genialitatea sinusoidelor nu constă doar în eleganță, ci într-o proprietate geometrică esențială: produsul scalar dintre marcajele a două poziții depinde exclusiv de distanța relativă dintre ele, nu de amplasarea lor absolută în document.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Produsul scalar al marcajelor, după distanță și după loc</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Asemănarea dintre poziții în funcție de decalaj și coordonata absolută</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblD"></table></div>
       <div class="readout" id="dRead"></div>
     </div>
     <div class="cap" id="capD"></div>
+    <div class="ctrl"></div>
   </figure>
 
-  <p>Fiecare rând e constant: perechea de poziții 0 și 5 se aseamănă exact cât perechea 16 și 21. Atenția, care compară prin produs scalar, primește astfel o mărime care spune <i>cât de departe</i>, nu <i>unde</i>. Iar pentru limbă asta e ce contează: „cuvântul de dinainte” înseamnă același lucru la începutul și la sfârșitul unei cărți.</p>
+  <p>Fiecare linie din tabel este uniformă: apropierea dintre poziția 0 și 5 este matematic identică cu cea dintre pozițiile 16 și 21! În limbajul uman, acesta este lucrul care contează: expresia „cuvântul precedent” are aceeași semnificație gramaticală fie că ne aflăm în prima frază a romanului, fie pe ultima pagină.</p>
 
-  <p>A doua proprietate merge mai departe. Fiindcă fiecare pereche de componente e un punct pe un cerc, mutarea cu un număr fix de poziții e o rotație cu un unghi fix, aceeași pentru orice punct de plecare. Există deci o singură matrice care duce marcajul oricărei poziții în marcajul poziției aflate cu atâția pași mai încolo, iar o rețea poate învăța s-o folosească fără să depindă de locul din text.</p>
-
-  <p class="note">Asemănarea scade în mare pe măsură ce distanța crește, dar nu scade la fiecare pas: la unele distanțe frecvențele se nimeresc în fază și valoarea urcă înapoi. Tabelul arată asta la distanța 5, unde produsul e mai mare decât la 3.</p>
+  <p class="note">Deplasarea cu un număr fix de poziții se traduce geometric printr-o rotație cu un unghi fix pe cerc. O rețea neuronală poate astfel să învețe relații relative stabile (precum acordul adjectivului cu substantivul de lângă el), fără să fie afectată de locul unde apare construcția în text.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M20 32 L28 24" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="46" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M46 32 L46 20" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M34 32 H38" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Poziția relativă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M20 32 L28 24" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="46" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M46 32 L46 20" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M34 32 H38" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Standardul modern: codificarea rotativă (RoPE)</h2>
 
-  <p>Modelele de azi folosesc mai rar un marcaj adunat la intrare. Ele iau rotația din paragraful de mai sus și o aplică direct interogărilor și cheilor, la fiecare atenție: vectorul poziției întâi e rotit cu un unghi proporțional cu locul ei, la fel cel al poziției a doua, iar produsul lor scalar ajunge să depindă de diferența dintre poziții. Metoda se numește <dfn>codificare rotativă</dfn>.</p>
+  <p>Modelele de ultimă generație (precum LLaMA sau Mistral) folosesc o tehnică și mai rafinată: <dfn>codificarea rotativă</dfn> (sau <i>Rotary Position Embedding - RoPE</i>). În loc să adune un vector suplimentar pe banda transportoare chiar de la început, ele rotesc vectorii de întrebare (Query) și cheie (Key) cu un unghi proporțional cu indexul poziției lor, exact în clipa în care atenția își calculează produsele scalare.</p>
 
-  <p>Deosebirea față de marcajul adunat e locul unde intervine. Marcajul adunat scrie poziția pe bandă o singură dată, la început, și de acolo ea se amestecă cu tot ce urmează. Rotația se aplică în clipa comparării, deci ordinea intră exact acolo unde e folosită, și nicăieri altundeva.</p>
+  <p>Această abordare este mult mai curată: banda reziduală rămâne pură și nu este poluată cu zgomot de poziție, iar efectul de distanță relativă este injectat precis acolo unde este consumat — în evaluarea potrivirii dintre două cuvinte.</p>
 
-  <p>Construcția e acum completă: cuvinte tăiate în bucăți, transformate în vectori, marcate cu poziția lor, trecute prin blocuri stivuite, iar la ieșire o distribuție peste cuvântul următor. Ce transformă construcția asta într-un model care pare să știe lucruri e mărimea la care e antrenată. Lecția următoare arată cum se leagă între ele datele, calculul și numărul de parametri, și de ce creșterea numai a unuia dintre ele nu ajută.</p>
+  <p>Cu această ultimă piesă, arhitectura Transformer este pe deplin conturată: textul este segmentat în jetoane, transformat în vectori semantici, îmbogățit cu simțul ordinii și procesat de o stivă de blocuri adânci pentru a prezice următorul simbol. Însă ce anume transformă acest schelet matematic într-un gigant capabil de conversații captivante? Răspunsul stă în antrenarea la scară uriașă. În ultima lecție a acestei secțiuni, vom explora legile scalării: cum interacționează volumul de date, puterea de calcul și numărul de parametri pentru a genera inteligența modernă.</p>
 </section>
 
 </main>

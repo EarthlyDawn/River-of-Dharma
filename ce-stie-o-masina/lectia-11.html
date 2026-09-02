@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Învățarea din <i>exemple</i></h1>
-    <p class="lede">Unele sarcini nu au rețetă. Nu fiindcă pașii ar fi prea mulți, ci fiindcă nimeni nu îi poate spune. Ce se poate face în locul lor e să se arate exemple, iar mașina să caute singură regula. E schimbarea de plan din care pornește tot restul cursului.</p>
+    <p class="lede">Gândește-te cum recunoști chipul unui prieten sau cum mergi pe bicicletă: știi să o faci impecabil, dar nu poți scrie un manual cu pași exacți pentru asta. Pentru astfel de sarcini fără rețetă, mașina nu mai primește instrucțiuni rigide pas cu pas, ci exemple din care își descoperă singură tiparele. Este marea schimbare de perspectivă pe care se sprijină toată inteligența artificială modernă.</p>
     <p class="terms">Termeni: <b>cunoaștere tacită</b> <b>regulă cu praguri</b> <b>învățare automată</b> <b>exemple etichetate</b> <b>antrenare</b> <b>familie de reguli</b></p>
   </div>
 </header>
@@ -746,21 +748,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="12" class="o-fill"/><circle cx="32" cy="24" r="12" class="o-line"/><path d="M12 56 Q32 34 52 56" class="o-line"/><path d="M44 12 L56 6 M46 20 L58 20" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="3 2"/></svg></span>Sarcini fără procedură</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="12" class="o-fill"/><circle cx="32" cy="24" r="12" class="o-line"/><path d="M12 56 Q32 34 52 56" class="o-line"/><path d="M44 12 L56 6 M46 20 L58 20" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="3 2"/></svg></span>Când mintea știe mai mult decât poate explica</h2>
 
-  <p class="first">Lecția precedentă a arătat un fel de limită: pași care se pot scrie, dar sunt prea mulți. Există și altul, care nu are legătură cu numărul lor, și e mai adânc.</p>
+  <p class="first">În primele două părți ale acestui curs am văzut cum funcționează un calculator clasic: îi dăm o listă minuțioasă de instrucțiuni, iar el le execută orbește cu o viteză uluitoare. Dar ce ne facem atunci când sarcina nu poate fi descompusă într-o rețetă limpede de pași?</p>
 
-  <p>Recunoașterea feței unui prieten într-o mulțime durează o fracțiune de secundă și nu se poate descrie. Nimeni nu poate spune ce anume verifică și în ce ordine. Același lucru se întâmplă cu deosebirea unui câine de o pisică, cu recunoașterea unei litere scrise de mână sau cu judecata dacă o propoziție are înțeles.</p>
+  <p>Dacă vezi un prieten într-o gară aglomerată, îl recunoști într-o fracțiune de secundă. La fel de firesc deosebești o pisică de un cățel, recunoști o literă mâzgălită pe un bilet de autobuz sau simți dacă o frază are umor. Totuși, dacă cineva te-ar ruga să așezi pe hârtie o listă de reguli matematice infailibile — ce anume măsori la fiecare milimetru și în ce ordine — ai constata că sarcina e aproape imposibilă.</p>
 
-  <p>Nu e vorba de lipsă de efort. Oamenii au încercat vreme de decenii să scrie asemenea reguli, iar rezultatul a fost mereu același: liste lungi de condiții care merg pe exemplele avute în minte și cad pe următorul. Filozoful Michael Polanyi a numit lucrul acesta, în 1966, <dfn>cunoaștere tacită</dfn>, cu o formulare care s-a păstrat: știm mai mult decât putem spune. Iar mașina din lecțiile trecute nu poate primi decât ce i se spune.</p>
+  <p>Nu este o lipsă de atenție sau de pricepere. Filozoful Michael Polanyi a numit această realitate a gândirii noastre, în 1966, <dfn>cunoaștere tacită</dfn>, sintetizând-o printr-o vorbă memorabilă: <i>„Știm mai mult decât putem spune”</i>. Decenii la rând, cercetătorii au încercat să scrie manual mii de reguli de tipul „dacă... atunci...” pentru astfel de probleme. Rezultatul a fost mereu același: liste nesfârșite de condiții complicate, care mergeau pe câteva exemple avute în minte și se prăbușeau la primul caz nou.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M18 18 H46 L30 48" fill="none" stroke="#2F4BC4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 24 H56" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>O regulă scrisă de mână</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M18 18 H46 L30 48" fill="none" stroke="#2F4BC4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 24 H56" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 3"/></svg></span>Să încercăm totuși: o regulă mecanică</h2>
 
-  <p>Ca să vedem exact unde se rupe, încercăm totuși. Iată o regulă adevărată pentru deosebirea cifrei 7 de cifra 1, scrisă în termeni care se pot măsura pe un desen. E cinstită: nu are nimic ascuns, iar mărimile din dreapta se calculează chiar din ce desenezi.</p>
+  <p>Ca să vedem direct unde se poticnește abordarea clasică, hai să încercăm totuși să scriem o rețetă manuală. Vrem să învățăm mașina să deosebească cifra 7 de cifra 1 pe baza a două trăsături simple, măsurate pe desen: câtă cerneală se adună în treimea superioară a imaginii și cât de lat este desenul în raport cu înălțimea lui.</p>
 
-  <p>Regula spune: <i>e un 7 dacă cel puțin 40 la sută din cerneală se află în treimea de sus și dacă lățimea desenului e de cel puțin un sfert din înălțimea lui.</i></p>
+  <p>Regula noastră scrisă de mână sună curat și rezonabil: <i>„Considerăm că este un 7 dacă cel puțin 40% din cerneală se află în treimea de sus și dacă lățimea desenului este de cel puțin un sfert (26%) din înălțime.”</i></p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Desenează un 7 sau un 1; regula se aplică singură</figcaption>
@@ -773,7 +775,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
         </div>
       </div>
     </div>
-    <div class="cap" id="capDraw">Trage cu mouse-ul sau cu degetul. Încearcă să desenezi un 7 pe care regula să îl respingă, apoi un 1 pe care să îl accepte.</div>
+    <div class="cap" id="capDraw">Trage cu mouse-ul sau cu degetul pe planșă. Încearcă să desenezi un 7 mai atipic pe care regula să îl respingă, apoi un 1 cu codiță lungă pe care regula să îl accepte drept 7.</div>
     <div class="ctrl">
       <button id="dClear">Șterge</button>
       <button id="d7" class="primary">Pune un 7</button>
@@ -783,17 +785,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14 H54 M10 26 H54 M10 38 H54 M10 50 H54" class="o-line"/><path d="M30 8 L34 56" fill="none" stroke="#B5232B" stroke-width="3"/><g class="o-grid"><circle cx="10" cy="14" r="3"/><circle cx="54" cy="26" r="3"/><circle cx="10" cy="38" r="3"/><circle cx="54" cy="50" r="3"/></g></svg></span>De ce se rupe</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 14 H54 M10 26 H54 M10 38 H54 M10 50 H54" class="o-line"/><path d="M30 8 L34 56" fill="none" stroke="#B5232B" stroke-width="3"/><g class="o-grid"><circle cx="10" cy="14" r="3"/><circle cx="54" cy="26" r="3"/><circle cx="10" cy="38" r="3"/><circle cx="54" cy="50" r="3"/></g></svg></span>Unde se rupe logica rigidă</h2>
 
-  <p>Un 7 scris drept, fără bară, cade sub pragul de sus. Un 1 cu codiță lungă la vârf îl trece. Fiecare astfel de eșec se poate repara adăugând o condiție, iar fiecare condiție nouă strică alte cazuri care mergeau.</p>
+  <p>Privește ce se întâmplă când experimentezi: dacă desenezi un 7 grăbit, vertical și cu bara de sus scurtă, cerneala din treimea superioară coboară sub pragul de 40%, iar regula decide greșit că ai desenat altceva. Dacă trasezi un 1 stilizat, cu o codiță lungă la vârf și o talpă orizontală lată, regula este păcălită și îl declară cu entuziasm drept un 7 veritabil.</p>
 
-  <p>Ce lipsește nu e atenția celui care scrie regula, ci un lucru mai adânc: noțiunea de „șapte” nu are o descriere scurtă în termenii disponibili. Ea trăiește într-o mulțime de forme înrudite pe care nimeni nu le poate enumera, fiindcă nimeni nu le-a văzut pe toate. Un concept, se pare, nu e o definiție, ci o familie de asemănări; și familiile nu se scriu în trei rânduri.</p>
+  <p>Am putea fi tentați să adăugăm o nouă condiție salvatoare: „dacă linia din mijloc e înclinată...”. Dar acea condiție nouă va strica alte zeci de cazuri care înainte funcționau. În lumea reală, noțiunea de „șapte” nu are o definiție geometrică unică și îngustă. Ea este o familie uriașă de forme înrudite, plină de variații pe care nimeni nu le poate enumera dinainte. Un concept uman nu este o definiție fixă de dicționar, ci o rețea suplă de asemănări de familie — iar astfel de familii nu încap în câteva instrucțiuni rigide.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 20 H56 M8 44 H56" class="o-line"/><circle cx="24" cy="20" r="6" class="o-fill2"/><circle cx="40" cy="44" r="6" class="o-dot"/><g class="o-grid"><rect x="10" y="4" width="6" height="6"/><rect x="48" y="4" width="6" height="6"/><rect x="30" y="54" width="6" height="6"/></g></svg></span>Aceeași regulă, cu butoane</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 20 H56 M8 44 H56" class="o-line"/><circle cx="24" cy="20" r="6" class="o-fill2"/><circle cx="40" cy="44" r="6" class="o-dot"/><g class="o-grid"><rect x="10" y="4" width="6" height="6"/><rect x="48" y="4" width="6" height="6"/><rect x="30" y="54" width="6" height="6"/></g></svg></span>Aceeași regulă, dar cu butoane reglabile</h2>
 
-  <p>Cele două praguri din regulă nu au nimic sfânt. Sunt două numere alese de mână, iar ele se pot muta. Mai jos se află patruzeci de desene generate de pagină, douăzeci de fiecare fel, iar cele două manete mută pragurile. Chenarul roșu arată exemplele pe care regula le greșește.</p>
+  <p>Pragurile alese de noi — 40% cerneală sus și 26% lățime — nu erau litere de lege, ci doar două numere alese din ochi. Ce-ar fi dacă le-am transforma în manete reglabile? În galeria de mai jos avem 40 de desene generate de pagină (20 de cifre 1 și 20 de cifre 7). Chenarul roșu marchează exemplele pe care regula le judecă greșit la reglajul curent.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Patruzeci de exemple, două praguri</figcaption>
@@ -809,19 +811,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Butonul din dreapta face ceva ce omul nu poate: încearcă toate perechile de praguri, cincisprezece mii de combinații, și o alege pe cea cu cele mai puține greșeli. Durează o clipită și nu cere nicio idee despre ce este un șapte.</p>
+  <p>Dacă apeși pe <b>„Încearcă toate combinațiile”</b>, mașina face într-o clipă ceea ce unui om i-ar lua ore întregi: parcurge sistematic peste 15.000 de perechi posibile de praguri și o alege pe aceea care face cele mai puține erori. Totul durează o fracțiune de secundă și nu necesită nicio teorie filosofică despre ce înseamnă cifra șapte.</p>
 
-  <p>Rezultatul merită privit de două ori. Căutarea găsește cea mai bună pereche de praguri cu putință, iar aceea tot greșește câteva exemple. Regula nu era prost reglată, ci prost aleasă: cu două praguri nu se poate face mai bine, oricine le-ar potrivi.</p>
-
-  <p>Apăsând „alte exemple” de câteva ori se vede că, din când în când, iese un set pe care regula îl separă complet. Asta ține de noroc, nu de regulă: cu patruzeci de desene și cincisprezece mii de reguli din care alegi, se nimerește uneori una care le prinde pe toate. Ce înseamnă lucrul acesta și cât de mult trebuie să ne neliniștească e subiectul unei lecții de mai încolo.</p>
+  <p>Privește însă cu atenție rezultatul optim: chiar și cu cea mai bună pereche de praguri imaginabilă, regula continuă să greșească două sau trei exemple! Problema nu era că nu găsisem noi valorile ideale, ci că o regulă rigidă cu doar două praguri drepte pur și simplu nu are destulă finețe pentru a separa toate formele reale. Iar dacă apeși de câteva ori pe „Alte exemple”, vei observa că uneori nimerim din pur noroc un set care se separă perfect — o iluzie temporară pe care o vom demonta mai târziu.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 20 H24 M40 20 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M24 16 L32 20 L24 24 Z" fill="#22252D"/><path d="M40 44 H24 M56 44 H40" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M24 40 L16 44 L24 48 Z" fill="#EE5A2F"/><rect x="28" y="36" width="8" height="16" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="28" y="12" width="8" height="16" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/></svg></span>Schimbarea de plan</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 20 H24 M40 20 H56" fill="none" stroke="#22252D" stroke-width="2"/><path d="M24 16 L32 20 L24 24 Z" fill="#22252D"/><path d="M40 44 H24 M56 44 H40" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M24 40 L16 44 L24 48 Z" fill="#EE5A2F"/><rect x="28" y="36" width="8" height="16" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="28" y="12" width="8" height="16" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/></svg></span>Marea răsturnare de perspectivă</h2>
 
-  <p>Până acum, programarea a avut o singură formă: omul scrie regulile, mașina le aplică pe date și scoate răspunsuri. Când regulile nu se pot scrie, forma aceasta se blochează la primul pas.</p>
+  <p>În programarea tradițională, fluxul are o singură direcție: omul gândește și scrie regulile logice, mașina le aplică asupra datelor și produce răspunsuri. Când regulile nu pot fi exprimate în cuvinte sau formule clare, această abordare se blochează din prima secundă.</p>
 
-  <p>Ce se poate face în schimb e să se dea mașinii datele împreună cu răspunsurile, și să i se ceară regula. Săgețile se rearanjează: ce era ieșire devine intrare, iar ce era intrare devine ieșire. Mașina rămâne aceeași, cu comutatoarele și sumatoarele ei; se schimbă numai întrebarea care i se pune.</p>
+  <p>Ce putem face în schimb este să inversăm sensul întrebării: îi oferim mașinii o mulțime de date însoțite de răspunsurile corecte pe care le așteptăm, și lăsăm mașina să descopere automat regula care le leagă. Săgețile își schimbă sensul: ce era ieșire devine intrare, iar ce era intrare devine ieșire. Calculatorul rămâne același — circuite, tranzistori, comutatoare logice —, dar întrebarea pe care i-o adresăm este complet nouă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Aceleași trei lucruri, legate în două feluri</figcaption>
@@ -845,20 +845,20 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
         </div>
       </div>
     </div>
-    <div class="cap">Aceeași mașină, aceleași trei lucruri. Se schimbă numai ce se dă și ce se cere.</div>
+    <div class="cap">Aceeași mașină, aceleași trei ingrediente. Se schimbă doar ce oferim la intrare și ce cerem la ieșire.</div>
   </figure>
 
-  <p>Programul care face a doua treabă se numește <dfn>învățare automată</dfn>. Datele cu răspunsurile lor se numesc <dfn>exemple etichetate</dfn>, iar procesul de căutare, <dfn>antrenare</dfn>.</p>
+  <p>Programele care lucrează în această a doua direcție alcătuiesc domeniul numit <dfn>învățare automată</dfn> (sau <i>machine learning</i>). Datele însoțite de răspunsurile corecte se numesc <dfn>exemple etichetate</dfn>, iar procesul prin care mașina își calibrează manetele pentru a găsi tiparul optim se numește <dfn>antrenare</dfn>.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="20" cy="24" r="3"/><circle cx="40" cy="20" r="3"/><circle cx="26" cy="42" r="3"/><circle cx="44" cy="38" r="3"/></g><circle cx="34" cy="30" r="4" class="o-fill2"/></svg></span>Ce înseamnă, mai exact, „găsește regula”</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><g class="o-grid"><circle cx="20" cy="24" r="3"/><circle cx="40" cy="20" r="3"/><circle cx="26" cy="42" r="3"/><circle cx="44" cy="38" r="3"/></g><circle cx="34" cy="30" r="4" class="o-fill2"/></svg></span>Ce înseamnă cu adevărat că mașina „găsește regula”?</h2>
 
-  <p>Formularea e prea generoasă și merită strânsă, fiindcă altfel lasă impresia că mașina inventează ceva din nimic. Nu inventează.</p>
+  <p>Formularea „mașina găsește regula” este generoasă și poate crea iluzia că algoritmul inventează concepte din nimic, printr-o scânteie magică. În realitate, lucrurile sunt mult mai limpezi și mai disciplinate: mașina nu inventează forme noi.</p>
 
-  <p>Omul alege dinainte o <dfn>familie de reguli</dfn> cu putință, de pildă „regulă cu două praguri”, ca mai sus, iar familia are butoane. Mașina caută, între toate pozițiile butoanelor, pe aceea care greșește cel mai puțin pe exemplele date. Ce se automatizează e căutarea, nu invenția. Alegerea familiei rămâne treaba omului și hotărâtoare: cu o familie prost aleasă, cea mai bună potrivire tot greșește.</p>
+  <p>Omul este cel care alege dinainte o <dfn>familie de reguli</dfn> posibile — de exemplu, „o regulă bazată pe două praguri pe care le putem regla”. Această familie vine la pachet cu un set de manete (butoane sau parametri). Ceea ce face mașina este să exploreze aceste manete și să le oprească în poziția care greșește cel mai puțin pe exemplele oferite. Automatizăm așadar căutarea, nu invenția. Alegerea familiei rămâne în întregime responsabilitatea omului: dacă familia aleasă este prea simplă sau nepotrivită, nici cel mai dibaci algoritm de căutare nu va putea elimina erorile.</p>
 
-  <p>De aici ies cele două întrebări care organizează tot restul cursului. Ce familii de reguli sunt destul de bogate cât să cuprindă noțiuni ca „șapte” sau „pisică”? Și cum se caută prin ele, când butoanele nu sunt două, ci milioane, iar încercarea tuturor combinațiilor nu mai e cu putință nici într-o mie de ani? Lecția următoare ia familia cea mai simplă cu putință, o regulă cu două butoane, și o pune la lucru pe date adevărate, ca să se vadă în amănunt ce înseamnă „greșește cel mai puțin” și cum se măsoară.</p>
+  <p>De aici se desprind cele două mari întrebări care vor ghida întreaga noastră explorare: <i>Ce familii de reguli sunt destul de bogate și flexibile pentru a cuprinde concepte complexe din viața reală, precum chipul unui om sau sensul unui cuvânt?</i> Și <i>Cum căutăm printre ele atunci când butoanele nu mai sunt două, ci sute de miliarde, iar încercarea pe rând a tuturor combinațiilor ar dura miliarde de ani?</i> În lecția următoare luăm cea mai simplă și prietenoasă familie cu două manete — o dreaptă — pentru a înțelege cum măsurăm greșeala și cum o micșorăm pas cu pas.</p>
 </section>
 
 </main>

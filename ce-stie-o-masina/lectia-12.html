@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Funcția <i>de cost</i></h1>
-    <p class="lede">Ca mașina să caute regula care greșește cel mai puțin, greșeala trebuie să devină un număr. Alegerea acelui număr pare un detaliu tehnic și e, de fapt, locul unde se strecoară în model o presupunere despre lume.</p>
+    <p class="lede">Pentru ca un calculator să caute automat cea mai bună regulă, noțiunea vagă de „greșeală” trebuie transformată într-un număr limpede și precis. Alegerea acestui număr pare la prima vedere un simplu detaliu tehnic; în realitate, este chiar locul în care îi transmitem mașinii ce anume prețuim și cum vedem noi lumea.</p>
     <p class="terms">Termeni: <b>parametri</b> <b>model</b> <b>predicție</b> <b>funcție de cost</b> <b>terenul costului</b></p>
   </div>
 </header>
@@ -746,23 +748,27 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 L58 16" fill="none" stroke="#EE5A2F" stroke-width="3"/><g class="o-grid"><circle cx="12" cy="44" r="3"/><circle cx="22" cy="42" r="3"/><circle cx="30" cy="32" r="3"/><circle cx="40" cy="30" r="3"/><circle cx="50" cy="18" r="3"/></g></svg></span>Cea mai simplă familie de reguli</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 50 L58 16" fill="none" stroke="#EE5A2F" stroke-width="3"/><g class="o-grid"><circle cx="12" cy="44" r="3"/><circle cx="22" cy="42" r="3"/><circle cx="30" cy="32" r="3"/><circle cx="40" cy="30" r="3"/><circle cx="50" cy="18" r="3"/></g></svg></span>Cea mai prietenoasă familie de reguli: linia dreaptă</h2>
 
-  <p class="first">Lecția trecută a lăsat două întrebări: ce familie de reguli alegem și cum căutăm prin ea. Ca să vedem mecanismul limpede, luăm familia cea mai simplă care încă spune ceva despre lume: o linie dreaptă. Tot ce urmează în această parte a cursului, până la rețelele cu miliarde de butoane, e același mecanism, doar cu familii mai bogate.</p>
+  <p class="first">Lecția trecută ne-a lăsat cu două mari curiozități: ce formă alegem pentru regula noastră și cum o ajutăm pe mașină să o găsească fără să orbecăie? Pentru a înțelege mecanismul în toată splendoarea lui simplă, vom alege cea mai intuitivă familie de reguli din lume: o linie dreaptă trasată printre puncte.</p>
 
-  <p>Măsurătorile din figura de mai jos sunt drumuri: pe orizontală lungimea în kilometri, pe verticală timpul în minute. Legătura pare o linie dreaptă, cu abateri. O dreaptă are exact două butoane: cât urcă la fiecare kilometru și de la ce înălțime pornește. Butoanele se numesc <dfn>parametri</dfn>, ansamblul lor formează un <dfn>model</dfn>, iar valoarea citită de pe dreaptă pentru un kilometraj dat e o <dfn>predicție</dfn>. Un model e, în fond, o presupunere despre forma legăturii, cu câteva locuri lăsate goale, pe care le umplu datele.</p>
+  <p>Imaginează-ți că notezi într-un jurnal durata mai multor călătorii cu mașina: pe orizontală pui distanța în kilometri, iar pe verticală timpul în minute. În mod firesc, cu cât mergi mai departe, cu atât drumul durează mai mult. Punctele par să se alinieze de-a lungul unei drepte, chiar dacă există mici abateri din cauza semafoarelor sau a vremii.</p>
 
-  <p class="note">Punctele sunt generate de pagină dintr-o legătură dinainte știută, la care se adaugă abateri întâmplătoare. Legătura adevărată rămâne ascunsă până la butonul din josul figurii.</p>
+  <p>O linie dreaptă are doar două „butoane” pe care le putem roti: <i>înclinarea</i> (câte minute adaugă fiecare kilometru parcurs) și <i>înălțimea de pornire</i> (câte minute pierzi înainte să pleci, la semafor sau la ieșirea din parcare). În limbajul învățării automate, aceste două butoane reglabile se numesc <dfn>parametri</dfn>. Regula echipată cu parametrii săi formează un <dfn>model</dfn>, iar timpul estimat de linia noastră pentru o distanță dată este o <dfn>predicție</dfn>. Un model este, în esență, o ipoteză despre lume care lasă câteva locuri goale, pe care datele le vor completa.</p>
+
+  <p class="note">Punctele din figură sunt generate pe baza unei legături reale dinainte stabilite, peste care s-au adăugat mici întârzieri și fluctuații din viața reală. Legătura adevărată rămâne ascunsă până când găsești cea mai bună potrivire.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 L58 20" fill="none" stroke="#EE5A2F" stroke-width="3"/><rect x="18" y="20" width="14" height="14" fill="#F3C9C6" stroke="#B5232B" stroke-width="2"/><rect x="40" y="26" width="8" height="8" fill="#F3C9C6" stroke="#B5232B" stroke-width="2"/><circle cx="18" cy="20" r="3" class="o-dot"/><circle cx="40" cy="26" r="3" class="o-dot"/></svg></span>Cât de greșit</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 L58 20" fill="none" stroke="#EE5A2F" stroke-width="3"/><rect x="18" y="20" width="14" height="14" fill="#F3C9C6" stroke="#B5232B" stroke-width="2"/><rect x="40" y="26" width="8" height="8" fill="#F3C9C6" stroke="#B5232B" stroke-width="2"/><circle cx="18" cy="20" r="3" class="o-dot"/><circle cx="40" cy="26" r="3" class="o-dot"/></svg></span>Cum măsurăm greșeala: capcana plusurilor și minusurilor</h2>
 
-  <p>Pentru un singur punct, greșeala e diferența dintre ce prezice dreapta și ce s-a măsurat. Diferența are semn: unele puncte stau deasupra dreptei, altele dedesubt. Adunate ca atare, greșelile s-ar anula între ele, iar o dreaptă complet strâmbă ar putea ieși cu greșeala totală zero. Prima decizie e deci să facem toate greșelile pozitive.</p>
+  <p>Dacă așezăm o dreaptă oarecare printre puncte, pentru fiecare drum măsurat va exista o nepotrivire: diferența dintre timpul prezis de dreaptă și timpul real de pe ceas. Unele puncte reale se află deasupra liniei (am făcut mai mult decât am prezis), altele dedesubt (am ajuns mai repede).</p>
 
-  <p>Cea mai folosită alegere e ridicarea la pătrat, și merită să vedem de ce nu e o alegere oarecare. Ea are trei urmări: greșelile nu se mai anulează; cele mari cântăresc disproporționat mai mult decât cele mici, fiindcă pătratul lui 10 e de o sută de ori pătratul lui 1; iar mărimea care iese se schimbă lin când butoanele se mișcă, însușire fără de care lecția următoare n-ar fi posibilă.</p>
+  <p>Dacă am aduna pur și simplu aceste diferențe, s-ar întâmpla ceva periculos: un plus de 10 minute s-ar anula cu un minus de 10 minute. O linie complet strâmbă și inutilă ar putea avea o greșeală totală egală cu zero! Prin urmare, prima decizie obligatorie este să transformăm toate greșelile în valori pozitive.</p>
 
-  <p>Media pătratelor tuturor greșelilor e un singur număr care spune cât de rea e dreapta pe toate datele deodată. Numărul acesta se numește <dfn>funcție de cost</dfn>, iar căutarea regulii înseamnă de acum coborârea lui. Toată învățarea automată, oricât de sofisticată, se reduce la această mișcare: un număr care măsoară răul, și butoane care se mișcă până când numărul scade.</p>
+  <p>Cea mai răspândită metodă este <b>ridicarea fiecărei erori la pătrat</b>. Nu este doar un artificiu de calcul, ci o alegere cu trei efecte profunde: în primul rând, orice abatere devine un număr pozitiv; în al doilea rând, abaterile mari sunt pedepsite mult mai sever decât cele mici (o greșeală de 10 minute cântărește de o sută de ori mai greu decât una de un singur minut!); iar în al treilea rând, numărul rezultat variază extrem de lin și continuu când mișcăm butoanele.</p>
+
+  <p>Media tuturor acestor erori ridicate la pătrat ne dă un singur număr final, care măsoară cât de „nemulțumită” este dreapta pe toate datele la un loc. Acest scor se numește <dfn>funcție de cost</dfn> (sau <i>funcție de pierdere</i>). De acum înainte, întreaga sarcină a învățării automate devine o misiune limpede: să mișcăm butoanele modelului până când acest cost ajunge cât mai mic cu putință.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Mută butoanele; costul se schimbă odată cu ele</figcaption>
@@ -798,31 +804,35 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="34" rx="26" ry="20" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="34" rx="17" ry="12" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="34" rx="8" ry="5" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="46" cy="24" r="4" fill="#B58A12"/></svg></span>Terenul costului</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="34" rx="26" ry="20" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="34" rx="17" ry="12" fill="none" stroke="#22252D" stroke-width="2"/><ellipse cx="32" cy="34" rx="8" ry="5" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><circle cx="46" cy="24" r="4" fill="#B58A12"/></svg></span>Terenul costului: o vale înconjurată de dealuri</h2>
 
-  <p>Panoul din dreapta arată același cost, altfel. Fiecare punct al lui e o pereche de butoane, iar culoarea spune cât costă acea pereche: deschis unde costul e mic, închis unde e mare. Liniile sunt curbe de cost egal, ca pe o hartă de munte. Punctul galben arată unde te afli; se poate apăsa direct pe teren ca să muți butoanele acolo.</p>
+  <p>În panoul din dreapta al figurii putem privi același cost sub o altă lumină — ca o adevărată hartă de relief. Fiecare punct de pe această hartă reprezintă o combinație unică a celor două butoane. Culoarea îți arată cât de mare este greșeala: nuanțele deschise marchează zonele cu cost mic (potrivire excelentă), iar cele închise marchează versanții abrupți cu erori mari. Liniile curbate sunt curbe de nivel, exact ca pe o hartă turistică a unui munte.</p>
 
-  <p>Imaginea aceasta merită ținută minte, fiindcă tot restul cursului o folosește: a învăța înseamnă a coborî într-un asemenea teren. Pentru o dreaptă și pentru media pătratelor, terenul are o singură vale și niciun colț. Oriunde ai porni, coborârea duce în același loc, iar acel loc se poate afla și prin socoteală, fără căutare. Însușirea aceasta se pierde de îndată ce modelul încetează să fie o dreaptă, iar atunci coborârea rămâne singura cale.</p>
+  <p>Punctul galben ești tu în acest moment; poți apăsa direct oriunde pe hartă pentru a muta instantaneu butoanele în acel loc. Această imagine a <dfn>terenului costului</dfn> (sau peisajul pierderii) este busola întregului curs: <b>a învăța înseamnă a coborî spre fundul văii</b>.</p>
+
+  <p>Pentru o linie dreaptă și erori la pătrat, acest teren are o formă de vis: seamănă cu un castron perfect neted, cu o singură vale adâncă și fără nicio capcană. Oricare ar fi punctul din care pornești, coborârea te va aduce negreșit în același loc ideal. Când modelele vor deveni mai complicate, terenul va căpăta mii de văi și creste, iar coborârea va deveni o adevărată aventură.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 46 L58 30" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 44 L58 40" fill="none" stroke="#6B7A38" stroke-width="3" stroke-dasharray="5 3"/><g class="o-grid"><circle cx="14" cy="44" r="3"/><circle cx="26" cy="42" r="3"/><circle cx="38" cy="40" r="3"/><circle cx="50" cy="38" r="3"/></g><circle cx="44" cy="10" r="5" fill="#B5232B"/></svg></span>Ce alege costul în locul tău</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 46 L58 30" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 44 L58 40" fill="none" stroke="#6B7A38" stroke-width="3" stroke-dasharray="5 3"/><g class="o-grid"><circle cx="14" cy="44" r="3"/><circle cx="26" cy="42" r="3"/><circle cx="38" cy="40" r="3"/><circle cx="50" cy="38" r="3"/></g><circle cx="44" cy="10" r="5" fill="#B5232B"/></svg></span>Ce alege costul în locul tău: capcana accidentelor</h2>
 
-  <p>Butonul care adaugă o măsurătoare aberantă arată de ce alegerea costului nu e o formalitate. Un singur drum înregistrat greșit, o oprire lungă, un ambuteiaj, o cifră scrisă strâmb, trage dreapta către el, fiindcă greșeala lui, ridicată la pătrat, cântărește cât zeci de greșeli mici.</p>
+  <p>Apasă pe butonul <b>„Adaugă o măsurătoare aberantă”</b>. Acest buton simulează o zi cu totul neobișnuită: un ambuteiaj masiv pe autostradă sau o eroare la notarea kilometrajului. Privește ce face dreapta ta portocalie: este atrasă puternic în sus de acel punct izolat, stricând potrivirea pe toate celelalte drumuri normale!</p>
 
-  <p>Dreapta verde-oliv din figură minimizează suma abaterilor fără ridicare la pătrat. Ea abia se clintește când apare punctul aberant, fiindcă un punct depărtat contribuie proporțional cu depărtarea lui, nu cu pătratul ei. Nu e mai bună; e altceva. Prima presupune că abaterile mari sunt semnale importante, a doua presupune că sunt greșeli de măsurare. Nicio măsurătoare nu poate spune care presupunere e cea corectă; asta o știe, sau o crede, cel care alege costul.</p>
+  <p>De ce se întâmplă asta? Tocmai din cauza ridicării la pătrat: o distanță uriașă până la punctul aberant generează un cost astronomic, iar modelul este forțat să sacrifice precizia tuturor punctelor cuminți pentru a liniști acea singură eroare colosală.</p>
 
-  <p>De aici iese o observație care ține tot restul cursului. Funcția de cost nu e o unealtă neutră de măsurare, ci locul în care se strecoară o presupunere despre lume. Ce se antrenează e ce se măsoară, iar dacă măsura e greșit aleasă, antrenarea o va urma cu toată sârguința. Multe dintre eșecurile spectaculoase ale sistemelor de mai târziu sunt, la rădăcină, un cost care măsura altceva decât ce voia omul.</p>
+  <p>Privește acum linia verde-măslinie din grafic: ea a fost calculată folosind doar abaterile simple, fără a le ridica la pătrat (distanța directă). Această linie abia dacă tresare la apariția punctului extrem! Care dintre ele are dreptate? Niciuna în mod absolut: prima presupune că orice abatere mare semnalează ceva crucial ce nu trebuie ignorat; a doua presupune că abaterile uriașe sunt simple anomalii ce trebuie trecute cu vederea.</p>
+
+  <p>Aceasta este o lecție fundamentală: funcția de cost nu este o unealtă neutră, ci locul în care se ascunde viziunea noastră despre ce contează. Algoritmul va optimiza cu o loialitate oarbă exact măsura pe care i-o dăm. Dacă alegem o formulă greșită, calculatorul va învăța impecabil... exact lucrul nepotrivit.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q20 8 34 30 T58 22" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 50 H20 V38 H34 V46 H48 V34 H58" fill="none" stroke="#BDB9AA" stroke-width="2.5"/></svg></span>Ce cere un cost bun</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q20 8 34 30 T58 22" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M6 50 H20 V38 H34 V46 H48 V34 H58" fill="none" stroke="#BDB9AA" stroke-width="2.5"/></svg></span>Ce calități trebuie să aibă un cost prietenos?</h2>
 
-  <p>Ca să fie de folos, o funcție de cost trebuie să se poată socoti pentru orice poziție a butoanelor, să scadă atunci când modelul se potrivește mai bine, și să se schimbe lin, fără salturi, când butoanele se mișcă puțin.</p>
+  <p>Pentru a ghida învățarea automată, o funcție de cost bună trebuie să îndeplinească trei condiții prietenoase: să poată fi calculată ușor pentru orice poziție a butoanelor, să scadă fidel pe măsură ce predicțiile se apropie de realitate și — cel mai important — <b>să se schimbe lin, fără hopuri sau salturi bruște</b>, atunci când rotim foarte puțin o manetă.</p>
 
-  <p>Ultima cerință pare tehnică și e cea mai importantă. Numărul de exemple greșite, mărimea firească, folosită în lecția precedentă, nu o îndeplinește: el sare din întreg în întreg și rămâne neclintit la mișcări mici ale butoanelor, așa că nu spune încotro merită mers. De aceea, aproape peste tot în învățarea automată, ce se măsoară la sfârșit și ce se coboară în timpul antrenării sunt două mărimi diferite: una pe care o vrem, alta pe care o putem coborî.</p>
+  <p>Această ultimă cerință explică de ce numărul simplu de exemple greșite (pe care l-am folosit în lecția 11) nu ne poate ajuta aici. Dacă numeri doar câte desene sunt greșite, acel număr este un întreg rigid: 3, 4, 5. Când miști un buton cu un milimetru, numărul greșelilor rămâne adesea neschimbat, așa că nu știi dacă te-ai apropiat sau te-ai depărtat de soluție! Este ca și cum ai încerca să cobori un munte format doar din trepte uriașe și terase perfect plate: pe terasă nu simți încotro e panta.</p>
 
-  <p>Există acum o familie de reguli cu butoane și un număr care spune cât de rea e fiecare poziție a butoanelor. Terenul costului se poate desena, fiindcă butoanele sunt două. Un model adevărat are milioane de butoane, iar terenul lui nu se poate nici desena, nici parcurge în întregime. Lecția următoare arată cum se coboară într-o vale pe care nimeni nu o vede.</p>
+  <p>De aceea, în inteligența artificială, scopul final pe care îl dorim (de pildă, „zero greșeli”) și costul pe care îl minimizăm în timpul antrenării sunt două lucruri diferite. Căutăm o funcție suplă și continuă, care ne oferă o pantă la fiecare pas. Dar cum coborâm pe această pantă atunci când nu avem doar două butoane ușor de desenat pe ecran, ci milioane de parametri ascunși în ceață? Acesta este secretul pe care îl vom desluși în lecția următoare.</p>
 </section>
 
 </main>

@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,38 +740,38 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Cum se <i>alege</i> cuvântul</h1>
-    <p class="lede">Un model de limbaj nu produce text, ci o distribuție de probabilități. Textul apare abia când cineva extrage din ea, iar felul extragerii schimbă tot ce se citește la ieșire, fără ca modelul să se fi schimbat cu nimic. Între a ști ce e probabil și a alege se află un pas pe care nimeni nu l-a antrenat.</p>
-    <p class="terms">Termeni: <b>eșantionare</b> <b>alegere lacomă</b> <b>temperatură</b> <b>eșantionare nucleu</b></p>
+    <p class="lede">Un model de limbaj nu rostește direct cuvinte, ci calculează șanse. La fiecare pas, el așază pe masă un zar uriaș cu zeci de mii de fețe, fiecare având o altă greutate. Felul în care alegem să aruncăm acest zar schimbă din temelii tot ce citim la ieșire: de la un răspuns sobru și matematic până la o poveste plină de fantezie sau o înșiruire fără noimă.</p>
+    <p class="terms">Termeni: <b>eșantionare</b> <b>alegere lacomă (greedy)</b> <b>temperatură</b> <b>eșantionare nucleu (top-p)</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="34" width="8" height="22" fill="#2F4BC4"/><rect x="19" y="20" width="8" height="36" fill="#2F4BC4"/><rect x="30" y="42" width="8" height="14" fill="#2F4BC4"/><rect x="41" y="48" width="8" height="8" fill="#2F4BC4"/><rect x="52" y="52" width="6" height="4" fill="#2F4BC4"/><path d="M23 14 L23 6" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M19 10 L23 5 L27 10" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce dă modelul și ce lipsește</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="34" width="8" height="22" fill="#2F4BC4"/><rect x="19" y="20" width="8" height="36" fill="#2F4BC4"/><rect x="30" y="42" width="8" height="14" fill="#2F4BC4"/><rect x="41" y="48" width="8" height="8" fill="#2F4BC4"/><rect x="52" y="52" width="6" height="4" fill="#2F4BC4"/><path d="M23 14 L23 6" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M19 10 L23 5 L27 10" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce oferă modelul și ce lipsește</h2>
 
-  <p class="first">La capătul blocurilor stivuite, modelul scoate pentru poziția următoare un număr pentru fiecare bucată din vocabular, iar numerele acestea, trecute printr-o exponențială normalizată, formează o distribuție. Atât. Nicio bucată n-a fost aleasă încă.</p>
+  <p class="first">Când toate calculele din straturile de atenție și rețelele neuronale se încheie, modelul nu scoate o propoziție gata scrisă. Pentru poziția imediat următoare din text, el produce doar o listă de scoruri pentru fiecare fragment de cuvânt (token) din vocabular. După ce aceste numere sunt transformate în procente, obținem o distribuție de probabilități: un clasament al tuturor continuărilor posibile, de la cele firești până la cele absurde. Atât și nimic mai mult. Niciun cuvânt nu a fost încă rostit.</p>
 
-  <p>Alegerea e un pas separat, care nu ține de model și n-a fost antrenat niciodată. El se numește <dfn>eșantionare</dfn>, iar pentru același model se poate face în multe feluri, cu rezultate care nu seamănă între ele. Cine citește un text scris de un model citește, de fapt, două lucruri împletite: ce a socotit modelul și cum s-a ales din socoteala lui.</p>
+  <p>Trecerea de la lista de probabilități la un cuvânt concret pe ecran este un pas complet separat, numit <dfn>eșantionare</dfn>. Acest pas nu este învățat în timpul antrenării pe text, ci reprezintă o regulă pe care o stabilim noi din exterior. Pentru exact același model și aceeași întrebare, putem obține răspunsuri radical diferite doar schimbând modul în care tragem biletul câștigător din urnă. Când citiți un text generat de un asistent digital, asistați de fapt la un dans între două forțe: ceea ce a calculat rețeaua și algoritmul care a ales din calculele ei.</p>
 
-  <p>Modelul din figurile de mai jos e un contor de caractere din lecția despre cuvântul următor, antrenat pe un text de zece mii de caractere: proza lecțiilor de până acum. El se uită la cel mult șase caractere în urmă și se retrage la un context mai scurt când cel lung a fost văzut de prea puține ori. Textul pe care îl scoate e șubred, fiindcă textul din care a învățat e puțin, dar pasul de alegere e exact același care se face pe modelele mari.</p>
+  <p>Modelul din figurile de mai jos este un mic contor de caractere antrenat pe textul primelor capitole ale acestui curs. El se uită la cel mult șase caractere în urmă și se retrage la un context mai scurt când secvența a fost întâlnită rar. Deși vocabularul și memoria lui sunt mici în comparație cu giganții de azi, mecanismul de selecție este identic: la fiecare pas, avem în față o listă de posibilități și trebuie să decidem cum facem pasul următor.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 12 C48 12 52 24 44 32 C36 40 40 52 32 52 C24 52 28 40 20 32 C12 24 16 12 32 12 Z" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M30 10 L33 13 L30 16" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Cea mai probabilă bucată</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 12 C48 12 52 24 44 32 C36 40 40 52 32 52 C24 52 28 40 20 32 C12 24 16 12 32 12 Z" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M30 10 L33 13 L30 16" fill="none" stroke="#EE5A2F" stroke-width="2"/></svg></span>Cea mai probabilă bucată și capcana ei</h2>
 
-  <p>Cea mai simplă alegere e cea lacomă: se ia de fiecare dată bucata cu probabilitatea cea mai mare. Ea are un cusur pe care nu-l bănuiește nimeni înainte de a-l vedea.</p>
+  <p class="first">La prima vedere, cel mai înțelept lucru ar fi să alegem de fiecare dată opțiunea care ocupă primul loc: fragmentul cu probabilitatea cea mai mare. Această strategie directă poartă numele de <dfn>alegere lacomă</dfn> (sau decodare de tip <i>greedy</i>). La fiecare pas, modelul apucă fără ezitare varianta cea mai sigură.</p>
 
-  <p>Alegerea lacomă e hotărâtă în întregime de text: din același început iese de fiecare dată aceeași urmare, literă cu literă. Iar fiindcă starea modelului e dată de ultimele câteva caractere, mai devreme sau mai târziu se ajunge la o stare prin care s-a mai trecut, iar de acolo încolo totul se repetă la nesfârșit. Textul intră într-o buclă și nu mai iese din ea. Cel mai sigur drum, urmat pas cu pas, duce într-un cerc.</p>
+  <p>Alegerea lacomă are însă un cusur pe care puțini îl bănuiesc înainte de a-l vedea la lucru: este complet rigidă. Pornind de la același început, ea va produce mereu, literă cu literă, identic același text. Mai grav, limbajul natural nu funcționează punând mereu cel mai banal cuvânt unul după altul. Urmând orbește doar calea cea mai sigură pe moment, modelul ajunge foarte repede într-o stare prin care a mai trecut, iar de acolo începe să se repete la nesfârșit. Textul se blochează într-o buclă monotonă din care nu mai poate ieși. Cel mai previzibil pas local duce într-un cerc vicios.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="26" y="8" width="12" height="40" rx="6" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="50" r="8" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><rect x="29" y="28" width="6" height="20" fill="#EE5A2F"/><path d="M42 16 H48 M42 26 H48 M42 36 H48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Temperatura</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="26" y="8" width="12" height="40" rx="6" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="50" r="8" fill="#EE5A2F" stroke="#22252D" stroke-width="2"/><rect x="29" y="28" width="6" height="20" fill="#EE5A2F"/><path d="M42 16 H48 M42 26 H48 M42 36 H48" fill="none" stroke="#22252D" stroke-width="1.5"/></svg></span>Temperatura: între îngheț și fierbere</h2>
 
-  <p>Extragerea după probabilitățile modelului, așa cum sunt ele, dă text mai variat, dar și mai multe alegeri proaste: cozile lungi ale distribuției adună împreună destulă probabilitate încât din ele să iasă des câte ceva.</p>
+  <p class="first">Dacă alegerea strictă a primului loc duce la repetiții mecanice, putem încerca opusul: să aruncăm un zar aleatoriu proporțional cu probabilitățile modelului. Dacă o literă are 60% șanse, alta 30% și alta 10%, zarul le va alege exact în aceste proporții. Textul devine mai variat, dar apare o altă problemă: cozile lungi ale distribuției, adică miile de variante puțin probabile, ajung să fie extrase prea des, stricând coerența frazei.</p>
 
-  <p>Între cele două se așază o manetă. Fiecare probabilitate e ridicată la puterea unu supra <i>T</i>, iar rezultatele se aduc din nou la un total de unu. Numărul <i>T</i> se numește <dfn>temperatură</dfn>, prin analogie cu fizica: la rece, lucrurile stau așezate în starea cea mai probabilă; la cald, se agită și trec și prin celelalte.</p>
+  <p>Pentru a stăpâni acest echilibru, așezăm între model și text o manetă esențială numită <dfn>temperatură</dfn> (notată de obicei cu <i>T</i>), prin analogie cu fizica termodinamică. La rece, atomii îngheață și rămân așezați în starea lor de energie minimă; la cald, se agită cu putere și explorează stări neașteptate.</p>
 
-  <p>Sub unu, diferențele se adâncesc: ce era mai probabil devine mult mai probabil, iar coada se stinge. Peste unu, diferențele se șterg și distribuția se apropie de una egală peste toate urmările pe care modelul le socotește cu putință. La temperatura unu nu se schimbă nimic, iar la temperatura zero rămâne numai vârful, adică alegerea lacomă.</p>
+  <p>În generarea de text, maneta temperaturii controlează cât de mult aplatizăm sau ascuțim probabilitățile. Când temperatura este coborâtă spre zero, diferențele se adâncesc uriaș: opțiunea fruntașă devine aproape sigură, iar restul variantelor dispar. Textul devine precis, concentrat și previzibil. Când temperatura crește peste unu, diferențele se șterg, iar zarul acordă șanse aproape egale tuturor variantelor. La temperatura unu lăsăm probabilitățile exact așa cum le-a văzut modelul, iar la temperatura zero rămâne doar vârful absolut, adică alegerea lacomă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceeași distribuție, la temperaturi diferite</figcaption>
@@ -788,13 +790,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Maneta nu poate face nimic acolo unde modelul e sigur. Dacă o singură urmare are toată probabilitatea, ea rămâne singura la orice temperatură; ridicarea la putere schimbă mărimile, nu și care dintre ele e zero. Temperatura lucrează numai pe nesiguranța care există deja.</p>
+  <p>Este util de observat că această manetă nu poate crea alternative din senin acolo unde modelul este absolut sigur. Dacă după un context dat există o singură urmare posibilă (care adună 100% din probabilitate), ea va rămâne singura aleasă la orice temperatură. Temperatura lucrează exclusiv asupra nesiguranței și nuanțelor care există deja în calculele rețelei.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H44 M14 28 H50 M14 36 H38 M14 44 H46" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><rect x="40" y="42" width="8" height="4" fill="#EE5A2F"/></svg></span>Textul care iese</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M14 20 H44 M14 28 H50 M14 36 H38 M14 44 H46" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><rect x="40" y="42" width="8" height="4" fill="#EE5A2F"/></svg></span>Cum sună textul generat</h2>
 
-  <p>Efectul se vede întreg abia pe text lung, unde alegerile se adună una peste alta.</p>
+  <p class="first">Adevăratul efect al eșantionării se vede pe un text întreg, unde deciziile se înlănțuie pas cu pas. Fiecare literă sau cuvânt ales este adăugat la sfârșitul textului și devine context pentru pasul următor. O singură decizie puțin mai îndrăzneață trimite întreaga frază pe o traiectorie nouă.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Patru sute de caractere, scrise literă cu literă</figcaption>
@@ -810,13 +812,13 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p class="note">Textul n-are înțeles, iar asta nu ține de eșantionare. Un contor de caractere antrenat pe zece mii de caractere învață cum arată cuvintele românești și cam ce urmează după ce, nu ce spun ele. Ce se vede aici e numai partea care depinde de alegere: cât de repetat sau cât de dezlânat iese textul.</p>
+  <p class="note">Micul contor din această demonstrație a învățat doar forma sonoră a cuvintelor românești și ce litere stau de obicei împreună, nu și sensul adânc al gândurilor. Rostul exercițiului este să vedeți cum se comportă alegerea: la temperatură foarte mică textul se blochează într-un refren mecanic, iar la temperatură prea mare își pierde chiar și structura silabelor.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 L18 48 L54 50" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 40 C24 42 40 46 54 52" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Compromisul, măsurat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 14 L18 48 L54 50" fill="none" stroke="#B5232B" stroke-width="3"/><path d="M10 40 C24 42 40 46 54 52" fill="none" stroke="#2F4BC4" stroke-width="3"/></svg></span>Măsurarea compromisului</h2>
 
-  <p>Două mărimi se pot socoti pe textul ieșit. Prima e cât de probabil îl găsește modelul însuși: media logaritmului probabilității pe care modelul o dădea fiecărui caracter ales. A doua e cât se repetă: partea din poziții a căror bucată de doisprezece caractere apăruse deja mai devreme în același text.</p>
+  <p class="first">Putem măsura precis acest compromis urmărind două mărimi: cât de des se repetă secvențele de caractere (semnul buclelor sterile) și cât de mulțumit este modelul de alegerile făcute (probabilitatea medie atribuită caracterelor alese de-a lungul drumului).</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Temperatura, pe medii de câte șase extrageri</figcaption>
@@ -827,21 +829,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capT"></div>
   </figure>
 
-  <p>Repetiția se prăbușește la primul pas de manetă și rămâne apoi aproape de zero. Probabilitatea medie scade încet și fără oprire pe restul întinderii.</p>
+  <p>O ușoară creștere a temperaturii de la zero la 0,2 face ca repetiția să se prăbușească spectaculos, textul devenind brusc mai liber și mai cursiv. În schimb, probabilitatea medie începe să scadă treptat pe măsură ce ridicăm temperatura.</p>
 
-  <p>Primul rând al tabelului spune însă altceva decât s-ar aștepta cineva. Alegerea lacomă ia la fiecare pas urmarea cea mai probabilă, dar textul care iese din ea nu e cel mai probabil text: media lui e mai mică decât a textelor extrase la o temperatură mică, dar nenulă. Bucla în care intră alegerea lacomă trece și prin pași pe care modelul nu-i socotește siguri, iar apoi îi repetă la nesfârșit. A alege cel mai bine la fiecare pas nu înseamnă a ajunge pe cel mai bun drum, și asta e adevărat mult dincolo de modelele de limbaj.</p>
+  <p>Primul rând al tabelului dezvăluie însă o mare surpriză: alegerea lacomă ia la fiecare pas varianta cu probabilitatea maximă, dar textul generat în ansamblu nu este cel mai probabil! Adesea, media de încredere este mai mare la o temperatură mică, dar nenulă. Blocându-se în bucle monotone, alegerea lacomă ajunge să parcurgă pași stângaci pe care este obligată să-i repete la infinit. A alege varianta optimă pe termen scurt nu înseamnă a găsi cel mai bun drum pe termen lung — o lecție valabilă cu mult dincolo de rețelele neuronale.</p>
 
-  <p>De aici vine faptul că valoarea bună nu se citește dintr-o formulă. Ea se află între o margine care se vede brusc și una care se apropie pe nesimțite, iar unde anume se pune depinde de ce se cere textului.</p>
+  <p>Temperatura potrivită nu reiese dintr-o formulă fixă. Ea se stabilește în funcție de ce așteptăm de la asistent: pentru sarcini exacte, cum ar fi programarea sau rezolvarea de probleme, preferăm temperaturi scăzute; pentru dialog firesc, rezumate sau scriere creativă, alegem o temperatură moderată.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="36" width="8" height="20" fill="#2F4BC4"/><rect x="19" y="22" width="8" height="34" fill="#2F4BC4"/><rect x="30" y="42" width="8" height="14" fill="#2F4BC4"/><rect x="41" y="50" width="8" height="6" fill="#BDB9AA"/><rect x="52" y="53" width="6" height="3" fill="#BDB9AA"/><path d="M40 8 V58" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Tăierea cozii</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="36" width="8" height="20" fill="#2F4BC4"/><rect x="19" y="22" width="8" height="34" fill="#2F4BC4"/><rect x="30" y="42" width="8" height="14" fill="#2F4BC4"/><rect x="41" y="50" width="8" height="6" fill="#BDB9AA"/><rect x="52" y="53" width="6" height="3" fill="#BDB9AA"/><path d="M40 8 V58" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/></svg></span>Tăierea cozii: eșantionarea nucleu (top-p)</h2>
 
-  <p>Temperatura schimbă toate probabilitățile deodată, inclusiv pe cele foarte mici, care rămân mici dar nu dispar. Pe un vocabular de zeci de mii de bucăți, coada adună destul cât să iasă din ea, din când în când, ceva fără nicio legătură.</p>
+  <p class="first">Temperatura modifică panta întregii distribuții, dar nu face ca opțiunile improbabile să dispară de tot. Într-un vocabular modern de zeci de mii de fragmente, miile de cuvinte ciudate din coada clasamentului adună împreună o masă de probabilitate suficient de mare încât una dintre ele să fie extrasă la întâmplare, stricând logica frazei.</p>
 
-  <p>A doua manetă taie coada în loc s-o îndoaie. Urmările se așază în ordinea descrescătoare a probabilității și se păstrează cele dintâi, până când probabilitățile lor adunate ajung la un prag ales; restul sunt scoase, iar ce rămâne se aduce din nou la un total de unu. Metoda se numește <dfn>eșantionare nucleu</dfn>, iar pragul se notează de obicei cu <i>p</i>.</p>
+  <p>A doua manetă de control taie această coadă în loc să o deformeze. Ordonăm toate variantele descrescător după probabilitate și le păstrăm doar pe primele, până când suma probabilităților lor atinge un prag stabilit, de exemplu 90% (<i>p</i> = 0,90). Toate celelalte variante din coadă sunt eliminate complet, iar zarul este aruncat doar între opțiunile fruntașe. Această metodă se numește <dfn>eșantionare nucleu</dfn> (sau <i>top-p</i>).</p>
 
-  <p>Deosebirea față de păstrarea unui număr fix de urmări e că nucleul se strânge și se lărgește singur. Unde modelul e sigur, pragul se atinge din una sau două urmări. Unde e nedumerit, sunt păstrate mai multe.</p>
+  <p>Marele avantaj al nucleului față de o tăiere rigidă este că se adaptează singur la context. Acolo unde continuarea este evidentă („Capitala României este...”), o singură opțiune poate strânge din prima peste 90%, așa că restul sunt tăiate instantaneu. Acolo unde contextul este deschis și permite multe variante bune („Pe masă se afla o...”), nucleul se lărgește automat și păstrează zeci de opțiuni plauzibile.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>Tăierea cozii, la temperatura unu</figcaption>
@@ -852,9 +854,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capP"></div>
   </figure>
 
-  <p>Cele două manete se întâlnesc la capăt. Un prag destul de strâns lasă la fiecare pas o singură urmare, iar de acolo încolo extragerea e alegerea lacomă, cu buclele ei cu tot. Ele nu sunt două mecanisme, ci două feluri de a strânge aceeași distribuție.</p>
+  <p>Temperatura și eșantionarea nucleu lucrează mână în mână: prima reglează tonusul alegerii (cât de ascuțită este diferența dintre opțiuni), iar a doua acționează ca o plasă de siguranță care împiedică modelul să o ia razna pe căi absurde.</p>
 
-  <p>Un model preantrenat continuă textul care i se dă. Dacă i se dă o întrebare, urmarea cea mai firească nu e un răspuns, ci încă o întrebare, fiindcă așa arată textele în care întrebările apar. Lecția următoare arată ce se mai face cu un model după preantrenare, ca el să răspundă în loc să continue.</p>
+  <p>Chiar și cu o eșantionare impecabil reglată, un model preantrenat știe un singur lucru: să continue un text început. Dacă îi adresați o întrebare, reflexul lui natural este adesea să compună o altă întrebare sau să continue cu o pagină de manual, fiindcă așa a văzut pe internet. În lecția următoare, vom descoperi cum transformăm această imensă memorie statistică într-un asistent cooperant, capabil să dialogheze și să răspundă la comenzi.</p>
 </section>
 
 </main>

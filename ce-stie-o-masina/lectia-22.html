@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,21 +740,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>Modelul <i>neural</i> de limbaj</h1>
-    <p class="lede">Un tabel de înșiruiri nu se umple niciodată, oricât text s-ar aduna. Ceea ce îl înlocuiește nu e un tabel mai mare, ci un model care știe să se folosească de asemănarea dintre cuvinte, așa încât ce a aflat despre unul să-i slujească și la celelalte.</p>
-    <p class="terms">Termeni: <b>tabel de înșiruiri</b> <b>vector de cuvânt</b> <b>ponderi folosite în comun</b> <b>fereastră fixă</b></p>
+    <p class="lede">Oricât text am aduna din toate bibliotecile lumii, un tabel de combinații statistice va rămâne mereu pustiu. Salvarea nu a venit dintr-un catalog mai mare, ci dintr-o schimbare de viziune: o rețea neuronală care înțelege rudenia dintre concepte, astfel încât ceea ce învață despre un animal sau un fruct să se transfere de la sine tuturor fraților săi de pe harta semantică.</p>
+    <p class="terms">Termeni: <b>explozie combinatorie</b> <b>generalizare semantică</b> <b>model neural (Bengio 2003)</b> <b>împărțirea ponderilor</b> <b>fereastră fixă de context</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M6 20 H58 M6 32 H58 M6 44 H58 M19 8 V56 M32 8 V56 M45 8 V56" fill="none" stroke="#22252D" stroke-width="1.5"/><rect x="7" y="21" width="12" height="11" fill="#2F4BC4"/><rect x="33" y="45" width="12" height="11" fill="#2F4BC4"/></svg></span>Câte înșiruiri sunt</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M6 20 H58 M6 32 H58 M6 44 H58 M19 8 V56 M32 8 V56 M45 8 V56" fill="none" stroke="#22252D" stroke-width="1.5"/><rect x="7" y="21" width="12" height="11" fill="#2F4BC4"/><rect x="33" y="45" width="12" height="11" fill="#2F4BC4"/></svg></span>Capcana infinitului: câte combinații există în realitate?</h2>
 
-  <p class="first">Modelul din lecția trecută ținea un tabel: pentru fiecare înșiruire de cuvinte pe care a văzut-o, ce a urmat după ea și de câte ori. Înainte de a-l părăsi, merită socotit cât de mare ar trebui să fie tabelul acesta ca să fie plin. Socoteala e scurtă, iar rezultatul ei hotărăște tot ce urmează în partea despre limbaj.</p>
+  <p class="first">Modelul din lecția precedentă se baza pe o evidență contabilă rigidă: ținea un catastif uriaș cu fiecare grup de cuvinte întâlnit și număra ce a urmat după el. Înainte de a trece mai departe, merită să facem un calcul simplu de bun-simț: cât de mare ar trebui să fie acest registru pentru a acoperi limba vie? Răspunsul este copleșitor și lămurește dintr-o privire de ce vechea abordare s-a prăbușit.</p>
 
-  <p>Cu un dicționar de zece mii de cuvinte, înșiruirile de două cuvinte cu putință sunt zece mii ori zece mii, adică o sută de milioane. La fiecare cuvânt adăugat, numărul se înmulțește din nou cu zece mii. Nicio bibliotecă nu crește așa.</p>
+  <p>Să ne imaginăm un vocabular modest de numai zece mii de cuvinte uzuale. Numărul combinațiilor posibile de doar două cuvinte este de zece mii înmulțit cu zece mii, adică o sută de milioane. Dacă vrem să ținem cont de trei cuvinte, înmulțim din nou cu zece mii și ajungem la o mie de miliarde! Cu fiecare cuvânt adăugat la context, spațiul posibilităților explodează exponențial într-un abis astronomic.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Câte înșiruiri sunt cu putință și câte pot fi văzute</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Explozia combinatorie: combinații posibile versus ce poate fi citit într-o viață</figcaption>
     <div class="stage">
       <div class="tblwrap"><table class="tbl numeric" id="tblN"></table></div>
       <div class="readout" id="nRead"></div>
@@ -764,30 +766,30 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Chiar un text de o mie de miliarde de cuvinte, cam cât s-a strâns vreodată pentru antrenarea modelelor mari, nu poate cuprinde mai multe înșiruiri de patru cuvinte decât are poziții, adică tot o mie de miliarde. Cele cu putință sunt, la un dicționar de mărimea celor de azi, de milioane de ori mai multe. Tabelul rămâne gol aproape peste tot, și rămâne așa oricât text s-ar mai aduna. Nu e o lipsă de sârguință, ci o lipsă de lume: nu s-a scris destul, și nu se va scrie niciodată destul, ca să fie văzut totul.</p>
+  <p>Chiar dacă am scana un munte de o mie de miliarde de cuvinte — adică tot ce a tipărit omenirea de la Gutenberg încoace —, un text conține un număr finit de ferestre succesive. Față de multitudinea astronomică de combinații permise de vocabular, tabelul nostru rămâne aproape în întregime gol. Nu este vorba de o lipsă de hărnicie din partea programatorilor, ci de o limită fizică a universului: nu s-a scris și nu se va scrie niciodată suficient text pentru a umple toate căsuțele posibile.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="10" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="4 3"/><text x="32" y="37" text-anchor="middle" font-family="monospace" font-size="14" fill="#22252D">0</text></svg></span>Zero nu este o estimare</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="32" r="10" fill="none" stroke="#EE5A2F" stroke-width="2.5" stroke-dasharray="4 3"/><text x="32" y="37" text-anchor="middle" font-family="monospace" font-size="14" fill="#22252D">0</text></svg></span>Cifra zero nu înseamnă imposibil</h2>
 
-  <p>Golul acesta n-ar fi grav dacă înșiruirile lipsă ar fi imposibile. Nu sunt. Cele mai multe propoziții corecte și cu înțeles n-au fost scrise niciodată de nimeni, iar asta nu le face cu nimic mai puțin corecte. Propoziția pe care o citiți acum e, aproape sigur, una dintre ele.</p>
+  <p>Acest deșert de căsuțe goale nu ar fi o dramă dacă frazele absente ar fi greșite sau lipsite de noimă. Dimpotrivă! Marea majoritate a propozițiilor perfect corecte, frumoase și logice din limba română nu au fost rostite sau scrise vreodată de nimeni. Gândiți-vă o clipă: fraza pe care o citiți chiar acum pe acest ecran este, foarte probabil, unică în istoria scrisului universal.</p>
 
-  <p>Un tabel nu poate face deosebirea. Pentru „înșiruire imposibilă” și pentru „înșiruire pe care n-am întâlnit-o încă” el răspunde la fel: nimic. Netezirea din lecția trecută acoperă golul cu o valoare mică, aceeași pentru toate variantele, ceea ce înseamnă că modelul recunoaște că nu știe și se oprește aici. E o purtare cinstită, dar nu ajută la nimic.</p>
+  <p>Un tabel statistic orb nu poate face această distincție fină. Pentru el, o secvență absurdă precum „pantofii triunghiul zboară” și o metaforă nouă, poetică sau o frază firească neîntâlnită primesc exact același calificativ sec: zero. Trucul de netezire matematică din lecția precedentă doar împarte o firimitură infimă și egală tuturor variantelor nevăzute — o recunoaștere onestă a neștiinței, dar care nu ajută la nimic în conversația reală.</p>
 
-  <p>Ce lipsește e putința de a spune: n-am văzut înșiruirea aceasta, dar am văzut una asemănătoare, iar cuvintele ei seamănă cu acestea. Pentru asta, cuvintele trebuie să poată semăna între ele, iar într-un tabel nu pot.</p>
+  <p>Ceea ce îi lipsește cu desăvârșire unui tabel este intuiția analogiei: puterea de a spune „nu am auzit niciodată această frază anume, dar seamănă izbitor cu o alta pe care o știu bine, iar cuvintele lor sunt rude apropiate”. Pentru a face acest salt de gândire, cuvintele trebuie să aibă o geometrie a înrudirii — ceva ce un tabel static nu va putea oferi niciodată.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="22" cy="26" r="6" fill="#2F4BC4"/><circle cx="30" cy="20" r="6" fill="#2F4BC4"/><circle cx="26" cy="34" r="6" fill="#C9D1F1" stroke="#2F4BC4" stroke-width="1.5"/><circle cx="48" cy="46" r="6" fill="#EE5A2F"/><path d="M8 56 H56 M8 56 V8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Asemănarea, pusă la lucru</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="22" cy="26" r="6" fill="#2F4BC4"/><circle cx="30" cy="20" r="6" fill="#2F4BC4"/><circle cx="26" cy="34" r="6" fill="#C9D1F1" stroke="#2F4BC4" stroke-width="1.5"/><circle cx="48" cy="46" r="6" fill="#EE5A2F"/><path d="M8 56 H56 M8 56 V8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Asemănarea pusă la lucru: rețeaua neuronală</h2>
 
-  <p>Pentru un tabel, „pisica” și „câinele” sunt două chei fără nicio legătură, la fel de înrudite ca „pisica” și „miercuri”. Tot ce se învață despre una nu spune nimic despre cealaltă.</p>
+  <p>Într-un catalog rigid, termenii „pisica” și „câinele” sunt două etichete izolate, complet străine între ele, la fel de despărțite precum „pisica” și „miercuri”. Orice observație nouă despre câine nu aduce niciun gram de cunoaștere despre pisică.</p>
 
-  <p>Lecția despre reprezentarea vectorială a dat unealta care lipsea. Dacă fiecare cuvânt e un vector, iar cuvintele care apar în aceleași contexte ajung să aibă vectori apropiați, atunci ce s-a învățat pentru un vector se răsfrânge de la sine asupra vecinilor lui.</p>
+  <p>Aici intervine strălucita idee a hărții vectoriale din Lecția 19. Dacă fiecare cuvânt este reprezentat printr-un pachet de coordonate (un vector), iar termenii care împart contexte asemănătoare ajung vecini apropiați în spațiu, atunci orice învățătură acumulată pentru un punct radiază de la sine asupra întregului său cartier semantic.</p>
 
-  <p>Modelul se construiește atunci așa. Cuvintele din context se înlocuiesc cu vectorii lor, vectorii se pun cap la cap și se dau unei rețele obișnuite, iar rețeaua scoate câte o notă pentru fiecare cuvânt din dicționar. Vectorii nu se dau dinainte: se învață odată cu restul ponderilor, prin coborârea pantei, ca răspuns la aceeași sarcină. Așezarea aceasta a fost propusă de Yoshua Bengio și colaboratorii lui în 2003 și e strămoșul direct al modelelor de azi.</p>
+  <p>Aceasta a fost arhitectura revoluționară propusă de profesorul Yoshua Bengio în 2003: cuvintele din frază sunt transformate în vectorii lor de trăsături, aceștia sunt alăturați și trimiși printr-o rețea neuronală cu straturi ascunse, iar la ieșire rețeaua estimează șansele fiecărui cuvânt din vocabular. Vectorii nu sunt desenați manual: se ajustează continuu prin coborârea pe gradient, învățând simultan cu restul rețelei. Este strămoșul direct al tuturor marilor modele de limbaj de astăzi.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Șase subiecte, șase verbe; apasă pe o căsuță ca s-o scoți din text</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Șase subiecte și șase acțiuni: faceți clic pe o celulă pentru a o șterge din antrenament</figcaption>
     <div class="stage">
       <div class="grid" id="grid"></div>
       <div class="vs">
@@ -812,29 +814,29 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Căsuțele roșii sunt combinațiile scoase din textul de antrenare. Pentru ele, tabelul dă zero: nu le-a văzut, deci n-are ce spune. Rețeaua dă o valoare mică dar nenulă, apropiată de a celorlalte verbe, fiindcă „pisica” a ajuns să aibă un vector asemănător cu al lui „câinele”, iar despre „câinele” a văzut că poate dormi. Nimeni nu i-a spus că pisicile dorm. A dedus din asemănare.</p>
+  <p>Căsuțele roșii din experimentul de mai sus reprezintă asocieri șterse deliberat din datele de lectură. În fața lor, tabelul statistic se blochează și dă zero: nu le-a întâlnit niciodată, deci ridică din umeri. În schimb, rețeaua neuronală acordă o probabilitate pozitivă plină de sens! De ce? Deoarece a observat că „pisica” seamănă la comportament cu „câinele”, iar despre câine a văzut că doarme în culcuș. Fără ca nimeni să-i fi predat biologie, modelul a dedus prin transfer că și pisicile pot dormi.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 48 L32 16 L52 48" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="16" r="5" fill="#EE5A2F"/><circle cx="12" cy="48" r="5" fill="#2F4BC4"/><circle cx="52" cy="48" r="5" fill="#2F4BC4"/><circle cx="32" cy="48" r="5" fill="#C9D1F1" stroke="#2F4BC4" stroke-width="1.5"/></svg></span>De ce merge</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 48 L32 16 L52 48" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="32" cy="16" r="5" fill="#EE5A2F"/><circle cx="12" cy="48" r="5" fill="#2F4BC4"/><circle cx="52" cy="48" r="5" fill="#2F4BC4"/><circle cx="32" cy="48" r="5" fill="#C9D1F1" stroke="#2F4BC4" stroke-width="1.5"/></svg></span>De ce funcționează: punerea în comun a cunoștințelor</h2>
 
-  <p>Câștigul nu vine din numărul de ponderi, care e mai mic decât al unui tabel, ci din faptul că ponderile sunt folosite în comun.</p>
+  <p>Marea forță a acestei abordări nu stă în volumul de memorie, ci în faptul că rețeaua folosește parametri comuni pentru situații înrudite.</p>
 
-  <p>Într-un tabel, fiecare intrare se învață separat și nu ajută la nimic altceva. Într-un model cu vectori, o observație despre „câinele” mută vectorul lui, iar mutarea aceea schimbă răspunsul pentru orice cuvânt din apropiere. Fiecare exemplu îmbunătățește astfel predicțiile pentru cuvinte care nu apar în el.</p>
+  <p>Într-un tabel izolat, fiecare rând este o insulă singuratică: dacă înveți ceva despre „câine”, cunoștința rămâne ferecată acolo. Într-un model neural, orice propoziție despre un cățel deplasează ușor vectorul său pe hartă, iar această deplasare modifică automat calculele pentru toți termenii apropiați (lup, vulpe, pisică). Fiecare exemplu citit luminează și îmbogățește și cuvintele vecine care nu au fost menționate direct în acea frază!</p>
 
-  <p>Deosebirea se vede și la cuvintele rare. Tabelul are pentru ele o singură intrare sau niciuna. Modelul cu vectori le așază vectorul lângă cuvintele cu care au apărut de câteva ori, iar de acolo încolo ele moștenesc tot ce s-a învățat despre vecini. A generaliza înseamnă, la urma urmei, a împrumuta: a folosi pentru un caz nou ce s-a aflat din cazuri asemănătoare. Tabelul n-are de la cine împrumuta, fiindcă în el nimic nu seamănă cu nimic.</p>
+  <p>Efectul este salutar mai ales pentru cuvintele rare. Tabelul statistic le abandonează cu scoruri nule. Modelul neuronal, în schimb, prinde termenul rar după cele două sau trei apariții, îl ancorează lângă sinonimele sale mai populare, iar de acolo înainte conceptul nou moștenește pe loc tot tezaurul de cunoștințe al vecinilor. În fond, a gândi și a generaliza înseamnă a împrumuta cu discernământ: a folosi ceea ce știi dintr-o experiență trăită pentru a naviga o situație nouă, dar similară.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="19" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="30" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="41" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="52" y="22" width="9" height="20" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M6 18 H50 M6 46 H50" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ce a rămas neschimbat</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="19" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="30" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="41" y="22" width="9" height="20" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="52" y="22" width="9" height="20" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="3 2"/><path d="M6 18 H50 M6 46 H50" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Obstacolul rămas: închisoarea ferestrei fixe</h2>
 
-  <p>Modelul acesta rezolvă golurile din tabel și lasă neatinsă o altă problemă.</p>
+  <p>Modelul lui Bengio a spulberat blestemul tabelelor goale, dar s-a lovit curând de o altă barieră inginerească dificilă.</p>
 
-  <p>Fereastra e tot fixă. Dacă rețeaua primește patru cuvinte, nu poate folosi al cincilea, oricât ar fi el de important. În „fetele pe care le-am văzut ieri la piață, împreună cu mama lor, ___”, cuvântul care hotărăște acordul se află cu opt poziții mai devreme și pur și simplu nu ajunge la intrare.</p>
+  <p>Fereastra de context era încă rigidă și îngustă. Dacă rețeaua este proiectată să primească la intrare exact trei sau patru cuvinte, ea este complet oarbă la tot ce s-a întâmplat mai devreme. Să privim o frază cu acord la distanță: <i>„Fetele pe care le-am întâlnit ieri la bibliotecă, venite din celălalt cartier, ___”</i>. Cuvântul hotărâtor pentru acordul verbului este „Fetele”, aflat cu zece poziții în urmă! Pentru o fereastră fixă de patru cuvinte, subiectul a dispărut demult dincolo de orizont.</p>
 
-  <p>Mărirea ferestrei nu e un răspuns. Ea înmulțește ponderile primului strat și, mai grav, n-are unde să se oprească: nicio mărime aleasă dinainte nu cuprinde toate legăturile dintr-o limbă.</p>
+  <p>De ce nu putem pur și simplu să mărim fereastra la cincizeci sau o sută de cuvinte? Pentru că fiecare poziție nouă din fereastră adaugă un set întreg de conexiuni la primul strat neuronal, umflând exponențial numărul de parametri. Mai mult, conexiunile pentru poziția 1 sunt complet separate de cele pentru poziția 3: ce învață rețeaua despre un substantiv aflat la începutul ferestrei nu se aplică automat dacă același substantiv apare două poziții mai la dreapta!</p>
 
-  <p>Mai e ceva. Fiecare poziție din fereastră are ponderile ei, deci ce învață rețeaua despre un cuvânt aflat pe locul întâi nu se transferă la același cuvânt aflat pe locul al treilea. E aceeași risipă pe care convoluția o înlăturase la imagini, întoarsă sub altă formă. E nevoie de un model care să primească un șir de orice lungime și să folosească aceleași ponderi la fiecare poziție. Lecția următoare arată prima construcție de acest fel, ideea ei simplă și zidul de care s-a lovit vreme de douăzeci de ani.</p>
+  <p>Este exact aceeași risipă pe care o întâlnisem la analiza imaginilor înainte de apariția convoluției. Avem nevoie de un mecanism flexibil, capabil să citească fraze de orice lungime și să aplice aceleași principii indiferent de poziția cuvântului în text. În lecția următoare, vom explora prima mare încercare de a da rețelelor o memorie continuă: rețeaua recurentă, o idee ingenioasă care avea însă să se lovească de propria ei barieră de uitare.</p>
 </section>
 
 </main>

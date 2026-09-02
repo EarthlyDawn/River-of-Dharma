@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,29 +740,29 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>De ce <i>inventează</i></h1>
-    <p class="lede">Ieșirea unui model e întotdeauna o distribuție peste bucata următoare. Nu există în mecanism niciun loc unde ceva să fie comparat cu lumea și niciun rezultat care să însemne „nu știu”. Din lipsa aceasta, nu dintr-o greșeală, vine tot ce urmează.</p>
-    <p class="terms">Termeni: <b>confabulare</b> <b>scorul unui text</b> <b>calibrare</b></p>
+    <p class="lede">Ieșirea unui model de limbaj este întotdeauna o distribuție de probabilități peste cuvântul următor. În circuitele lui nu există niciun senzor care să verifice realitatea fizică și nicio stare internă care să însemne „nu știu”. Din această lipsă fundamentală de ancorare în lume — și nu dintr-o intenție rea sau o defecțiune ascunsă — se nasc halucinațiile.</p>
+    <p class="terms">Termeni: <b>confabulare (halucinație)</b> <b>plauzibilitate vs. adevăr</b> <b>calibrare statistică</b> <b>absența verificării factuale</b></p>
   </div>
 </header>
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="30" rx="4" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 44 L14 54 L24 44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 24 H48 M16 32 H40" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce se întâmplă când nu știe</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="30" rx="4" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 44 L14 54 L24 44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M16 24 H48 M16 32 H40" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Ce se întâmplă când nu știe: actorul care nu poate tăcea</h2>
 
-  <p class="first">Un model întrebat despre ceva ce n-a întâlnit niciodată nu ajunge într-o stare deosebită. El face exact ce face de fiecare dată: socotește o distribuție și extrage din ea. Din distribuția aceea iese ceva, fiindcă de acolo iese întotdeauna ceva.</p>
+  <p class="first">Când întrebați un asistent despre un fapt obscur pe care nu l-a întâlnit niciodată, în rețeaua lui nu se declanșează nicio alarmă de eroare. El nu intră într-o stare de blocaj și nu afișează un ecran gol. În schimb, face exact ceea ce a fost construit să facă la fiecare pas: calculează o distribuție de probabilități și extrage din ea cel mai plauzibil cuvânt următor.</p>
 
-  <p>Rezultatul are forma unui răspuns, fiindcă forma e ce s-a învățat, și sună la fel de așezat ca oricare altul, fiindcă felul de a suna așezat e tot o însușire a textului. Purtarea aceasta se numește <dfn>confabulare</dfn>: producerea unui răspuns bine alcătuit în locul unuia întemeiat.</p>
+  <p>Răspunsul care se așterne pe ecran are o ținută impecabilă: fraze rotunde, un ton calm și convingător, nume proprii și ani exacți. Fenomenul acesta poartă în științele cognitive numele de <dfn>confabulare</dfn> (cunoscut în limbajul curent drept <i>halucinație</i>): producerea unei narațiuni cursive și elegante în locul unui adevăr documentat.</p>
 
-  <p>Un povestitor care n-are cum să tacă. Întrebat ceva ce nu știe, el nu se oprește; spune ce sună cel mai firesc după cuvintele de dinainte. Și nu minte, fiindcă a minți presupune a ști adevărul și a spune altceva. El nu face deosebirea, fiindcă nicăieri în el nu există locul unde deosebirea s-ar putea face.</p>
+  <p>Modelul seamănă cu un actor de teatru de improvizație care are o singură interdicție absolută: nu are voie să tacă niciodată pe scenă. Dacă din sală i se strigă o replică bizară despre un eveniment inventat, actorul nu se va opri să spună că nu cunoaște piesa; el va improviza pe loc un monolog răsunător, alegând cuvintele care sună cel mai firesc în context. Important de reținut: modelul nu minte. A minți presupune să cunoști adevărul și să decizi cu bună știință să spui altceva. Modelul nu poate face această distincție, fiindcă în matematica matricelor lui nu există nicăieri un registru al adevărului obiectiv.</p>
 </section>
 
 <section id="s2">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 24 H26" fill="none" stroke="#BDB9AA" stroke-width="5" opacity=".6"/><path d="M30 24 H56" fill="none" stroke="#E9C93B" stroke-width="5"/><path d="M8 40 H20" fill="none" stroke="#BDB9AA" stroke-width="5" opacity=".6"/><path d="M24 40 H56" fill="none" stroke="#E9C93B" stroke-width="5"/><rect x="52" y="20" width="6" height="24" fill="#EE5A2F"/></svg></span>Ce intră în socoteală</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 24 H26" fill="none" stroke="#BDB9AA" stroke-width="5" opacity=".6"/><path d="M30 24 H56" fill="none" stroke="#E9C93B" stroke-width="5"/><path d="M8 40 H20" fill="none" stroke="#BDB9AA" stroke-width="5" opacity=".6"/><path d="M24 40 H56" fill="none" stroke="#E9C93B" stroke-width="5"/><rect x="52" y="20" width="6" height="24" fill="#EE5A2F"/></svg></span>Ce intră în socoteală: plauzibilitate vs. adevăr</h2>
 
-  <p>Modelul din pagină e cel din lecțiile precedente: un contor de caractere care se uită la cel mult șase semne în urmă și se retrage la mai puține când cele șase au fost văzute prea rar. Textul pe care îl scoate n-are înțeles, iar asta n-are legătură cu ce se arată aici. Figura arată care semne intră cu adevărat în socoteală, iar restul întrebării se vede stins.</p>
+  <p class="first">Micul model demonstrativ de mai jos este un contor de caractere care privește doar ultimele câteva semne din întrebare. În grafic, caracterele care contează cu adevărat pentru decizie sunt evidențiate, în timp ce restul frazei este estompat:</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Două întrebări, o singură socoteală</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Două întrebări diferite, aceeași socoteală</figcaption>
     <div class="stage">
       <div class="two cards">
         <div class="card"><span class="lb">întrebarea întâi</span><div class="qq" id="qA"></div><div class="tx" id="tA"></div><span class="sc" id="sA"></span></div>
@@ -775,17 +777,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Când cele două întrebări se sfârșesc la fel pe porțiunea privită, urmarea iese identică, semn cu semn. Nu e o coincidență și nu e o slăbiciune de antrenare: partea din întrebare care le deosebea n-a intrat nicăieri în socoteală.</p>
+  <p>Dacă două întrebări complet diferite se termină cu aceeași secvență de litere, modelul nostru va genera exact aceeași continuare. Nu este o eroare întâmplătoare: sensul adânc al primei părți a întrebării nici măcar nu a ajuns la circuitul de decizie.</p>
 
-  <p>Un model adevărat privește mii de poziții deodată, nu șase, deci deosebirea dintre cele două întrebări ajunge la el. Ce nu se schimbă odată cu mărimea e natura pasului: din text se socotește o distribuție, iar între text și lume nu se face nicio verificare, fiindcă în mecanism nu există un loc unde ea s-ar putea face.</p>
+  <p>Desigur, un asistent modern dispune de ferestre de atenție care cuprind mii de cuvinte simultan, așa că nu va fi păcălit de ultimele câteva litere. Însă natura calculelor rămâne identică: rețeaua măsoară compatibilitatea armonioasă a cuvintelor între ele, nu corespondența lor cu realitatea fizică din afara textului.</p>
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><text x="20" y="28" font-family="monospace" font-size="10" fill="#22252D">1.</text><text x="20" y="40" font-family="monospace" font-size="10" fill="#22252D">2.</text><text x="20" y="52" font-family="monospace" font-size="10" fill="#22252D">3.</text><path d="M32 25 H48 M32 37 H44 M32 49 H46" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M32 37 H44" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Ce măsoară scorul unui text</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="10" width="44" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><text x="20" y="28" font-family="monospace" font-size="10" fill="#22252D">1.</text><text x="20" y="40" font-family="monospace" font-size="10" fill="#22252D">2.</text><text x="20" y="52" font-family="monospace" font-size="10" fill="#22252D">3.</text><path d="M32 25 H48 M32 37 H44 M32 49 H46" fill="none" stroke="#BDB9AA" stroke-width="3"/><path d="M32 37 H44" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Ce măsoară de fapt scorul unui text</h2>
 
-  <p>Unui model i se poate cere cât de probabil găsește el un text dat. Numărul acesta se folosește des ca semn de încredere, iar aici merită privit de aproape ce anume măsoară el.</p>
+  <p class="first">Fiecărei propoziții pe care o analizează, un model de limbaj îi poate atribui un scor numeric de probabilitate. Utilizatorii interpretează adesea acest scor ca pe un indice de certitudine sau de adevăr factual. Să vedem însă ce măsoară el în realitate.</p>
 
-  <p>Măsurătoarea de mai jos ia cele opt întrebări ținute deoparte, cu răspunsurile lor scrise de om, și pune modelul să claseze, pentru fiecare întrebare, toate cele opt răspunsuri. Dacă scorul ar avea de-a face cu potrivirea dintre întrebare și răspuns, răspunsul propriu ar ieși pe primul loc.</p>
+  <p>În experimentul de mai jos, punem modelul să evalueze și să clasifice opt răspunsuri posibile pentru fiecare întrebare. Dacă scorul ar măsura corectitudinea faptică, răspunsul adevărat ar trebui să se claseze întotdeauna pe primul loc:</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Al câtelea iese răspunsul potrivit</figcaption>
@@ -796,15 +798,15 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capR"></div>
   </figure>
 
-  <p class="note">Modelul acesta clasează la nimereală fiindcă, atunci când ajunge la mijlocul răspunsului, întrebarea a ieșit de mult din cele șase semne pe care le privește. Un model adevărat, care are întrebarea în față tot timpul, clasează mult mai bine. Ce rămâne adevărat la orice mărime e ce anume măsoară numărul: cât de obișnuită e înșiruirea de cuvinte, nu dacă lucrul spus se întâmplă să fie așa.</p>
+  <p class="note">În micul nostru model de jucărie, clasamentul pare haotic fiindcă memoria lui scurtă scapă din vedere începutul întrebării. Modelele mari se descurcă incomparabil mai bine, dar principiul rămâne același: scorul reflectă cât de naturală și de previzibilă este succesiunea de cuvinte în limba respectivă, nu dacă afirmația este conformă cu realitatea istorică sau științifică.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 L54 10" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="18" cy="42" r="3" fill="#2F4BC4"/><circle cx="30" cy="38" r="3" fill="#2F4BC4"/><circle cx="42" cy="34" r="3" fill="#EE5A2F"/><circle cx="50" cy="22" r="3" fill="#2F4BC4"/></svg></span>Calibrarea</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><path d="M10 52 L54 10" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="18" cy="42" r="3" fill="#2F4BC4"/><circle cx="30" cy="38" r="3" fill="#2F4BC4"/><circle cx="42" cy="34" r="3" fill="#EE5A2F"/><circle cx="50" cy="22" r="3" fill="#2F4BC4"/></svg></span>Calibrarea: siguranță afișată vs. certitudine reală</h2>
 
-  <p>O altă întrebare se poate pune despre același număr: când modelul spune că e sigur în opt cazuri din zece, chiar nimerește în opt cazuri din zece? Potrivirea dintre siguranța anunțată și cea dovedită se numește <dfn>calibrare</dfn>.</p>
+  <p class="first">O altă întrebare fundamentală este: când modelul afirmă că o opțiune are 80% probabilitate, are el dreptate în 8 cazuri din 10? Această corespondență între siguranța matematică afișată și rata reală de succes se numește <dfn>calibrare</dfn>.</p>
 
-  <p>Ea se măsoară pe text nemaivăzut. Pentru fiecare poziție se ia probabilitatea pe care modelul o dă celei mai bune urmări, se strâng pozițiile în grupe după această probabilitate, iar în fiecare grupă se numără de câte ori cea mai bună urmare a fost și cea adevărată.</p>
+  <p>Măsurăm acest lucru pe un text nou, nemaivăzut la antrenare. Împărțim predicțiile în grupe după nivelul de încredere și verificăm de câte ori opțiunea clasată pe primul loc a fost într-adevăr cea corectă:</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Siguranța anunțată față de cea dovedită</figcaption>
@@ -816,21 +818,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capC"></div>
   </figure>
 
-  <p>În afară de grupa cea mai de jos, unde nimerește ceva mai des decât anunță, toate punctele cad sub diagonală: modelul e prea sigur pe el. Depărtarea cea mai mare nu e însă la capătul de sus al scării, unde modelul se declară aproape sigur, ci mai jos, acolo unde se declară destul de sigur fără să aibă de ce. Nu e o greșeală de socoteală: probabilitățile sunt cele învățate din textul de antrenare, iar textul nemaivăzut nu se poartă întocmai ca el.</p>
+  <p>Priviți graficul: aproape toate punctele cad sub diagonala ideală punctată. Acest lucru indică o problemă universală a modelelor de limbaj: sunt <dfn>hiper-încrezătoare</dfn>. Ele afișează o certitudine categorică chiar și atunci când doar ghicesc. Cel mai mare decalaj nu apare la vârf, ci în zona de mijloc, unde modelul pare destul de sigur pe sine fără să aibă o bază solidă.</p>
 
-  <p>Chiar și o calibrare desăvârșită n-ar ajuta însă la ce se așteaptă de obicei de la ea. Ea ar spune cât de des nimerește modelul următorul semn, nu cât de des e adevărat ce scrie. Sunt două întrebări diferite, iar mecanismul răspunde numai la cea dintâi.</p>
+  <p>Chiar și o calibrare matematică perfectă nu ar rezolva problema adevărului. Ea ne-ar spune doar cât de sigur este modelul că ghicește următorul simbol din text, nu dacă propoziția respectivă corespunde adevărului din lumea fizică.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M22 36 Q32 44 42 36" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="25" cy="26" r="2.5" fill="#22252D"/><circle cx="39" cy="26" r="2.5" fill="#22252D"/><path d="M22 36 Q32 44 42 36" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="2 2"/></svg></span>De ce nu poate să tacă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M22 36 Q32 44 42 36" fill="none" stroke="#22252D" stroke-width="2"/><circle cx="25" cy="26" r="2.5" fill="#22252D"/><circle cx="39" cy="26" r="2.5" fill="#22252D"/><path d="M22 36 Q32 44 42 36" fill="none" stroke="#EE5A2F" stroke-width="2" stroke-dasharray="2 2"/></svg></span>De ce nu poate spune simplu „nu știu”</h2>
 
-  <p>Ar părea firesc ca modelul să scrie „nu știu” atunci când nu știe. Numai că „nu știu” e, în mecanism, exact același fel de lucru ca orice altă urmare: un șir de bucăți cu o anumită probabilitate. Nimic nu-l leagă de starea în care s-ar afla modelul dacă i-ar lipsi ceva.</p>
+  <p class="first">Ar fi atât de simplu și de comod dacă, atunci când nu deține un răspuns, modelul ar spune deschis: „Nu știu”. Însă în mecanismul unui transformator, formula „Nu știu” nu este o stare internă de alertă sau o recunoaștere a ignoranței; este doar o înșiruire oarecare de litere, având o anumită probabilitate statistică.</p>
 
-  <p>Reglajul fin și învățarea din preferințe pot face șirul acesta mai probabil în anumite împrejurări, iar asistenții de azi îl scriu mult mai des decât un model brut. Dar el e produs pentru același motiv ca oricare altul: fiindcă seamănă cu ce urmează de obicei după un text de felul acela. Nu fiindcă undeva s-ar fi constatat o lipsă.</p>
+  <p>În marea bibliotecă pe care s-a antrenat modelul — enciclopedii, cărți, articole științifice și pagini web —, textele nu conțin aproape niciodată replica „Nu știu”. Cărțile explică, articolele afirmă, iar autorii vorbesc cu autoritate. Modelul a deprins o lecție clară: după o întrebare, textul firesc continuă printr-o expunere detaliată de fapte, nu printr-o pauză de modestie.</p>
 
-  <p>De aici vine și de ce problema nu se rezolvă cerând modelului să fie mai atent. Cererea intră în text și schimbă distribuția; ea nu adaugă o verificare care nu există. Ceea ce ne pare o slăbiciune de caracter e, la urma urmei, o trăsătură de construcție: mașina aceasta știe ce urmează de obicei, și nu știe nimic altceva.</p>
+  <p>Prin reglaj fin și aliniere cu feedback uman, asistenții moderni sunt antrenați să rostească mai des formule de refuz precum „Nu am suficiente informații”. Însă chiar și această reacție este doar un tipar lingvistic învățat pe anumite formulări, nu o concluzie izvorâtă dintr-o introspecție sinceră. Iată de ce problema nu poate fi remediată adăugând în cerință îndemnuri de tipul „te rog să fii foarte atent și să nu minți”: cuvintele dumneavoastră modifică doar puțin distribuția de probabilități, fără a putea crea un organ de verificare factuală care pur și simplu nu există în arhitectură.</p>
 
-  <p>Purtarea modelului se poate schimba însă mult punând câteva exemple chiar în textul care i se dă, fără ca nicio pondere să se miște. Lecția următoare arată ce e lucrul acesta și de ce apare.</p>
+  <p>Dacă nu putem schimba ușor convingerile gravate în miliardele de parametri, putem oare să-i schimbăm purtarea din mers, fără să-i atingem deloc rețeaua? Ce se întâmplă dacă îi punem în față câteva exemple chiar în textul întrebării? În lecția următoare, vom descoperi una dintre cele mai spectaculoase proprietăți ale asistenților moderni: învățarea direct din context.</p>
 </section>
 
 </main>

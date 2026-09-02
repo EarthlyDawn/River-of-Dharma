@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,7 +740,7 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1><i>Supraînvățarea</i></h1>
-    <p class="lede">Coborârea pantei găsește butoanele care greșesc cel mai puțin pe exemplele văzute. Dacă familia de reguli e destul de bogată, ea le găsește pe cele care nu greșesc deloc, și acelea sunt cele mai proaste. A memora și a înțelege sunt două lucruri diferite, iar diferența se poate măsura.</p>
+    <p class="lede">Coborârea pantei caută cu încăpățânare reglajul care micșorează greșeala pe exemplele pe care i le dăm. Dacă modelul are prea multe butoane, el poate ajunge să nu mai greșească absolut deloc pe acele exemple — și tocmai atunci devine complet inutil în lumea reală. A memora pe de rost și a înțelege sunt două lucruri complet diferite, iar distanța dintre ele se poate măsura cu precizie.</p>
     <p class="terms">Termeni: <b>grad</b> <b>set de antrenare</b> <b>set de test</b> <b>subînvățare</b> <b>supraînvățare</b> <b>regularizare</b> <b>set de validare</b></p>
   </div>
 </header>
@@ -746,21 +748,21 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <main class="sections">
 
 <section id="s1">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 C10 10 16 60 22 34 S34 6 40 36 S52 60 60 22" fill="none" stroke="#EE5A2F" stroke-width="3"/><g class="o-grid"><circle cx="10" cy="30" r="3"/><circle cx="22" cy="34" r="3"/><circle cx="34" cy="26" r="3"/><circle cx="46" cy="40" r="3"/><circle cx="58" cy="26" r="3"/></g></svg></span>Potrivirea perfectă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 C10 10 16 60 22 34 S34 6 40 36 S52 60 60 22" fill="none" stroke="#EE5A2F" stroke-width="3"/><g class="o-grid"><circle cx="10" cy="30" r="3"/><circle cx="22" cy="34" r="3"/><circle cx="34" cy="26" r="3"/><circle cx="46" cy="40" r="3"/><circle cx="58" cy="26" r="3"/></g></svg></span>Iluzia potrivirii perfecte</h2>
 
-  <p class="first">Familia din lecțiile precedente avea două butoane, iar dreapta nu putea trece prin toate punctele. Familia se poate lărgi: în loc de dreaptă, o curbă cu mai multe îndoituri, câte una pentru fiecare buton adăugat. Numărul de îndoituri se numește <dfn>gradul</dfn> curbei, iar pare firesc ca mai multe butoane să însemne un model mai bun. Lecția aceasta arată de ce nu e așa.</p>
+  <p class="first">Până acum am lucrat cu o linie dreaptă echipată cu doar două butoane. Dreapta era cuminte și rigidă: nu putea trece exact prin toate punctele noastre de măsurătoare. Putem fi tentați să facem modelul mai flexibil: în loc de o dreaptă, folosim o curbă suplă, cu mai multe ondulații, adăugând câte un buton pentru fiecare nouă îndoitură. Numărul de îndoituri posibile este <dfn>gradul</dfn> curbei.</p>
 
-  <p>Cu destule butoane, potrivirea devine perfectă. Prin paisprezece puncte trece exact o curbă de gradul treisprezece, iar costul pe acele paisprezece puncte scade la zero. După măsura folosită până acum, e cel mai bun model cu putință.</p>
+  <p>La prima vedere, logica pare de neclintit: cu cât avem mai multe butoane, cu atât modelul ar trebui să fie mai deștept și mai capabil. Dacă îi dăm destule butoane, potrivirea devine uluitoare: prin 14 puncte putem trece o curbă de gradul 13 care le atinge pe fiecare cu o precizie chirurgicală. Pe acele 14 puncte, eroarea scade la zero absolut!</p>
 
-  <p>E, de fapt, inutilizabil. Între puncte curba urcă și coboară sălbatic, iar întrebată despre un kilometraj la care nu a fost măsurat nimic, dă răspunsuri absurde. Modelul a învățat pe de rost măsurătorile, nu legătura din spatele lor; și, la fel ca un elev care a memorat răspunsurile fără să înțeleagă întrebările, cade la prima întrebare nouă.</p>
+  <p>Privită de aproape însă, această curbă perfectă este un dezastru. Între punctele cunoscute, ea face salturi sălbatice spre cer și prăpăstii adânci. Dacă o întrebi cât durează un drum pentru o distanță pe care nu a văzut-o încă, va da răspunsuri absurde — de pildă, că un drum de 15 kilometri durează zece ore sau chiar minus cinci minute. Modelul seamănă leit cu un elev care a memorat pe de rost răspunsurile la un test-grilă fără să înțeleagă materia: ia nota 10 pe testul știut, dar se blochează complet la prima întrebare nouă.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 6 V58" fill="none" stroke="#22252D" stroke-width="2" stroke-dasharray="4 3"/><g class="o-grid"><circle cx="12" cy="20" r="4"/><circle cx="20" cy="36" r="4"/><circle cx="10" cy="48" r="4"/><circle cx="24" cy="12" r="4"/></g><g fill="#7A4E9C"><circle cx="44" cy="24" r="4"/><circle cx="54" cy="40" r="4"/><circle cx="42" cy="50" r="4"/></g></svg></span>Datele văzute și cele nevăzute</h2>
 
-  <p>Ca să se vadă deosebirea, măsurătorile se împart în două de la bun început. Pe unele se caută butoanele; ele formează <dfn>setul de antrenare</dfn>. Celelalte se pun deoparte, nu participă la căutare și se folosesc numai la sfârșit, ca să se vadă cum se descurcă modelul pe ceva ce nu a văzut; ele formează <dfn>setul de test</dfn>.</p>
+  <p>Pentru a demasca această capcană, cercetătorii folosesc o metodă simplă și elegantă: împart măsurătorile disponibile în două grămezi încă de la bun început. O parte dintre exemple sunt puse la dispoziția algoritmului pentru a căuta butoanele ideale; ele formează <dfn>setul de antrenare</dfn>. Cealaltă parte este încuiată într-un seif și nu participă deloc la antrenare; ea formează <dfn>setul de test</dfn>.</p>
 
-  <p>Costul se socotește atunci de două ori, pe fiecare set în parte. Costul de antrenare spune cât de bine s-a memorat. Costul de test spune cât de bine s-a înțeles. Împărțirea aceasta pare o precauție de contabil și e, de fapt, una dintre ideile fundamentale ale întregului domeniu: singurul fel de a afla dacă un model a înțeles ceva e să-l întrebi ceva ce n-a văzut.</p>
+  <p>În acest fel, calculăm costul de două ori: o dată pe datele de antrenare (care ne arată cât de bine a memorat mașina ce i s-a arătat) și o dată pe datele de test (care ne măsoară adevărata înțelegere). Această separare riguroasă este piatra de temelie a întregii inteligențe artificiale moderne: <b>singurul mod cinstit de a verifica dacă o mașină a înțeles un concept este să o pui la încercare pe exemple pe care nu le-a mai văzut niciodată</b>.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceleași măsurători, curbe de grade diferite</figcaption>
@@ -785,11 +787,11 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 </section>
 
 <section id="s3">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 Q28 60 58 52" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M6 20 Q26 44 34 40 T58 12" fill="none" stroke="#7A4E9C" stroke-width="3"/><circle cx="32" cy="42" r="5" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Curba în formă de U</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 12 Q28 60 58 52" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M6 20 Q26 44 34 40 T58 12" fill="none" stroke="#7A4E9C" stroke-width="3"/><circle cx="32" cy="42" r="5" fill="none" stroke="#EE5A2F" stroke-width="2.5"/></svg></span>Curba în formă de U: harta învățării</h2>
 
-  <p>Urmărind cele două costuri pe măsură ce gradul crește, apare tiparul care organizează toată învățarea automată. Costul de antrenare scade mereu: butoane mai multe înseamnă potrivire mai bună pe ce s-a văzut, fără excepție. Costul de test scade la început, atinge un minim, apoi urcă.</p>
+  <p>Dacă urmărim comportamentul celor două costuri pe măsură ce mărim numărul de butoane (gradul curbei), iese la iveală cel mai faimos tipar din machine learning. Costul de antrenare (linia albastră) scade necontenit: mai multe butoane înseamnă întotdeauna o potrivire mai strânsă pe exemplele cunoscute. În schimb, costul de test (linia violetă) scade la început, atinge un punct minim ideal, iar apoi începe să urce vertiginos!</p>
 
-  <p>Zona din stânga minimului se numește <dfn>subînvățare</dfn>: modelul e prea sărac ca să prindă forma adevărată și greșește la fel pe amândouă seturile. Zona din dreapta se numește <dfn>supraînvățare</dfn>: modelul e destul de bogat ca să descrie și abaterile întâmplătoare ale punctelor de antrenare, iar acelea nu se repetă nicăieri altundeva.</p>
+  <p>Zona din stânga minimului se numește <dfn>subînvățare</dfn> (sau <i>underfitting</i>): modelul este prea rigid, prea sărac în butoane pentru a surprinde forma reală a fenomenului. Zona din dreapta minimului se numește <dfn>supraînvățare</dfn> (sau <i>overfitting</i>): modelul este atât de flexibil încât începe să urmărească fiecare oscilație întâmplătoare a datelor de antrenare, crezând că orice accident este o lege universală.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Costul pe cele două seturi, pentru fiecare grad</figcaption>
@@ -797,47 +799,47 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     <div class="cap" id="capU"></div>
   </figure>
 
-  <p>Minimul curbei violete arată gradul potrivit. El nu se poate ghici privind numai costul de antrenare, fiindcă acela nu urcă niciodată. Un model care nu e pus niciodată la încercare pe ceva nou nu poate ști singur dacă a înțeles sau a memorat, și nici cel care l-a antrenat.</p>
+  <p>Punctul cel mai de jos al curbei violete marchează reglajul de aur. Fii atent: acest optim nu poate fi descoperit privind doar datele de antrenare, pentru că pe datele de antrenare modelul pare din ce în ce mai bun pe măsură ce devine tot mai inutil! Fără un set de testare, un creator de modele este la fel de orb ca un elev care își dă singur note pe temele făcute acasă cu manualul deschis.</p>
 </section>
 
 <section id="s4">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q32 8 58 40" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><g class="o-grid"><circle cx="14" cy="40" r="3"/><circle cx="26" cy="20" r="3"/><circle cx="38" cy="26" r="3"/><circle cx="50" cy="34" r="3"/></g><path d="M14 40 V32 M26 20 V26 M38 26 V20 M50 34 V28" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>De ce se întâmplă</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 44 Q32 8 58 40" fill="none" stroke="#BDB9AA" stroke-width="2.5" stroke-dasharray="4 3"/><g class="o-grid"><circle cx="14" cy="40" r="3"/><circle cx="26" cy="20" r="3"/><circle cx="38" cy="26" r="3"/><circle cx="50" cy="34" r="3"/></g><path d="M14 40 V32 M26 20 V26 M38 26 V20 M50 34 V28" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Semnal și zgomot: de ce apare iluzia</h2>
 
-  <p>Măsurătorile conțin două lucruri amestecate: legătura adevărată și abaterea întâmplătoare a fiecărei măsurători. Primul lucru se repetă la măsurători noi, al doilea nu. Un model bun ar trebui să învețe primul și să ignore al doilea; dar nimeni nu i-a spus care e care, și nici nu are cum: în date, semnalul și zgomotul arată la fel.</p>
+  <p>Orice măsurătoare din viața reală conține două ingrediente amestecate inseparabil: <i>semnalul</i> (legătura fizică adevărată, care se va repeta și mâine) și <i>zgomotul</i> (abaterile întâmplătoare produse de vânt, neatenție sau o frână bruscă, care nu se vor repeta niciodată identic). Modelul ideal ar trebui să asculte doar semnalul și să ignore complet zgomotul.</p>
 
-  <p>Un model sărac nu are destulă libertate ca să descrie decât partea care se repetă, așa că prinde legătura și ignoră abaterile, din lipsă de spațiu. Un model bogat are libertate în plus, iar coborârea pantei o folosește pe toată, fiindcă i s-a cerut să scadă costul de antrenare și atât. Libertatea în plus se duce în descrierea abaterilor, adică în memorare.</p>
+  <p>Dar modelul nu are de unde să știe care este care: în cifrele brute, zgomotul și semnalul arată la fel! Un model simplu nu are destule butoane pentru a urmări micile zigzaguri ale zgomotului, așa că reține doar tendința generală a semnalului. În schimb, un model cu zeci de butoane are „libertate” din belșug. Coborârea pantei o va folosi pe toată pentru a reduce costul, contorsionând curba după fiecare punct zgomotos.</p>
 
-  <p>Cazul extrem lămurește totul. Cu paisprezece puncte și paisprezece butoane există exact o singură curbă care trece prin ele. Ea nu are cum să greșească pe setul de antrenare, și tocmai de aceea nu are cum să aibă dreptate în altă parte: nu i-a mai rămas nicio libertate cu care să spună ceva despre lume. A generaliza înseamnă a avea o părere și despre ce nu s-a văzut, iar o părere cere să nu fi cheltuit totul pe ce s-a văzut.</p>
+  <p>A generaliza înseamnă a avea o judecată sănătoasă și despre situațiile pe care nu le-ai întâlnit încă. Iar pentru a generaliza bine, trebuie să nu-ți cheltuiești întreaga capacitate de atenție memorând fiecare detaliu accidental din trecut.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><circle cx="8" cy="40" r="2.5"/><circle cx="14" cy="36" r="2.5"/><circle cx="20" cy="38" r="2.5"/><circle cx="26" cy="32" r="2.5"/><circle cx="32" cy="34" r="2.5"/><circle cx="38" cy="28" r="2.5"/><circle cx="44" cy="30" r="2.5"/><circle cx="50" cy="24" r="2.5"/><circle cx="56" cy="26" r="2.5"/><circle cx="11" cy="44" r="2.5"/><circle cx="23" cy="40" r="2.5"/><circle cx="35" cy="38" r="2.5"/><circle cx="47" cy="34" r="2.5"/></g><path d="M4 44 L60 22" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Mai multe date</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="o-grid"><circle cx="8" cy="40" r="2.5"/><circle cx="14" cy="36" r="2.5"/><circle cx="20" cy="38" r="2.5"/><circle cx="26" cy="32" r="2.5"/><circle cx="32" cy="34" r="2.5"/><circle cx="38" cy="28" r="2.5"/><circle cx="44" cy="30" r="2.5"/><circle cx="50" cy="24" r="2.5"/><circle cx="56" cy="26" r="2.5"/><circle cx="11" cy="44" r="2.5"/><circle cx="23" cy="40" r="2.5"/><circle cx="35" cy="38" r="2.5"/><circle cx="47" cy="34" r="2.5"/></g><path d="M4 44 L60 22" fill="none" stroke="#EE5A2F" stroke-width="3"/></svg></span>Leacul cel mai sigur: mai multe exemple</h2>
 
-  <p>Supraînvățarea nu e o însușire a modelului singur, ci a raportului dintre bogăția lui și numărul de exemple. Aceeași curbă de gradul zece care memorează paisprezece puncte se poartă cuminte pe cinci sute: abaterile nu mai încap să fie descrise toate, iar ce rămâne de descris e partea care se repetă.</p>
+  <p>Supraînvățarea nu este o condamnare veșnică a unui model bogat, ci o consecință a raportului dintre numărul de parametri și numărul de exemple. Aceeași curbă de gradul zece care memorează caraghios 14 puncte se transformă într-o elevă conștiincioasă dacă îi oferim 500 de puncte: oricât de mult și-ar dori, nu se mai poate contorsiona prin 500 de abateri aleatorii, așa că este forțată să învețe doar tendința reală.</p>
 
-  <p>Se vede mișcând maneta cu numărul punctelor de antrenare și privind capătul din dreapta al curbei violete. Cu paisprezece puncte, gradul treisprezece duce costul de test la ordinul sutelor de mii. Cu șaizeci de puncte, același grad treisprezece ajunge la aproximativ 5,4, față de 4,1 cât dă gradul potrivit: o pedeapsă aproape inexistentă. Minimul nu se mută mult; ce dispare e prăpastia din dreapta lui.</p>
+  <p>Poți verifica acest lucru chiar în figură: mărește numărul de puncte de antrenare spre 60. Vei observa cum prăpastia din dreapta a curbei violete se estompează spectaculos, iar gradul 13 devine aproape la fel de cuminte ca gradul 2!</p>
 
-  <p class="note">Aceasta e una dintre explicațiile pentru care modelele mari de astăzi funcționează. Ele au un număr de butoane care, după socotelile de acum câteva decenii, ar fi trebuit să ducă la memorare pură; sunt însă antrenate pe cantități de text pe măsură. Explicația nu e completă, iar de ce anume asemenea modele generalizează atât de bine rămâne o întrebare deschisă.</p>
+  <p class="note">Iată unul dintre marile secrete ale succesului rețelelor neuronale uriașe din ziua de azi (cum sunt modelele din spatele asistenților de conversație). Ele posedă sute de miliarde de butoane — o capacitate care ar trebui teoretic să ducă la memorare oarbă —, dar sunt hrănite cu trilioane de cuvinte culese din întreaga cultură scrisă a omenirii.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 C10 10 16 60 22 34 S34 6 40 36 S52 60 60 22" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/><path d="M4 38 Q32 26 60 30" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M30 8 L34 4 L38 8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Frâul</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 40 C10 10 16 60 22 34 S34 6 40 36 S52 60 60 22" fill="none" stroke="#BDB9AA" stroke-width="2" stroke-dasharray="3 3"/><path d="M4 38 Q32 26 60 30" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M30 8 L34 4 L38 8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Punerea unui frâu: regularizarea</h2>
 
-  <p>A treia manetă din prima figură face altceva decât a scădea numărul de butoane. Ea adaugă la cost un termen care crește odată cu mărimea butoanelor, așa că poziții extreme devin scumpe chiar dacă potrivesc bine punctele. Butoanele rămân toate, dar coborârea le ține aproape de zero dacă nu au un motiv puternic să se depărteze. Procedeul se numește <dfn>regularizare</dfn>, și e un fel de a-i spune modelului: „nu crede nimic decât dacă datele insistă”.</p>
+  <p>Dar ce facem dacă nu putem strânge mai multe date din lumea reală? Putem pune o frână matematică direct pe libertatea butoanelor! În prima figură avem o manetă numită <b>„frâu”</b> (în termeni tehnici, <dfn>regularizare</dfn>). Aceasta adaugă la cost o taxă suplimentară pentru valorile mari ale parametrilor: cu cât o curbă încearcă să facă bucle mai violente, cu atât este pedepsită mai aspru.</p>
 
-  <p>Efectul se vede punând gradul pe treisprezece și mișcând frâul de la zero în sus: curba sălbatică se domolește treptat, până ajunge aproape o dreaptă. Costul de antrenare crește la fiecare pas al frâului, iar costul de test scade întâi și crește după aceea: încă un U, de-a lungul altei manete. Pe măsurătorile din figură el coboară de la ordinul sutelor de mii până la aproximativ 7, în jurul valorii 35 a manetei, după care urcă din nou.</p>
+  <p>Mișcă maneta frâului spre dreapta când gradul este 13: vei vedea cum acea curbă zvăpăiată se calmează treptat, îmblânzindu-se până devine o formă lină și elegantă. Regularizarea îi spune practic algoritmului: <i>„Ai voie să folosești toate butoanele, dar ține-le cât mai aproape de zero, cu excepția cazului în care datele insistă categoric pentru o schimbare.”</i></p>
 
-  <p>Cifra aceea, 7, merită comparată cu 4,4, cât dă gradul potrivit fără niciun frâu. Regularizarea salvează un model prea bogat, fără să-l facă la fel de bun ca unul potrivit de la început. Alte două frâne se folosesc la fel de des. Oprirea din timp înseamnă întreruperea coborârii înainte ca modelul să apuce să memoreze, ceea ce cere urmărirea costului de test în timpul antrenării. Iar cea mai sigură rămâne mărirea setului de exemple, când ea e cu putință.</p>
+  <p>Alături de regularizare, programatorii folosesc des și <i>oprirea timpurie</i>: monitorizează continuu eroarea pe datele de test în timpul coborârii pantei și opresc antrenamentul exact în momentul în care eroarea de test începe să crească, înainte ca modelul să apuce să memoreze pe de rost.</p>
 </section>
 
 <section id="s7">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="10" width="22" height="44" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="32" y="10" width="12" height="44" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="48" y="10" width="10" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2" stroke-dasharray="3 2"/><path d="M50 20 L56 26 M56 20 L50 26" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Setul care nu se atinge</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="10" width="22" height="44" fill="#C9D1F1" stroke="#22252D" stroke-width="2"/><rect x="32" y="10" width="12" height="44" fill="#E1E4C3" stroke="#22252D" stroke-width="2"/><rect x="48" y="10" width="10" height="44" fill="#F7F3E6" stroke="#22252D" stroke-width="2" stroke-dasharray="3 2"/><path d="M50 20 L56 26 M56 20 L50 26" fill="none" stroke="#B5232B" stroke-width="2"/></svg></span>Seiful secret: setul de validare</h2>
 
-  <p>Rămâne o capcană, ușor de căzut în ea și greu de observat. Dacă gradul se alege privind costul de test, atunci setul de test a participat la alegere, deci a încetat să mai fie nevăzut. Numărul raportat la sfârșit devine prea bun, fiindcă a fost ales să fie prea bun. Cu destule încercări, se găsește întotdeauna o setare care merge bine pe un set anume, așa cum s-a găsit uneori o pereche de praguri care separa perfect desenele din lecția a unsprezecea.</p>
+  <p>A mai rămas o subtilitate esențială, în care cad adesea chiar și specialiștii. Dacă alegem gradul optim sau valoarea frâului uitându-ne cu coada ochiului la costul de test, atunci setul de test a participat indirect la deciziile noastre! Nu mai este cu adevărat o verificare independentă din umbră, ci a fost contaminat.</p>
 
-  <p>Împărțirea corectă are de aceea trei părți. Pe setul de antrenare se caută butoanele. Pe un al doilea set, numit <dfn>set de validare</dfn>, se aleg lucrurile hotărâte de om: gradul, frâul, cât timp se antrenează. Iar setul de test se atinge o singură dată, la sfârșit, ca să se afle cifra care se raportează. Disciplina aceasta e una epistemologică înainte de a fi tehnică: o dovadă pe care ai privit-o în timp ce alegeai nu mai e o dovadă.</p>
+  <p>Regula de aur a cercetării împarte de aceea datele în <b>trei părți distincte</b>: pe <b>setul de antrenare</b> mașina își reglează parametrii interni; pe un al doilea set, numit <dfn>set de validare</dfn>, omul testează diverse variante de reglaj (câte butoane să folosească, cât de strâns să fie frâul); iar <b>setul de test</b> rămâne neatins într-un seif sigilat până în ultima zi a proiectului, fiind deschis o singură dată pentru a măsura performanța reală.</p>
 
-  <p>Familia de curbe folosită aici nu duce nicăieri. Ea are un singur fel de a se îmbogăți, mai multe îndoituri, și se strică repede. Pentru noțiuni ca „șapte” sau „pisică” e nevoie de familii care se îmbogățesc altfel: nu prin îndoituri mai multe pe o singură axă, ci prin combinarea mai multor mărimi măsurate deodată. Lecția următoare construiește piesa din care se fac asemenea familii.</p>
+  <p>Curbele cu îndoituri pe care le-am folosit aici au o limită clară: încearcă să rezolve totul pe o singură axă, îndoindu-se tot mai complicat. Pentru a desluși însă lumea reală — cum ar fi un tablou sau o melodie — avem nevoie de o arhitectură mult mai armonioasă: combinarea mai multor măsurători diferite într-o rețea vie. În lecția următoare construim chiar cărămida fundamentală a acestei lumi: <i>neuronul artificial</i>.</p>
 </section>
 
 </main>

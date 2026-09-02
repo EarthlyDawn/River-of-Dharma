@@ -85,6 +85,8 @@ h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;
 }
 .runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
 .runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
 .runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
 .runhead a:hover{color:var(--orange);border-color:var(--orange)}
 .snd{
@@ -738,8 +740,8 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 
   <div class="masthead">
     <h1>De la continuator la <i>asistent</i></h1>
-    <p class="lede">Un model preantrenat continuă textul care i se dă. Într-un text obișnuit, urmarea firească a unei întrebări nu e un răspuns, ci încă o întrebare sau o frază de altundeva. Drumul de la continuator la asistent e drumul de la „ce urmează de obicei” la „ce se așteaptă de la mine”, și el nu se face cu mai mult text, ci cu alt fel de text.</p>
-    <p class="terms">Termeni: <b>reglaj fin supravegheat</b> <b>comparații</b> <b>model de recompensă</b> <b>învățare din preferințe</b> <b>cel mai bun din mai multe</b></p>
+    <p class="lede">Un model proaspăt ieșit din preantrenare este un continuator remarcabil de text, dar un partener de dialog stângaci: dacă îi adresezi o întrebare, primul lui impuls este să compună o a doua întrebare sau să continue cu o frază luată la întâmplare dintr-o carte. Drumul de la simpla completare mecanică la un asistent politicos și util este pasul de la „ce cuvinte urmează de obicei pe internet” la „ce anume se așteaptă de la mine”.</p>
+    <p class="terms">Termeni: <b>reglaj fin supravegheat (SFT)</b> <b>comparații de preferință</b> <b>model de recompensă</b> <b>învățare din preferințe (RLHF)</b> <b>cel mai bun din mai multe (Best-of-N)</b></p>
   </div>
 </header>
 <main class="sections">
@@ -747,17 +749,17 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
 <section id="s1">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><text x="14" y="40" font-family="serif" font-size="30" fill="#2F4BC4">?</text><text x="36" y="40" font-family="serif" font-size="30" fill="#BDB9AA">?</text><path d="M8 52 H56" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Ce lipsește după preantrenare</h2>
 
-  <p class="first">Preantrenarea învață un singur lucru: ce urmează. Modelul care iese din ea e bun la continuat text și n-are nicio noțiune că cineva ar aștepta ceva de la el.</p>
+  <p class="first">Preantrenarea învață o singură sarcină: să ghicească următorul fragment de text dintr-o bibliotecă uriașă de cărți și pagini web. Modelul care iese din această etapă este un maestru al tiparelor de limbă, însă nu are nici cea mai vagă idee că este un program de calculator sau că cineva de la tastatură așteaptă ajutor de la el.</p>
 
-  <p>Pus în fața unei întrebări, el o tratează ca pe orice altă bucată de text și caută urmarea cea mai firească. În textele scrise de oameni, după o întrebare urmează foarte des altă întrebare, o paranteză sau schimbarea subiectului. Răspunsul e numai una dintre urmările cu putință, și nu cea mai deasă. Modelul nu refuză să răspundă; pur și simplu nu știe că a fost întrebat.</p>
+  <p>Dacă îi scrieți o întrebare precum „Cum se formează ploaia?”, el o tratează ca pe o bucată oarecare de text și caută continuarea cea mai frecventă statistic. Pe internet, după o întrebare urmează adesea o altă întrebare („Și de ce ninge iarna?”), o listă de test grilă („A: prin condensare, B: prin evaporare”), o scenă de roman sau chiar o ceartă de forum. Un răspuns clar și direct este doar una dintre miile de continuări posibile, și nu neapărat cea mai des întâlnită. Modelul nu refuză să vă ajute din încăpățânare; pur și simplu nu știe că a fost întrebat ceva.</p>
 </section>
 
 <section id="s2">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="12" width="30" height="14" rx="3" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><rect x="28" y="34" width="30" height="14" rx="3" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/><path d="M12 26 L10 32 L18 26" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><path d="M52 48 L54 54 L46 48" fill="#EE5A2F" stroke="#22252D" stroke-width="1.5"/></svg></span>Reglajul fin pe dialoguri</h2>
 
-  <p>Reparația e să i se mai arate un fel de text, în care după fiecare întrebare urmează un răspuns. Antrenarea continuă de acolo unde s-a oprit, cu aceeași sarcină, a prezice ce urmează, dar pe un material ales anume. Etapa se numește <dfn>reglaj fin supravegheat</dfn>.</p>
+  <p class="first">Soluția este să-l învățăm bunele maniere ale conversației. Îi arătăm un nou set de date, organizat strict sub formă de dialog: după fiecare cerință sau întrebare a unui utilizator urmează întotdeauna un răspuns redactat impecabil de un asistent. Antrenarea continuă cu același mecanism de predicție a cuvântului următor, dar pe aceste exemple alese cu mare grijă. Etapa se numește <dfn>reglaj fin supravegheat</dfn> (deseori prescurtat <i>SFT</i>, din engleză).</p>
 
-  <p>Cantitatea cerută e surprinzător de mică. Preantrenarea înghite tot textul care se poate aduna; reglajul fin lucrează cu o culegere de exemple scrise de oameni, cu multe ordine de mărime mai mică. Nu se învață lucruri noi, ci o purtare nouă față de lucrurile deja știute.</p>
+  <p>Cantitatea de text necesară aici este surprinzător de modestă. În timp ce preantrenarea înghite mii de miliarde de cuvinte adunate de pe tot internetul, reglajul fin are nevoie doar de câteva mii sau zeci de mii de exemple calitative scrise de oameni. În această fază, modelul nu învață noțiuni noi despre lume — el știe deja faptele din preantrenare. Ceea ce învață este o postură: cum să se comporte ca un ghid util, amabil și concis.</p>
 
   <figure class="fig">
     <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>Aceeași întrebare, înainte și după reglaj</figcaption>
@@ -778,30 +780,32 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Tabelul numără două lucruri, pe opt întrebări care nu se află în culegerea de reglaj. Primul e cât de des urmarea are forma unui răspuns: o propoziție închisă, fără o nouă întrebare în ea, cu un verb de definire. Al doilea e cât de des urmarea pomenește măcar un cuvânt din întrebarea pusă.</p>
+  <p>Tabelul interactiv de mai sus urmărește două aspecte pe întrebări noi: cât de des răspunsul are forma unei propoziții informative încheiate (o atitudine de asistent) și cât de des conține măcar un termen din întrebarea inițială.</p>
 
-  <p>Prima coloană se mișcă, a doua nu. Forma se schimbă de la prima pereche de exemple și rămâne apoi acolo; legătura cu întrebarea rămâne la fel de slabă înainte și după. Reglajul fin arată cum se poartă un răspuns; el nu adaugă nimic din ce nu se afla deja în model.</p>
+  <p>Prima coloană crește rapid chiar după primele perechi de antrenament: modelul prinde imediat tonul și stilul unui răspuns. A doua coloană se schimbă mai greu, pentru că priceperea de fond provine din ce a acumulat înainte. Reglajul fin oferă haina de asistent; el nu poate crea din nimic cunoașterea care nu a fost asimilată la preantrenare.</p>
 
-  <p class="note">Pe un model adevărat, deosebirea aceasta trece neobservată, fiindcă acolo cunoașterea chiar se află înăuntru de la preantrenare, iar reglajul n-are decât s-o scoată la iveală. Pe modelul mărunt din pagină, care nu știe nimic despre nimic, cele două se despart și se pot număra separat.</p>
+  <p class="note">Într-un model de mari dimensiuni, această transformare pare spectaculoasă deoarece rețeaua are deja în memorie o cantitate vastă de informații enciclopedice, iar reglajul fin doar le deblochează în format de dialog. În micul contor din această pagină, care are o memorie infimă, puteți vedea cele două forțe separate în forma lor curată.</p>
 </section>
 
 <section id="s3">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="16" width="20" height="32" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><rect x="36" y="16" width="20" height="32" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M12 24 H24 M12 30 H22 M12 36 H24 M40 24 H52 M40 30 H50" fill="none" stroke="#BDB9AA" stroke-width="2"/><text x="32" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#EE5A2F">&gt;</text></svg></span>Ce nu se poate scrie într-o culegere</h2>
 
-  <p>Pentru cele mai multe cereri nu există un răspuns corect care să fie scris o dată și gata. Există răspunsuri mai bune și mai puțin bune, iar deosebirea dintre ele ține de lungime, de ton, de ce se spune întâi și de ce se lasă deoparte.</p>
+  <p class="first">De ce nu ne oprim la reglajul fin pe dialoguri? Pentru că pentru cele mai multe solicitări complexe nu există un singur răspuns perfect pe care cineva să-l poată redacta ca șablon suprem. Dacă cereți „explică teoria relativității pentru un copil de 10 ani” sau „scrie o poezie despre toamnă”, există mii de variante posibile, iar calitatea lor depinde de claritate, ritm, căldură și tact.</p>
 
-  <p>Unui om îi vine greu să scrie cel mai bun răspuns cu putință și îi vine ușor să spună care dintre două e mai bun. Pe această asimetrie se sprijină etapa următoare: în loc de exemple de urmat, se strâng comparații. E o schimbare mai adâncă decât pare, fiindcă mută întrebarea de la „ce e corect” la „ce e preferat”, iar preferința e un lucru care se poate măsura chiar și acolo unde corectitudinea nu se poate defini.</p>
+  <p>Este extrem de greu și de costisitor pentru experți umani să scrie sute de mii de răspunsuri perfecte la orice întrebare imaginabilă. Însă oamenii au un avantaj remarcabil: o asimetrie naturală a judecății. Ne este foarte greu să scriem o capodoperă de la zero, dar ne este foarte ușor să privim două texte gata scrise (A și B) și să spunem pe loc: „A este mai limpede și mai la obiect decât B”.</p>
+
+  <p>Pe această asimetrie se bazează următorul pas revoluționar: în loc să scriem exemple demonstrative, adunăm <dfn>comparații de preferință</dfn>. Trecem de la întrebarea rigidă „care este textul corect literă cu literă?” la întrebarea firească „care dintre cele două variante este preferată de om?”.</p>
 </section>
 
 <section id="s4">
   <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 54 H56 M8 54 V8" fill="none" stroke="#22252D" stroke-width="2"/><rect x="14" y="30" width="8" height="24" fill="#2F4BC4"/><rect x="28" y="18" width="8" height="36" fill="#EE5A2F"/><rect x="42" y="40" width="8" height="14" fill="#2F4BC4"/><circle cx="32" cy="12" r="3" fill="#EE5A2F"/></svg></span>Modelul de recompensă</h2>
 
-  <p>Comparațiile nu pot fi folosite direct la antrenare, fiindcă ele nu spun ce trebuia scris. Din ele se construiește întâi altceva: o funcție care primește un text și dă un număr, cu atât mai mare cu cât textul se potrivește mai bine cu alegerile făcute. Ea se numește <dfn>model de recompensă</dfn>.</p>
+  <p class="first">Comparațiile umane („A este mai bun decât B”) nu pot fi aplicate direct pe rețeaua lingvistică, deoarece o preferință generală nu îi spune modelului ce cuvinte anume trebuiau corectate la fiecare pas. De aceea, construim un arbitru automat: un <dfn>model de recompensă</dfn>.</p>
 
-  <p>Se antrenează dintr-o cerință simplă: pentru fiecare pereche în care omul a ales, numărul dat celui ales trebuie să fie mai mare decât al celuilalt. Nimic despre cât mai mare, și nimic despre care ar fi valoarea potrivită în absolut. Numai ordinea.</p>
+  <p>Acest arbitru este o rețea neurală separată care primește o întrebare împreună cu un răspuns și acordă o notă numerică (un scor de satisfacție). El este antrenat pe mii de comparații făcute de oameni, urmând o regulă intuitivă: de fiecare dată când evaluatorul uman a preferat răspunsul A în fața răspunsului B, modelul de recompensă trebuie să atribuie o notă mai mare lui A decât lui B. Nu contează valoarea absolută a notei, ci doar ierarhia corectă.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Alege, iar recompensa se învață din alegeri</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Alegeți varianta mai bună, iar recompensa învață din decizii</figcaption>
     <div class="stage">
       <p class="qline" id="pQ"></p>
       <div class="two cards">
@@ -827,32 +831,32 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Ponderile arată ce a reținut recompensa din alegeri. Ele n-au fost alese de nimeni: ies din comparații, iar mărimea lor spune cât cântărește fiecare însușire în ordinea pe care alegerile o cer.</p>
+  <p>Ponderile vizibile în grafic reflectă criteriile pe care le-a dedus arbitrul din alegerile dumneavoastră. Nimeni nu i-a programat reguli rigide: el a observat ce trăsături înclină balanța și a învățat să aprecieze concizia, absența repetițiilor sau structura clară a frazelor.</p>
 
-  <p>Bara de deasupra spune cât de des recompensa ghicește dinainte alegerea care urmează. Ea se socotește înainte de fiecare apăsare, pe o pereche pe care n-a văzut-o, deci nu e o măsură a cât de bine ține minte, ci a cât de bine prevede.</p>
+  <p>Indicatorul de acuratețe măsoară cât de des modelul de recompensă anticipează corect preferința pe o pereche nouă de texte, pe care nu a mai văzut-o. Aceasta este dovada că arbitrul nu memorează mecanic exemplele, ci prinde gustul general al evaluatorului.</p>
 </section>
 
 <section id="s5">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="22" cy="32" r="14" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><circle cx="42" cy="32" r="14" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M32 22 A14 14 0 0 1 32 42 A14 14 0 0 1 32 22 Z" fill="#E9C93B"/></svg></span>Ce se întărește de fapt</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="22" cy="32" r="14" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><circle cx="42" cy="32" r="14" fill="none" stroke="#EE5A2F" stroke-width="2.5"/><path d="M32 22 A14 14 0 0 1 32 42 A14 14 0 0 1 32 22 Z" fill="#E9C93B"/></svg></span>Ce se întărește de fapt: capcanele optimizării</h2>
 
-  <p>Recompensa nu învață motivul din mintea celui care alege. Ea învață ce anume se schimbă odată cu alegerile lui, iar dacă două însușiri merg mereu împreună, ea le va cântări pe amândouă.</p>
+  <p class="first">Un model de recompensă nu poate citi intențiile sufletești ale oamenilor; el detectează doar corelații statistice între trăsăturile textului și voturile primite. Dacă două însușiri apar adesea împreună în răspunsurile apreciate, el le va recompensa pe amândouă fără discriminare.</p>
 
-  <p>Adnotatorul automat din figură arată asta cu numere. Oricare dintre cele trei reguli i se dă, însușirea din regulă iese pe primul loc în ponderi, dar niciodată singură. Alături de ea urcă și alta, care nu se afla în regulă și care s-a nimerit să meargă împreună cu ea în textele comparate. Legenda figurii spune de fiecare dată care sunt cele două.</p>
+  <p>Dacă experimentați cu adnotatorul automat de mai sus, veți observa că, indiferent ce criteriu principal alegeți, alături de el urcă întotdeauna și o a doua trăsătură care s-a nimerit să însoțească regula în textele generate.</p>
 
-  <p>La scară mare, urmarea e că modelul ajunge să caute ce se măsura, nu ce se voia. Răspunsuri mai lungi, fiindcă cele lungi au fost alese mai des; siguranță de sine, fiindcă ea a fost citită drept competență. Deosebirea dintre ce se voia și ce s-a măsurat e locul din care vin cele mai multe purtări nedorite ale asistenților, și e o deosebire pe care niciun mecanism n-o poate închide singur, fiindcă mecanismul vede numai ce s-a măsurat.</p>
+  <p>În modelele reale de asistenți, această capcană poartă numele de <i>legea lui Goodhart</i>: când o măsurătoare devine o țintă directă de optimizare, ea își pierde valoarea de măsură. Dacă evaluatorilor umani le-au plăcut răspunsurile mai lungi și mai amănunțite, modelul de recompensă învață că „lungimea înseamnă calitate”. În scurt timp, asistentul începe să ofere răspunsuri interminabile, excesiv de ceremonioase sau pline de o siguranță artificială. Multe dintre ciudățeniile asistenților comerciali provin tocmai din această discrepanță între ce doream de fapt și ce a reușit să măsoare funcția de recompensă.</p>
 </section>
 
 <section id="s6">
-  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="19" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="32" y="14" width="10" height="36" fill="#EE5A2F" stroke="#22252D" stroke-width="1"/><rect x="45" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><path d="M37 10 V4" fill="none" stroke="#22252D" stroke-width="2"/><path d="M33 8 L37 3 L41 8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cel mai bun din mai multe</h2>
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="6" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="19" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><rect x="32" y="14" width="10" height="36" fill="#EE5A2F" stroke="#22252D" stroke-width="1"/><rect x="45" y="14" width="10" height="36" fill="#C9D1F1" stroke="#22252D" stroke-width="1"/><path d="M37 10 V4" fill="none" stroke="#22252D" stroke-width="2"/><path d="M33 8 L37 3 L41 8" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Cel mai bun din mai multe și învățarea din preferințe</h2>
 
-  <p>Odată ce recompensa există, ea se poate folosi în două feluri.</p>
+  <p class="first">Odată ce avem un arbitru automat de încredere, îl putem pune la treabă pentru a perfecționa asistentul prin două metode complementare.</p>
 
-  <p>Cel simplu nu atinge modelul: se scot mai multe urmări pentru aceeași cerere, se dau toate recompensei și se păstrează cea cu numărul cel mai mare. Costul e că se calculează de mai multe ori pentru un singur răspuns.</p>
+  <p>Cea mai directă metodă este selecția <dfn>celui mai bun din mai multe</dfn> (cunoscută ca <i>Best-of-N</i>): când utilizatorul pune o întrebare, modelul generează în culise mai multe variante independente de răspuns (de pildă, opt variante). Toate sunt notate de modelul de recompensă, iar utilizatorului îi este livrat doar câștigătorul cu nota maximă. Este o abordare simplă și robustă, deși consumă mai multă putere de calcul la fiecare răspuns.</p>
 
-  <p>Cel adevărat schimbă ponderile modelului, ca urmările cu recompensă mare să devină mai probabile de la bun început. Aici intervine <dfn>învățarea din preferințe</dfn>, care împinge modelul în direcția arătată de recompensă, ținându-l în același timp aproape de cel dinainte, ca să nu se depărteze de limba pe care o știa.</p>
+  <p>A doua metodă, mult mai profundă, este <dfn>învățarea din preferințe</dfn> (sau alinierea prin învățare prin recompensă — <i>RLHF</i>). Aici modificăm direct ponderile interne ale modelului generator: el este răsplătit ori de câte ori produce texte bine cotate și descurajat când derapează, păstrând în același timp o ancoră de siguranță față de modelul inițial pentru a nu-și distruge fluența lingvistică naturală.</p>
 
   <figure class="fig">
-    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Opt urmări, cântărite de recompensa învățată</figcaption>
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>Opt variante posibile, evaluate de arbitrul învățat</figcaption>
     <div class="stage">
       <p class="qline" id="bQ"></p>
       <div class="two cards">
@@ -867,7 +871,9 @@ canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
     </div>
   </figure>
 
-  <p>Cu preantrenarea, reglajul fin și învățarea din preferințe, modelul răspunde. Rămâne de văzut ce se întâmplă în timp ce răspunde: cât text poate ține în față, ce se socotește o dată și ce se socotește la fiecare cuvânt. Lecția următoare deschide capacul în timpul mersului.</p>
+  <p>Prin îmbinarea acestor trei trepte esențiale — vasta preantrenare pe cărți, reglajul fin pe dialoguri și rafinarea prin preferințe umane — un simplu motor de prezis cuvinte este transformat într-un asistent cooperant și inteligent.</p>
+
+  <p>Dar ce se întâmplă, de fapt, în măruntaiele calculatorului în fiecare secundă în care asistentul își redactează răspunsul? Cât text poate păstra în memorie, cum evită să recalculeze totul de la capăt pentru fiecare literă și de ce are nevoie de o memorie tampon specială? În lecția următoare, vom deschide capacul motorului în plină funcționare.</p>
 </section>
 
 </main>
