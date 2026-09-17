@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Order</title>
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style>
+
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ============================================================
+   TEMA CURSULUI · „Riso”: tipar risograf, hârtie granulată,
+   cerneluri suprapuse ușor nealiniate, forzaț marmorat propriu
+   fiecărei lecții (seed = numărul lecției).
+   Un singur registru vizual, pictat explicit.
+   Blocul acesta este identic în toate paginile cursului.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --paper:#EEE8D5;
+  --paper-2:#F7F3E6;
+  --ink:#22252D;
+  --muted:#686A62;
+  --rule:#CFC8B4;      /* linii de grilă în desene */
+  --cobalt:#2F4BC4;
+  --orange:#EE5A2F;
+  --olive:#6B7A38;
+  --lemon:#E9C93B;
+  --rose:#DDA6B0;
+
+  /* gramatica de culoare: aceleași roluri în toate lecțiile */
+  --c-live:#2F4BC4;  --c-live-bg:#C9D1F1;   /* încă posibil, valoare 1, curent */
+  --c-dead:#BDB9AA;  --c-dead-bg:#E2DECF;   /* exclus, valoare 0, inert */
+  --c-found:#EE5A2F; --c-found-bg:#F9D3C2;  /* găsit, rezultat, valoare învățată */
+  --c-know:#5F6D2E;  --c-know-bg:#E1E4C3;   /* întrebare, tăietură, pereche aleasă */
+  --c-ok:#5F6D2E;    --c-ok-bg:#E1E4C3;     /* verificare trecută */
+  --c-bad:#B5232B;   --c-bad-bg:#F3C9C6;    /* eroare, bit răsturnat */
+
+  /* culorile figurilor de învățare (lecțiile 12–21) și numele vechi folosite de desene */
+  --surface:#F7F3E6; --surface-2:#EEE8D5; --bg:#EEE8D5; --accent-soft:#E1E4C3;
+  --c-data:#2F4BC4;   /* măsurători, exemple, clasa 1 */
+  --c-out:#EE5A2F;    /* dreapta potrivită, rezultatul */
+  --c-error:#B5232B;  /* greșeala */
+  --c-alt:#6B7A38;    /* a doua clasă, a doua metodă */
+  --c-param:#B58A12;  /* poziția butoanelor, parametrii */
+  --c-test:#7A4E9C;   /* setul de test */
+  --land-lo:#F7F3E6; --land-hi:#2F4BC4; --land-line:#22252D;
+
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;position:relative;
+}
+/* granulația tiparului */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.13 0 0 0 0 0.14 0 0 0 0 0.18 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity:.45;
+}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+
+p{margin:0}
+a{color:var(--cobalt);text-decoration-thickness:2px;text-underline-offset:.15em}
+a:hover{color:var(--orange)}
+dfn{font-style:normal;font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--lemon) 62%)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+
+/* ---------- coala: cap de tipar ---------- */
+.runhead{
+  display:flex;justify-content:space-between;align-items:center;gap:.6rem 1.4rem;flex-wrap:wrap;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  padding:1rem 0 .8rem;border-bottom:2px solid var(--ink);
+}
+.runhead .l{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.runhead .r{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.runhead .lang{gap:.8rem}
+.runhead .lang .on{color:var(--muted)}
+.runhead a{color:var(--cobalt);text-decoration:none;border-bottom:2px solid var(--cobalt)}
+.runhead a:hover{color:var(--orange);border-color:var(--orange)}
+.snd{
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;border:2px solid var(--ink);color:var(--ink);
+  padding:.28rem .7rem .28rem .6rem;border-radius:0;cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.snd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);transition:background .2s}
+.snd[aria-pressed="false"]::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.snd:hover{background:var(--lemon)}
+
+/* forzațul marmorat, închis în chenar */
+.plate{border:2px solid var(--ink);border-top:none;display:flex;flex-direction:column}
+.marble{
+  height:clamp(150px,26vw,250px);background:var(--cobalt);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  position:relative;
+}
+.marble::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 6px var(--paper-2),inset 0 0 0 8px var(--ink)}
+
+.masthead{display:flex;flex-direction:column;gap:1.1rem;padding-top:2.2rem}
+h1{font-size:clamp(3rem,2rem + 5vw,5.4rem);letter-spacing:-.015em;line-height:.95}
+h1 i{color:var(--cobalt)}
+.lede{font-size:clamp(1.12rem,1rem + .6vw,1.35rem);line-height:1.45;max-width:36em;color:var(--ink);text-wrap:pretty}
+.terms{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:64ch;line-height:1.9}
+.terms b{font-weight:400;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:.05rem .4rem;white-space:nowrap}
+
+/* ---------- pagina de titlu: marmorarea în jurul titlului, cuprinsul ---------- */
+.cover .marble{height:clamp(300px,46vw,460px);display:flex;align-items:center;justify-content:center;padding:clamp(1rem,5vw,3rem)}
+.cover .card{
+  position:relative;z-index:1;background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--cobalt);padding:clamp(1.1rem,3vw,2rem) clamp(1.3rem,4vw,2.6rem);
+  max-width:34rem;text-align:center;display:flex;flex-direction:column;gap:.7rem;
+}
+.cover .card h1{font-size:clamp(2.6rem,1.6rem + 5.5vw,5rem)}
+.cover .card .sub{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cover .card .sub b{color:var(--orange);font-weight:700}
+.cover .intro{display:flex;flex-direction:column;gap:1rem;padding-top:2.2rem}
+.cover .intro p{max-width:64ch;text-wrap:pretty}
+h2.bare::before{content:none}
+.toc{display:flex;flex-direction:column;gap:1.6rem;margin-top:2.6rem}
+.parts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.8rem}
+.parts > li{display:grid;gap:.6rem 2rem}
+@media (min-width:760px){.parts > li{grid-template-columns:14rem 1fr}}
+.parts h3{font-size:1.65rem;line-height:1.1;display:flex;flex-direction:column;gap:.25rem}
+.parts h3 .pn{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.lessons{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lessons li{border-bottom:1.5px solid var(--ink)}
+.lessons a,.lessons .row{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:baseline;padding:.5rem .4rem;color:var(--ink);text-decoration:none}
+.lessons a:hover{background:var(--lemon);color:var(--ink)}
+.lessons .no{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--cobalt)}
+.lessons .t{font-family:var(--f-display);font-size:1.25rem;line-height:1.15}
+.lessons .st{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lessons li.off .t{color:var(--muted)}
+.lessons li.off .no{color:var(--muted)}
+
+/* ---------- secțiuni ---------- */
+.sections{display:flex;flex-direction:column;gap:3.4rem;margin-top:3.2rem}
+section{position:relative;display:flex;flex-direction:column;gap:1.05rem;counter-increment:sec}
+section p,.claims li{max-width:64ch;text-wrap:pretty}
+h2{
+  font-size:clamp(1.9rem,1.5rem + 1.6vw,2.6rem);padding-top:.9rem;border-top:2px solid var(--ink);
+  display:flex;align-items:center;gap:.8rem;
+}
+h2::before{content:counter(sec,decimal-leading-zero) " /";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--orange);flex:none;align-self:flex-start;margin-top:.9rem}
+.orn{flex:none;width:2.2rem;height:2.2rem;display:inline-block;order:3;margin-left:auto}
+.orn svg{width:100%;height:100%;display:block;overflow:visible}
+.o-fill{fill:var(--rose)} .o-fill2{fill:var(--orange)}
+.o-line{fill:none;stroke:var(--ink);stroke-width:2.2}
+.o-dot{fill:var(--cobalt)} .o-half{fill:var(--cobalt)}
+.o-cut{stroke:var(--olive);stroke-width:3;fill:none}
+.o-grid circle,.o-grid rect{fill:var(--cobalt)}
+.o-bar{fill:var(--cobalt)} .o-bar2{fill:var(--orange)} .o-bad{fill:var(--c-bad)}
+.o-wave{fill:none;stroke:var(--cobalt);stroke-width:3}
+@media (min-width:1140px){
+  .orn{position:absolute;right:-5.6rem;top:1rem;width:3.8rem;height:3.8rem;margin:0}
+}
+.note{font-size:.92rem;color:var(--muted);padding-left:1rem;border-left:3px solid var(--olive)}
+.first{font-size:1.06em}
+.claims{list-style:none;padding:0;margin:.2rem 0 0;display:flex;flex-direction:column;gap:.9rem}
+.claims li{position:relative;padding-left:1.8rem}
+.claims li::before{content:"";position:absolute;left:0;top:.45em;width:.75rem;height:.75rem;border-radius:50%;background:var(--orange);box-shadow:3px -2px 0 var(--cobalt);mix-blend-mode:multiply}
+.claims b{font-weight:600}
+
+/* ---------- figuri ---------- */
+.fig{
+  margin:1rem 8px 1.4rem 0;padding:0;
+  background:var(--paper-2);border:2px solid var(--ink);
+  box-shadow:7px 7px 0 var(--cobalt);
+  display:flex;flex-direction:column;
+}
+.fig-head{
+  padding:.7rem 1rem .1rem;
+  font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+}
+.pl::before{content:"Fig. " attr(data-a) " / ";color:var(--orange);font-weight:700}
+.stage{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.85rem}
+.cap{
+  border-top:2px solid var(--ink);padding:.6rem 1rem;
+  font-size:.9rem;color:var(--muted);min-height:2.9rem;
+}
+.cap b{color:var(--ink);font-weight:600}
+.cap .bad{color:var(--c-bad)} .cap .ok{color:var(--c-ok)}
+.cap .on{color:var(--cobalt)} .cap .off{color:var(--muted)}
+.ctrl{border-top:2px solid var(--ink);padding:.65rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;background:var(--paper)}
+button{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);
+  padding:.42rem .8rem;border-radius:0;cursor:pointer;
+}
+button:hover:not(:disabled){background:var(--lemon)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--ink);color:var(--paper-2)}
+button.primary:hover:not(:disabled){background:var(--cobalt);border-color:var(--cobalt)}
+button.on{background:var(--cobalt);color:var(--paper-2)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rng input[type=range]{width:clamp(100px,26vw,180px);accent-color:var(--orange)}
+.val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink);font-size:.8rem;text-transform:none;letter-spacing:0}
+.count{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-weight:700}
+.lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* rând de cutii / posibilități */
+.row{display:flex;gap:3px;align-items:stretch;position:relative}
+.row.wrap{flex-wrap:wrap}
+.cell{
+  flex:1 1 0;min-width:0;aspect-ratio:3/4;
+  border:1.5px solid var(--c-live);background:var(--c-live-bg);border-radius:0;
+  transition:background .3s,border-color .3s,opacity .3s,transform .3s;
+}
+.row.wrap .cell{flex:none;width:14px;height:19px;border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.dead{border-color:var(--c-dead);background:var(--c-dead-bg);opacity:.55}
+.cell.found,.row.wrap .cell.pick{border-color:var(--ink);background:var(--c-found);opacity:1}
+.cell.found{transform:translateY(-3px)}
+.cell.asked{box-shadow:inset 0 0 0 2px var(--c-know)}
+@media (prefers-reduced-motion:reduce){.cell,.cut,.bars .b,.meter .fill,.bit{transition:none}}
+.cut{position:absolute;top:-6px;bottom:-6px;width:3px;background:var(--c-know);transition:left .26s;pointer-events:none}
+.rowwrap{position:relative;padding:6px 0}
+
+.log{display:flex;flex-wrap:wrap;gap:.32rem;align-items:center;min-height:1.8rem}
+.log .q{font-family:var(--f-mono);font-size:.7rem;border:1.5px solid var(--c-know);color:var(--c-know);background:var(--c-know-bg);padding:.08rem .45rem}
+.log .q.code{border-style:dashed;background:transparent;color:var(--ink);letter-spacing:.14em}
+.log .empty{font-size:.88rem;color:var(--muted)}
+
+.race{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:.6rem}
+@media (min-width:640px){.race{grid-template-columns:1fr 1fr}}
+.lane{background:var(--paper-2);padding:.85rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+.lane h3{font-size:1.35rem}
+.lane .sub2{font-size:.86rem;color:var(--muted);font-family:var(--f-mono)}
+
+/* tabele */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tblwrap{overflow-x:auto}
+.tblwrap.tall{max-height:290px;overflow-y:auto}
+.tbl th,.tbl td{text-align:left;padding:.4rem .75rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+.tbl th{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400;position:sticky;top:0;background:var(--paper-2)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.code{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);letter-spacing:.08em}
+.tbl td.sym{font-family:var(--f-mono);font-weight:700}
+.tbl tr.on td{background:var(--c-found-bg)}
+.tbl tbody tr:last-child td{border-bottom:none}
+
+/* tabele de adevăr */
+.tt{border-collapse:collapse;font-family:var(--f-mono);font-size:.78rem;width:100%;max-width:360px}
+.tt th,.tt td{border:1.5px solid var(--ink);padding:.2rem .45rem;text-align:center}
+.tt th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.tt tr.now td{background:var(--c-know-bg);color:var(--c-know)}
+.tt td.out{font-weight:700}
+.tt td.one{color:var(--orange);font-weight:700}
+.ttwrap{display:flex;justify-content:center}
+
+/* constructorul de funcții logice */
+.build{border-collapse:collapse;font-family:var(--f-mono);font-size:.8rem;width:100%;max-width:420px}
+.build th,.build td{border:1.5px solid var(--ink);padding:.25rem .5rem;text-align:center}
+.build th{color:var(--muted);font-weight:400;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+.build td.pick{cursor:pointer;user-select:none}
+.build td.pick.one{background:var(--c-found);color:var(--ink);font-weight:700}
+.build td.pick:hover{background:var(--lemon)}
+.expr{font-family:var(--f-mono);font-size:.8rem;line-height:1.75;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;overflow-x:auto}
+.expr .op{color:var(--cobalt);font-weight:700}
+.expr .neg{color:var(--c-bad)}
+.two{display:grid;gap:.8rem}
+@media (min-width:600px){.two{grid-template-columns:auto 1fr;align-items:start}}
+
+/* coloane de adunare (lecția 6) */
+.cols{overflow-x:auto}
+.agrid{display:inline-grid;gap:3px;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.agrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.acell{width:30px;height:30px;font-family:var(--f-mono);font-size:.9rem;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;letter-spacing:0;text-transform:none}
+.acell.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.acell.tap{cursor:pointer}
+.acell.tap:hover{background:var(--lemon);color:var(--ink)}
+.acell.sum{border-color:var(--ink);background:var(--paper-2)}
+.acell.sum.one{background:var(--c-found);color:var(--ink)}
+.acell.car{width:30px;height:20px;font-size:.7rem;border-style:dashed}
+.acell.car.one{border-color:var(--c-know);background:var(--c-know-bg);color:var(--c-know)}
+.acell.pend{opacity:.35}
+.acell.here{box-shadow:3px 3px 0 var(--c-know)}
+.acell.ghost{border-style:dashed;opacity:.75}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.readout b{color:var(--ink);font-weight:700}
+.readout .warn{color:var(--paper-2);background:var(--c-bad);padding:0 .4rem}
+
+/* adrese binare */
+.addr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}
+.addr div{border:1.5px solid var(--ink);padding:.4rem .2rem;background:var(--paper-2);text-align:center;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);display:flex;flex-direction:column;gap:.1rem}
+.addr div b{color:var(--ink);font-weight:700;font-size:.8rem;letter-spacing:.1em}
+.addr div.hit{background:var(--c-found);color:var(--ink);box-shadow:3px 3px 0 var(--cobalt)}
+.addr div.hit b{color:var(--ink)}
+
+/* bare de probabilitate */
+.bars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.bars .b{flex:1 1 0;background:var(--c-live);border:1.5px solid var(--ink);position:relative;transition:height .2s;min-height:2px;box-shadow:3px -2px 0 var(--orange)}
+.barlabels{display:flex;gap:5px}
+.barlabels span{flex:1 1 0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+
+/* măsurători cu bară */
+.meters{display:flex;flex-direction:column;gap:.5rem}
+.meter{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:.6rem;align-items:center;font-size:.83rem}
+.meter .nm{color:var(--muted);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
+.meter .track{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:16px;overflow:hidden}
+.meter .fill{height:100%;transition:width .3s}
+.meter .amt{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.74rem;white-space:nowrap}
+.fill.fix{background:var(--c-dead)}
+.fill.huf{background:var(--c-live)}
+.fill.ent{background:var(--c-found)}
+
+/* noduri în construcția unui cod */
+.nodes{display:flex;flex-wrap:wrap;gap:4px;min-height:3.4rem;align-content:flex-start}
+.node{border:1.5px solid var(--ink);background:var(--paper-2);padding:.12rem .4rem;font-family:var(--f-mono);font-size:.74rem;display:flex;gap:.35rem;align-items:baseline;transition:background .2s,border-color .2s}
+.node .w{color:var(--muted);font-size:.66rem}
+.node.pair{background:var(--c-know-bg);color:var(--c-know)}
+.node.pair .w{color:var(--c-know)}
+.node.new{background:var(--c-found);color:var(--ink)}
+.node.new .w{color:var(--ink)}
+
+textarea{width:100%;min-height:6.5rem;resize:vertical;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:0;padding:.6rem .7rem}
+
+/* fluxul de bits și mesaje */
+.stream{display:flex;flex-wrap:wrap;gap:2px}
+.stream i{width:9px;height:14px;display:block;background:var(--c-dead-bg);border:1px solid var(--c-dead);font-style:normal}
+.stream i.one{background:var(--c-live-bg);border-color:var(--c-live)}
+.stream i.flip{background:var(--c-bad);border-color:var(--c-bad)}
+.msg{font-family:var(--f-mono);font-size:.9rem;line-height:1.7;word-break:break-word;background:var(--paper-2);border:1.5px solid var(--ink);padding:.5rem .6rem}
+.msg u{text-decoration:none;color:var(--paper-2);background:var(--c-bad)}
+.pair{display:flex;flex-direction:column;gap:.3rem}
+
+/* bits pe care se poate apăsa */
+.bitrow{display:flex;flex-wrap:wrap;gap:5px}
+.bit{width:36px;height:42px;cursor:pointer;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);color:var(--muted);font-family:var(--f-mono);font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:0;transition:background .15s,border-color .15s;letter-spacing:0;text-transform:none}
+.bit:hover:not(:disabled){background:var(--lemon)}
+.bit.one{border-color:var(--ink);background:var(--c-live);color:var(--paper-2)}
+.bit.par{border-style:dashed}
+.bit.err{border-color:var(--ink);background:var(--c-bad);color:var(--paper-2)}
+.bit small{font-size:.55rem;letter-spacing:.04em;opacity:.8;line-height:1}
+
+/* verificări */
+.checks{display:flex;flex-direction:column;gap:.3rem}
+.check{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.check .tag{color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
+.check .res{padding:0 .35rem}
+.check .res.ok{color:var(--c-ok);background:var(--c-ok-bg)}
+.check .res.no{color:var(--paper-2);background:var(--c-bad)}
+
+/* cuvinte de trei bits */
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px}
+.words div{border:1.5px solid var(--ink);padding:.35rem .2rem;text-align:center;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);background:var(--paper-2)}
+.words div span{display:block;font-size:.6rem;opacity:.85}
+.words div.cw{background:var(--c-found);color:var(--ink);font-weight:700}
+.words div.near0{color:var(--cobalt)}
+.words div.here{box-shadow:4px 4px 0 var(--c-know)}
+
+/* pânze, panouri, legende */
+canvas{display:block;width:100%;aspect-ratio:16/6}
+canvas.cv-wave{aspect-ratio:16/6}
+canvas.cv-circ{aspect-ratio:16/8}
+canvas.cv-img{aspect-ratio:16/10;border:1.5px solid var(--ink)}
+.panels{display:grid;gap:2px;background:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+@media (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper-2);display:flex;flex-direction:column;gap:.45rem;padding:.75rem .8rem .9rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{width:18px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+
+/* registre și instrucțiuni pe bits (lecțiile 7–8) */
+.regwrap{overflow-x:auto}
+.reg{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.reg .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.reg .bit,.bits .bit{width:32px;height:32px;font-size:.88rem}
+.bit.mem{border-color:var(--ink);background:var(--paper-2)}
+.bit.mem.one{background:var(--c-found);color:var(--ink)}
+.bit.diff{box-shadow:3px 3px 0 var(--c-know)}
+.bits{display:flex;gap:6px;flex-wrap:wrap}
+.bitgrp{display:flex;flex-direction:column;gap:3px;align-items:center}
+.bitgrp .gl{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bitgrp .row{display:flex;gap:3px}
+.grp-op .bit.one{background:var(--c-know);border-color:var(--ink)}
+.grp-a .bit.one{background:var(--c-found);color:var(--ink);border-color:var(--ink)}
+.asm{font-family:var(--f-mono);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .7rem}
+
+/* mașina (lecția 8) */
+.machine{display:grid;gap:.8rem}
+@media (min-width:640px){.machine{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.prog{border:1.5px solid var(--ink);overflow:hidden}
+.prow{display:grid;grid-template-columns:2.1rem 3.1rem 1fr;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem;padding:.18rem .45rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.prow:last-child{border-bottom:none}
+.prow .ad{opacity:.7}
+.prow .nm{font-variant-numeric:tabular-nums;color:var(--ink)}
+.prow .tx{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow.at{background:var(--c-know-bg)}
+.prow.at .ad,.prow.at .nm,.prow.at .tx{color:var(--c-know)}
+.regs{display:flex;flex-direction:column;gap:.35rem}
+.regrow{display:flex;align-items:center;gap:.5rem;font-family:var(--f-mono);font-size:.8rem}
+.regrow .rn{color:var(--muted);width:1.8rem}
+.regrow .rv{border:1.5px solid var(--ink);background:var(--paper);padding:.1rem .5rem;min-width:3.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.regrow .rb{color:var(--muted);font-size:.7rem}
+.regrow.hit .rv{background:var(--c-found);color:var(--ink)}
+.small{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.outbox{font-family:var(--f-mono);font-size:.85rem;border:1.5px solid var(--ink);background:var(--paper);padding:.35rem .55rem;min-height:2rem;color:var(--orange);font-weight:700}
+.phases{display:flex;gap:.3rem;flex-wrap:wrap}
+.ph{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.12rem .45rem;color:var(--muted)}
+.ph.at{background:var(--c-know);color:var(--paper-2)}
+
+/* banda de memorie, asamblorul, scara (lecția 9) */
+.strip{overflow-x:auto}
+.sgrid{display:inline-grid;gap:3px;font-family:var(--f-mono)}
+.sgrid .rl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;white-space:nowrap}
+.sc{min-width:74px;height:30px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.72rem;background:var(--paper-2);color:var(--ink);padding:0 .25rem;white-space:nowrap}
+.sc.num{background:var(--c-live-bg);font-variant-numeric:tabular-nums}
+.sc.ins{background:var(--c-know-bg)}
+.sc.let{background:var(--c-found-bg);font-size:.95rem}
+.asmwrap{display:grid;gap:.7rem}
+@media (min-width:640px){.asmwrap{grid-template-columns:1fr minmax(0,15rem)}}
+.asmwrap textarea{min-height:11rem;font-family:var(--f-mono);font-size:.84rem;line-height:1.7}
+.bytes{border:1.5px solid var(--ink);overflow:hidden;align-self:start}
+.brow{display:grid;grid-template-columns:1.7rem 2.8rem 1fr;gap:.4rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .4rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.brow:last-child{border-bottom:none}
+.brow .bn{color:var(--ink);font-variant-numeric:tabular-nums}
+.brow .bb{font-size:.66rem}
+.brow.err{background:var(--c-bad);color:var(--paper-2)}
+.regline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.regline b{color:var(--ink);font-weight:700}
+.ladder{display:flex;flex-direction:column-reverse;gap:3px}
+.rung{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:baseline;border:1.5px solid var(--ink);border-left:6px solid var(--c-dead);padding:.45rem .7rem;cursor:pointer;background:var(--paper-2);font-size:.92rem}
+.rung:hover{background:var(--lemon)}
+.rung .lv{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.rung.open{border-left-color:var(--orange);background:var(--c-know-bg)}
+.rung .nm{font-weight:600}
+.rung .ex{grid-column:1/-1;font-size:.86rem;color:var(--muted);margin-top:.2rem}
+
+/* bare de sortat, tabel numeric (lecția 10) */
+.sbars{display:flex;align-items:flex-end;gap:3px;height:150px}
+.sbars .b{flex:1 1 0;min-width:0;border:1.5px solid var(--c-dead);background:var(--c-dead-bg);transition:height .12s,background .12s,border-color .12s;position:relative}
+@media (prefers-reduced-motion:reduce){.sbars .b{transition:none}}
+.sbars .b.done{border-color:var(--ink);background:var(--c-found)}
+.sbars .b.at{border-color:var(--ink);background:var(--c-live)}
+.sbars .b.scan{border-color:var(--ink);background:var(--lemon)}
+.sbars .b.min{border-color:var(--ink);background:var(--c-bad)}
+.counts{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.counts b{color:var(--ink);font-weight:700}
+.tbl.numeric th,.tbl.numeric td{text-align:right}
+.tbl.numeric td{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.84rem}
+.tbl td.sel{color:var(--c-bad)}
+.tbl td.mer{color:var(--orange)}
+.tbl tr.est td{color:var(--muted);font-style:italic}
+
+/* planșa de desen, galeria, schimbarea de plan (lecția 11) */
+.pad{display:grid;gap:.8rem}
+@media (min-width:600px){.pad{grid-template-columns:auto 1fr;align-items:start}}
+canvas#draw{width:190px;height:190px;aspect-ratio:1;display:block;cursor:crosshair;touch-action:none;border:1.5px solid var(--ink);background:var(--paper);image-rendering:pixelated}
+.feats{display:flex;flex-direction:column;gap:.3rem}
+.feat{display:grid;grid-template-columns:1fr auto;gap:.6rem;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);align-items:baseline}
+.feat b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.feat.pass b{color:var(--c-ok)}
+.feat.fail b{color:var(--c-bad)}
+.verdict{font-family:var(--f-mono);font-size:.9rem;padding:.4rem .6rem;border:1.5px solid var(--ink);background:var(--paper)}
+.verdict.yes{background:var(--c-found);color:var(--ink)}
+.verdict.no{background:var(--c-bad);color:var(--paper-2)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}
+.ex{border:1.5px solid var(--ink);padding:2px;background:var(--paper);position:relative}
+.ex canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+.ex.wrong{background:var(--c-bad-bg);box-shadow:3px 3px 0 var(--c-bad)}
+.ex .tag{position:absolute;top:2px;left:4px;font-family:var(--f-mono);font-size:.6rem;color:var(--muted)}
+.ex.wrong .tag{color:var(--c-bad);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.74rem}
+.fbox{border:1.5px solid var(--ink);padding:.25rem .6rem;background:var(--paper-2);color:var(--ink)}
+.fbox.in{background:var(--c-live-bg)}
+.fbox.out{background:var(--c-found)}
+.fbox.mid{background:var(--c-know-bg)}
+.farr{color:var(--muted)}
+.flab{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+
+/* pânze și panouri pentru figurile de învățare (lecțiile 12–21) */
+canvas.cv-sq{aspect-ratio:1/1} canvas.cv-wide{aspect-ratio:16/7} canvas.cv-short{aspect-ratio:16/5}
+canvas.cv-fit{aspect-ratio:16/10} canvas.cv-u{aspect-ratio:16/8} canvas.cv-neuron{aspect-ratio:16/9}
+canvas.cv-net{aspect-ratio:16/9} canvas.cv-chain{aspect-ratio:16/5}
+canvas.cv-map{aspect-ratio:1/1;max-width:480px;margin:0 auto}
+.panels.two{grid-template-columns:1fr 1fr} .panels.one{grid-template-columns:1fr}
+@media (max-width:639px){.panels.two{grid-template-columns:1fr}}
+.panels.three{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:620px){.panels.three{grid-template-columns:1fr 1fr}}
+.readout .big{color:var(--c-error);font-size:.95rem}
+.readout .tr{color:var(--c-data)} .readout .te{color:var(--c-test)}
+.legend i.dot{width:10px;height:10px;border-radius:50%;border:none}
+.ph.fw.at{background:var(--cobalt);color:var(--paper-2)} .ph.bw.at{background:var(--c-bad);color:var(--paper-2)}
+.tbl.grid{width:auto;font-family:var(--f-mono);font-size:.78rem}
+.tbl.grid th,.tbl.grid td{border:1.5px solid var(--ink);text-align:center;padding:.16rem .5rem;white-space:nowrap}
+.tbl.grid th{position:static;font-size:.6rem}
+.tbl td.name{text-align:left;color:var(--muted);font-family:var(--f-body);font-size:.88rem}
+.tbl td.ok{color:var(--c-ok);font-weight:700} .tbl td.bad{color:var(--c-bad)}
+.tbl td.best{color:var(--orange);font-weight:700}
+.tbl td.w{text-align:left;color:var(--muted)} .tbl td.same{color:var(--c-bad)} .tbl td.near{color:var(--orange);font-weight:700}
+.tbl td.one{color:var(--orange);font-weight:700}
+.tblwrap.center{display:flex;justify-content:center}
+
+/* convoluție (lecția 18) */
+.imgrow{display:grid;gap:.7rem;align-items:start}
+@media (min-width:640px){.imgrow{grid-template-columns:1fr auto 1fr}}
+.imgbox{display:flex;flex-direction:column;gap:.3rem}
+.imgbox canvas{border:1.5px solid var(--ink);aspect-ratio:1/1;width:100%;image-rendering:pixelated}
+.kern{display:flex;flex-direction:column;gap:.35rem;align-items:center;justify-content:center;min-width:9rem}
+.kgrid{display:grid;grid-template-columns:repeat(3,2.5rem);gap:3px}
+.kgrid input{width:100%;height:2.1rem;text-align:center;font-family:var(--f-mono);font-size:.82rem;border:1.5px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink);-moz-appearance:textfield}
+.kgrid input::-webkit-outer-spin-button,.kgrid input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kgrid input.pos{color:var(--orange);font-weight:700} .kgrid input.neg{color:var(--c-bad);font-weight:700}
+.three{display:grid;gap:.7rem}
+@media (min-width:620px){.three{grid-template-columns:1fr 1fr 1fr}}
+
+/* vectori (lecția 19) */
+select{font-family:var(--f-mono);font-size:.74rem;background:var(--paper-2);color:var(--ink);border:2px solid var(--ink);border-radius:0;padding:.3rem .5rem}
+.enc{display:flex;flex-direction:column;gap:.35rem}
+.enc .tbl{width:auto;font-family:var(--f-mono);font-size:.76rem}
+.enc .tbl th,.enc .tbl td{border:1.5px solid var(--ink);text-align:center;padding:.2rem .45rem;white-space:nowrap}
+.enc .tbl th{position:static;font-size:.58rem}
+.neigh{font-family:var(--f-mono);font-size:.8rem;background:var(--paper);border:1.5px solid var(--ink);padding:.5rem .6rem;min-height:2.2rem;line-height:1.7}
+.neigh b{color:var(--orange)}
+
+/* tokeni (lecția 20) */
+.toks{display:flex;flex-wrap:wrap;gap:3px;line-height:1.9}
+.tok{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:.05rem .35rem;background:var(--paper-2);white-space:pre}
+.tok.c0{background:var(--c-live-bg)} .tok.c1{background:var(--c-found-bg)} .tok.c2{background:var(--c-know-bg)} .tok.c3{background:#F1DDA8}
+.tok.whole{font-weight:700}
+.merges{display:flex;flex-direction:column;gap:2px;max-height:15rem;overflow-y:auto;border:1.5px solid var(--ink)}
+.mrow{display:grid;grid-template-columns:2.2rem 1fr 3.4rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem;padding:.16rem .5rem;border-bottom:1px solid var(--ink);color:var(--muted)}
+.mrow:last-child{border-bottom:none}
+.mrow .pair{color:var(--ink)} .mrow .pair em{font-style:normal;color:var(--orange);font-weight:700}
+.mrow.new{background:var(--cobalt);color:var(--paper-2)} .mrow.new .pair,.mrow.new .pair em{color:var(--paper-2)}
+textarea.short{min-height:5rem}
+
+/* cuvântul următor (lecția 21) */
+input[type=text]{width:100%;font-family:var(--f-body);font-size:.95rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:0;padding:.45rem .6rem}
+.pbars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr 3.2rem;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.bar .w{text-align:right;color:var(--ink)}
+.bar .t{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:15px;overflow:hidden}
+.bar .f{height:100%;background:var(--c-live);transition:width .18s}
+.bar.top .f{background:var(--orange)}
+.bar .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.bar .f{transition:none}}
+.gen{font-family:var(--f-body);font-size:.98rem;line-height:1.75;background:var(--paper);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:5rem}
+.gen .seed{color:var(--muted)} .gen .new{color:var(--cobalt)} .gen .copied{background:var(--lemon);color:var(--ink);padding:0 2px}
+
+/* ---------- picior de tipar: navigație între lecții ---------- */
+footer{margin-top:3.8rem;border-top:2px solid var(--ink);padding-top:1rem;display:flex;flex-direction:column;gap:1rem}
+.lnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lnav .nav{
+  display:flex;flex-direction:column;gap:.15rem;text-decoration:none;color:var(--ink);
+  border:2px solid var(--ink);background:var(--paper-2);padding:.7rem .9rem;min-height:4.4rem;
+  transition:box-shadow .15s,transform .15s;
+}
+.lnav a.nav:hover{background:var(--lemon);box-shadow:5px 5px 0 var(--cobalt);transform:translate(-2px,-2px);color:var(--ink)}
+.lnav .nav.next{text-align:right;align-items:flex-end}
+.lnav .nav .k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.lnav .nav .t{font-family:var(--f-display);font-size:1.35rem;line-height:1.1}
+.lnav .nav.off{opacity:.45;border-style:dashed}
+.lnav .nav.off .k{color:var(--muted)}
+@media (max-width:520px){.lnav{grid-template-columns:1fr}.lnav .nav.next{text-align:left;align-items:flex-start}}
+.runfoot{display:flex;justify-content:space-between;gap:.5rem 1.4rem;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;border-top:2px solid var(--ink);padding-top:.7rem}
+.colophon{font-size:.86rem;color:var(--muted)}
+
+/* ===== lectiile 22-31 ===== */
+.sep{color:var(--rule)}
+canvas.cv-att{aspect-ratio:16/7}
+canvas.cv-blk{aspect-ratio:16/8}
+canvas.cv-sin{aspect-ratio:16/6}
+canvas.cv-plot{aspect-ratio:16/9}
+canvas.cv-cal{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+@media (max-width:560px){canvas.cv-blk{aspect-ratio:5/4} canvas.cv-sin{aspect-ratio:5/4} canvas.cv-plot{aspect-ratio:4/5}}
+.tbl tr.pending td{opacity:.35}
+.tbl td.warn{color:var(--c-param);font-weight:700}
+.tbl td.dim{opacity:.55}
+.tbl tfoot td{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);border-bottom:none;padding-top:.5rem;white-space:normal}
+.tbl.wrapname td.name{white-space:normal;min-width:14rem}
+/* grila subiect x verb (22) */
+.grid{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.gh{color:var(--muted);font-size:.62rem;letter-spacing:.06em;padding:.1rem .3rem;text-align:center}
+.gl{color:var(--muted);font-size:.62rem;padding:.1rem .4rem;text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.gc{border:1.5px solid var(--ink);text-align:center;padding:.25rem .1rem;background:var(--paper-2);cursor:pointer;user-select:none}
+.gc.seen{background:var(--c-live-bg)}
+.gc.held{background:var(--c-bad);color:var(--paper-2);font-weight:700}
+.gc:hover{box-shadow:2px 2px 0 var(--orange)}
+.vs{display:grid;gap:.6rem}
+@media (min-width:560px){.vs{grid-template-columns:1fr 1fr}}
+.vsbox{border:1.5px solid var(--ink);background:var(--paper-2);padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.vsbox .lbl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vsbox .big{font-family:var(--f-mono);font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.vsbox.zero .big{color:var(--c-bad)} .vsbox.some .big{color:var(--cobalt)}
+.vsbox .sub{font-size:.8rem;color:var(--muted)}
+.bar.held .w{color:var(--c-bad);font-weight:700} .bar.held .f{background:var(--c-bad)}
+/* pasii atentiei (24) */
+.steps{display:grid;gap:3px;font-family:var(--f-mono);font-size:.74rem}
+.steps .lb{color:var(--muted);font-size:.62rem;letter-spacing:.06em;text-align:right;padding-right:.5rem;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.steps .cl{border:1.5px solid var(--ink);text-align:center;padding:.2rem .1rem;background:var(--paper-2);font-variant-numeric:tabular-nums}
+.steps .cl.hi{background:var(--orange);color:var(--paper-2);font-weight:700}
+.steps .cl.sym{font-size:.9rem}
+/* fasia de pozitii (26) */
+.striprow{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;padding-bottom:1.2rem}
+.ptok{font-family:var(--f-mono);font-size:1.05rem;width:2.3rem;height:2.3rem;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:var(--paper-2);position:relative}
+.ptok.q{background:var(--orange);color:var(--paper-2);font-weight:700}
+.ptok .ix{position:absolute;bottom:-1.1rem;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+/* legenda liniilor (27, 30) */
+.key{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.key .sw{width:16px;height:3px;display:inline-block}
+/* bare cu temperatura (28) */
+.tbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.8rem}
+.tbars .ch{text-align:right;color:var(--ink);white-space:pre}
+.tbars .bw{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.95rem;overflow:hidden}
+.tbars .bf{height:100%;background:var(--c-live);transition:width .12s linear}
+.tbars .pc{color:var(--muted);font-variant-numeric:tabular-nums;min-width:3.4rem;text-align:right}
+.ctxline{font-family:var(--f-mono);font-size:.84rem;color:var(--muted);word-break:break-word}
+.ctxline b{color:var(--ink);font-weight:700;background:var(--lemon);padding:0 .15rem}
+.gen.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:8.5rem}
+/* cartonase (29, 31) */
+.qline{font-family:var(--f-mono);font-size:.84rem;color:var(--cobalt);word-break:break-word}
+@media (min-width:600px){.two.cards{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;display:flex;flex-direction:column;gap:.45rem}
+.card .lb{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card .tx{font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:6.6rem}
+.card .qq{font-family:var(--f-mono);font-size:.82rem;word-break:break-word}
+.card .qq .blind{color:var(--muted);opacity:.38}
+.card .qq .seen{background:var(--lemon);color:var(--ink);font-weight:700}
+.card .qq+.tx{border-top:1.5px solid var(--ink);padding-top:.4rem;min-height:5.4rem}
+.card.win{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.card.lose{opacity:.6}
+.card .sc{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.wbars{display:grid;grid-template-columns:auto 1fr auto;gap:3px .6rem;align-items:center;font-family:var(--f-mono);font-size:.76rem}
+.wbars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbars .tr{position:relative;height:.85rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.wbars .tr i{position:absolute;top:0;bottom:0;display:block}
+.wbars .tr i.pos{background:var(--cobalt)} .wbars .tr i.neg{background:var(--c-param)}
+.wbars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+/* banda de context (30) */
+.band{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;border:1.5px solid var(--ink);background:var(--paper-2);padding:.55rem .65rem;max-height:11rem;overflow:hidden;word-break:break-word}
+.band .out{color:var(--muted);opacity:.35;text-decoration:line-through}
+.band .in{color:var(--ink)}
+.band .now{background:var(--lemon);color:var(--ink);font-weight:700}
+
+/* ===== lectiile 32-36 ===== */
+.key .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl tr.over td{background:var(--accent-soft)}
+canvas.cv-sqm{aspect-ratio:1/1;max-width:420px;margin:0 auto}
+canvas.cv-loss{aspect-ratio:16/6}
+canvas.cv-noise{aspect-ratio:1/1;max-width:340px;margin:0 auto;image-rendering:auto;border:1.5px solid var(--ink)}
+.nstrip,.set{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:600px){.nstrip,.set{grid-template-columns:repeat(3,1fr)}}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dpair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:420px;margin:0 auto}
+.nstrip figure,.set figure,.trio figure,.dpair figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.nstrip canvas,.set canvas,.trio canvas,.dpair canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2)}
+.set canvas,.dpair canvas{image-rendering:pixelated}
+.nstrip figcaption,.set figcaption,.trio figcaption,.dpair figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.trio figcaption b{color:var(--orange)}
+.set figure.hit canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.wbar{display:grid;grid-template-columns:auto 1fr auto;gap:2px .5rem;align-items:center;font-family:var(--f-mono);font-size:.74rem}
+.wbar .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.wbar .tr{background:var(--c-dead-bg);border:1.5px solid var(--ink);height:.8rem;overflow:hidden}
+.wbar .tr i{display:block;height:100%;background:var(--cobalt)}
+.wbar .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+
+/* ===== lectiile 37-45 ===== */
+.tbl tr.hi td{background:var(--accent-soft)}
+.tbl td.win{color:var(--c-ok);font-weight:700;background:var(--accent-soft)}
+.tbl tr.sep td{border-top:2px solid var(--ink)}
+.trip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;align-items:start;max-width:520px;margin:0 auto}
+@media (max-width:520px){.trip{grid-template-columns:1fr}}
+.trip figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.trip canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);background:var(--paper-2);image-rendering:pixelated}
+.trip figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.06em;color:var(--muted);text-align:center}
+.zgrid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:2.4rem;align-content:center}
+.zgrid i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.trio .nm{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-align:center}
+.trio button{width:100%}
+.trio figcaption b{color:var(--ink)}
+@media (max-width:620px){.trio.stack{grid-template-columns:1fr}}
+.igal{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+@media (max-width:560px){.igal{grid-template-columns:repeat(3,1fr)}}
+.igal figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.igal canvas{width:100%;aspect-ratio:1/1;border:1.5px solid var(--ink);image-rendering:pixelated}
+.igal figcaption{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);text-align:center}
+.igal figure.good canvas{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange)}
+.igal figure.bad canvas{border-color:var(--c-bad);opacity:.7}
+.key .sq{width:9px;height:9px;display:inline-block}
+.key.swatches i{display:inline-block;width:.7rem;height:.7rem;margin-right:.35rem;vertical-align:-1px;border:1px solid var(--ink)}
+.tape{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.6rem .7rem;min-height:11rem;display:flex;flex-direction:column;gap:.3rem}
+.tape .ln{display:flex;gap:.5rem}
+.tape .who{flex:none;width:5.2rem;color:var(--muted);text-align:right}
+.tape .tx{word-break:break-word}
+.tape .model .tx{color:var(--cobalt)}
+.tape .tool .tx{color:var(--c-param)}
+.tape .user .tx{color:var(--ink)}
+.tape .done .tx{color:var(--orange);font-weight:700}
+.frags{display:flex;flex-direction:column;gap:.3rem}
+.frag{display:flex;gap:.5rem;font-family:var(--f-mono);font-size:.74rem;line-height:1.5;border:1.5px solid var(--ink);background:var(--paper-2);padding:.35rem .5rem}
+.frag .rk{flex:none;width:1.6rem;color:var(--muted);text-align:right}
+.frag .sc{flex:none;width:3rem;color:var(--muted);text-align:right}
+.frag .tx{flex:1 1 auto}
+.frag.hit{border-color:var(--orange);background:var(--accent-soft);box-shadow:3px 3px 0 var(--orange)}
+.frag.hit .tx{color:var(--ink);font-weight:700}
+.ctx{font-family:var(--f-mono);font-size:.74rem;line-height:1.6;background:var(--paper-2);border:1.5px solid var(--ink);padding:.55rem .65rem;white-space:pre-wrap;word-break:break-word;max-height:11rem;overflow:auto}
+.ctx b{color:var(--cobalt)}
+.ibars{display:grid;grid-template-columns:auto 1fr auto;gap:4px .6rem;align-items:center;font-family:var(--f-mono);font-size:.78rem}
+.ibars .nm{color:var(--muted);white-space:nowrap;text-align:right}
+.ibars .tr{position:relative;height:1.1rem;background:var(--c-dead-bg);border:1.5px solid var(--ink)}
+.ibars .tr i{position:absolute;top:0;bottom:0;display:block;border-left:2px solid var(--cobalt);border-right:2px solid var(--cobalt)}
+.ibars .tr i::before{content:'';position:absolute;top:45%;left:0;right:0;height:2px;background:var(--cobalt)}
+.ibars .tr i.b{border-color:var(--c-param)}
+.ibars .tr i.b::before{background:var(--c-param)}
+.ibars .vv{color:var(--ink);font-variant-numeric:tabular-nums;min-width:5.6rem;text-align:right}
+canvas.cv-wide.boxed{aspect-ratio:2.6/1;border:1.5px solid var(--ink)}
+canvas.cv-main{aspect-ratio:16/10;border:1.5px solid var(--ink);background:var(--paper-2)}
+canvas.cv-rule{aspect-ratio:auto;height:46px;margin-top:-.2rem}
+.jump{display:flex;flex-wrap:wrap;gap:.28rem}
+.jump button{font-size:.62rem;padding:.18rem .42rem;color:var(--muted)}
+.jump button.on{color:var(--paper-2);background:var(--orange);border-color:var(--ink)}
+.rng.wide{flex:1 1 14rem}
+.rng.wide input[type=range]{flex:1 1 8rem;width:auto;min-width:0}
+</style>
+
+<article class="page">
+
+<header>
+  <div class="runhead">
+    <div class="l"><span>L.26</span><span>Part 4 / Language</span></div>
+    <div class="r"><a href="index.html">Contents</a><button id="sndBtn" class="snd" aria-pressed="true"><span>sound on</span></button></div>
+  </div>
+  <div class="plate" aria-hidden="true"><div class="marble" id="marble" data-seed="26"></div></div>
+
+  <div class="masthead">
+    <h1>Word <i>Order</i></h1>
+    <p class="lede">In the pure attention mechanism there is no notion of time or space: without an extra guide, the model considers the sentences “the dog bit the man” and “the man bit the dog” identical. To tell apart the natural order of thoughts, every word receives a seat number or a temporal fingerprint — from the hands of a sinusoidal clock to the modern geometric rotation of vectors.</p>
+    <p class="terms">Terms: <b>permutation invariance</b> <b>positional encoding</b> <b>sinusoidal waves (a clock with many frequencies)</b> <b>relative distance</b> <b>rotary encoding (RoPE)</b></p>
+  </div>
+</header>
+<main class="sections">
+
+<section id="s1">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="30" width="10" height="10" fill="#2F4BC4"/><rect x="30" y="18" width="10" height="10" fill="#EE5A2F"/><rect x="44" y="36" width="10" height="10" fill="#6B7A38"/><rect x="20" y="42" width="10" height="10" fill="#E9C93B" stroke="#22252D" stroke-width="1"/><path d="M6 56 H58" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>Attention’s great weakness: the bag of disordered words</h2>
+
+  <p class="first">Attention computes the match between a question and all the available keys, converts the scores into weights and adds up the resulting values. But notice a surprising detail: nowhere in this whole chain of operations does the physical position of the word in the sentence appear! Since addition is commutative (2 + 3 equals 3 + 2), the sum of the values gives exactly the same result whatever the order in which the terms arrived.</p>
+
+  <p>The consequence is radical: if we shake up the words of a sentence like dice in a cup, the output of attention stays unchanged. Not almost the same, but identical to the last decimal!</p>
+
+  <p>It is like a heap of books tipped out anyhow on a table: you recognise the title of each, but without the page numbers printed in the corner you have no way of knowing which chapter comes after which.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="I" data-a="1"></span>The same words arranged in another order: the answer of pure attention stays unchanged</figcaption>
+    <div class="stage">
+      <div class="striprow" id="mStrip"></div>
+      <div class="readout" id="mRead"></div>
+    </div>
+    <div class="cap" id="capM"></div>
+    <div class="ctrl">
+      <button id="mShuf" class="primary">another order</button>
+      <span class="sep">|</span>
+      <button id="m0" class="on">no marker</button>
+      <button id="m1">learned marker</button>
+      <button id="m2">sinusoidal</button>
+    </div>
+  </figure>
+
+  <p class="note">In the interactive experiment above, the weights are chosen at random in order to show that this blindness has nothing to do with the quality of the training but is an intrinsic mathematical property of the attention formula.</p>
+</section>
+
+<section id="s2">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="22" width="18" height="20" fill="#2F4BC4"/><rect x="38" y="22" width="18" height="20" fill="#EE5A2F"/><text x="17" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">A</text><text x="47" y="36" text-anchor="middle" font-family="monospace" font-size="12" fill="#F7F3E6">B</text><path d="M28 32 H36" fill="none" stroke="#22252D" stroke-width="2"/><text x="32" y="56" text-anchor="middle" font-family="monospace" font-size="10" fill="#22252D">?</text></svg></span>The chronological test: when order is everything</h2>
+
+  <p>For human language, order is vital: it is one thing to say “the cat hunts the mouse” and quite another “the mouse hunts the cat”.</p>
+
+  <p>We can illustrate this impasse by a simple experiment: we generate a string beginning with the letters A and B in an order chosen at random (AB or BA), followed by neutral characters, and at the end we ask the network which letter appeared first. The vocabulary is identical in both cases; only the chronology differs.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="II" data-a="2"></span>Identifying the first symbol that appeared in the string</figcaption>
+    <div class="stage">
+      <div class="tblwrap"><table class="tbl numeric" id="tblT"></table></div>
+      <div class="readout" id="tRead"></div>
+    </div>
+    <div class="cap" id="capT"></div>
+    <div class="ctrl">
+      <button id="tRun" class="primary">Train</button>
+    </div>
+  </figure>
+
+  <p>Without an explicit marker of order, the model’s accuracy is exactly 50%, the same as tossing a coin. The model produces exactly the same mathematical vector for both variants, so it is forced to guess blindly. This is not a weakness of optimisation: the information about order simply does not exist in the data received!</p>
+</section>
+
+<section id="s3">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="26" width="22" height="14" fill="#C9D1F1" stroke="#22252D" stroke-width="1.5"/><text x="38" y="37" font-family="monospace" font-size="11" fill="#22252D">+</text><rect x="46" y="26" width="10" height="14" fill="#EE5A2F"/><text x="21" y="18" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">cuvânt</text><text x="51" y="54" text-anchor="middle" font-family="monospace" font-size="8" fill="#686A62">loc</text></svg></span>The ticket with the seat number: the position marker</h2>
+
+  <p>The solution is simple and ingenious: before entering the first Transformer storey, every word receives a small numerical supplement — a special vector reflecting only its position in the sentence (place 1, place 2, place 3 and so on). This bundle is called a <dfn>position marker</dfn>, and the procedure of assigning it is called <dfn>positional encoding</dfn>.</p>
+
+  <p>Once this stamp has been added, two appearances of the same noun in different places will have slightly different starting vectors, generating distinct keys and questions. Attention thus regains the ability to tell order apart without its internal formula suffering any change at all.</p>
+
+  <p>Why is the marker <i>added</i> by summing instead of being tacked on to the tail of the vector? Because the conveyor belt has a fixed width calibrated in advance; adding an extension would have needlessly enlarged all the matrices in all the layers. By addition, the word’s shade of meaning and the coordinate of its position interweave harmoniously in the same vector.</p>
+</section>
+
+<section id="s4">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="8" width="44" height="48" fill="#F7F3E6" stroke="#22252D" stroke-width="2"/><path d="M10 20 H54 M10 32 H54 M10 44 H54 M24 8 V56" fill="none" stroke="#22252D" stroke-width="1.5"/><rect x="25" y="9" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="21" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="33" width="28" height="10" fill="#C9D1F1"/><rect x="25" y="45" width="28" height="10" fill="none" stroke="#EE5A2F" stroke-width="1.5" stroke-dasharray="2 2"/></svg></span>The table solution: labels learned from practice</h2>
+
+  <p>The most direct method of assigning these markers is to create a table of learned vectors: we reserve an adjustable vector for position 0, another for position 1 and so on, letting the network discover their best values during training, just as it does for the words of the vocabulary.</p>
+
+  <p>Although it works well, this approach runs into a rigid barrier: the size of the table is fixed from the very start. If the model was trained with a catalogue of 512 positions, it will have absolutely no idea what to do if we give it a text of 513 words! For position 513 there is no row in the table, and the network is stuck.</p>
+</section>
+
+<section id="s5">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 32 C10 12 16 12 22 32 S34 52 40 32 S52 12 58 32" fill="none" stroke="#2F4BC4" stroke-width="2.5"/><path d="M4 32 C16 8 28 8 40 32 S58 56 62 32" fill="none" stroke="#EE5A2F" stroke-width="2" opacity=".8"/></svg></span>The harmonic clock: sinusoidal encoding</h2>
+
+  <p>To get past this limitation, the authors of the original Transformer architecture (2017) turned to a universal mathematical formula: <dfn>sinusoidal encoding</dfn>. Instead of storing static values in a catalogue, every position computes its own marker using the trigonometric functions sine and cosine at different frequencies.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="III" data-a="3"></span>The sinusoidal fingerprint computed at each position of the sequence</figcaption>
+    <div class="stage">
+      <canvas id="cvSin" class="cv-sin"></canvas>
+      <div class="readout" id="sRead"></div>
+    </div>
+    <div class="cap" id="capS"></div>
+    <div class="ctrl">
+      <div class="rng"><label for="sD">the width of the vector</label><input id="sD" type="range" min="1" max="3" step="1" value="2"><span class="val" id="sDv">16</span></div>
+      <div class="rng"><label for="sN">positions</label><input id="sN" type="range" min="24" max="128" step="8" value="64"><span class="val" id="sNv">64</span></div>
+    </div>
+  </figure>
+
+  <p>Imagine the mechanism of a clock with many hands: the first components of the vector oscillate rapidly, like a nimble second hand, clearly distinguishing immediately neighbouring words; the next components move like the minute hand, and the last shift extremely slowly, like the hour hand, helping the network to tell the beginning of a chapter from its ending.</p>
+</section>
+
+<section id="s6">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="#22252D" stroke-width="2"/><path d="M32 32 L50 20" fill="none" stroke="#2F4BC4" stroke-width="3"/><path d="M32 32 L44 48" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M46 26 A14 14 0 0 1 42 42" fill="none" stroke="#22252D" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="32" cy="32" r="3" fill="#22252D"/></svg></span>The relative magic: why distance matters, not address</h2>
+
+  <p>The genius of the sinusoids lies not only in their elegance but in an essential geometric property: the dot product between the markers of two positions depends solely on the relative distance between them, not on their absolute placing in the document.</p>
+
+  <figure class="fig">
+    <figcaption class="fig-head"><span class="pl" data-r="IV" data-a="4"></span>The likeness between positions by offset and by absolute coordinate</figcaption>
+    <div class="stage">
+      <div class="tblwrap"><table class="tbl numeric" id="tblD"></table></div>
+      <div class="readout" id="dRead"></div>
+    </div>
+    <div class="cap" id="capD"></div>
+    <div class="ctrl"></div>
+  </figure>
+
+  <p>Every line of the table is uniform: the closeness between position 0 and position 5 is mathematically identical to that between positions 16 and 21! In human language this is what matters: the expression “the preceding word” has the same grammatical meaning whether we are in the first sentence of the novel or on the last page.</p>
+
+  <p class="note">A shift by a fixed number of positions translates geometrically into a rotation by a fixed angle on the circle. A neural network can thus learn stable relative relations (such as the agreement of an adjective with the noun beside it) without being affected by where in the text the construction appears.</p>
+</section>
+
+<section id="s7">
+  <h2><span class="orn" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="20" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M20 32 L28 24" fill="none" stroke="#2F4BC4" stroke-width="3"/><circle cx="46" cy="32" r="12" fill="none" stroke="#22252D" stroke-width="2"/><path d="M46 32 L46 20" fill="none" stroke="#EE5A2F" stroke-width="3"/><path d="M34 32 H38" fill="none" stroke="#22252D" stroke-width="2"/></svg></span>The modern standard: rotary encoding (RoPE)</h2>
+
+  <p>The latest generation of models (such as LLaMA or Mistral) uses a still more refined technique: <dfn>rotary encoding</dfn> (or <i>Rotary Position Embedding — RoPE</i>). Instead of adding an extra vector onto the conveyor belt right at the start, they rotate the query and key vectors by an angle proportional to the index of their position, exactly at the moment when attention computes its dot products.</p>
+
+  <p>This approach is far cleaner: the residual belt stays pure and is not polluted with positional noise, and the effect of relative distance is injected precisely where it is consumed — in judging the match between two words.</p>
+
+  <p>With this last piece, the Transformer architecture is fully drawn: the text is cut into tokens, turned into semantic vectors, enriched with a sense of order and processed by a stack of deep blocks in order to predict the next symbol. But what exactly turns this mathematical skeleton into a giant capable of captivating conversation? The answer lies in training at enormous scale. In the last lesson of this section we shall explore the laws of scaling: how the volume of data, the power of computation and the number of parameters work together to generate modern intelligence.</p>
+</section>
+
+</main>
+
+<footer>
+  <nav class="lnav" aria-label="Neighbouring lessons">
+    <a class="nav prev" href="lesson-25.html"><span class="k">Previous</span><span class="t">The Transformer Block</span></a>
+    <a class="nav next" href="lesson-27.html"><span class="k">Next</span><span class="t">Training at Scale</span></a>
+  </nav>
+  <p class="colophon">The models in the figures are built and trained on the page.</p>
+  <div class="runfoot"><span>L.26 / Word Order</span><span>Part 4 / Language</span></div>
+</footer>
+
+</article>
+
+<script>
+"use strict";
+/* ============================================================
+   COD COMUN TUTUROR LECȚIILOR: clichete, butonul de sunet,
+   forzațul marmorat (seed = numărul lecției), ajutoare numerice.
+   ============================================================ */
+const REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* clichete, sintetizate în pagină */
+const sfx=(function(){
+  let ctx,on=true,last=0;
+  function ac(){
+    if(ctx===undefined){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      ctx=AC?new AC():null;
+    }
+    if(ctx&&ctx.state==='suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f0,f1,dur,vol,type){
+    const c=ac(); if(!c||!on) return;
+    const t=c.currentTime;
+    const o=c.createOscillator(), g=c.createGain(), lp=c.createBiquadFilter();
+    o.type=type||'triangle';
+    o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur);
+    lp.type='lowpass'; lp.frequency.setValueAtTime(3400,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp); lp.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  return {
+    tick:function(){ tone(1500,760,0.045,0.055); },
+    step:function(){ tone(980,560,0.05,0.04); },
+    merge:function(k){ tone(700+k*22,480+k*14,0.055,0.045); },
+    bad:function(){ tone(320,190,0.13,0.05,'sawtooth'); },
+    found:function(){ tone(740,740,0.10,0.05,'sine'); setTimeout(function(){ tone(1110,1110,0.17,0.045,'sine'); },95); },
+    soft:function(){ tone(430,300,0.07,0.04); },
+    nudge:function(){ const n=Date.now(); if(n-last<40) return; last=n; tone(2100,1600,0.02,0.022); },
+    clack:function(){ tone(1700,520,0.04,0.06); },
+    clunk:function(){ tone(900,340,0.05,0.05); },
+    lamp:function(){ tone(880,880,0.09,0.04,'sine'); setTimeout(function(){ tone(1320,1320,0.14,0.035,'sine'); },80); },
+    col:function(k){ tone(760+k*70,520+k*50,0.05,0.045); },
+    carry:function(){ tone(1900,1200,0.035,0.04); },
+    done:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    over:function(){ tone(300,180,0.16,0.05,'sawtooth'); },
+    edge:function(){ tone(1250,900,0.03,0.03); },
+    latch:function(){ tone(900,620,0.05,0.05); },
+    fetch:function(){ tone(1150,900,0.035,0.035); },
+    dec:function(){ tone(1400,1100,0.035,0.033); },
+    exec:function(){ tone(820,600,0.05,0.045); },
+    jump:function(){ tone(1500,2100,0.06,0.04); },
+    out:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    halt:function(){ tone(420,240,0.16,0.05); },
+    stepk:function(k){ tone(760+(k||0)*40,520,0.04,0.04); },
+    cmp:function(h){ const n=Date.now(); if(n-last<24) return; last=n; tone(1400+h*7,1100,0.022,0.03); },
+    swap:function(){ tone(880,560,0.05,0.05); },
+    yes:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    no:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    search:function(){ tone(600,1600,0.18,0.04,'sine'); },
+    good:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.14,0.04,'sine'); },80); },
+    snap:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    arrive:function(){ tone(740,740,0.09,0.045,'sine'); setTimeout(function(){ tone(1110,1110,0.15,0.04,'sine'); },85); },
+    thud:function(){ tone(330,200,0.13,0.05,'sawtooth'); },
+    blow:function(){ tone(300,140,0.22,0.055,'sawtooth'); },
+    flat:function(){ tone(420,420,0.16,0.045,'sine'); },
+    fw:function(k){ tone(900+(k||0)*90,700,0.04,0.04); },
+    bw:function(k){ tone(1500-(k||0)*120,900,0.045,0.042); },
+    word:function(k){ tone(900+(((k||0)*67)%500),700,0.026,0.026); },
+    toggle:function(){ on=!on; if(on) tone(880,880,0.06,0.045,'sine'); return on; }
+  };
+})();
+(function(){
+  const b=document.getElementById('sndBtn'); if(!b) return;
+  b.addEventListener('click',function(){
+    const on=sfx.toggle();
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.querySelector('span').textContent=on?'sound on':'sound off';
+  });
+})();
+
+/* numerele se scriu cu virgulă zecimală; acordul cu numeralul: 1 bit, 5 bits, 20 de bits */
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—');
+const log2=x=>Math.log(x)/Math.LN2;
+function unit(n,sing,plur){ return Math.abs(Math.round(n))===1?sing:plur; }
+const bits=n=>n+' '+unit(n,'bit','bits');
+
+/* forzațul marmorat: vopsea plutind pe baie, pieptănată de zgomot;
+   totul e hotărât de numărul lecției, deci fiecare lecție are hârtia ei */
+(function(){
+  const host=document.getElementById('marble'); if(!host) return;
+  const SEED=+host.dataset.seed||1;
+  let s=(SEED*7919+104729)>>>0;
+  const rnd=()=>{ s=(s*1103515245+12345)>>>0; return (s>>>8)/16777216; };
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const inks=['#2F4BC4','#EE5A2F','#6B7A38','#E9C93B','#DDA6B0'];
+  const cream='#F7F3E6', dark='#22252D';
+  const dom=pick(inks);                       /* cerneala dominantă a lecției */
+  const W=1600,H=500;
+  let g='';
+  /* fâșii orizontale, de lățimi neregulate; cele subțiri devin vene */
+  let y=-160;
+  while(y<H+160){
+    const thin=rnd()<0.45;
+    const h=thin?2+rnd()*4:12+rnd()*34;
+    const fill=thin?(rnd()<0.6?cream:dark):(rnd()<0.3?dom:pick(inks.concat([cream,cream])));
+    g+='<rect x="-300" y="'+y.toFixed(1)+'" width="2200" height="'+h.toFixed(1)+'" fill="'+fill+'"/>';
+    y+=h+(thin?3+rnd()*8:rnd()*10);
+  }
+  /* stropi: picături de vopsea, unele cu ochi deschis */
+  for(let i=0;i<190;i++){
+    const big=rnd()<0.16;
+    const rx=big?22+rnd()*40:3+rnd()*14, ry=big?11+rnd()*22:2+rnd()*8;
+    const light=rnd()<0.5;
+    const fill=light?cream:pick(inks.concat([dark]));
+    const stroke=(!light&&rnd()<0.7)?' stroke="'+cream+'" stroke-width="'+(1.5+rnd()*2.2).toFixed(1)+'"':'';
+    g+='<ellipse cx="'+(rnd()*W).toFixed(1)+'" cy="'+(-30+rnd()*(H+60)).toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+fill+'"'+stroke+'/>';
+  }
+  const bf1=(0.0022+rnd()*0.0018).toFixed(4)+' '+(0.006+rnd()*0.005).toFixed(4);
+  const sc1=(130+rnd()*90).toFixed(0);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<filter id="m" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">'+
+    '<feTurbulence type="fractalNoise" baseFrequency="'+bf1+'" numOctaves="3" seed="'+(SEED*11)+'" result="t1"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="t1" scale="'+sc1+'" xChannelSelector="R" yChannelSelector="G" result="d1"/>'+
+    '<feTurbulence type="turbulence" baseFrequency="0.012 0.05" numOctaves="3" seed="'+(SEED*11+5)+'" result="t2"/>'+
+    '<feDisplacementMap in="d1" in2="t2" scale="42" xChannelSelector="G" yChannelSelector="R"/>'+
+    '</filter>'+
+    '<rect width="'+W+'" height="'+H+'" fill="'+dom+'"/>'+
+    '<g filter="url(#m)"><rect x="-300" y="-200" width="2200" height="'+(H+400)+'" fill="'+dom+'"/>'+g+'</g></svg>';
+  host.style.backgroundColor=dom;
+  try{
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement('canvas'); c.width=W; c.height=H;
+      c.getContext('2d').drawImage(img,0,0,W,H);
+      let url; try{ url=c.toDataURL('image/png'); }catch(e){ return; }
+      host.style.backgroundImage='url("'+url+'")';
+    };
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  }catch(e){}
+})();
+</script>
+
+<script>
+"use strict";
+(function(){
+
+
+const nf=(x,d)=>(isFinite(x)?x.toFixed(d===undefined?2:d):'—');
+function unit(n,sing,plur){ return Math.abs(Math.round(n))===1?sing:plur; }
+const SUPS={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function sup(e){ return String(e).split('').map(c=>SUPS[c]||c).join(''); }
+function sci(x){
+  if(x===0) return '0';
+  if(!isFinite(x)) return '—';
+  const e=Math.floor(Math.log10(Math.abs(x))), m=x/Math.pow(10,e);
+  return nf(m,1)+'·10'+sup(e);
+}
+const col=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function rgba(n,a){const c=hex2rgb(col(n));return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ================= marcajul sinusoidal ================= */
+function sinTab(D,N){
+  const T=[];
+  for(let t=0;t<N;t++){ const v=new Float64Array(D);
+    for(let i=0;i<D/2;i++){ const w=t/Math.pow(10000,2*i/D); v[2*i]=Math.sin(w); v[2*i+1]=Math.cos(w); }
+    T.push(v); }
+  return T;
+}
+
+/* ================= modelul ================= */
+const D=12,F=24,MAXT=40,NS=5,NC=2;
+const SIN=sinTab(D,MAXT);
+function mkP(n){return {w:new Float64Array(n),g:new Float64Array(n),m:new Float64Array(n),v:new Float64Array(n)};}
+function mkNet(L,seed,pmode){
+  const r=mulberry32(seed),M={L:L,pmode:pmode,ps:[],t:0};
+  const P=(n,sc)=>{const p=mkP(n);for(let i=0;i<n;i++)p.w[i]=(r()*2-1)*sc;M.ps.push(p);return p;};
+  const s1=Math.sqrt(1/D),s2=Math.sqrt(1/F);
+  M.E=P(NS*D,0.4);
+  M.Pos = pmode==='learned' ? P(MAXT*D,0.4) : null;
+  M.B=[];
+  for(let l=0;l<L;l++){
+    const b={Wq:P(D*D,s1),Wk:P(D*D,s1),Wv:P(D*D,s1),Wo:P(D*D,s1),
+      W1:P(F*D,s1),b1:P(F,0),W2:P(D*F,s2),b2:P(D,0),
+      g1:P(D,0),h1:P(D,0),g2:P(D,0),h2:P(D,0)};
+    for(let i=0;i<D;i++){b.g1.w[i]=1;b.g2.w[i]=1;}
+    M.B.push(b);
+  }
+  M.Wc=P(NC*D,s1); M.bc=P(NC,0); return M;
+}
+function lnF(v,g,b){const n=v.length;let mu=0;for(let i=0;i<n;i++)mu+=v[i];mu/=n;
+  let va=0;for(let i=0;i<n;i++){const d=v[i]-mu;va+=d*d;}va/=n;
+  const iv=1/Math.sqrt(va+1e-5),nn=new Float64Array(n),o=new Float64Array(n);
+  for(let i=0;i<n;i++){nn[i]=(v[i]-mu)*iv;o[i]=g[i]*nn[i]+b[i];}
+  return {o:o,nn:nn,iv:iv};}
+function lnB(C,dout,gp,bp,dv){const n=dout.length,dn=new Float64Array(n);let m1=0,m2=0;
+  for(let i=0;i<n;i++){gp.g[i]+=dout[i]*C.nn[i];bp.g[i]+=dout[i];dn[i]=dout[i]*gp.w[i];}
+  for(let i=0;i<n;i++){m1+=dn[i];m2+=dn[i]*C.nn[i];}
+  m1/=n;m2/=n;
+  for(let i=0;i<n;i++)dv[i]+=C.iv*(dn[i]-m1-C.nn[i]*m2);}
+function mv(W,x,n,m){const o=new Float64Array(n);
+  for(let a=0;a<n;a++){let z=0,o0=a*m;for(let b=0;b<m;b++)z+=W[o0+b]*x[b];o[a]=z;}return o;}
+
+function fwd(M,s){
+  const T=s.length,L=M.L,xs=[];let x=[];
+  for(let t=0;t<T;t++){const v=new Float64Array(D);
+    for(let d=0;d<D;d++)v[d]=M.E.w[s[t]*D+d];
+    const ti=Math.min(t,MAXT-1);
+    if(M.pmode==='learned'){const o=ti*D;for(let d=0;d<D;d++)v[d]+=M.Pos.w[o+d];}
+    else if(M.pmode==='sin'){const p=SIN[ti];for(let d=0;d<D;d++)v[d]+=p[d];}
+    x.push(v);}
+  xs.push(x);
+  const cs=[],isc=1/Math.sqrt(D);
+  for(let l=0;l<L;l++){
+    const B=M.B[l], L1=[],a=[];
+    for(let t=0;t<T;t++){const c=lnF(x[t],B.g1.w,B.h1.w);L1.push(c);a.push(c.o);}
+    const Q=[],K=[],V=[],A=[],O=[],h=[];
+    for(let t=0;t<T;t++){Q.push(mv(B.Wq.w,a[t],D,D));K.push(mv(B.Wk.w,a[t],D,D));V.push(mv(B.Wv.w,a[t],D,D));}
+    for(let t=0;t<T;t++){
+      const sc=new Float64Array(T);let mx=-Infinity;
+      for(let u=0;u<T;u++){let z=0;for(let d=0;d<D;d++)z+=Q[t][d]*K[u][d];sc[u]=z*isc;if(sc[u]>mx)mx=sc[u];}
+      let Z=0;const aa=new Float64Array(T);
+      for(let u=0;u<T;u++){aa[u]=Math.exp(sc[u]-mx);Z+=aa[u];}
+      for(let u=0;u<T;u++)aa[u]/=Z;
+      const o=new Float64Array(D);
+      for(let u=0;u<T;u++){const w=aa[u];for(let d=0;d<D;d++)o[d]+=w*V[u][d];}
+      const ao=mv(B.Wo.w,o,D,D),hv=new Float64Array(D);
+      for(let d=0;d<D;d++)hv[d]=x[t][d]+ao[d];
+      A.push(aa);O.push(o);h.push(hv);}
+    const L2=[],a2=[];
+    for(let t=0;t<T;t++){const c=lnF(h[t],B.g2.w,B.h2.w);L2.push(c);a2.push(c.o);}
+    const H1=[],y=[];
+    for(let t=0;t<T;t++){
+      const h1=new Float64Array(F);
+      for(let j=0;j<F;j++){let z=B.b1.w[j],o0=j*D;for(let d=0;d<D;d++)z+=B.W1.w[o0+d]*a2[t][d];h1[j]=Math.tanh(z);}
+      const o=new Float64Array(D);
+      for(let d=0;d<D;d++){let z=B.b2.w[d],o0=d*F;for(let j=0;j<F;j++)z+=B.W2.w[o0+j]*h1[j];o[d]=h[t][d]+z;}
+      H1.push(h1);y.push(o);}
+    cs.push({a:a,Q:Q,K:K,V:V,A:A,O:O,h:h,a2:a2,H1:H1,L1:L1,L2:L2});
+    xs.push(y);x=y;}
+  const z=x[T-1],lg=new Float64Array(NC);let mx=-Infinity;
+  for(let c=0;c<NC;c++){let v=M.bc.w[c],o0=c*D;for(let d=0;d<D;d++)v+=M.Wc.w[o0+d]*z[d];lg[c]=v;if(v>mx)mx=v;}
+  let Z=0;const p=new Float64Array(NC);
+  for(let c=0;c<NC;c++){p[c]=Math.exp(lg[c]-mx);Z+=p[c];}
+  for(let c=0;c<NC;c++)p[c]/=Z;
+  return {xs:xs,cs:cs,p:p,T:T};
+}
+function bwd(M,ex){
+  const s=ex.s,T=s.length,L=M.L;
+  const C=fwd(M,s),z=C.xs[L][T-1],isc=1/Math.sqrt(D);
+  const dl=new Float64Array(NC);
+  for(let c=0;c<NC;c++)dl[c]=C.p[c]-(c===ex.y?1:0);
+  let dy=[];for(let t=0;t<T;t++)dy.push(new Float64Array(D));
+  for(let c=0;c<NC;c++){const o0=c*D;
+    for(let d=0;d<D;d++){dy[T-1][d]+=dl[c]*M.Wc.w[o0+d];M.Wc.g[o0+d]+=dl[c]*z[d];}
+    M.bc.g[c]+=dl[c];}
+  for(let l=L-1;l>=0;l--){
+    const B=M.B[l],CC=C.cs[l];
+    const dh=[],da2=[],da=[],dQ=[],dK=[],dV=[],dx=[];
+    for(let t=0;t<T;t++){dh.push(new Float64Array(D));da2.push(new Float64Array(D));
+      da.push(new Float64Array(D));dQ.push(new Float64Array(D));dK.push(new Float64Array(D));
+      dV.push(new Float64Array(D));dx.push(new Float64Array(D));}
+    for(let t=0;t<T;t++){
+      const dm=dy[t],dh1=new Float64Array(F);
+      for(let d=0;d<D;d++){const o0=d*F;
+        for(let j=0;j<F;j++){dh1[j]+=dm[d]*B.W2.w[o0+j];B.W2.g[o0+j]+=dm[d]*CC.H1[t][j];}
+        B.b2.g[d]+=dm[d]; dh[t][d]+=dm[d];}
+      for(let j=0;j<F;j++){const g=dh1[j]*(1-CC.H1[t][j]*CC.H1[t][j]),o0=j*D;
+        for(let d=0;d<D;d++){da2[t][d]+=g*B.W1.w[o0+d];B.W1.g[o0+d]+=g*CC.a2[t][d];}
+        B.b1.g[j]+=g;}}
+    for(let t=0;t<T;t++)lnB(CC.L2[t],da2[t],B.g2,B.h2,dh[t]);
+    for(let t=0;t<T;t++){
+      const dd=dh[t],dO=new Float64Array(D);
+      for(let a=0;a<D;a++){const o0=a*D;
+        for(let b=0;b<D;b++){dO[b]+=dd[a]*B.Wo.w[o0+b];B.Wo.g[o0+b]+=dd[a]*CC.O[t][b];}}
+      for(let d=0;d<D;d++)dx[t][d]+=dd[d];
+      const dA=new Float64Array(T);
+      for(let u=0;u<T;u++){const w=CC.A[t][u];
+        for(let d=0;d<D;d++){dA[u]+=dO[d]*CC.V[u][d];dV[u][d]+=w*dO[d];}}
+      let dot=0;for(let u=0;u<T;u++)dot+=dA[u]*CC.A[t][u];
+      for(let u=0;u<T;u++){const ds=CC.A[t][u]*(dA[u]-dot)*isc;
+        for(let d=0;d<D;d++){dQ[t][d]+=ds*CC.K[u][d];dK[u][d]+=ds*CC.Q[t][d];}}}
+    for(let t=0;t<T;t++)for(let a=0;a<D;a++){const o0=a*D,qa=dQ[t][a],ka=dK[t][a],va=dV[t][a];
+      for(let b=0;b<D;b++){const xb=CC.a[t][b];
+        da[t][b]+=qa*B.Wq.w[o0+b]+ka*B.Wk.w[o0+b]+va*B.Wv.w[o0+b];
+        B.Wq.g[o0+b]+=qa*xb;B.Wk.g[o0+b]+=ka*xb;B.Wv.g[o0+b]+=va*xb;}}
+    for(let t=0;t<T;t++)lnB(CC.L1[t],da[t],B.g1,B.h1,dx[t]);
+    dy=dx;}
+  for(let t=0;t<T;t++){
+    for(let d=0;d<D;d++) M.E.g[s[t]*D+d]+=dy[t][d];
+    if(M.pmode==='learned'){const o=Math.min(t,MAXT-1)*D;for(let d=0;d<D;d++)M.Pos.g[o+d]+=dy[t][d];}
+  }
+}
+function adam(M,lr,n){
+  M.t++;const b1=0.9,b2=0.999,c1=1-Math.pow(b1,M.t),c2=1-Math.pow(b2,M.t);
+  for(const p of M.ps){const w=p.w,g=p.g,m=p.m,v=p.v;
+    for(let i=0;i<w.length;i++){const gi=g[i]/n;
+      m[i]=b1*m[i]+0.1*gi;v[i]=b2*v[i]+0.001*gi*gi;
+      w[i]-=lr*(m[i]/c1)/(Math.sqrt(v[i]/c2)+1e-8);g[i]=0;}}
+}
+
+/* simboluri: 0=A 1=B 2=C 3=· 4=? */
+const GLYPH=['A','B','C','·','?'];
+const MODES=[['none','no marker'],['learned','learned marker'],['sin','sinusoidal']];
+
+/* ================= 1. aceleași cuvinte, another order ================= */
+(function(){
+  const strip=document.getElementById('mStrip'), read=document.getElementById('mRead'),
+        cap=document.getElementById('capM'), shuf=document.getElementById('mShuf');
+  const btns=[document.getElementById('m0'),document.getElementById('m1'),document.getElementById('m2')];
+  const NETS=MODES.map((m,i)=>mkNet(2,9,m[0]));
+  let mode=0, head=[0,1,2,3], rnd=mulberry32(20250901);
+
+  function seqOf(h){ return h.concat([4]); }
+  function out(h){ return fwd(NETS[mode],seqOf(h)).p[0]; }
+
+  function perms(arr){
+    if(arr.length<=1) return [arr];
+    const res=[];
+    for(let i=0;i<arr.length;i++){
+      const rest=arr.slice(0,i).concat(arr.slice(i+1));
+      for(const p of perms(rest)) res.push([arr[i]].concat(p));
+    }
+    return res;
+  }
+  const ALL=perms([0,1,2,3]);
+
+  function paint(){
+    strip.innerHTML='';
+    seqOf(head).forEach(function(sym,i){
+      const d=document.createElement('div');
+      d.className='ptok'+(i===4?' q':'');
+      d.textContent=GLYPH[sym];
+      const ix=document.createElement('span'); ix.className='ix'; ix.textContent=(i+1);
+      d.appendChild(ix);
+      strip.appendChild(d);
+    });
+    const v=out(head);
+    const vals=ALL.map(out);
+    const uniq=[];
+    vals.forEach(function(x){ if(!uniq.some(y=>Math.abs(y-x)<1e-12)) uniq.push(x); });
+    let mn=Infinity,mx=-Infinity;
+    vals.forEach(function(x){ if(x<mn)mn=x; if(x>mx)mx=x; });
+    read.innerHTML='';
+    [['the output for the order above',v.toFixed(9)],
+     ['distinct values out of the 24 orders',String(uniq.length)],
+     ['spread between the smallest and the largest',(mx-mn)===0?'0':sci(mx-mn)]
+    ].forEach(function(p){
+      const s=document.createElement('span'); s.innerHTML=p[0]+' <b>'+p[1]+'</b>'; read.appendChild(s);
+    });
+    if(uniq.length===1){
+      cap.innerHTML='All <b>24</b> rearrangements of the first four positions give <b class="on">the same</b> output. '+
+        (mx-mn===0 ? 'Down to the last figure the computer holds.'
+          : 'Cele <b>'+sci(mx-mn)+'</b> that separate them are the last bit of the computer’s representation — the trace of the order in which the same numbers are added, not a distinction made by the model.');
+    } else {
+      cap.innerHTML='The 24 rearrangements give <b>'+uniq.length+'</b> '+unit(uniq.length,'distinct output','distinct outputs')+
+        ', spread over <b>'+sci(mx-mn)+'</b>. The marker has made the order visible.';
+    }
+  }
+  shuf.addEventListener('click',function(){
+    let h;
+    do { h=ALL[Math.floor(rnd()*ALL.length)]; } while(h.join()===head.join());
+    head=h; sfx.clack(); paint();
+  });
+  btns.forEach(function(b,i){
+    b.addEventListener('click',function(){
+      mode=i; btns.forEach((x,j)=>x.classList.toggle('on',j===i));
+      sfx.step(i+1); paint();
+    });
+  });
+  paint();
+})();
+
+/* ================= 2. care simbol a fost primul ================= */
+(function(){
+  const tbl=document.getElementById('tblT'), read=document.getElementById('tRead'),
+        cap=document.getElementById('capT'), btn=document.getElementById('tRun');
+  const SEEDS=[1,2,3], STEPS=350, BATCH=8, LR=0.012, DEPTH=1;
+  const res=MODES.map(()=>SEEDS.map(()=>null));
+  function seqOrd(r){ const a=r()<0.5?0:1; return {s:[a,1-a,3,3,4], y:a===0?1:0}; }
+  function acc(M,n,seed){ const r=mulberry32(seed);let ok=0;
+    for(let i=0;i<n;i++){const e=seqOrd(r),p=fwd(M,e.s).p;if((p[1]>p[0]?1:0)===e.y)ok++;}
+    return ok/n; }
+  function paint(msg){
+    let h='<thead><tr><th class="name">Marcaj</th>';
+    SEEDS.forEach((s,i)=>{h+='<th>pornirea '+(i+1)+'</th>';});
+    h+='</tr></thead><tbody>';
+    MODES.forEach(function(m,i){
+      h+='<tr><td class="name">'+m[1]+'</td>';
+      SEEDS.forEach(function(s,j){
+        const v=res[i][j];
+        h+= v===null ? '<td style="opacity:.35">—</td>'
+          : '<td class="'+(v>0.95?'ok':(v<0.7?'bad':''))+'">'+nf(v*100,0)+'%</td>';
+      });
+      h+='</tr>';
+    });
+    h+='</tbody>';
+    tbl.innerHTML=h;
+    read.innerHTML='';
+    const s=document.createElement('span'); s.innerHTML=msg+' <b>·</b> chance is 50%';
+    read.appendChild(s);
+  }
+  paint('no model trained yet');
+  cap.innerHTML='Each cell trains from scratch a model with one block, '+STEPS+' steps, on the same string of examples. The only difference between the rows is the position marker.';
+  btn.addEventListener('click',function(){
+    btn.disabled=true; btn.textContent='training…';
+    MODES.forEach((m,i)=>SEEDS.forEach((s,j)=>{res[i][j]=null;}));
+    const jobs=[];
+    MODES.forEach((m,i)=>SEEDS.forEach((sd,j)=>jobs.push([i,j,m[0],sd])));
+    let ji=0,M=null,r=null,done=0;
+    function tick(){
+      if(ji>=jobs.length){
+        btn.disabled=false; btn.textContent='Train again';
+        const m0=res[0].reduce((a,b)=>a+b,0)/SEEDS.length;
+        const m1=res[1].reduce((a,b)=>a+b,0)/SEEDS.length;
+        const m2=res[2].reduce((a,b)=>a+b,0)/SEEDS.length;
+        paint('gata');
+        cap.innerHTML='Without a marker: <b class="off">'+nf(m0*100,0)+'%</b>, that is, exactly chance. '+
+          'With a learned table: <b class="on">'+nf(m1*100,0)+'%</b>. With sinusoids: <b class="on">'+nf(m2*100,0)+'%</b>. '+
+          'The same blocks, the same steps, the same examples.';
+        sfx.good(); return;
+      }
+      const J=jobs[ji];
+      if(M===null){ M=mkNet(DEPTH,J[3],J[2]); r=mulberry32(J[3]*13+2); done=0; }
+      const chunk=Math.min(25,STEPS-done);
+      for(let b=0;b<chunk;b++){ for(let i=0;i<BATCH;i++) bwd(M,seqOrd(r)); adam(M,LR,BATCH); }
+      done+=chunk;
+      if(done>=STEPS){ res[J[0]][J[1]]=acc(M,400,999); M=null; ji++; sfx.step(ji);
+        paint('model '+ji+' of '+jobs.length+' done'); }
+      setTimeout(tick,0);
+    }
+    paint('model 1 of '+jobs.length+'…');
+    setTimeout(tick,20);
+  });
+})();
+
+/* ================= 3. marcajul, position cu position ================= */
+(function(){
+  const cv=document.getElementById('cvSin'), ctx=cv.getContext('2d');
+  const read=document.getElementById('sRead'), cap=document.getElementById('capS');
+  const sD=document.getElementById('sD'), sDv=document.getElementById('sDv');
+  const sN=document.getElementById('sN'), sNv=document.getElementById('sNv');
+  const DS=[8,16,32];
+  let W_=0,H_=0,dpr=1;
+  function draw(){
+    const Dv=DS[(+sD.value)-1], N=+sN.value;
+    sDv.textContent=String(Dv); sNv.textContent=String(N);
+    const T=sinTab(Dv,N);
+    const r=cv.getBoundingClientRect();
+    if(r.width>=1){ const w=Math.round(r.width),h=Math.round(r.height);
+      if(w!==W_||h!==H_){ dpr=Math.min(devicePixelRatio||1,2); W_=w;H_=h;
+        cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); } }
+    if(W_<60) return;
+    ctx.clearRect(0,0,W_,H_);
+    ctx.fillStyle=col('--surface'); ctx.fillRect(0,0,W_,H_);
+    const padL=34,padR=10,padT=16,padB=22;
+    const gw=W_-padL-padR, gh=H_-padT-padB;
+    const cw=gw/N, ch=gh/Dv;
+    for(let t=0;t<N;t++) for(let d=0;d<Dv;d++){
+      const v=T[t][d];
+      ctx.fillStyle = v>=0 ? rgba('--c-data',0.06+0.86*v) : rgba('--c-param',0.06-0.86*v);
+      ctx.fillRect(padL+t*cw,padT+d*ch,Math.ceil(cw),Math.ceil(ch));
+    }
+    ctx.strokeStyle=col('--rule'); ctx.lineWidth=1;
+    ctx.strokeRect(padL-0.5,padT-0.5,gw+1,gh+1);
+    ctx.fillStyle=col('--muted');
+    ctx.font='400 10px '+col('--f-mono').replace(/"/g,'');
+    ctx.textAlign='right'; ctx.textBaseline='middle';
+    ctx.fillText('1',padL-6,padT+ch/2);
+    ctx.fillText(String(Dv),padL-6,padT+gh-ch/2);
+    ctx.save(); ctx.translate(11,padT+gh/2); ctx.rotate(-Math.PI/2);
+    ctx.textAlign='center'; ctx.fillText('COMPONENTA',0,0); ctx.restore();
+    ctx.textAlign='left'; ctx.textBaseline='top';
+    ctx.fillText('POSITION 1',padL,padT+gh+5);
+    ctx.textAlign='right';
+    ctx.fillText(String(N),padL+gw,padT+gh+5);
+
+    const per=i=>2*Math.PI*Math.pow(10000,2*i/Dv);
+    read.innerHTML='';
+    [['pairs of components',String(Dv/2)],
+     ['the first pair, a full turn in',nf(per(0),1)+' positions'],
+     ['the last pair',(function(){const k=Math.round(per(Dv/2-1));
+        return k.toLocaleString('en-US')+' '+unit(k,'position','positions');})()]
+    ].forEach(function(p){ const s=document.createElement('span');
+      s.innerHTML=p[0]+' <b>'+p[1]+'</b>'; read.appendChild(s); });
+    let vis=0; for(let i=0;i<Dv/2;i++) if(per(i)<=N) vis++;
+    cap.innerHTML='Out of '+N+' positions, <b>'+vis+'</b> '+unit(vis,'pair manages','pairs manage')+
+      ' to make at least one full turn; the others move too slowly and tell apart only the ends of the text. '+
+      'The wide stripes at the bottom are the slow frequencies.';
+    sfx.nudge();
+  }
+  sD.addEventListener('input',draw);
+  sN.addEventListener('input',draw);
+  window.__sinDraw=draw;
+  draw();
+  if(window.ResizeObserver) new ResizeObserver(draw).observe(cv);
+})();
+
+/* ================= 4. produsul scalar al marcajelor ================= */
+(function(){
+  const tbl=document.getElementById('tblD'), read=document.getElementById('dRead'), cap=document.getElementById('capD');
+  const DD=16, N=64, T=sinTab(DD,N);
+  const dot=(a,b)=>{let s=0;for(let i=0;i<DD;i++)s+=a[i]*b[i];return s;};
+  const PS=[0,4,8,12,16], KS=[0,1,2,3,5,8,13,21];
+  let h='<thead><tr><th class="name">Distance</th>';
+  PS.forEach(p=>{h+='<th>from position '+(p+1)+'</th>';});
+  h+='<th>abatere</th></tr></thead><tbody>';
+  let worst=0;
+  KS.forEach(function(k){
+    const vals=PS.map(p=>dot(T[p],T[p+k])/(DD/2));
+    let mn=Infinity,mx=-Infinity;
+    vals.forEach(v=>{if(v<mn)mn=v;if(v>mx)mx=v;});
+    if(mx-mn>worst) worst=mx-mn;
+    h+='<tr><td class="name">'+k+' '+unit(k,'pas','steps')+'</td>'+
+       vals.map(v=>'<td>'+nf(v,3)+'</td>').join('')+
+       '<td class="ok">'+((mx-mn)===0?'0':sci(mx-mn))+'</td></tr>';
+  });
+  h+='</tbody>';
+  tbl.innerHTML=h;
+
+  /* o singură rotație mută orice position cu k steps */
+  let rerr=0;
+  [1,3,7].forEach(function(k){
+    for(let p=0;p+k<N;p++) for(let i=0;i<DD/2;i++){
+      const th=k/Math.pow(10000,2*i/DD);
+      const s=T[p][2*i], c=T[p][2*i+1];
+      rerr=Math.max(rerr,Math.abs(s*Math.cos(th)+c*Math.sin(th)-T[p+k][2*i]),
+                         Math.abs(c*Math.cos(th)-s*Math.sin(th)-T[p+k][2*i+1]));
+    }
+  });
+  read.innerHTML='';
+  [['the largest deviation in the table',sci(worst)],
+   ['the error of the rotation, over 3 distances and 64 positions',sci(rerr)]
+  ].forEach(function(p){ const s=document.createElement('span');
+    s.innerHTML=p[0]+' <b>'+p[1]+'</b>'; read.appendChild(s); });
+  cap.innerHTML='The values are divided by half the width, so that distance zero gives one. '+
+    'The columns are identical on every row: the largest deviation in the whole table is <b>'+sci(worst)+
+    '</b>, that is, zero as far as the computer can reckon.';
+})();
+
+/* ================= tema ================= */
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+if(mq.addEventListener) mq.addEventListener('change',function(){ if(window.__sinDraw) window.__sinDraw(); });
+new MutationObserver(function(){ if(window.__sinDraw) window.__sinDraw(); })
+  .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});
+
+})();
+</script>
+
+</body>
+</html>
